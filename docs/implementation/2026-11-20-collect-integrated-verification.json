@@ -1,0 +1,103 @@
+{
+  "scope": "Local Collect member Flutter, React Admin and PWA verification",
+  "checkout_base": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "started_at_utc": "2026-11-20T08:35:15.313Z",
+  "elapsed_seconds": 585.4,
+  "exit_code": 0,
+  "runner": "scripts/qa/run_integrated_candidate_checks.sh",
+  "sdk": {
+    "flutter": "3.44.4",
+    "dart": "3.12.2"
+  },
+  "source_hash_method": "For each path scope, list tracked and nonignored untracked files with Git, sort unique existing file paths, then hash each path, NUL, lowercase hex file SHA-256 and LF in order.",
+  "source_hashes_before_and_after": {
+    "flutter_sources_assets_tests": {
+      "sha256": "37288fdef62f856961a2eaef43fe02da62dc6ae1d2822cc1a27ec80ebe7d3776",
+      "files": 997,
+      "paths": [
+        "lib",
+        "test",
+        "assets",
+        "integration_test",
+        "tool",
+        "third_party",
+        "pubspec.yaml",
+        "pubspec.lock",
+        ".fvmrc",
+        ".dvmrc",
+        "analysis_options.yaml",
+        "dart_test.yaml",
+        "flutter_test_config.dart"
+      ]
+    },
+    "react_admin_sources_and_pwa": {
+      "sha256": "0f47815db35cbd804fd4237861d898d4c6e4781d8f60c5cbe0aaa86cdd4b132b",
+      "files": 336,
+      "paths": [
+        "admin-web",
+        "scripts/tests/admin_pwa_worker_cache_test.mjs",
+        "scripts/templates/admin_pwa_service_worker.js"
+      ]
+    },
+    "runner": {
+      "sha256": "7f29bbd9406b738fb87408e6ee84d71d35c32df8a7beced0aeded16166bbc1a1",
+      "files": 1,
+      "paths": [
+        "scripts/qa/run_integrated_candidate_checks.sh"
+      ]
+    }
+  },
+  "changed_inputs": [],
+  "lanes": {
+    "dart_format": {
+      "files": 16,
+      "changes": 0
+    },
+    "flutter_analyze": {
+      "issues": 0,
+      "fatal_infos": true
+    },
+    "flutter_member_vm": {
+      "passed": 2649,
+      "failed": 0,
+      "skipped": 1,
+      "excluded_tag": "integration",
+      "skip": {
+        "file": "test/actual_member_history_sql_receipts_test.dart",
+        "test": "actual SQL history receipts require the source-bound local packet",
+        "reason": "Supply MEMBER_HISTORY_SQL_RECEIPTS_BASE64 through the reviewed gate"
+      }
+    },
+    "flutter_member_chrome": {
+      "fixture": "test/core/self_hosted_web_sync_test.dart",
+      "passed": 1,
+      "failed": 0,
+      "synthetic_polls": 7
+    },
+    "react_admin_typecheck": {
+      "exit_code": 0
+    },
+    "react_admin_lint": {
+      "exit_code": 0,
+      "max_warnings": 0
+    },
+    "react_admin_vitest": {
+      "files_passed": 133,
+      "passed": 960,
+      "failed": 0
+    },
+    "react_admin_pwa_package": {
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    "react_admin_pwa_worker_cache": {
+      "exit_code": 0
+    }
+  },
+  "run_cache": ".cache/collect-integrated-verification-20261120",
+  "console_log": {
+    "file": "integrated.log",
+    "sha256": "4ca581ab02c0b85eb0dd4c03781ade067f8f8687a21d41b7dd45fe9c40476973"
+  }
+}

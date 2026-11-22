@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-31-umuganda-project-tools",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-31-umuganda-project-tools-v1.png",
+  "source_sha256": "fe091f4736e13b14ab868e884520a9585d04e0abde3b3d4266ae62e518e84c92",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "90cee3a52f5f0675d22548ac9cbc41b1083a6500332c43f71c154313fb1e6245",
+  "imported_at_utc": "2026-09-06T11:23:55.622568+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-6e24b2b7-1307-4e7f-92a2-d678244bf621.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

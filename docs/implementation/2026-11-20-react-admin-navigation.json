@@ -1,0 +1,201 @@
+{
+  "base": "842fdca1a3382089f13869c6e5376dcfbbb5d517",
+  "inputOutputReceiptSha256": "528ebbcba05ec9f76d9245ccfe3a803b20c7d19580e910ad17884caef89757ab",
+  "patchSha256": "234630a74d76ddeaeb8110dcc1594396c0024ac33007d4ab9ec9133b21970278",
+  "patchBytes": 19293,
+  "physicalApplyMatchAllOutputGitBlobs": true,
+  "maintainedLinkCount": 20,
+  "preservedAuditRoutes": 55,
+  "permissionEquivalenceCombinations": 1500,
+  "preimageConsumer": {
+    "tests": 8,
+    "files": 1,
+    "log": "preimage-consumer.log",
+    "logSha256": "277bd90fecf475edbb2aa6822876731a02ec50aada730f2adec69da00a853356"
+  },
+  "focusedFinal": {
+    "tests": 33,
+    "files": 9,
+    "log": "accepted-app-and-shell.log",
+    "logSha256": "40aa0dd329e4dd6af3487c87725e87609b43343072861b35fbf8d5ca054633d6"
+  },
+  "allFinal": {
+    "tests": 981,
+    "files": 135,
+    "log": "entire-admin-vitest.log",
+    "logSha256": "6ee9f598fcb46d87db6d19b65c14bf6ebf4c325aef005f82b97155cedbecefc9"
+  },
+  "independentDifferential": {
+    "tests": 1,
+    "files": 1,
+    "log": "final-permission-parity.log",
+    "logSha256": "87d4df78d8fa01653633493f6db55225ee342d510588828bbeb0c6ac4345a97e"
+  },
+  "differentialSourceSha256": "4adb769862c95bea0f8ca370e38677a6edcda09a8d932a90637cb83ac72ad287",
+  "typecheck": {
+    "exit": 0,
+    "log": "accepted-typecheck.log",
+    "logSha256": "a4e8bf6c68a5628399aee9ba8ba8ca7909b33bf4066fe7cb5d8f0225ef923460"
+  },
+  "lint": {
+    "exit": 0,
+    "log": "final-lint.log",
+    "logSha256": "8b6cbea582d5f5e7d52dc9b70c35cdb7fa28e2a0e56c2a5b9ae619b2ef70f88d"
+  },
+  "lockedNodeDependenciesSha256": "3abfbc239be9b3b293e9e47fb5085929bbd6be791b549b52bcecbac618e022a4",
+  "releaseAction": false,
+  "files": {
+    "admin-web/src/app/App.tsx": {
+      "beforeSha256": "a54cce7fded43d712447528c2ddbd0e3edd187ed3539b781df844370a68edca0",
+      "afterSha256": "9eb667c1ef63a67a84606309e2fd7ea066d6daac6f6d3e841bbd5ae5e49f2571",
+      "beforeGitBlob": "515c8ac846676e1a1c7db2e647fe6f9acf4f8028",
+      "afterGitBlob": "221a85e923deca980cead769e2fbe0565e9d95bb"
+    },
+    "admin-web/src/app/SessionRoutes.tsx": {
+      "beforeSha256": "095f7359e64bab17926199652d5571aa29f8b3ce71a84349f675169bc1d13632",
+      "afterSha256": "7665a9591d4c7b68c85ab8e8f908c019b510ce95fd88814120bab8e9b702063b",
+      "beforeGitBlob": "54b8b221ed234cdabc632e3f39eb0a9118d8e339",
+      "afterGitBlob": "c164e6b10da63af183464e2edabb2ad8635074a0"
+    },
+    "admin-web/tests/app/session-recovery.test.tsx": {
+      "beforeSha256": "4e2ee7e511abf135db167e726ca0dc09439383d4adf1e15a1580479749ade21c",
+      "afterSha256": "e4084e4dbccaf3d30a3de9a27ff0537bea463a89f142909ec1062ab32eb10857",
+      "beforeGitBlob": "c9b78857a4ac5a0279cefb73a43d8cae0c4eb0db",
+      "afterGitBlob": "479f94ddb363ad4a8413f1a425a09bfe8423b509"
+    }
+  },
+  "route_inventory": {
+    "base": "842fdca1a3382089f13869c6e5376dcfbbb5d517",
+    "navigationEntries": 20,
+    "presentation": [
+      [
+        "Overview",
+        "/admin",
+        "Workspace",
+        "home"
+      ],
+      [
+        "Groups",
+        "/admin/groups",
+        "Workspace",
+        "users"
+      ],
+      [
+        "Users",
+        "/admin/users",
+        "People",
+        "user"
+      ],
+      [
+        "Members",
+        "/admin/members",
+        "People",
+        "users"
+      ],
+      [
+        "Payees",
+        "/admin/payees",
+        "People",
+        "contact"
+      ],
+      [
+        "Transactions",
+        "/admin/transactions",
+        "Operations",
+        "swap"
+      ],
+      [
+        "Reconciliations",
+        "/admin/reconciliations",
+        "Operations",
+        "layers"
+      ],
+      [
+        "Ledgers",
+        "/admin/ledgers",
+        "Operations",
+        "book"
+      ],
+      [
+        "SMS receipts",
+        "/admin/sms-receipts",
+        "Communications",
+        "message"
+      ],
+      [
+        "MoMo receipts",
+        "/admin/momo-receipts",
+        "Communications",
+        "message"
+      ],
+      [
+        "Assisted SMS",
+        "/admin/notification-operator",
+        "Communications",
+        "message"
+      ],
+      [
+        "SMS controls",
+        "/admin/notification-settings",
+        "Communications",
+        "settings"
+      ],
+      [
+        "Gateway devices",
+        "/admin/gateway",
+        "Communications",
+        "smartphone"
+      ],
+      [
+        "Member receipts",
+        "/admin/member-receipts",
+        "Communications",
+        "file"
+      ],
+      [
+        "Email notifications",
+        "/admin/email",
+        "Communications",
+        "message"
+      ],
+      [
+        "Request history",
+        "/admin/requests",
+        "Administration",
+        "clock"
+      ],
+      [
+        "Privacy requests",
+        "/admin/privacy-requests",
+        "Administration",
+        "lock"
+      ],
+      [
+        "Admins and staff",
+        "/admin/admin-users",
+        "Administration",
+        "users"
+      ],
+      [
+        "BuriMunsi access",
+        "/admin/burimunsi",
+        "Administration",
+        "lock"
+      ],
+      [
+        "Password and security",
+        "/admin/security",
+        "Administration",
+        "settings"
+      ]
+    ],
+    "routeInventoryCount": 55,
+    "routeInventoryUnchanged": true,
+    "allResourceRoutesAndHandlersIdentical": true,
+    "originalOutletAndSignOutHandlerIdentical": true,
+    "screenBoundaryIdentical": true,
+    "comparisonCases": 1500,
+    "appLinesBefore": 389,
+    "appLinesAfter": 358
+  }
+}

@@ -1,0 +1,826 @@
+{
+  "format": "collect.managed-archive-operator.synthetic-evidence.v1",
+  "scope": "live-capable read-only capture; managed apply and reconcile closed; synthetic tests only",
+  "inputs": [
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/atomic_cloud_migration.mjs",
+      "sha256": "d394e97b030dbe5c6c1ee0f148ea087ef4b22ea896be35eefa0cac3091b879ed"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/managed-target.mjs",
+      "sha256": "058fdfd0b0659ca66cb119a53170cdfae5bffde3a068c2a1159de4060ede27f9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-operator/README.md",
+      "sha256": "1a2eb84eaa6b893601d40120394a88a72513414b0864cca7a4ad864ceeaa8667"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-operator/input.mjs",
+      "sha256": "5b75773b969810cb2cf22634744c89aaf071f5f135b6854fbde1685ea5dc3f11"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-operator/operator.test.mjs",
+      "sha256": "adb0259529c5cc9c7e4d6fd3ef6ed0780e57403b1c122a066e2104fd83048ca9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-operator/protocol.mjs",
+      "sha256": "50fa441b0c28daad6a8e0d1a0cc19aa4ecd55d8d2e2ba17fe275a8d7e87fd926"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-operator/supervisor.mjs",
+      "sha256": "b8d50ae440fb4b986ea602478f9b3720491465fbea42725ed9fa9f7f199c63fa"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-operator/worker.mjs",
+      "sha256": "23c43fa2ca8784da0f020a187e039104459eb134a3676308cd34ece009470a21"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-preflight/README.md",
+      "sha256": "85770c352efc8d98fd864fb20d0538746c4b5fd0eb0545bbf5fb999a7b00888a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-preflight/preflight.mjs",
+      "sha256": "ab4bb1b3ff53e1fda8f5c255de9a7b0b5f28e9368fc5fd741e253d313b7bd601"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/principal-mapping-preflight/preflight.test.mjs",
+      "sha256": "1eee318289ae56b8d888ec1c033d91fe7c2da9984f035e58349f6839b8ecfa0b"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/reconcile.mjs",
+      "sha256": "d4487d62a3f310170c10301da633ce2d1562eb3a577f394fdba37053ad9a82ff"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/current-pg-transfer/test-support/owned-pg17.mjs",
+      "sha256": "d16afa140b3d2e45c25781bf5f7de1e071762b8cfbef417edb89b2017cc8f9db"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/README.md",
+      "sha256": "9d23f94685762c248c42e8844b07f28f148b96cf14a92c04270a61aee476ecf8"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/archive-core.mjs",
+      "sha256": "b058b302cb07b7a83802a28d034d26d6e4a0e99d2fb531519602e485acbe91c6"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/archive-core.test.mjs",
+      "sha256": "989dd61c65da2f8db0ea24b4d0559a1ee229853dedc9d11e764b5f30b8eaf106"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/input.mjs",
+      "sha256": "a2fd6eb6d7f915ccd5b5727a2a07432cabc7d4542d9049baf4b8279c3a72dd30"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/journal.mjs",
+      "sha256": "9474b764c4dd8e854ca2ad217e0c13e6acbd96d6ac218bf2085024fff8f165e9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/journal.test.mjs",
+      "sha256": "34bc0fe5a981498c83ccdb1e2a5c659d55475b537ca4065695df1b3d1f1d2f28"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/operator.mjs",
+      "sha256": "d98d2dd4eef0046bd3918e86b73fb0b93fced92e4ebbd45620230890d477443d"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/supervisor.mjs",
+      "sha256": "f4f5391c64a639e5202900577b7fb68971597077622ae5a948fc59682502ebc6"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/supervisor.test.mjs",
+      "sha256": "e78b96ea741c66f6ced2a9e730d536ce86ec7435240cbfb1c896f8bb69de3c1a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-archive-operator/worker.mjs",
+      "sha256": "eb826c8515bad5a312e1ce155ac86af7defe4d1fc4c56bc6f155de3d174c80b5"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-cloud-migrations/provider-ca.mjs",
+      "sha256": "7dfedbd1cf38c0551162f90bf40032cb398cc533a6507cbc339ad2dbfa6d75b1"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-cloud-migrations/supabase-root-2021.pem",
+      "sha256": "700723581420dd1ac98fd7e9ac529f0ef210eadcaf87fc868a3ad7d114c2f3b7"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-identity-provider-compat/fixture-safety.mjs",
+      "sha256": "52df72c22d7bfc1b9a168c4ef5a640860fcd1942e01c9c1063e7cebb453af7e3"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-migration-next/README.md",
+      "sha256": "7b36a12e105e7ee4915b3cd147263b4999d60854c7737f3c8c8638c1d0d1ade9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-migration-next/synthetic-archive.mjs",
+      "sha256": "f6452d03354b62adf39c1e4b2a56a85376109ce54aa7ed76aa9c3662e9986017"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-migration-next/synthetic-archive.test.mjs",
+      "sha256": "2b31ba1f432d07bff4a5660a0b1c83e057e1e0e6b64a6efcfe1a7d6ac1301c9f"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/managed-migration-next/synthetic-fixture.mjs",
+      "sha256": "634341a38b2a39a5c592c408122999c28619b2c76983009f45d0f5aa8056eefc"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/LICENSE",
+      "sha256": "192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/README.md",
+      "sha256": "d76b5e56e088f30e86dba1466ed03adf924344db31278ec966c5a35d219aca26"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/dist/empty.d.ts",
+      "sha256": "d889ca31ecf859432c9e675cf056009a227f839856a8cac58a70875e2d619a8b"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/dist/empty.js",
+      "sha256": "3f83d105df21adbeeffb03450deb422644c30023ece93b2d6191fac3c620a316"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/dist/empty.js.map",
+      "sha256": "d68e0a1a8fc1c84f026b87ff43556987d0fbf0c3cd6c2c3e2715164d4795bb93"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/dist/index.d.ts",
+      "sha256": "0db679917266057c64fb2f943bad559ced56831ff56870f877c71c14913cfde4"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/dist/index.js",
+      "sha256": "fdd631639301f2a7478a4770415fafcde43209cdd54b6caa73154ca423137ebd"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/dist/index.js.map",
+      "sha256": "2c98af14fed37fdeb2bb9ca46dfb389eee0c4e9d6c6deda414f1e02dc5c5173a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/esm/index.mjs",
+      "sha256": "8a44ad34a1d541c0607579b46ab4eb3d60c614991429aa053763d7bca58cff7e"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/package.json",
+      "sha256": "93b30ce3bed1ce3b836aa344c8afdaab74a42c03720e8d5baa801b6ae84ca3e7"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/src/empty.ts",
+      "sha256": "e9bbc49a0780b0f81e9b1906aef57ad9f9371aba33a9f4e9b9eb9191c0dc19c9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/src/index.ts",
+      "sha256": "50fe877a1f395ee129e1b97bcef3ef45a124e25586dc44c2799397604ea74c76"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-cloudflare/src/types.d.ts",
+      "sha256": "ba1c222e51377f1d8c47979ec6216e0a566d0828b10de794db31d6a44f5cf491"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-connection-string/LICENSE",
+      "sha256": "2244b5486c4427001b6756a87b9a297d427c111dcc3ba64a097492a8979c23d0"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-connection-string/README.md",
+      "sha256": "c2cba494f78d950f91ec21298bbf60a949dc379d4f873ffe3ee319c918a175e0"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-connection-string/esm/index.mjs",
+      "sha256": "e5af439889cb873c459670b82503c7b0480c7055843c6482242e50282f76b1ee"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-connection-string/index.d.ts",
+      "sha256": "ec0ec7d7d754b7d65faf256ad01d85b49a9417a7540161aa7a378969ae095c26"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-connection-string/index.js",
+      "sha256": "d8c0ca43dc70daf05a9ff5469c92fd0a3cbcd11cacf68156ebb19ee32d127cfd"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-connection-string/package.json",
+      "sha256": "53d453c5a426e69a11ff479e0d8a293505faa1833e6eb3ff7ceefdaac569e3ea"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-int8/LICENSE",
+      "sha256": "4e8e87ccdfc7e4b47fd89015f78468aa53b6bf43ab6e6e12d43e8f55294911de"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-int8/README.md",
+      "sha256": "d77eaaca16d1fe569ee6dc87d340d2fa6d14438652618a8cf20382e16648244a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-int8/index.js",
+      "sha256": "f991b0a41119bce0efbb471275dbd02de31a79fe6f87f8f5e5678e373a0f1627"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-int8/package.json",
+      "sha256": "147155887a41bb6f69ff98b3dde827b7e6a8214c3a71938da4babf8e12adff2e"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-pool/LICENSE",
+      "sha256": "4f15ee7fc2a72082859d7e0d12dfa4bcdd70b1c744ad3850d07780730ac08557"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-pool/README.md",
+      "sha256": "9d7028ff70e7cddeb97e7a2fda222e12c0e52fe954baf640d62d29880d9628bb"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-pool/esm/index.mjs",
+      "sha256": "521c8058172944cb9ceaee95073b49950a3906f91263303837e89f9ee346e81e"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-pool/index.js",
+      "sha256": "6f304776edaabde2954cbf8c4366fa6d9512bfba0e408e78cc56b3c46c69d058"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-pool/package.json",
+      "sha256": "0a9924def9e06f791b09a44eaefb227f323a39199887f6ce17b44cb5a9193134"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/LICENSE",
+      "sha256": "192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/README.md",
+      "sha256": "163df61eaa9f5337d5c0fcb3c0f15207f91a208dbd12ed26582bfc1e9bd59180"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/b.d.ts",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/b.js",
+      "sha256": "a1024bdec7246a732be4713a3d3326258732971363ac234d4c1709fe54b48be1"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/b.js.map",
+      "sha256": "458d1437306773b76c28391cb340e4c3331e3d85d267fd508eac7773f81cb325"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/buffer-reader.d.ts",
+      "sha256": "0d6484c7d84af67e685cae28bbc96fafdb7d90ae5952747cb6e1f0ca831464e6"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/buffer-reader.js",
+      "sha256": "fdae5fd80c1ad1015f91a92da667467752eabdf531f19558897e205559e6b714"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/buffer-reader.js.map",
+      "sha256": "291ea861a3856e4e13bca046e0e79c0b7d9f84467f13f5498f0a403d17409b27"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/buffer-writer.d.ts",
+      "sha256": "6847d4a9b10fc9b84eec9c56b99b7321337e018fdbf5be415d14467b98d73876"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/buffer-writer.js",
+      "sha256": "78428fc0607cd87c28009159e87ca3704faf7bda000ea44d2ec46a97805cec9d"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/buffer-writer.js.map",
+      "sha256": "005eb1ea7ba6bc3af22e0ef96a7be80e7e824b6602df150f56b4ab5258fe583c"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/inbound-parser.test.d.ts",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/inbound-parser.test.js",
+      "sha256": "b7bcfce357865e993960da4e85d3095e35b8384d52cc3c17dd04dde7fea8e5ad"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/inbound-parser.test.js.map",
+      "sha256": "126aa1d6837e1e0f09d6f258f0ad741c8bcedd83af5c29f86e770b819a2a54a6"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/index.d.ts",
+      "sha256": "c2c9f431f788b434e6ae327844ef6712bb6a6a88ad08acf20bf6cfeb41d154ba"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/index.js",
+      "sha256": "e7a99ac02633393d8c3ef16cd6385b8246100d28c838b02420844068429a46c9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/index.js.map",
+      "sha256": "5b68cd072bef63afbc4da7e19f6e30f4d8a2c89d5a113193cf1f15eefacd5ef8"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/messages.d.ts",
+      "sha256": "4a20a0a39aca8738cc5088f9dea2969bf2af3ca1341c56071f513059b122d150"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/messages.js",
+      "sha256": "dfd22ad639f3030b41617ff0ee201ece7cdbce4adb7e1aae7978541b1384cd31"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/messages.js.map",
+      "sha256": "811fb02046104bfd60c5478bab3e491e8f9eb88602a17ca47f5ae69c72580dd9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/outbound-serializer.test.d.ts",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/outbound-serializer.test.js",
+      "sha256": "2f698de794633941a67fc04506d48bc85bc74f0e9927dae08548688a91246112"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/outbound-serializer.test.js.map",
+      "sha256": "3bf6249e69edf1068e613db668872a3bc64a357701d1a2fddef22ba92baab911"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/parser.d.ts",
+      "sha256": "effa1fd4980f6dff4e81ed67009b847d34449087504319f9a0dd081e8cf23a31"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/parser.js",
+      "sha256": "6f841aabda7240df44e1b08bbe8e202502ead969576c1ecc17311af48f57f2ef"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/parser.js.map",
+      "sha256": "fbce35fbc7e1713ab9edcbbc3a98b978f699a26fe30fbc2afe5292b219ac7507"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/serializer.d.ts",
+      "sha256": "a33c98f95c099c2a9a383b156c8f2a16605843d29455a954c1431bcbbc1ce35a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/serializer.js",
+      "sha256": "0c81a499cd210334e14bc65ee514b2ecf842588e27533f5e9a461f914d0b9623"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/dist/serializer.js.map",
+      "sha256": "730d03a1396d473526f691495a0b09000840d33a66601e5982ae6df9ea37196c"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/esm/index.js",
+      "sha256": "0f6c279f5e18cbc73dd3eab808e6eaa9621ddd3511197da2e67106fdd0b2b3b2"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/package.json",
+      "sha256": "a4a4e23027b26c72be7729d045d0100ad9329959db0449c535fa7b2ba2e717c6"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/b.ts",
+      "sha256": "eb585946649fd05e86397b77be4a9d00c225d2222cbc356d725afe11ea8ab265"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/buffer-reader.ts",
+      "sha256": "2465afc8aa6d9863357d35e2ccac9f6b2d0d5d6c10fc4b03d8b01dbc640f3b32"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/buffer-writer.ts",
+      "sha256": "568a874ad28c5b235f4c325ba469124a1eaeb029e0dbbdca243280f9186bd306"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/inbound-parser.test.ts",
+      "sha256": "3a65f5bf6bfee38c5d8cc85bc9ae993eef7c677ef05d080ee069ca1a5fed6e1e"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/index.ts",
+      "sha256": "a7acc3e9fd87b531b93012b3d4d3af0cb1ec88bc4f29ba76b4af9d3d6dde927a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/messages.ts",
+      "sha256": "98ceb278f736325f847a0c8326aae46f2573f2a750b056d5061ae0d00714cd2d"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/outbound-serializer.test.ts",
+      "sha256": "42d591bf94e2db92b4ae8848be5b543e3bbca97ff882d7d56b7d607929a5557b"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/parser.ts",
+      "sha256": "b991370b2b49c7a701e8b75fa0e18e43757c57ccf83b86d830866fcdd3ba825f"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/serializer.ts",
+      "sha256": "1d02bc0ea6d07ee7a6e8779c033e0998d1871a320c74157c936a47535d4238bc"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/testing/buffer-list.ts",
+      "sha256": "01bce658cf7fbb2c03ebb4c3d7e729389d6b3c9edb3cbfc2e1864f2a76647a00"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-protocol/src/testing/test-buffers.ts",
+      "sha256": "556522ba2930a51c27b1ad945a6308f3a4d6b4f449a0f9d90e8bc631f9eb8536"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/.travis.yml",
+      "sha256": "b09d0d2ec01d004669d7ff94f5fc91f380e88faece76226c7c72b0a99751dc36"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/Makefile",
+      "sha256": "f8ef5d631da574fb89632ac2664fdab6150b122f06b700d95c98b247bce56257"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/README.md",
+      "sha256": "ecda9bca71d3f0cee4e600d1dd2bef336213f39ef2e8fca6a1a1c1c8723f643a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/index.d.ts",
+      "sha256": "f60e3e3060207ac982da13363181fd7ee4beecc19a7c569f0d6bb034331066c2"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/index.js",
+      "sha256": "ece6d549270ba55d08126b10c9997324d808ee828ef00dad236e84e54d9d556d"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/index.test-d.ts",
+      "sha256": "da9b9d37dce95816b504a3b7577135a6060b1ba8053f0a643786ed672488bbdd"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/lib/arrayParser.js",
+      "sha256": "cad20b20e6312125b45f74480eba3ef46b456997da4f53bbec56356d66edd730"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/lib/binaryParsers.js",
+      "sha256": "4b0105414068ea96450ef0d420db9449c00c565c5894683955af15bf94075fb9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/lib/builtins.js",
+      "sha256": "09213197e4b44012e4c83669aa80884a189e90c777ddfef1f44c90c412167354"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/lib/textParsers.js",
+      "sha256": "bd811a530000508b6b90c1db462078e122f0404769d73f57ad41fe90aca159bd"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/package.json",
+      "sha256": "3ec0293cb38cc8d9475e3eb32ac5f19d195bf9fccc8b19a0714e6ecd6e7c2cf0"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/test/index.js",
+      "sha256": "903e76e7cd794c5f7918b67847e3790f4c582948eaf75ab9fd43d62278b44bc3"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg-types/test/types.js",
+      "sha256": "b813a6ece808d40094bac1770d4d35cb0e17ae70a4236cc5c93846d72c08c159"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/LICENSE",
+      "sha256": "192b8f5c96900f04a1271dec39688655d7416c1c6ea84a508e18b50d2b6751f3"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/README.md",
+      "sha256": "25e19d878c5a492023778a2596e8e26d76fc3e2b97a9582d4bdde675b8932408"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/esm/index.mjs",
+      "sha256": "5ef4d06556eeb775987759c2c09229dca2139421ee40e819b566612db2b4a8dc"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/client.js",
+      "sha256": "7e6ba79fe6bc1db15ec66ce67cd0f96b6b27c300ccec45911dc15f5121f709f4"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/connection-parameters.js",
+      "sha256": "db77bac013bfb5faae661d3056f3fbc49f5bae60334f60b149de0c271a9d9725"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/connection.js",
+      "sha256": "2069c662af9de8a708105f304a0e674a9766478da8250b416f5f3ee9ae0f4d99"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/crypto/cert-signatures.js",
+      "sha256": "206ec95c51012b73fe15d549b24db2acab969271e971940a0b79cfdcf830755b"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/crypto/sasl.js",
+      "sha256": "37206f4af85a0bf9973089c06ce54456938c3c74c9d4e65507053b8afd468889"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/crypto/utils-legacy.js",
+      "sha256": "f453cc172ad7e9dbb6e09b3cb48d267113e5128d834e6ae2519d7e2d9fde0fa6"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/crypto/utils-webcrypto.js",
+      "sha256": "a849cfe22d7590d79ddee76c8d7a058e2b67360a0d76683275d34133e5637117"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/crypto/utils.js",
+      "sha256": "a7d537da58f9ebc65dee84789ed5fa4175c6961c5be4a4dbb62b67d99c9c1213"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/defaults.js",
+      "sha256": "8bb1781954cb7695e1e1bf7200aa29327ad0e135c877d1a82878858b123ced31"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/index.js",
+      "sha256": "a012ecbe7fdefed8d2b36c3658e33dc4c291d0bb60df18d382300061211052b7"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/native/client.js",
+      "sha256": "c900e47be3da1cb8b35a7e0cf1e51a7065f85cbbe505103c833d770cf574f5d5"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/native/index.js",
+      "sha256": "99fb61cb78a6d78b7a5fc0b9ac264ad58272af48be4bc50bfdb948b1342e3292"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/native/query.js",
+      "sha256": "e17221776993847901de73de28690aebc1e5ed1151b115bc8d84cc10cddf4ae4"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/query.js",
+      "sha256": "dea8044d70531cd16e514ecddbe44cdd65b4315a02287958d5ecfd0ebcd70ded"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/result.js",
+      "sha256": "2e9dfbbb89c84cfdb1977a1503f2ddd265ed2f943f8dc3957dc0db193ee81488"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/stream.js",
+      "sha256": "0bd4001775301604ddf7c94152e05f6f30a9354876717bdae2ab636d00eb12ba"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/type-overrides.js",
+      "sha256": "47cb7f7bc6a6e1b1d4dc7c92bacacb436f12e99242b77da8391fd5b71991d2a5"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/lib/utils.js",
+      "sha256": "a109ef3b3a7572e8523b937ae0c100be72d4f36d1d3d4c7032e1ef0abaf92e38"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pg/package.json",
+      "sha256": "f7b678a8055c234669e8dd272dd624771e29d9f0e3a3353f15c3005ab1a5fd29"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pgpass/README.md",
+      "sha256": "62549909404b5a0dcb2b4b74c9a930baf8095dbcfa1543c4ffc79378acd22b57"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pgpass/lib/helper.js",
+      "sha256": "28d823dcde115f31848ba93d9cb55ba20089ac701b6a38b228d185d96df4f1b5"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pgpass/lib/index.js",
+      "sha256": "cc95b8ef6c32a9afdc48b85a5e7128d5e29567f8ded02d9bf7acd27c3d870c39"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/pgpass/package.json",
+      "sha256": "d75240eb4fe759c10db9f903838275348676a8bdc1f329e20a833713cd7c99bd"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-array/index.d.ts",
+      "sha256": "5e5cd3ad9676e8fa514b66502e5d132c537a9d78a849874c4b2d6f59aaff5acf"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-array/index.js",
+      "sha256": "807ba580ed423e518672c27b4022a56acb693be04349733ffc1fe6f324fbcee2"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-array/license",
+      "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-array/package.json",
+      "sha256": "dcd6a505fcbc032b409ee2838ab2c776dea3a9cfe02b736364b6cb82a946665f"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-array/readme.md",
+      "sha256": "d6b0e269174660704b3d72438334a52d2bcb2f353a3354f3c7cd65771e27c0de"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-bytea/index.js",
+      "sha256": "c078b99e1009c4bcf6e3ab59d9fe808b12caee3461204ae599cdd9cccd990801"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-bytea/license",
+      "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-bytea/package.json",
+      "sha256": "9125568c5fb51a65b8f11adb0080c2775b99ee82822d73bff8b56b2a9d47d7aa"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-bytea/readme.md",
+      "sha256": "24d2c6e5bc32e86c9263af0d8ca2e5217a43565a311942888ba979fd5b0ed550"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-date/index.js",
+      "sha256": "9a09e3ec0775237576b1f6ff0fba0ed6171235aeded635a42c174b517e34cb1a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-date/license",
+      "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-date/package.json",
+      "sha256": "03f9edefa96697072075e02df045cc61ed4ca2f8dfffb1ff87f4070bc3404151"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-date/readme.md",
+      "sha256": "ac45d399addd5e87db86d35adf84755bceadb0aee2360daeffd7af2d4ab41472"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-interval/index.d.ts",
+      "sha256": "71f9db35d9032bee846bafdf29caf0229ce594495f6c6457e65276afe962dc8a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-interval/index.js",
+      "sha256": "836fe0a39e52f051d62583d8375d3b270b4cb93dd026b125438a89e5a0258c41"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-interval/license",
+      "sha256": "f057f36739d53d228a746de4440c1e0c644ecde06d6beab45337d39c9d12a393"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-interval/package.json",
+      "sha256": "cc3056db105e66c9128cb8a387cda782d5f1ae9281be90de0b8d26a90af89c57"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/postgres-interval/readme.md",
+      "sha256": "f5399e5250a2cc93245d874dbfe3527e5845119a65b80ea13cbb66ccf913818e"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/split2/LICENSE",
+      "sha256": "c372ef2fa1dfcb124ed807609751e75e3a009f108c5724916b489288fcb88a0c"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/split2/README.md",
+      "sha256": "7369c93bb01adc348ccdd1ac052880cc7d06e39a4a037c6a3f15175c3a6f0a64"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/split2/bench.js",
+      "sha256": "de9eadc4133f88e9991f504899c47ef841ee923576dba2a8e50dc34a1d48692e"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/split2/index.js",
+      "sha256": "842471719e0e901e01ae1a1d3a6a4d1ff3e36747a7f50d5644f09d1d595c1857"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/split2/package.json",
+      "sha256": "87b734c3087c8d9ed5d76d1bff00db30f960831ba8705dd18d73b180d08d2140"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/split2/test.js",
+      "sha256": "de9619b9670887b6d1ed959287b96b46334cd9a6be21487c8a715afad90eade8"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/xtend/.jshintrc",
+      "sha256": "da3531289454b9a256c622c1a74771440d4f0e57092262902cefbc6830ec3a7c"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/xtend/LICENSE",
+      "sha256": "82e67379203d5794e7c44549847d8d64ae6904591381682360470898bd306821"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/xtend/README.md",
+      "sha256": "fe5fb4d83470799709c32207fc1fff3e522070b2c625a9818f191125406cd360"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/xtend/immutable.js",
+      "sha256": "04986f168b8f16f4f25237d0608cdf57b6ca14f100fed62c0295bda2559ab24b"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/xtend/mutable.js",
+      "sha256": "71a38649c77408217483f81f55daee1d6646d6c670e3d034a4482cb3453886e9"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/xtend/package.json",
+      "sha256": "b02ffef8cda96c5c3ee00a00390e63f608362c2ddfb3ed754e181d013a45d48a"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/node_modules/xtend/test.js",
+      "sha256": "4a7a6d3aade85095607c4aa3bd99f74fa6adaa69058d156677ad7756955e80f6"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/package-lock.json",
+      "sha256": "0e78debb42061d642a4b31408cab5a7e8df022632735f61561d018dcdd26fa71"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/package.json",
+      "sha256": "602bf9dcf7fa22f31e623bfa537aa61ba16fa3cf84184fccf1f9d9c5466b5539"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/testing/curated-platform-fixture.mjs",
+      "sha256": "9ff19f93833b5ebc3021a56da344a50d216fbeb5f1929ce6d7c40da92b849673"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/testing/member-realtime-fixture-plan.json",
+      "sha256": "6156561ea1b893b56afcf54d64934ca042dbb3251426ea3d27e532272bf65d6f"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/testing/member-realtime-interface.sql",
+      "sha256": "074e380664493eea86a56d3f3042460bbb33352bc4f46483fd19d559446b0e1b"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/testing/member-realtime-metadata.sql",
+      "sha256": "ed97cdf0838100502344d2d54563992df6170c6a64e95843c037aaec4cd703e3"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/scripts/supabase/testing/reviewed-self-hosted-migrations.mjs",
+      "sha256": "41aac4992e1bb43a2ebe29b30f1aa673c159f3aa6befc2bcd3d1552347759c10"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020134444_collect_curated_platform_baseline.sql",
+      "sha256": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020135932_collect_runtime_role_and_function_paths.sql",
+      "sha256": "59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020174856_collect_retention_retry_authority.sql",
+      "sha256": "d3ba38736fa46b70a0bb66520deffa56fd6f7317deb7c0144f8e06d791f8808c"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020184012_collect_admin_invitation_attempts.sql",
+      "sha256": "c6dc8aa6ac5130162c6e69904aae7221edde6dcb0c898af2cf9e10dba444b665"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020190301_collect_rls_helper_permissions.sql",
+      "sha256": "dccb79af17182164dc6afe0b8339b70bd35a80fc4a1c1fa7df1a09408310a645"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020191847_collect_privacy_email_reauthentication.sql",
+      "sha256": "d6f002a6e904226a88e666c70937a142f06aa5a7e29874c6edb564d59c5fcab4"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020193752_collect_admin_invitation_access_notice_v2.sql",
+      "sha256": "b48a381169e777160a37396539248325e40b331a61db986622514724517f8467"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261020195249_collect_admin_invitation_public_id_preservation.sql",
+      "sha256": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261022195747_collect_application_mutation_fence.sql",
+      "sha256": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261022200028_collect_private_member_realtime.sql",
+      "sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261023002500_collect_admin_recent_email_source_upgrade.sql",
+      "sha256": "02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql",
+      "sha256": "2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql",
+      "sha256": "e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261023174000_collect_stopped_admission_lifecycle.sql",
+      "sha256": "db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261029120000_collect_client_diagnostics.sql",
+      "sha256": "6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261029130000_collect_notification_delivery.sql",
+      "sha256": "2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/migrations/20261101012309_collect_admission_archive.sql",
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+    },
+    {
+      "path": "/Volumes/COLLECT-STAGING-20261109/main-source/supabase/tests/sql/00_local_auth_fixture.sql",
+      "sha256": "b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+      "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/.initdb-wrapped",
+      "sha256": "bc065589e19531dfb7f0c2cef8030099d14c5616368a0612d89be62c88b430ba"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/.pg_ctl-wrapped",
+      "sha256": "5829455d993811e30f19a1288da7a58de3d4ddcd834c0804cdcf69db6577cc7d"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/.pg_isready-wrapped",
+      "sha256": "44e9d0de06eb85eeb141463b27cd54cf696965a240865f03e314053eb5b9a88e"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/.postgres-wrapped",
+      "sha256": "acbf2c5c218837bc8f098d631091854569db5b791cb475f5f943e49f8d4cd053"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/initdb",
+      "sha256": "1a53edc7a433f9cc789b968d97ef8bd99fd12377dca09022b578558844720d82"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/pg_ctl",
+      "sha256": "8a2bada4e252f1ff2ed4b0bea33246608b85b6711e29926e8b5c90a016a384a1"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/pg_isready",
+      "sha256": "b70711c575b302ebdc117ccf0e57751a2e250cfa8e763f18e88931479b575e25"
+    },
+    {
+      "path": "/Volumes/PRO-G40/Development/Supabase/Qwen-Validation/cache/stack/slim-services/postgres/17.11.0.004-r1/darwin-arm64/bin/postgres",
+      "sha256": "9058a8740787c17c4736be5945369bd9ddeff189743a3ce1032383d23a1e356c"
+    },
+    {
+      "path": "/Volumes/T7/01 Projects/COLLECT/outputs/cloud-supabase-assessment-2026-11-14/principal-mapping-preflight-author-final-20261114.log",
+      "sha256": "0eac0cf91385c2c69329d4df88b4446e69ea04917610ee0c2851f801639b7e73"
+    }
+  ]
+}

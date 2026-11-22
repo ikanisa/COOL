@@ -1,0 +1,160 @@
+{
+  "format": "collect.burimunsi.installed-upgrade-verification.v1",
+  "status": "PASS",
+  "verified_at": "2026-11-20T10:34:38.700934+00:00",
+  "source": {
+    "review_commit": "f3e234a21a7d1b38b7ec7d0b0540392c4fe2a8f8",
+    "checkout_base": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+    "native_and_shared_inputs": 343,
+    "sha256": "7ce1231cc8a1e77779d23ec644556b0088b8a342c9e88285d7bbbf15254ede6b",
+    "verification": "The two native fingerprint implementations agreed. Every tested path and blob matched the local review commit."
+  },
+  "version_history": {
+    "previous_checkout": {
+      "code": 42,
+      "name": "0.23.0-collect.20"
+    },
+    "attested_cutover": {
+      "commit": "5c63f65fcaa0b6db7961e5b981edfb9d71f1eeee",
+      "code": 44,
+      "name": "0.23.0-collect.22"
+    },
+    "retained_testing_predecessor": {
+      "code": 48,
+      "name": "0.23.0-collect.26",
+      "native_source_sha256": "e42bd3ba7b57a6f1eaadce62f3a60b17b39ee04d8720bc7c79b796bc34b146e3",
+      "native_source_files": 336,
+      "signed_build_receipt_sha256": "de64c379ac5714d17f03350caa8a3cdab5371d4326a3c00ac7d0aad288ff0cbe",
+      "certificate_sha256": "72440baa4ce73a6686b92466b526fb72d9f959308f709d031694b1c83cc4b069",
+      "normal_cloud_apk_sha256": {
+        "staff": "00538016c821b4507d0bc5dd3079bd429e876daa02ab80df44a54efb6f0c2237",
+        "admin_sync": "63041812af5ced1d2c98bc096aa6e0eaceb0e4963fc5b7e290e296161b06d1f5"
+      },
+      "evidence": "Retained normal test-channel package identities and signatures were inspected offline. Its historical record has production and distribution authorization disabled."
+    },
+    "local_candidate": {
+      "code": 49,
+      "name": "0.23.0-collect.27"
+    }
+  },
+  "verified_behavior": {
+    "reproduced": "A legacy ATTEMPTING entry, with empty cloud and phone views, let Sync report complete. Receiving that source again created another request ID.",
+    "held_requests": "Installed owner-scoped PREPARED and ATTEMPTING records retain original encrypted bytes and request identity. Ordinary capture/upload and completion respect that uncertainty. CONFIRMED and MATCHED_EXISTING compact to the original v2 terminal format with request ID, source ID and row digest, omitting the body. Unreadable protected data is preserved.",
+    "consent_and_ack": "Legacy code 48 omitted the original consent generation. The client leaves those requests held without replay. The server composition keeps raw held routes unavailable. Ordinary and held acknowledgments require zero financial effects expressed as an integer.",
+    "foreground": "The former GatewayFactory failed the Replace invalidation check. Pause, replacement and retirement invalidate pending success. The notification and foreground model require the original monotonic five-minute freshness window, observed inbox and revision, stable receiver control revision, attached session observer and SMS permissions. A late worker cannot restore success.",
+    "historical_limit": "The earlier signed build's independent profile and SIM wall-clock deadline coverage, physical carrier behavior and managed production service remain outside this local evidence."
+  },
+  "tests": {
+    "host": {
+      "command": "bash native/burimunsi/scripts/verify_all.sh",
+      "exit_code": 0,
+      "node": {
+        "total": 2666,
+        "passed": 2659,
+        "failed": 0,
+        "skipped": 7,
+        "skip_reason": "Optional PostgreSQL fixtures were unavailable for this host invocation."
+      },
+      "real_api_client": 280,
+      "strict_financial_effect_cases": 24,
+      "observation_adapters": 126,
+      "receiver_gateway": 106,
+      "session_bootstrap": {
+        "staff": 9,
+        "admin_sync": 9
+      },
+      "cross_layer": 64
+    },
+    "build_promotion_unit_tests": {
+      "passed": 152,
+      "failed": 0
+    },
+    "android_build": {
+      "finished_at": "2026-11-20T10:30:03.110804+00:00",
+      "gradle_tasks": 359,
+      "executed": 355,
+      "up_to_date": 4,
+      "apks_built_and_inspected": 8
+    },
+    "android_instrumentation": {
+      "finished_at": "2026-11-20T10:34:27.384190+00:00",
+      "api": 36,
+      "device": "disposable emulator",
+      "complete_rosters": {
+        "staff": {
+          "expected": 69,
+          "passed": 69,
+          "failed": 0
+        },
+        "admin_sync": {
+          "expected": 89,
+          "passed": 89,
+          "failed": 0
+        }
+      },
+      "witnesses": {
+        "payment_reference_both": "rw.ikanisa.burimunsi.NativeUiContractTest#paymentReferenceAndProviderIdDisplayIndependently",
+        "legacy_encrypted_queue_admin": "app.cool.mobile.receiver_sms.GatewayDurabilityTest#preReconciliationQueueKeepsOriginalIdentityUntilExactAcknowledgement",
+        "held_ciphertext_admin": "app.cool.mobile.receiver_sms.GatewayDurabilityTest#code48HeldJournalPreservesUncertainCiphertextAndRedactsOnlyTerminalRecords"
+      }
+    }
+  },
+  "offline_in_place_update": {
+    "api": 36,
+    "predecessor_code": 48,
+    "candidate_code": 49,
+    "method": "Seed the original offline app, use adb install -r, then verify in the same Android installation. Run separately for both flavors.",
+    "flavors": {
+      "staff": {
+        "package": "rw.ikanisa.burimunsi.staff.cloud.nativeTest",
+        "predecessor_apk_sha256": "5e82ba0947bb49d1341b70b3a7a4da72c8527ba6feb760591fd1853fdce97081",
+        "candidate_apk_sha256": "5d285c37d40a76ab427bcde033fc7b7e629cdce856d4f4a6904c4a18bae6c1c4",
+        "seed_passed": true,
+        "in_place_verification_passed": true
+      },
+      "admin_sync": {
+        "package": "rw.ikanisa.burimunsi.gateway.cloud.nativeTest",
+        "predecessor_apk_sha256": "bdc49ea276e03a91104396bb25f79cc15ec6e9c47a050e691fdedf74c0c0acba",
+        "candidate_apk_sha256": "1a2138500e34cd4dbdefdf287b25047ec7189ded153dcc2a2be1c7fe620e95f2",
+        "seed_passed": true,
+        "in_place_verification_passed": true
+      }
+    },
+    "readback": [
+      "Android first-install time, UID and the encrypted installation identity survived replacement.",
+      "Admin Sync retained exact PREPARED and ATTEMPTING ciphertext. The normal gateway compacted CONFIRMED and MATCHED_EXISTING to checked terminal tombstones."
+    ],
+    "cleanup": "Four offline target/test packages were removed after each Android lane. The task-owned virtual device was disposed."
+  },
+  "promotion": {
+    "required_check": "installed_update",
+    "scope": "existing_signed_cloud_packages",
+    "outstanding": "An authorized normal-channel update requires independently bound predecessor and candidate APK and signing identities plus actual before/after installation and protected-state readback. An empty queue is valid in the generic same-signer lane. The known version-48 fixture requires a positive retained case. Alternate signer lineage and split-only distribution require separately verified evidence.",
+    "release_signed": false,
+    "normal_cloud_update_executed": false,
+    "provider_action": false,
+    "production_deployed": false
+  },
+  "related_evidence_sha256": {
+    "docs/implementation/2026-11-20-burimunsi-native-reconciliation-verification.json": "c4b590a4d1fd7d030996eb874f06057a81df7fb20a7aac1a9e3a0312392186ad",
+    "docs/implementation/2026-11-20-burimunsi-held-sms-compatibility.json": "74e07cf034b361621414e049a7601cef738432dcb131973cdf4b3b6bb92280b9",
+    "../proof-artifacts/burimunsi-foreground-sync-health-handoff-20261120.json": "1b47c1734feade664aa9d7a4b1ab91f4d6e97d6dc88b0215fe94df30be5ffefb",
+    "../proof-artifacts/burimunsi-foreground-sync-health-20261120.patch": "a6fa72ce56ad079f0671cc1a758115d49865d37575679044eb952a55169a217f"
+  },
+  "evidence_directory": ".cache/burimunsi-held-recovery-parity-20261120",
+  "evidence_sha256": {
+    "admission-integrated-manifest.json": "9ba9883ff4ea9fa686b8ddfe2756d8feb9ec50f7c22144b131bba58ae43cebcb",
+    "final-combined-source.json": "e7eadfb7f1e735dc48886985e3d3aaf42f3d1882603177b8d2c227882bca2fd6",
+    "baseline-held-behavior.log": "f778b0f6e86b4c34fffed9c034e23b77ec2835976225cd24e845a4303a7de28d",
+    "combined-host.log": "03b109d1edd4d77800ec4e0ea1aa55b5a0982f9e1fee3b2dabf330b3dc004ef1",
+    "combined-pipeline.log": "41dc22bd6a4142077db3afe0584b5822e1a07f4ad13c950eaecdc0a50bff0cbe",
+    "final-strict-ack-http.log": "3bdab5d73aec2653c8b81bf4af02b414681d2af601ae6ce081b13d81c89f506b",
+    "retained-v48-independent-android-inspection.json": "6a6e1659c32ab834b53cda4e355cf8f2620f7c77fecdcf76c0c42dabd3466eba",
+    "predecessor-native-test-build.log": "8b559501571a1129bcdacfb48cfecf78c93e3c8f9c11361b7a9ed44ae99e5b2a",
+    "combined-build/build-result.json": "39eb34fab4f1cb89d8d80494c81a94415fb0f3b1723c5d2ec0c0f052c926ca98",
+    "combined-build/artifacts.json": "a442338c26b95bb10b957f56e9dc159ef373ba27b1fe64d5f58e7c50c33d8ce3",
+    "combined-api36/instrumentation-result.json": "c808ff7dc27401b26d73a9f5b27ba06209c2a58707aa5915a16bbfa0b4cd7285",
+    "combined-upgrade/result.json": "161531884f4a7f7e796e99420bae64687cab637e3f92c2cab91f4979c5859d92",
+    "review-commit-identity.json": "7be2d69365cc314760e309b100fab8dc308d8dcd186d1e6984d82adb24bcd465"
+  }
+}

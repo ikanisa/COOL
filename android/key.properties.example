@@ -1,0 +1,23 @@
+# Copy to android/key.properties or provide the matching COOL_ANDROID_* environment variables locally.
+# Do not commit android/key.properties or keystore files.
+
+# For Google Play App Signing, release APK/AAB artifacts are signed locally with
+# the registered upload key. Google signs user-delivered APKs with the Play
+# app-signing key after upload.
+storeFile=/absolute/path/to/google-play-upload-key.jks
+storePassword=replace-with-local-secret
+keyAlias=replace-with-local-alias
+keyPassword=replace-with-local-secret
+
+# Non-secret upload-key pin from the Google Play Console. Keep this aligned with
+# the registered upload certificate so a wrong local signing key fails closed.
+COOL_EXPECTED_UPLOAD_SIGNING_SHA256=9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10
+
+# Non-secret reference fingerprint captured from the Play-installed
+# app.cool.mobile package. This is for Play Integrity/API provider setup and
+# Play-installed package overwrite QA; it is not the upload key fingerprint.
+COOL_EXPECTED_PLAY_SIGNING_SHA256=45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92
+
+# Leave true only for physical-device QA builds that must update the
+# Play-installed package. Set false for upload-key signed production-debug UAT.
+COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=true

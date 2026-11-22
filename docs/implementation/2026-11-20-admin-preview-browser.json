@@ -1,0 +1,14 @@
+{
+  "format": "collect.admin.preview-retirement.loopback.v1",
+  "observed_utc": "2026-11-20T09:36:17.535Z",
+  "browser": "157.0.8103.80",
+  "scope": "Isolated synthetic Chrome origins with a predecessor worker and the candidate retirement handler. Local fixture destination.",
+  "hash_bookmark": true,
+  "path_bookmark": true,
+  "predecessor_worker_waiting_while_tab_open": true,
+  "original_tab_and_draft_preserved": true,
+  "unregistered_after_predecessor_tab_closed": true,
+  "retained_old_origin_storage_and_cache": true,
+  "old_cookie_and_draft_absent_from_destination": true,
+  "unexpected_proxy_requests": 0
+}

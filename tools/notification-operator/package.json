@@ -1,0 +1,14 @@
+{
+  "name": "collect-notification-operator-private",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.19.0"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 test/operator.test.mjs test/mcp.test.mjs test/transport.test.mjs test/auth.test.mjs test/email_contract.test.mjs"
+  },
+  "dependencies": {},
+  "description": "Private eight-action Supabase cookie-session operator client with manual Mac Messages handoff. No automatic sender."
+}

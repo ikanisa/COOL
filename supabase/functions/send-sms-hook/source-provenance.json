@@ -1,0 +1,26 @@
+{
+  "format": "collect.source-adaptation.v1",
+  "source_folder": "https://drive.google.com/drive/folders/10AVDV2MK7kStFYgwIyWaUfeJiyuLHorF",
+  "observed_at": "2026-11-01",
+  "upstream_files": {
+    "handler.mjs": {
+      "drive_file_id": "1gxHMMftDZ_wdZw2Pqw771oxD38CY2PYs",
+      "sha256": "9f19649ff6bf3147bff4caf9ee7d7b264465490b44f9f028a304d74a6021753c"
+    },
+    "handler.test.mjs": {
+      "drive_file_id": "1nC4BD7qJfCoE15e8qdp_WCrdAjxfvY6t",
+      "sha256": "a154c5cbfb10b54460ae9443501e11c1abd73bfd06d9dac9352893a307ed73b2"
+    },
+    "provider-contract.json": {
+      "drive_file_id": "1u7F4j3Fyj2dmcH2yxj_-4W-0pF9B0Tpe",
+      "sha256": "a664476047e8eb2d47537342c114fb2663985a00b2840bf3431189a3f5f3b5fd"
+    }
+  },
+  "adaptations": [
+    "Allow exact Supabase collect-sms Functions path prefix in the configured HTTPS base.",
+    "Use Collect runtime activation, profile/database identity and durable application fence before sending.",
+    "Keep OTP and receipt application credentials independent."
+  ],
+  "real_provider_operations": false,
+  "production_acceptance": false
+}

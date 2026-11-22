@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-11-13",
+  "test_result": "12/12 passed (Node isolated)",
+  "integration": "NOT MERGED OR DEPLOYED",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "27207b517fc94302be847f20735ffdc01f375bd098b55d8c2f58d1f4649676b4",
+      "bytes": 715
+    },
+    {
+      "path": "backend/package.json",
+      "sha256": "fded104537c9ea3de3efa32be569e67c03b8afb396c75e11878240578c2f30c7",
+      "bytes": 162
+    },
+    {
+      "path": "backend/src/document-import.mjs",
+      "sha256": "537037d769807becd1d859eb1926515d5358ee7f1d1a3ea74c576cfcf622ab14",
+      "bytes": 2845
+    },
+    {
+      "path": "backend/src/http-routes.mjs",
+      "sha256": "7287b1c8fe437589379d064912a68d61850e81318f5583a919f1463060c86c93",
+      "bytes": 1728
+    },
+    {
+      "path": "backend/src/ocr.mjs",
+      "sha256": "d07344055849b2b95be4ae2fb4aea84744264b3de318bf2c038fac9a39aed1fc",
+      "bytes": 2361
+    },
+    {
+      "path": "backend/src/onboarding.mjs",
+      "sha256": "8582f5787b02fded272be60d2053a7e60e6ee15c4b3189c0774335cd8a0c7d03",
+      "bytes": 6653
+    },
+    {
+      "path": "backend/test/onboarding.test.mjs",
+      "sha256": "142843ca5a8280480206c2f7b35fc6355e8d9f5c44db1eae6253f26767b80313",
+      "bytes": 5605
+    },
+    {
+      "path": "android/src/main/java/com/ikanisa/burimunsi/onboarding/SmartOnboardingScreen.kt",
+      "sha256": "874a809485d2c3767181bff45a27b116731ea970394c95b22d32300578919ce7",
+      "bytes": 10982
+    },
+    {
+      "path": "docs/INTEGRATION.md",
+      "sha256": "6c573759feff13b3375c491a9c4abf9c4cfa8446ed8d04a26ca287b990fe0fad",
+      "bytes": 7996
+    },
+    {
+      "path": "docs/node-test-results.txt",
+      "sha256": "012c8c239a43a90d249039d1095ec6d5accbe49da0fd528287336a583c9320d7",
+      "bytes": 2418
+    }
+  ]
+}

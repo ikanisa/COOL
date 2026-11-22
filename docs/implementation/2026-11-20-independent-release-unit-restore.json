@@ -1,0 +1,34 @@
+{
+  "format": "collect.independent-evidence-restore.v1",
+  "verified_utc": "2026-11-20T09:54:49+00:00",
+  "source_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "unit": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry",
+  "unit_tree": "bb1363e914b14da579bd95d2a3156ddf094a187f",
+  "original_manifest_sha256": "5f95b0652312a06746e187fcf8f18f3413819994e709c68cf96ffc0efffec10e",
+  "original_physical_volume": "T7",
+  "independent_physical_volume": "PRO-G40",
+  "independent_git_common_dir": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-17/cloud-only-integrated-3c29f0d-001/.git",
+  "git_alternates": false,
+  "remote_fetch_permitted": false,
+  "archive": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/receipt150-rollback/bb1363e914b14da579bd95d2a3156ddf094a187f-b0cf757e808a21b2.tar.gz",
+  "archive_bytes": 57469,
+  "archive_sha256": "b0cf757e808a21b22b14193c25c655c57847d2645f9e5bba540b778f6ca076da",
+  "restored_on": "Mac internal volume in a new empty directory",
+  "verified_files": 10,
+  "verified_bytes": 330330,
+  "verified_fields": [
+    "path",
+    "regular_file",
+    "Git mode",
+    "Git blob",
+    "SHA-256",
+    "byte count"
+  ],
+  "verified_consumers": [
+    "test/fixtures/admin_operational_health150.json",
+    "docs/release/production-remaining-tasks-2026-09-30.json",
+    "docs/release/local-progress-2026-09-30/attempt7-source150-staged153/refresh.py"
+  ],
+  "database_dump_in_archive": false,
+  "scope": "Archived release evidence. A live database restore also requires its original before.dump."
+}

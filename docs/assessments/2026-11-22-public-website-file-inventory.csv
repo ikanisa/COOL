@@ -1,0 +1,237 @@
+path,area,change_from_1077d30da,current_bytes,decision
+.github/workflows/public-website.yml,Verification and delivery,Modified,7253,Updated the active source or its review binding.
+assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256,Website assets and media evidence,Retained,22551,"Retained a live asset, source image or required proof."
+assets/brand/collect_runtime/app_icons/app-icon-rule.png,Website assets and media evidence,Retained,103231,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/PROMPTS.json,Website assets and media evidence,Retained,2213,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/PROMPTS_ADDITIONAL.json,Website assets and media evidence,Retained,3707,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/banking-together.png,Website assets and media evidence,Retained,2166126,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/community-savings.png,Website assets and media evidence,Retained,2426242,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/everyday-payments.png,Website assets and media evidence,Retained,1941761,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/kigali-hills.png,Website assets and media evidence,Retained,1897870,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/kigali-woman-hero.png,Website assets and media evidence,Retained,668684,"Retained a live asset, source image or required proof."
+assets/marketing/rwanda/shared-goals.png,Website assets and media evidence,Retained,2159060,"Retained a live asset, source image or required proof."
+assets/typefaces/Inter-Variable.ttf,Website assets and media evidence,Retained,876576,"Retained a live asset, source image or required proof."
+assets/typefaces/OFL-Inter.txt,Website assets and media evidence,Retained,4377,"Retained a live asset, source image or required proof."
+content/legal/collect_delete_account.yaml,"Copy, legal sources and review records",Retained,4442,Retained the authored content or its review reference.
+content/legal/collect_legal_pages_bundle.yaml,"Copy, legal sources and review records",Retained,39359,Retained the authored content or its review reference.
+content/legal/collect_privacy_policy.yaml,"Copy, legal sources and review records",Retained,18837,Retained the authored content or its review reference.
+content/legal/collect_terms_of_use.yaml,"Copy, legal sources and review records",Retained,14119,Retained the authored content or its review reference.
+content/product/collect_capabilities.json,"Copy, legal sources and review records",Retained,59225,Retained the authored content or its review reference.
+content/public-website/app-media/2026-11-22/capture-report.json,Website assets and media evidence,Added,437640,Reviewed source-bound browser media evidence.
+content/public-website/app-media/2026-11-22/publication.json,Website assets and media evidence,Added,2233,Reviewed source-bound browser media evidence.
+content/public-website/app-media/2026-11-22/visual-review.json,Website assets and media evidence,Added,2728,Reviewed source-bound browser media evidence.
+docs/PRODUCT.md,"Copy, legal sources and review records",Retained,2851,Retained the authored content or its review reference.
+docs/implementation/2026-11-20-member-finance-public-media/previous-browser-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-finance-public-media/previous-browser-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-finance-public-media/previous-browser-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-finance-public-media/previous-browser-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-finance-public-media/previous-browser-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-finance-public-media/previous-browser-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-finance-public-media/previous-browser-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-member-finance-public-media/replacement-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-finance-public-media/replacement-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-finance-public-media/replacement-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-finance-public-media/replacement-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-finance-public-media/replacement-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-finance-public-media/replacement-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-finance-public-media/replacement-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/previous-browser-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/previous-browser-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/previous-browser-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/previous-browser-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/previous-browser-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/previous-browser-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/previous-browser-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/replacement-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/replacement-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/replacement-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/replacement-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/replacement-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/replacement-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-group-account-receipts-media/replacement-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-member-managed-project-media/previous-browser-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-managed-project-media/previous-browser-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-managed-project-media/previous-browser-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-managed-project-media/previous-browser-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-managed-project-media/previous-browser-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-managed-project-media/previous-browser-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-managed-project-media/previous-browser-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-member-managed-project-media/replacement-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-managed-project-media/replacement-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-managed-project-media/replacement-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-managed-project-media/replacement-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-managed-project-media/replacement-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-managed-project-media/replacement-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-managed-project-media/replacement-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-member-sms-intake-media/previous-browser-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-sms-intake-media/previous-browser-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-sms-intake-media/previous-browser-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-sms-intake-media/previous-browser-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-sms-intake-media/previous-browser-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-sms-intake-media/previous-browser-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-sms-intake-media/previous-browser-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-member-sms-intake-media/replacement-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-member-sms-intake-media/replacement-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-member-sms-intake-media/replacement-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-member-sms-intake-media/replacement-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-member-sms-intake-media/replacement-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-member-sms-intake-media/replacement-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-member-sms-intake-media/replacement-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/implementation/2026-11-20-public-app-media/replacement-media/account-deletion-abd540ec627f.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/account-deletion-abd540ec627f.png
+docs/implementation/2026-11-20-public-app-media/replacement-media/group-detail-1c2ae1b0570e.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/group-detail-1c2ae1b0570e.png
+docs/implementation/2026-11-20-public-app-media/replacement-media/groups-24167a6a7a85.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/groups-24167a6a7a85.png
+docs/implementation/2026-11-20-public-app-media/replacement-media/home-1eebdcbc4b49.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/home-1eebdcbc4b49.png
+docs/implementation/2026-11-20-public-app-media/replacement-media/privacy-41d08d2e2ec5.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/privacy-41d08d2e2ec5.png
+docs/implementation/2026-11-20-public-app-media/replacement-media/security-a271c1834de4.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/security-a271c1834de4.png
+docs/implementation/2026-11-20-public-app-media/replacement-media/terms-c62aaef04827.png,Obsolete media copies,Deleted,0,Deleted an exact byte copy. Canonical asset at web/public/app-screens/terms-c62aaef04827.png
+docs/release/public-website-content-baseline.json,"Copy, legal sources and review records",Retained,1900,Retained the authored content or its review reference.
+docs/release/public-website-current-content-contract.json,"Copy, legal sources and review records",Modified,14704,Updated the active source or its review binding.
+fastlane/metadata/android/en-US/full_description.txt,"Copy, legal sources and review records",Retained,1680,Retained the authored content or its review reference.
+fastlane/metadata/android/en-US/short_description.txt,"Copy, legal sources and review records",Retained,74,Retained the authored content or its review reference.
+fastlane/metadata/en-GB/description.txt,"Copy, legal sources and review records",Retained,1113,Retained the authored content or its review reference.
+fastlane/metadata/en-GB/keywords.txt,"Copy, legal sources and review records",Retained,78,Retained the authored content or its review reference.
+fastlane/metadata/en-GB/promotional_text.txt,"Copy, legal sources and review records",Retained,108,Retained the authored content or its review reference.
+fastlane/metadata/en-GB/release_notes.txt,"Copy, legal sources and review records",Retained,241,Retained the authored content or its review reference.
+fastlane/metadata/en-GB/review_notes.txt,"Copy, legal sources and review records",Retained,1009,Retained the authored content or its review reference.
+lib/features/landing/collect_landing_page.dart,"Copy, legal sources and review records",Retained,22578,Retained the authored content or its review reference.
+lib/features/landing/public_capability_content.dart,"Copy, legal sources and review records",Retained,7434,Retained the authored content or its review reference.
+lib/features/landing/public_content.dart,"Copy, legal sources and review records",Retained,2136,Retained the authored content or its review reference.
+lib/features/landing/public_marketing_page_content.dart,"Copy, legal sources and review records",Retained,6335,Retained the authored content or its review reference.
+scripts/assets/build_public_photography.mjs,Media pipeline,Modified,6391,Updated the active source or its review binding.
+scripts/assets/prepare_member_preview_fonts.py,Media pipeline,Retained,22807,Retained an active source or command.
+scripts/assets/publish_public_app_media.py,Media pipeline,Modified,49706,Updated the active source or its review binding.
+scripts/generate_product_capability_content.rb,Verification and delivery,Retained,4859,Retained an active source or command.
+scripts/product_capabilities.rb,Verification and delivery,Retained,8301,Retained an active source or command.
+scripts/public_app_media.rb,Media pipeline,Modified,36821,Updated the active source or its review binding.
+scripts/public_deployment_profile.rb,Verification and delivery,Modified,2361,Updated the active source or its review binding.
+scripts/public_landing_prepare_build.sh,Verification and delivery,Retained,250,Retained an active source or command.
+scripts/public_legal_rendering.rb,Website generator,Modified,4427,Updated the active source or its review binding.
+scripts/public_marketing_navigation_test.mjs,Tests,Retained,13863,Retained coverage for the website or its shared contracts.
+scripts/public_marketing_sections.rb,Website generator,Modified,14850,Updated the active source or its review binding.
+scripts/public_photography.rb,Media pipeline,Modified,6109,Updated the active source or its review binding.
+scripts/public_site/browser/app_links.js,Website generator,Added,2289,Added to support the separated website pipeline or its checks.
+scripts/public_site/browser/group_links.js,Website generator,Added,3576,Added to support the separated website pipeline or its checks.
+scripts/public_site/browser/navigation.js,Website generator,Added,2338,Added to support the separated website pipeline or its checks.
+scripts/public_site/browser/share_links.js,Website generator,Added,1223,Added to support the separated website pipeline or its checks.
+scripts/public_site/legal_content.rb,Website generator,Added,6729,Added to support the separated website pipeline or its checks.
+scripts/public_site/legal_values.rb,Website generator,Added,8936,Added to support the separated website pipeline or its checks.
+scripts/public_site/marketing_components.rb,Website generator,Added,6896,Added to support the separated website pipeline or its checks.
+scripts/public_site/marketing_page.rb,Website generator,Added,3722,Added to support the separated website pipeline or its checks.
+scripts/public_site/publication_destination.rb,Website generator,Added,3393,Added to support the separated website pipeline or its checks.
+scripts/public_site/share_landing.rb,Website generator,Added,5732,Added to support the separated website pipeline or its checks.
+scripts/public_site/site_chrome.rb,Website generator,Added,6886,Added to support the separated website pipeline or its checks.
+scripts/public_site/site_script.rb,Website generator,Added,566,Added to support the separated website pipeline or its checks.
+scripts/public_site/stylesheets.rb,Website generator,Added,2337,Added to support the separated website pipeline or its checks.
+scripts/public_site_assets.rb,Website generator,Modified,2346,Updated the active source or its review binding.
+scripts/public_site_publication.rb,Website generator,Modified,4037,Updated the active source or its review binding.
+scripts/public_site_routes.rb,Website generator,Modified,12590,Updated the active source or its review binding.
+scripts/public_static_site_build.rb,Website generator,Modified,2853,Updated the active source or its review binding.
+scripts/public_website_audit_evidence.sh,Verification and delivery,Modified,320,Updated the active source or its review binding.
+scripts/public_website_browser_qa.js,Verification and delivery,Modified,12368,Updated the active source or its review binding.
+scripts/public_website_ci_gate.sh,Verification and delivery,Modified,2211,Updated the active source or its review binding.
+scripts/public_website_completion_gate.sh,Verification and delivery,Modified,187,Updated the active source or its review binding.
+scripts/public_website_completion_report.sh,Verification and delivery,Modified,611,Updated the active source or its review binding.
+scripts/public_website_external_evidence_audit.sh,Verification and delivery,Deleted,0,Removed the redundant audit entry point. Use public_website_completion_gate.sh --external-audit.
+scripts/public_website_indexnow_readiness.sh,Verification and delivery,Modified,190,Updated the active source or its review binding.
+scripts/public_website_indexnow_submit.sh,Verification and delivery,Modified,187,Updated the active source or its review binding.
+scripts/public_website_lighthouse_qa.sh,Verification and delivery,Modified,4653,Updated the active source or its review binding.
+scripts/public_website_live_gate.sh,Verification and delivery,Modified,345,Updated the active source or its review binding.
+scripts/public_website_quality_gate.sh,Verification and delivery,Modified,264,Updated the active source or its review binding.
+scripts/public_website_rendered_route_qa.sh,Verification and delivery,Retained,1512,Retained an active source or command.
+scripts/public_website_route_rendered_qa.js,Verification and delivery,Modified,8419,Updated the active source or its review binding.
+scripts/qa/asset_manifest_integrity.rb,Verification and delivery,Retained,9379,Retained an active source or command.
+scripts/qa/bounded_git_metadata.rb,Verification and delivery,Retained,2718,Retained an active source or command.
+scripts/qa/browser/chrome_cdp_capture.mjs,Verification and delivery,Modified,6137,Updated the active source or its review binding.
+scripts/qa/browser/chrome_cdp_route_matrix.mjs,Verification and delivery,Modified,4068,Updated the active source or its review binding.
+scripts/qa/browser/chrome_devtools.cjs,Verification and delivery,Added,6440,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/chrome_process.cjs,Verification and delivery,Added,3784,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/contrast_runner.mjs,Verification and delivery,Added,1106,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/playwright_runner.cjs,Verification and delivery,Added,2096,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/png_capture_check.mjs,Verification and delivery,Modified,4706,Updated the active source or its review binding.
+scripts/qa/browser/png_dimensions.cjs,Verification and delivery,Added,590,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/public_long_capture.cjs,Verification and delivery,Added,4056,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/public_route_case.cjs,Verification and delivery,Added,16596,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/public_share_case.cjs,Verification and delivery,Added,6756,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/rendered_page_evidence.cjs,Verification and delivery,Added,2533,Added to support the separated website pipeline or its checks.
+scripts/qa/browser/static_file_server.mjs,Verification and delivery,Modified,2478,Updated the active source or its review binding.
+scripts/qa/browser/viewport_segments.cjs,Verification and delivery,Added,2797,Added to support the separated website pipeline or its checks.
+scripts/qa/collect_diagnostic_observer.mjs,Verification and delivery,Retained,4333,Retained an active source or command.
+scripts/qa/native_android_public_app_media.py,Media pipeline,Modified,27004,Updated the active source or its review binding.
+scripts/qa/public_browser_app_media.mjs,Media pipeline,Modified,27937,Updated the active source or its review binding.
+scripts/qa/public_browser_local_network.cjs,Verification and delivery,Retained,1075,Retained an active source or command.
+scripts/qa/public_capability_contract.rb,Verification and delivery,Retained,4700,Retained an active source or command.
+scripts/qa/public_content_contract.rb,Verification and delivery,Modified,8717,Updated the active source or its review binding.
+scripts/qa/public_cua_capture_contract.json,Verification and delivery,Retained,1467,Retained an active source or command.
+scripts/qa/public_lighthouse_evidence.rb,Verification and delivery,Retained,4512,Retained an active source or command.
+scripts/qa/public_photo_contrast_qa.mjs,Verification and delivery,Modified,8367,Updated the active source or its review binding.
+scripts/qa/public_static_routes.rb,Verification and delivery,Modified,4687,Updated the active source or its review binding.
+scripts/qa/public_text_contrast_qa.mjs,Verification and delivery,Modified,5181,Updated the active source or its review binding.
+scripts/qa/public_website/checks.rb,Verification and delivery,Added,4318,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/completion_gate.rb,Verification and delivery,Added,5067,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/completion_report.rb,Verification and delivery,Added,9242,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/external_evidence.rb,Verification and delivery,Added,7914,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/http.rb,Verification and delivery,Added,1420,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/indexnow.rb,Verification and delivery,Added,5547,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/live_audit.rb,Verification and delivery,Added,7722,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/static_content.rb,Verification and delivery,Added,17663,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/static_delivery.rb,Verification and delivery,Added,11418,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website/static_routes.rb,Verification and delivery,Added,15380,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website_links.rb,Verification and delivery,Retained,2072,Retained an active source or command.
+scripts/qa/public_website_live_gate.rb,Verification and delivery,Added,20386,Added to support the separated website pipeline or its checks.
+scripts/qa/public_website_static_gate.rb,Verification and delivery,Added,2169,Added to support the separated website pipeline or its checks.
+scripts/qa/serve_public_preview.py,Verification and delivery,Retained,1548,Retained an active source or command.
+scripts/release/release_artifact_manifest.sh,Verification and delivery,Modified,11230,Updated the active source or its review binding.
+scripts/supabase/deployment_profile.py,Verification and delivery,Retained,5978,Retained an active source or command.
+scripts/tests/cloud_public_config_test.rb,Tests,Modified,2716,Updated the active source or its review binding.
+scripts/tests/product_capability_content_test.rb,Tests,Retained,13264,Retained coverage for the website or its shared contracts.
+scripts/tests/public_app_media_test.rb,Tests,Modified,19807,Updated the active source or its review binding.
+scripts/tests/public_browser_graph_test.rb,Tests,Retained,7128,Retained coverage for the website or its shared contracts.
+scripts/tests/public_browser_served_resource_test.mjs,Tests,Retained,8056,Retained coverage for the website or its shared contracts.
+scripts/tests/public_capability_contract_test.rb,Tests,Retained,6817,Retained coverage for the website or its shared contracts.
+scripts/tests/public_configuration_apply_test.mjs,Tests,Retained,17676,Retained coverage for the website or its shared contracts.
+scripts/tests/public_configuration_payload_test.rb,Tests,Retained,6399,Retained coverage for the website or its shared contracts.
+scripts/tests/public_content_contract_test.rb,Tests,Retained,9049,Retained coverage for the website or its shared contracts.
+scripts/tests/public_legal_rendering_test.rb,Tests,Retained,16285,Retained coverage for the website or its shared contracts.
+scripts/tests/public_lighthouse_evidence_test.rb,Tests,Modified,6888,Updated the active source or its review binding.
+scripts/tests/public_media_bootstrap_test.mjs,Tests,Retained,1632,Retained coverage for the website or its shared contracts.
+scripts/tests/public_media_publication_test.py,Tests,Modified,10960,Updated the active source or its review binding.
+scripts/tests/public_media_source_binding_test.py,Tests,Retained,17567,Retained coverage for the website or its shared contracts.
+scripts/tests/public_native_media_provenance_test.rb,Tests,Retained,15432,Retained coverage for the website or its shared contracts.
+scripts/tests/public_native_media_publisher_test.py,Tests,Retained,23110,Retained coverage for the website or its shared contracts.
+scripts/tests/public_photography_test.rb,Tests,Modified,8551,Updated the active source or its review binding.
+scripts/tests/public_static_routes_test.rb,Tests,Modified,14970,Updated the active source or its review binding.
+scripts/tests/public_website_ci_gate_test.rb,Tests,Modified,4657,Updated the active source or its review binding.
+scripts/tests/public_website_gate_http_test.rb,Tests,Added,2726,Added to support the separated website pipeline or its checks.
+scripts/tests/public_website_indexnow_test.rb,Tests,Added,2638,Added to support the separated website pipeline or its checks.
+scripts/tests/public_website_links_test.rb,Tests,Retained,3589,Retained coverage for the website or its shared contracts.
+scripts/tests/test_collect_ci_policy.py,Tests,Modified,62545,Updated the active source or its review binding.
+test/features/share_deep_link_platform_contract_test.dart,Tests,Modified,2328,Updated the active source or its review binding.
+tools/public-photography/README.md,Media pipeline,Retained,1329,Retained an active source or command.
+tools/public-photography/package-lock.json,Media pipeline,Retained,20193,Retained an active source or command.
+tools/public-photography/package.json,Media pipeline,Retained,178,Retained an active source or command.
+web/.well-known/apple-app-site-association,Shared web and app links,Retained,235,Retained an active member-web or platform integration.
+web/.well-known/assetlinks.json,Shared web and app links,Retained,442,Retained an active member-web or platform integration.
+web/_headers,Shared web and app links,Retained,1586,Retained an active member-web or platform integration.
+web/flutter_bootstrap.js,Shared web and app links,Retained,170,Retained an active member-web or platform integration.
+web/icons/collect-web-512.png,Shared web and app links,Retained,92022,Retained an active member-web or platform integration.
+web/index.html,Shared web and app links,Retained,1294,Retained an active member-web or platform integration.
+web/manifest.json,Shared web and app links,Retained,493,Retained an active member-web or platform integration.
+web/public/app-screens/account-deletion-abd540ec627f.png,Website assets and media evidence,Retained,62680,"Retained a live asset, source image or required proof."
+web/public/app-screens/capture-provenance.json,Website assets and media evidence,Modified,4141,Updated the active source or its review binding.
+web/public/app-screens/group-detail-1c2ae1b0570e.png,Website assets and media evidence,Retained,207579,"Retained a live asset, source image or required proof."
+web/public/app-screens/groups-24167a6a7a85.png,Website assets and media evidence,Retained,1342690,"Retained a live asset, source image or required proof."
+web/public/app-screens/home-1eebdcbc4b49.png,Website assets and media evidence,Retained,232242,"Retained a live asset, source image or required proof."
+web/public/app-screens/manifest.json,Website assets and media evidence,Modified,4743,Updated the active source or its review binding.
+web/public/app-screens/privacy-41d08d2e2ec5.png,Website assets and media evidence,Retained,349295,"Retained a live asset, source image or required proof."
+web/public/app-screens/security-a271c1834de4.png,Website assets and media evidence,Retained,169557,"Retained a live asset, source image or required proof."
+web/public/app-screens/terms-c62aaef04827.png,Website assets and media evidence,Retained,325367,"Retained a live asset, source image or required proof."
+web/public/layout.css,Website assets and media evidence,Modified,12260,Updated the active source or its review binding.
+web/public/photography/banking-together-4b392d8a72b7.webp,Website assets and media evidence,Retained,196234,"Retained a live asset, source image or required proof."
+web/public/photography/community-savings-acf6c9fee7c7.webp,Website assets and media evidence,Retained,318848,"Retained a live asset, source image or required proof."
+web/public/photography/everyday-payments-3aae7f653287.webp,Website assets and media evidence,Retained,167936,"Retained a live asset, source image or required proof."
+web/public/photography/kigali-hills-72bbebc09878.webp,Website assets and media evidence,Retained,205150,"Retained a live asset, source image or required proof."
+web/public/photography/kigali-woman-hero-eaa4bb6b9ba1.webp,Website assets and media evidence,Retained,134032,"Retained a live asset, source image or required proof."
+web/public/photography/manifest.json,Website assets and media evidence,Modified,7355,Updated the active source or its review binding.
+web/public/photography/shared-goals-dd2861c45187.webp,Website assets and media evidence,Retained,208760,"Retained a live asset, source image or required proof."
+web/public/revolut.css,Website assets and media evidence,Retained,22078,"Retained a live asset, source image or required proof."
+web/robots.txt,Shared web and app links,Retained,26,Retained an active member-web or platform integration.

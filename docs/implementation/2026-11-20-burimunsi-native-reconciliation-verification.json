@@ -1,0 +1,128 @@
+{
+  "format": "collect.burimunsi.native-reconciliation-verification.v1",
+  "completed_at": "2026-11-20T09:46:33.433918+00:00",
+  "scope": "Local Staff and Admin Sync source, offline SDK build, and synthetic Android API 36 emulator.",
+  "checkout_base": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "reference_cutover": "5c63f65fcaa0b6db7961e5b981edfb9d71f1eeee",
+  "source": {
+    "sha256": "dea072f94a52f02c299632d5e473e4e3cda6f960e07690e1c60bc243599801f7",
+    "files": 339,
+    "native_build_and_qualification_fingerprints_match": true,
+    "verified_restored_native_postimages": 21
+  },
+  "native_routes": [
+    "POST /v1/burimunsi/sms/observations/reconcile",
+    "POST /v1/burimunsi/sms/observations/reconcile-batch",
+    "GET /v1/burimunsi/sms/observations/reconcile-status"
+  ],
+  "offline_queue": {
+    "format": "buri-observation-journal.v1",
+    "baseline": "An empty local queue incorrectly completed Sync while Cloud reported a pending reservation.",
+    "restored": "Admin Sync checks the active group, grant, ordered source keys and Cloud revision before reporting a completed sweep. Metadata comparison carries the body digest and preserves original pending IDs. Only an exact owner, original observation ID, body hash and nonfinancial acknowledgement may remove the pending request.",
+    "verified_unchanged_storage_codec_sha256": "32b073a355f7c4db57a8b89e11fc3ec1b4b4168ae77f0cebb40ff1aaad75fd9f",
+    "verified_unchanged_ack_removal_sha256": "b10828a4edb81df74dece27fea4028a691ecded6368344f5eda2fa537f5018dc"
+  },
+  "host": {
+    "verify_all_exit": 0,
+    "pipeline_tests": {
+      "passed": 148,
+      "failed": 0
+    },
+    "adapter": {
+      "previous_suite_passed": 78,
+      "new_pending_reservation_regression_failed_before": true,
+      "expanded_suite_passed": 117,
+      "failed": 0
+    },
+    "api_client_synthetic_http": {
+      "passed": 256,
+      "failed": 0
+    },
+    "session_bootstrap": {
+      "before": {
+        "passed": 8,
+        "failed": 10
+      },
+      "after": {
+        "passed": 18,
+        "failed": 0
+      }
+    },
+    "existing_cross_layer_command_tests_passed": 64,
+    "shared_burimunsi_node_tests": {
+      "passed": 2657,
+      "failed": 0,
+      "skipped": 7,
+      "skip_reason": "Seven integration tests require a separately configured PostgreSQL fixture."
+    }
+  },
+  "sdk": {
+    "build": "clean Gradle core, managed transport, lint and assembly for both flavors",
+    "status": "PASS",
+    "gradle_tasks": 359,
+    "inspected_and_rehashed_apks": 8,
+    "variants": [
+      "debug",
+      "unsigned optimized qualification",
+      "nativeTest",
+      "nativeTest Android instrumentation"
+    ]
+  },
+  "instrumentation": {
+    "status": "PASS",
+    "android_api": 36,
+    "device": "Synthetic arm64-v8a emulator",
+    "staff": {
+      "expected": 69,
+      "passed": 69,
+      "failed": 0
+    },
+    "admin_sync": {
+      "expected": 88,
+      "passed": 88,
+      "failed": 0
+    },
+    "admin_sync_queue_regression": "app.cool.mobile.receiver_sms.GatewayDurabilityTest#preReconciliationQueueKeepsOriginalIdentityUntilExactAcknowledgement",
+    "payment_reference_both_flavors": "rw.ikanisa.burimunsi.NativeUiContractTest#paymentReferenceAndProviderIdDisplayIndependently",
+    "test_packages_removed": 4,
+    "disposable_emulator_removed": true
+  },
+  "package_version": {
+    "tested_checkout": {
+      "code": 42,
+      "name": "0.23.0-collect.20"
+    },
+    "attested_cutover": {
+      "code": 44,
+      "name": "0.23.0-collect.22"
+    },
+    "higher_verified_testing_candidate": {
+      "code": 48,
+      "name": "0.23.0-collect.26",
+      "signed_two_flavor_receipt_sha256": "de64c379ac5714d17f03350caa8a3cdab5371d4326a3c00ac7d0aad288ff0cbe",
+      "separate_qualification_receipt_sha256": "1199fecff46e735889dc673ba87602896206a7b969516791e2d8478f6a527838",
+      "production_authorized": false,
+      "distribution_authorized": false
+    },
+    "compatibility": "The tested checkout retains code 42. Android treats code 42 as a downgrade from code 44 or 48 for the same application ID. The nativeTest and qualification packages have separate IDs."
+  },
+  "local_evidence_directory": ".cache/burimunsi-observation-reconciliation-20261120",
+  "evidence_sha256": {
+    "integration-manifest.json": "c13d67dcb651622fa750cadbced0470946a74cd18cf13045e907cbda729c0db3",
+    "queue-compatibility.json": "2708d1177c4334ff273aff379044f156078251e1078b7be841cefbe74e5f5fd0",
+    "baseline-cloud-reservation.log": "93a58bd9fb0eeac7e736d43034f5decece4152ec5d2692e3627687fea8f6013c",
+    "combined-host.log": "9af0b51651d871970ae2d42abb9c5902e7d14ce4b42e8a48ade20d425d206d35",
+    "pipeline-host.log": "ae240dc949d8dfde916334c38d1aac2a3bb511bfbf62afc11a7a153e297b64a6",
+    "sdk-build/build-result.json": "73ec99c600a9baf0f44c846f51897c40bd0990147821796229983f5e59e456bc",
+    "sdk-build/artifacts.json": "f3d45ba7197b22703d407c16f5c1fa88258dbd6514b3799df42bce073e1c9f1f",
+    "api36/instrumentation-result.json": "3a673c8a8c5625cf3d7fdd2cee1888ad48a9aed1c4b432a65a3d1fdaa0fac19e",
+    "api36/staff-instrumentation.json": "440b4524eeabb363ff9ad79430a184895943a08b2ddff00a30dfe3ecbec4a2b1",
+    "api36/internal_receiver-instrumentation.json": "e2c915a9f72ae7fd7c2638ada3e71a22bffaea1255073a5e3da7e4c20af9cd79",
+    "versions.json": "e59d22d061ea0d03cc1c6f74300a9f51aed308af9854f93442faf251a975ad02"
+  },
+  "release": {
+    "provider_sms_exercised": false,
+    "production_deployment": false,
+    "in_place_upgrade_of_distributed_package_executed": false
+  }
+}

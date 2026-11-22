@@ -1,0 +1,15 @@
+{
+  "rows": [],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "c0574327-4eeb-4cd4-a43a-e5ad1d918135",
+  "status": "partial",
+  "section": "budget_refusals",
+  "checked_at": "2026-10-02T00:14:47.079170Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T00:15:47.079170Z"
+}

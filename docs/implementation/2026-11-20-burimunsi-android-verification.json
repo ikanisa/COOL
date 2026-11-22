@@ -1,0 +1,145 @@
+{
+  "scope": "Local offline-configured BuriMunsi source build and Android API 36 emulator verification.",
+  "checkout_base": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "native_source_sha256": "5dd93a96acde0f2d3279ff9dbd05d948bffcd8d8ecd6ac85a431b8f7a2b257ac",
+  "build_run": "302ab53f-04da-495a-80bf-3f8fa66b244b",
+  "instrumentation_run": "8f70fa0f-a36d-4ac7-9be3-80e1ff92062d",
+  "finished_at": "2026-11-20T08:30:49.906004+00:00",
+  "api_level": 36,
+  "device": "Fresh synthetic arm64-v8a emulator",
+  "artifacts": [
+    {
+      "spec": {
+        "flavor": "staff",
+        "kind": "debug",
+        "test": false
+      },
+      "package": "rw.ikanisa.burimunsi.staff.cloud.debug",
+      "bytes": 12553176,
+      "sha256": "4ed9904a0187935a684180fd6ac5a920caad9bdb15df6e89ce564bd6e3558108",
+      "signature_verified": true,
+      "optimized_unsigned_qualification": false
+    },
+    {
+      "spec": {
+        "flavor": "staff",
+        "kind": "qualification",
+        "test": false
+      },
+      "package": "rw.ikanisa.burimunsi.staff.cloud.qualification",
+      "bytes": 1923220,
+      "sha256": "72eb788f765cef7f7263a8a279378b02ea276a2fed7e34cc7cfd258fd316fa9d",
+      "signature_verified": false,
+      "optimized_unsigned_qualification": true
+    },
+    {
+      "spec": {
+        "flavor": "staff",
+        "kind": "nativeTest",
+        "test": false
+      },
+      "package": "rw.ikanisa.burimunsi.staff.cloud.nativeTest",
+      "bytes": 12438077,
+      "sha256": "820e21a4b70839371514fe5078375f4557ef633b69b9922c509e72990f947589",
+      "signature_verified": true,
+      "optimized_unsigned_qualification": false
+    },
+    {
+      "spec": {
+        "flavor": "internal_receiver",
+        "kind": "debug",
+        "test": false
+      },
+      "package": "rw.ikanisa.burimunsi.gateway.cloud.debug",
+      "bytes": 12783612,
+      "sha256": "cf43e226a33d7932200934d98aa2b80e5b6b5eafbc6654b6f3dadf60586b83bd",
+      "signature_verified": true,
+      "optimized_unsigned_qualification": false
+    },
+    {
+      "spec": {
+        "flavor": "internal_receiver",
+        "kind": "qualification",
+        "test": false
+      },
+      "package": "rw.ikanisa.burimunsi.gateway.cloud.qualification",
+      "bytes": 1957069,
+      "sha256": "7894fcf943f48385f3d1f8fadd56083e7cc0dce5ed0758dc860e236aa7a407ba",
+      "signature_verified": false,
+      "optimized_unsigned_qualification": true
+    },
+    {
+      "spec": {
+        "flavor": "internal_receiver",
+        "kind": "nativeTest",
+        "test": false
+      },
+      "package": "rw.ikanisa.burimunsi.gateway.cloud.nativeTest",
+      "bytes": 12668517,
+      "sha256": "3806b08986e2f3cab71643a1341215801fb86a9d272e5ca5cd02d7e9189bdcb8",
+      "signature_verified": true,
+      "optimized_unsigned_qualification": false
+    },
+    {
+      "spec": {
+        "flavor": "staff",
+        "kind": "nativeTest",
+        "test": true
+      },
+      "package": "rw.ikanisa.burimunsi.staff.cloud.nativeTest.test",
+      "bytes": 1206567,
+      "sha256": "ec9a6618712353d4cbdd13504fbb07b34938265192805d69544f9cc838037460",
+      "signature_verified": true,
+      "optimized_unsigned_qualification": false
+    },
+    {
+      "spec": {
+        "flavor": "internal_receiver",
+        "kind": "nativeTest",
+        "test": true
+      },
+      "package": "rw.ikanisa.burimunsi.gateway.cloud.nativeTest.test",
+      "bytes": 1235409,
+      "sha256": "82f18b2ad264f11f177b2f3be781b35dcbbbf7205b3273f53718f971609ad5d9",
+      "signature_verified": true,
+      "optimized_unsigned_qualification": false
+    }
+  ],
+  "flavors": [
+    {
+      "flavor": "staff",
+      "expected": 68,
+      "passed": 68,
+      "case_inventory_sha256": "8c5b5c6283806e5b7a2bc66da4fc44296ada3f7b23ab1a39fcd87992a332183e"
+    },
+    {
+      "flavor": "internal_receiver",
+      "expected": 86,
+      "passed": 86,
+      "case_inventory_sha256": "e298b821be5c6521e996ace313689904a9b57c5dd91bf146ba12e20b59e42c91"
+    }
+  ],
+  "owned_packages_removed": 4,
+  "evidence": [
+    {
+      "file": ".cache/burimunsi-goal-20261120-build/build-result.json",
+      "sha256": "8ec9139653bf7047f11fb9699534646077978fa48ddee0b87f9339985efa342b"
+    },
+    {
+      "file": ".cache/burimunsi-goal-20261120-build/artifacts.json",
+      "sha256": "473452b7cae37e48f9967bb08c511a92e96698588a17ee97a75da95786c2bcad"
+    },
+    {
+      "file": ".cache/burimunsi-goal-20261120-build/source-fingerprint.json",
+      "sha256": "58c97f9b19ffea2667c4ce743ca3300a2325682b5442c68537e57b44b8007443"
+    },
+    {
+      "file": ".cache/burimunsi-goal-20261120-api36/instrumentation-result.json",
+      "sha256": "a5f895b78b911fc4d4df74b0f9036b6bb5fea0f6249e383fb03ad84ad770c2c1"
+    }
+  ],
+  "private_carrier_corpus_executed": false,
+  "physical_device_tested": false,
+  "hosted_operations_exercised": false,
+  "store_release_qualified": false
+}

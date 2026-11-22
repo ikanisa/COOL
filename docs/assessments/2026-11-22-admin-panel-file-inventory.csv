@@ -1,0 +1,978 @@
+path,area,role,change,baseline_bytes,current_bytes,verification_basis
+.github/workflows/burimunsi-native.yml,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Modified,5493,5581,Build receipt or targeted contract verification
+.github/workflows/ci.yml,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,33925,33925,Build receipt or targeted contract verification
+.github/workflows/supabase.yml,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,59308,59308,Build receipt or targeted contract verification
+admin-web/.gitignore,React Admin,"Build, public asset or package input",Retained,50,50,Locked build and PWA verification
+admin-web/README.md,React Admin,"Build, public asset or package input",Retained,4990,4990,Locked build and PWA verification
+admin-web/eslint.config.js,React Admin,"Build, public asset or package input",Retained,533,533,Locked build and PWA verification
+admin-web/index.html,React Admin,"Build, public asset or package input",Retained,609,609,Locked build and PWA verification
+admin-web/package-lock.json,React Admin,"Build, public asset or package input",Retained,131014,131014,Locked build and PWA verification
+admin-web/package.json,React Admin,"Build, public asset or package input",Retained,1219,1219,Locked build and PWA verification
+admin-web/public/icons/collect-web-512.png,React Admin,"Build, public asset or package input",Retained,92022,92022,Locked build and PWA verification
+admin-web/public/licenses/OFL-Inter.txt,React Admin,"Build, public asset or package input",Retained,4377,4377,Locked build and PWA verification
+admin-web/scripts/build-admin.mjs,React Admin,"Build, public asset or package input",Modified,9843,6179,Locked build and PWA verification
+admin-web/scripts/build-configuration.mjs,React Admin,"Build, public asset or package input",Added,,2101,Locked build and PWA verification
+admin-web/scripts/build-identity.mjs,React Admin,"Build, public asset or package input",Added,,1992,Locked build and PWA verification
+admin-web/scripts/generate-notices.mjs,React Admin,"Build, public asset or package input",Retained,3200,3200,Locked build and PWA verification
+admin-web/scripts/package-pwa.mjs,React Admin,"Build, public asset or package input",Modified,12250,9295,Locked build and PWA verification
+admin-web/scripts/pwa-assets.mjs,React Admin,"Build, public asset or package input",Added,,2251,Locked build and PWA verification
+admin-web/scripts/pwa-hosting.mjs,React Admin,"Build, public asset or package input",Added,,1429,Locked build and PWA verification
+admin-web/scripts/source-inputs.json,React Admin,"Build, public asset or package input",Retained,3477,3477,Locked build and PWA verification
+admin-web/scripts/verify-live.mjs,React Admin,"Build, public asset or package input",Modified,4275,4200,Locked build and PWA verification
+admin-web/src/api/client.ts,React Admin,Runtime source or assets,Modified,15351,3976,"Type check, lint and owning feature suites"
+admin-web/src/api/contracts.ts,React Admin,Runtime source or assets,Added,,1980,"Type check, lint and owning feature suites"
+admin-web/src/api/requestPolicy.ts,React Admin,Runtime source or assets,Added,,6299,"Type check, lint and owning feature suites"
+admin-web/src/api/responses.ts,React Admin,Runtime source or assets,Added,,5838,"Type check, lint and owning feature suites"
+admin-web/src/app/App.tsx,React Admin,Runtime source or assets,Modified,2990,2903,"Type check, lint and owning feature suites"
+admin-web/src/app/SessionRoutes.tsx,React Admin,Runtime source or assets,Modified,6544,6651,"Type check, lint and owning feature suites"
+admin-web/src/app/UnavailablePage.tsx,React Admin,Runtime source or assets,Retained,393,393,"Type check, lint and owning feature suites"
+admin-web/src/app/WorkspaceRoutes.tsx,React Admin,Runtime source or assets,Retained,857,857,"Type check, lint and owning feature suites"
+admin-web/src/app/authority.ts,React Admin,Runtime source or assets,Modified,420,363,"Type check, lint and owning feature suites"
+admin-web/src/app/route-access.ts,React Admin,Runtime source or assets,Retained,4334,4334,"Type check, lint and owning feature suites"
+admin-web/src/app/sensitive-access.ts,React Admin,Runtime source or assets,Modified,1033,1017,"Type check, lint and owning feature suites"
+admin-web/src/app/transaction-view.css,React Admin,Runtime source or assets,Retained,89,89,CSS source comparison and compiled browser checks
+admin-web/src/app/workspace/access.ts,React Admin,Runtime source or assets,Retained,1386,1386,"Type check, lint and owning feature suites"
+admin-web/src/app/workspace/account-routes.tsx,React Admin,Runtime source or assets,Modified,2339,2321,"Type check, lint and owning feature suites"
+admin-web/src/app/workspace/financial-routes.tsx,React Admin,Runtime source or assets,Retained,6409,6409,"Type check, lint and owning feature suites"
+admin-web/src/app/workspace/operator-routes.tsx,React Admin,Runtime source or assets,Modified,4698,4716,"Type check, lint and owning feature suites"
+admin-web/src/app/workspace/record-routes.tsx,React Admin,Runtime source or assets,Modified,8035,8043,"Type check, lint and owning feature suites"
+admin-web/src/config.ts,React Admin,Runtime source or assets,Retained,2903,2903,"Type check, lint and owning feature suites"
+admin-web/src/custodyRealm.ts,React Admin,Runtime source or assets,Retained,1707,1707,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/AssistedSmsPage.tsx,React Admin,Runtime source or assets,Retained,10603,10603,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/OperatorPanel.tsx,React Admin,Runtime source or assets,Retained,13339,13339,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/SmsControlsPage.tsx,React Admin,Runtime source or assets,Modified,45849,29743,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/assistedGateway.ts,React Admin,Runtime source or assets,Retained,7115,7115,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/operatorWorkflow.ts,React Admin,Runtime source or assets,Retained,35227,35227,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/smsAccessMutations.ts,React Admin,Runtime source or assets,Modified,10151,10155,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/smsControlContracts.ts,React Admin,Runtime source or assets,Added,,16296,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/smsControlRecovery.ts,React Admin,Runtime source or assets,Retained,3169,3169,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/smsMaterializationStatus.ts,React Admin,Runtime source or assets,Retained,7696,7696,"Type check, lint and owning feature suites"
+admin-web/src/features/assisted/smsPolicyMutations.ts,React Admin,Runtime source or assets,Modified,11964,11968,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/BuriMunsiPage.tsx,React Admin,Runtime source or assets,Retained,24297,24297,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/NATIVE_ACCESS_BOUNDARY.md,React Admin,Runtime source or assets,Retained,2735,2735,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/NativeProvisioningPanel.tsx,React Admin,Runtime source or assets,Retained,14246,14246,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/NativeRevocationPanel.tsx,React Admin,Runtime source or assets,Retained,5847,5847,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/OPERATOR_APPROVAL_BOUNDARY.md,React Admin,Runtime source or assets,Retained,2588,2588,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/OperatorApprovalPreview.tsx,React Admin,Runtime source or assets,Retained,7405,7405,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/contracts.ts,React Admin,Runtime source or assets,Retained,11954,11954,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/index.ts,React Admin,Runtime source or assets,Retained,108,108,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/nativeAccess.ts,React Admin,Runtime source or assets,Retained,3964,3964,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/nativeProvisioning.ts,React Admin,Runtime source or assets,Retained,28030,28030,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/nativeRevocation.ts,React Admin,Runtime source or assets,Retained,17369,17369,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/operatorApproval.ts,React Admin,Runtime source or assets,Retained,14377,14377,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/operatorPreparation.ts,React Admin,Runtime source or assets,Retained,3417,3417,"Type check, lint and owning feature suites"
+admin-web/src/features/burimunsi/recovery.ts,React Admin,Runtime source or assets,Retained,8056,8056,"Type check, lint and owning feature suites"
+admin-web/src/features/core/CoreListPage.tsx,React Admin,Runtime source or assets,Added,,11747,"Type check, lint and owning feature suites"
+admin-web/src/features/core/CorePages.tsx,React Admin,Runtime source or assets,Removed,41157,,Caller and contract review before deletion
+admin-web/src/features/core/CoreRecordPage.tsx,React Admin,Runtime source or assets,Added,,9058,"Type check, lint and owning feature suites"
+admin-web/src/features/core/CoreRelatedRecords.tsx,React Admin,Runtime source or assets,Added,,7978,"Type check, lint and owning feature suites"
+admin-web/src/features/core/GroupCreatePage.tsx,React Admin,Runtime source or assets,Modified,22525,20851,"Type check, lint and owning feature suites"
+admin-web/src/features/core/GroupEditPage.tsx,React Admin,Runtime source or assets,Retained,20472,20472,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyGroupOwnershipReview.tsx,React Admin,Runtime source or assets,Retained,5283,5283,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyGroupPage.tsx,React Admin,Runtime source or assets,Retained,31677,31677,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyJournalCreatePage.tsx,React Admin,Runtime source or assets,Retained,33869,33869,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyJournalEditPage.tsx,React Admin,Runtime source or assets,Retained,32665,32665,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyJournalPostPage.tsx,React Admin,Runtime source or assets,Retained,25116,25116,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyMembershipPage.tsx,React Admin,Runtime source or assets,Retained,17384,17384,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyPayeeCreatePage.tsx,React Admin,Runtime source or assets,Retained,17952,17952,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyPersonAccessPage.tsx,React Admin,Runtime source or assets,Retained,16795,16795,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyUserCreatePage.tsx,React Admin,Runtime source or assets,Retained,13928,13928,"Type check, lint and owning feature suites"
+admin-web/src/features/core/LegacyUserEditPage.tsx,React Admin,Runtime source or assets,Retained,16639,16639,"Type check, lint and owning feature suites"
+admin-web/src/features/core/MembershipCreatePage.tsx,React Admin,Runtime source or assets,Modified,17919,17411,"Type check, lint and owning feature suites"
+admin-web/src/features/core/MembershipEditPage.tsx,React Admin,Runtime source or assets,Retained,18688,18688,"Type check, lint and owning feature suites"
+admin-web/src/features/core/PayeeEditPage.tsx,React Admin,Runtime source or assets,Retained,14819,14819,"Type check, lint and owning feature suites"
+admin-web/src/features/core/TransactionEvidencePage.tsx,React Admin,Runtime source or assets,Retained,29739,29739,"Type check, lint and owning feature suites"
+admin-web/src/features/core/TransactionReversePage.tsx,React Admin,Runtime source or assets,Retained,20388,20388,"Type check, lint and owning feature suites"
+admin-web/src/features/core/UserCreatePage.tsx,React Admin,Runtime source or assets,Retained,16115,16115,"Type check, lint and owning feature suites"
+admin-web/src/features/core/UserEditPage.tsx,React Admin,Runtime source or assets,Retained,20301,20301,"Type check, lint and owning feature suites"
+admin-web/src/features/core/collectPeopleLookup.ts,React Admin,Runtime source or assets,Added,,2023,"Type check, lint and owning feature suites"
+admin-web/src/features/core/contracts.ts,React Admin,Runtime source or assets,Retained,11080,11080,"Type check, lint and owning feature suites"
+admin-web/src/features/core/core.css,React Admin,Runtime source or assets,Retained,1415,1415,CSS source comparison and compiled browser checks
+admin-web/src/features/core/coreRecordActions.ts,React Admin,Runtime source or assets,Added,,7429,"Type check, lint and owning feature suites"
+admin-web/src/features/core/legacyGroupActions.ts,React Admin,Runtime source or assets,Retained,44618,44618,"Type check, lint and owning feature suites"
+admin-web/src/features/core/legacyGroupOwnership.ts,React Admin,Runtime source or assets,Retained,8261,8261,"Type check, lint and owning feature suites"
+admin-web/src/features/core/legacyMembershipActions.ts,React Admin,Runtime source or assets,Retained,26064,26064,"Type check, lint and owning feature suites"
+admin-web/src/features/core/legacyPersonAccess.ts,React Admin,Runtime source or assets,Retained,19452,19452,"Type check, lint and owning feature suites"
+admin-web/src/features/core/legacyUserCreate.ts,React Admin,Runtime source or assets,Retained,15402,15402,"Type check, lint and owning feature suites"
+admin-web/src/features/core/legacyUserEdit.ts,React Admin,Runtime source or assets,Retained,21600,21600,"Type check, lint and owning feature suites"
+admin-web/src/features/core/pendingAttempt.ts,React Admin,Runtime source or assets,Retained,13958,13958,"Type check, lint and owning feature suites"
+admin-web/src/features/core/relatedRecordContract.ts,React Admin,Runtime source or assets,Added,,2236,"Type check, lint and owning feature suites"
+admin-web/src/features/core/types.ts,React Admin,Runtime source or assets,Retained,1513,1513,"Type check, lint and owning feature suites"
+admin-web/src/features/ledger-accounts/LedgerAccountPages.tsx,React Admin,Runtime source or assets,Retained,15550,15550,"Type check, lint and owning feature suites"
+admin-web/src/features/ledger-accounts/actions.ts,React Admin,Runtime source or assets,Retained,12851,12851,"Type check, lint and owning feature suites"
+admin-web/src/features/ledger-accounts/contracts.ts,React Admin,Runtime source or assets,Retained,1759,1759,"Type check, lint and owning feature suites"
+admin-web/src/features/ledger-accounts/ledgerAccounts.css,React Admin,Runtime source or assets,Retained,970,970,CSS source comparison and compiled browser checks
+admin-web/src/features/legacy-ledger-accounts/LegacyLedgerAccountCreatePage.tsx,React Admin,Runtime source or assets,Retained,14241,14241,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-ledger-accounts/actions.ts,React Admin,Runtime source or assets,Retained,16232,16232,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-payees/LegacyPayeeEditPage.tsx,React Admin,Runtime source or assets,Retained,13003,13003,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-payees/actions.ts,React Admin,Runtime source or assets,Retained,20884,20884,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-transactions/LegacyTransactionActions.tsx,React Admin,Runtime source or assets,Retained,18089,18089,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-transactions/LegacyTransactionCreate.tsx,React Admin,Runtime source or assets,Retained,23367,23367,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-transactions/actions.ts,React Admin,Runtime source or assets,Retained,24163,24163,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-transactions/create.ts,React Admin,Runtime source or assets,Retained,22861,22861,"Type check, lint and owning feature suites"
+admin-web/src/features/legacy-transactions/createSource.ts,React Admin,Runtime source or assets,Retained,4351,4351,"Type check, lint and owning feature suites"
+admin-web/src/features/licenses/LicensesPage.tsx,React Admin,Runtime source or assets,Retained,1359,1359,"Type check, lint and owning feature suites"
+admin-web/src/features/licenses/licenses.css,React Admin,Runtime source or assets,Retained,568,568,CSS source comparison and compiled browser checks
+admin-web/src/features/notes/OperatorNotes.tsx,React Admin,Runtime source or assets,Retained,12455,12455,"Type check, lint and owning feature suites"
+admin-web/src/features/notes/noteActions.ts,React Admin,Runtime source or assets,Retained,8222,8222,"Type check, lint and owning feature suites"
+admin-web/src/features/notes/notes.css,React Admin,Runtime source or assets,Retained,769,769,CSS source comparison and compiled browser checks
+admin-web/src/features/operations/EmailDispatchPanel.tsx,React Admin,Runtime source or assets,Retained,8380,8380,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/EmailEventsPage.tsx,React Admin,Runtime source or assets,Added,,1608,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/GatewayActivationPanel.tsx,React Admin,Runtime source or assets,Removed,9629,,Caller and contract review before deletion
+admin-web/src/features/operations/GatewayDevicePages.tsx,React Admin,Runtime source or assets,Added,,5072,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/GatewayEnrollmentPage.tsx,React Admin,Runtime source or assets,Retained,11903,11903,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/GatewayRevocationPanel.tsx,React Admin,Runtime source or assets,Removed,9291,,Caller and contract review before deletion
+admin-web/src/features/operations/GatewayTrustPanel.tsx,React Admin,Runtime source or assets,Added,,11218,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/MemberReceiptPages.tsx,React Admin,Runtime source or assets,Added,,3549,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/MemberReceiptRevealPanel.tsx,React Admin,Runtime source or assets,Retained,5708,5708,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/MomoAssignmentPanel.tsx,React Admin,Runtime source or assets,Retained,16381,16381,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/MomoConflictReviewPanel.tsx,React Admin,Runtime source or assets,Retained,12903,12903,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/MomoReceiptsPage.tsx,React Admin,Runtime source or assets,Retained,23824,23824,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/MomoSourceActionsPanel.tsx,React Admin,Runtime source or assets,Retained,19026,19026,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/MomoSourceRevealPanel.tsx,React Admin,Runtime source or assets,Retained,6995,6995,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/OperationsPages.tsx,React Admin,Runtime source or assets,Removed,32366,,Caller and contract review before deletion
+admin-web/src/features/operations/OperationsRecords.tsx,React Admin,Runtime source or assets,Added,,14218,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/ReceiverGrantActionPanel.tsx,React Admin,Runtime source or assets,Retained,8789,8789,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/ReceiverGrantCreatePanel.tsx,React Admin,Runtime source or assets,Retained,14258,14258,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/ReceiverGrantPages.tsx,React Admin,Runtime source or assets,Added,,3939,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/SmsActionPanel.tsx,React Admin,Runtime source or assets,Retained,10539,10539,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/SmsReceiptPages.tsx,React Admin,Runtime source or assets,Added,,6156,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/contracts.ts,React Admin,Runtime source or assets,Retained,22383,22383,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/emailActions.ts,React Admin,Runtime source or assets,Retained,9562,9562,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/gatewayActivation.ts,React Admin,Runtime source or assets,Retained,13518,13518,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/gatewayEnrollment.ts,React Admin,Runtime source or assets,Retained,15974,15974,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/gatewayRevocation.ts,React Admin,Runtime source or assets,Retained,13261,13261,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/memberReceiptReveal.ts,React Admin,Runtime source or assets,Retained,3369,3369,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/momoAssignment.ts,React Admin,Runtime source or assets,Retained,17853,17853,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/momoConflict.ts,React Admin,Runtime source or assets,Retained,17487,17487,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/momoContracts.ts,React Admin,Runtime source or assets,Retained,8006,8006,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/momoSourceActions.ts,React Admin,Runtime source or assets,Retained,20232,20232,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/momoSourceReveal.ts,React Admin,Runtime source or assets,Retained,3881,3881,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/operations.css,React Admin,Runtime source or assets,Retained,3126,3126,CSS source comparison and compiled browser checks
+admin-web/src/features/operations/pendingFence.ts,React Admin,Runtime source or assets,Retained,6287,6287,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/receiverGrantActions.ts,React Admin,Runtime source or assets,Retained,10513,10513,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/receiverGrantCreation.ts,React Admin,Runtime source or assets,Retained,17308,17308,"Type check, lint and owning feature suites"
+admin-web/src/features/operations/smsActions.ts,React Admin,Runtime source or assets,Retained,10888,10888,"Type check, lint and owning feature suites"
+admin-web/src/features/overview/OverviewPage.tsx,React Admin,Runtime source or assets,Retained,4135,4135,"Type check, lint and owning feature suites"
+admin-web/src/features/overview/SmsOversight.tsx,React Admin,Runtime source or assets,Retained,9343,9343,"Type check, lint and owning feature suites"
+admin-web/src/features/overview/overview.css,React Admin,Runtime source or assets,Retained,2236,2236,CSS source comparison and compiled browser checks
+admin-web/src/features/overview/overview.ts,React Admin,Runtime source or assets,Retained,5071,5071,"Type check, lint and owning feature suites"
+admin-web/src/features/privacy/PrivacyPage.tsx,React Admin,Runtime source or assets,Retained,24249,24249,"Type check, lint and owning feature suites"
+admin-web/src/features/privacy/contracts.ts,React Admin,Runtime source or assets,Retained,17254,17254,"Type check, lint and owning feature suites"
+admin-web/src/features/privacy/journal.ts,React Admin,Runtime source or assets,Retained,4060,4060,"Type check, lint and owning feature suites"
+admin-web/src/features/privacy/privacy.css,React Admin,Runtime source or assets,Retained,470,470,CSS source comparison and compiled browser checks
+admin-web/src/features/receipt-review/ReceiptReviewPanel.tsx,React Admin,Runtime source or assets,Retained,17844,17844,"Type check, lint and owning feature suites"
+admin-web/src/features/receipt-review/index.ts,React Admin,Runtime source or assets,Retained,87,87,"Type check, lint and owning feature suites"
+admin-web/src/features/receipt-review/review.ts,React Admin,Runtime source or assets,Retained,18085,18085,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/CanonicalActions.tsx,React Admin,Runtime source or assets,Retained,19365,19365,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/LegacyReconciliationActions.tsx,React Admin,Runtime source or assets,Retained,17231,17231,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/ReconciliationPages.tsx,React Admin,Runtime source or assets,Retained,16570,16570,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/actions.ts,React Admin,Runtime source or assets,Retained,18772,18772,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/contracts.ts,React Admin,Runtime source or assets,Retained,10804,10804,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/custody.ts,React Admin,Runtime source or assets,Retained,1067,1067,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/index.ts,React Admin,Runtime source or assets,Retained,225,225,"Type check, lint and owning feature suites"
+admin-web/src/features/reconciliation/legacyActions.ts,React Admin,Runtime source or assets,Retained,38342,38342,"Type check, lint and owning feature suites"
+admin-web/src/features/requests/CancellationPanel.tsx,React Admin,Runtime source or assets,Retained,10011,10011,"Type check, lint and owning feature suites"
+admin-web/src/features/requests/RequestHistoryPage.tsx,React Admin,Runtime source or assets,Retained,10660,10660,"Type check, lint and owning feature suites"
+admin-web/src/features/requests/cancellation.ts,React Admin,Runtime source or assets,Retained,10549,10549,"Type check, lint and owning feature suites"
+admin-web/src/features/requests/contracts.ts,React Admin,Runtime source or assets,Retained,8980,8980,"Type check, lint and owning feature suites"
+admin-web/src/features/requests/permissions.ts,React Admin,Runtime source or assets,Retained,445,445,"Type check, lint and owning feature suites"
+admin-web/src/features/requests/requests.css,React Admin,Runtime source or assets,Retained,1198,1198,CSS source comparison and compiled browser checks
+admin-web/src/features/route-compat/GroupSelectionPage.tsx,React Admin,Runtime source or assets,Retained,5021,5021,"Type check, lint and owning feature suites"
+admin-web/src/generated/notices.json,React Admin,Runtime source or assets,Retained,19276,19276,Notices generator and package verification
+admin-web/src/layout/AdminAccountMenu.tsx,React Admin,Runtime source or assets,Added,,1870,"Type check, lint and owning feature suites"
+admin-web/src/layout/AdminShell.tsx,React Admin,Runtime source or assets,Modified,8068,7070,"Type check, lint and owning feature suites"
+admin-web/src/main.tsx,React Admin,Runtime source or assets,Retained,1885,1885,"Type check, lint and owning feature suites"
+admin-web/src/pwa-registration.ts,React Admin,Runtime source or assets,Retained,568,568,"Type check, lint and owning feature suites"
+admin-web/src/session/AccountSecurityPage.tsx,React Admin,Runtime source or assets,Added,,3570,"Type check, lint and owning feature suites"
+admin-web/src/session/AdminSessionController.ts,React Admin,Runtime source or assets,Modified,25267,22512,"Type check, lint and owning feature suites"
+admin-web/src/session/AuthFrame.tsx,React Admin,Runtime source or assets,Added,,756,"Type check, lint and owning feature suites"
+admin-web/src/session/AuthPages.tsx,React Admin,Runtime source or assets,Removed,18195,,Caller and contract review before deletion
+admin-web/src/session/AuthenticatorPage.tsx,React Admin,Runtime source or assets,Modified,11149,8252,"Type check, lint and owning feature suites"
+admin-web/src/session/CloudflareTeamPanel.tsx,React Admin,Runtime source or assets,Added,,12002,"Type check, lint and owning feature suites"
+admin-web/src/session/LoginPage.tsx,React Admin,Runtime source or assets,Added,,5539,"Type check, lint and owning feature suites"
+admin-web/src/session/ManagedTeamPanel.tsx,React Admin,Runtime source or assets,Added,,12844,"Type check, lint and owning feature suites"
+admin-web/src/session/PasswordRecoveryPages.tsx,React Admin,Runtime source or assets,Added,,4347,"Type check, lint and owning feature suites"
+admin-web/src/session/SensitiveEmailVerificationPage.tsx,React Admin,Runtime source or assets,Added,,4950,"Type check, lint and owning feature suites"
+admin-web/src/session/SessionProvider.tsx,React Admin,Runtime source or assets,Modified,2938,3009,"Type check, lint and owning feature suites"
+admin-web/src/session/TeamPage.tsx,React Admin,Runtime source or assets,Modified,34836,5876,"Type check, lint and owning feature suites"
+admin-web/src/session/adminEmail.ts,React Admin,Runtime source or assets,Added,,1004,"Type check, lint and owning feature suites"
+admin-web/src/session/adminSignIn.ts,React Admin,Runtime source or assets,Modified,8916,8980,"Type check, lint and owning feature suites"
+admin-web/src/session/auth.css,React Admin,Runtime source or assets,Retained,1889,1889,CSS source comparison and compiled browser checks
+admin-web/src/session/authenticatorResponses.ts,React Admin,Runtime source or assets,Added,,3329,"Type check, lint and owning feature suites"
+admin-web/src/session/captcha.ts,React Admin,Runtime source or assets,Retained,4126,4126,"Type check, lint and owning feature suites"
+admin-web/src/session/cloudflareTeamMutations.ts,React Admin,Runtime source or assets,Added,,18195,"Type check, lint and owning feature suites"
+admin-web/src/session/google.ts,React Admin,Runtime source or assets,Retained,5456,5456,"Type check, lint and owning feature suites"
+admin-web/src/session/invitationRecovery.ts,React Admin,Runtime source or assets,Modified,6654,6565,"Type check, lint and owning feature suites"
+admin-web/src/session/logoutIntent.ts,React Admin,Runtime source or assets,Retained,1937,1937,"Type check, lint and owning feature suites"
+admin-web/src/session/managedAuthenticator.ts,React Admin,Runtime source or assets,Modified,14189,14242,"Type check, lint and owning feature suites"
+admin-web/src/session/managedLogout.ts,React Admin,Runtime source or assets,Retained,4490,4490,"Type check, lint and owning feature suites"
+admin-web/src/session/managedTeamMutations.ts,React Admin,Runtime source or assets,Added,,14486,"Type check, lint and owning feature suites"
+admin-web/src/session/mfaAuthority.ts,React Admin,Runtime source or assets,Modified,3283,3338,"Type check, lint and owning feature suites"
+admin-web/src/session/mfaQualification.ts,React Admin,Runtime source or assets,Retained,163,163,"Type check, lint and owning feature suites"
+admin-web/src/session/mfaRecovery.ts,React Admin,Runtime source or assets,Modified,3564,3419,"Type check, lint and owning feature suites"
+admin-web/src/session/mfaTransition.ts,React Admin,Runtime source or assets,Retained,2495,2495,"Type check, lint and owning feature suites"
+admin-web/src/session/ownerIdentity.ts,React Admin,Runtime source or assets,Modified,2306,1722,"Type check, lint and owning feature suites"
+admin-web/src/session/returnLocation.ts,React Admin,Runtime source or assets,Retained,3187,3187,"Type check, lint and owning feature suites"
+admin-web/src/session/sensitiveEmailVerification.ts,React Admin,Runtime source or assets,Modified,8454,8464,"Type check, lint and owning feature suites"
+admin-web/src/session/sessionAuthority.ts,React Admin,Runtime source or assets,Added,,619,"Type check, lint and owning feature suites"
+admin-web/src/session/sessionContext.ts,React Admin,Runtime source or assets,Added,,2027,"Type check, lint and owning feature suites"
+admin-web/src/session/sessionPolicy.ts,React Admin,Runtime source or assets,Modified,2542,1244,"Type check, lint and owning feature suites"
+admin-web/src/session/sessionReadback.ts,React Admin,Runtime source or assets,Added,,1646,"Type check, lint and owning feature suites"
+admin-web/src/session/sessionResponses.ts,React Admin,Runtime source or assets,Modified,7857,7545,"Type check, lint and owning feature suites"
+admin-web/src/session/teamDirectory.ts,React Admin,Runtime source or assets,Added,,5741,"Type check, lint and owning feature suites"
+admin-web/src/session/teamMutations.ts,React Admin,Runtime source or assets,Removed,33342,,Caller and contract review before deletion
+admin-web/src/session/teamPolicy.ts,React Admin,Runtime source or assets,Added,,942,"Type check, lint and owning feature suites"
+admin-web/src/styles/admin.css,React Admin,Runtime source or assets,Modified,14825,107,CSS source comparison and compiled browser checks
+admin-web/src/styles/components.css,React Admin,Runtime source or assets,Added,,5328,CSS source comparison and compiled browser checks
+admin-web/src/styles/foundation.css,React Admin,Runtime source or assets,Added,,2794,CSS source comparison and compiled browser checks
+admin-web/src/styles/responsive.css,React Admin,Runtime source or assets,Added,,1992,CSS source comparison and compiled browser checks
+admin-web/src/styles/shell.css,React Admin,Runtime source or assets,Added,,4708,CSS source comparison and compiled browser checks
+admin-web/src/ui/Components.tsx,React Admin,Runtime source or assets,Retained,2978,2978,"Type check, lint and owning feature suites"
+admin-web/src/ui/Dialog.tsx,React Admin,Runtime source or assets,Retained,2961,2961,"Type check, lint and owning feature suites"
+admin-web/src/ui/Icon.tsx,React Admin,Runtime source or assets,Retained,3172,3172,"Type check, lint and owning feature suites"
+admin-web/src/ui/assets/Inter-Variable.ttf,React Admin,Runtime source or assets,Retained,876576,876576,"Brand, asset and source-integrity checks"
+admin-web/src/ui/assets/OFL-Inter.txt,React Admin,Runtime source or assets,Retained,4377,4377,"Brand, asset and source-integrity checks"
+admin-web/src/ui/assets/collect-logo.png,React Admin,Runtime source or assets,Retained,103231,103231,"Brand, asset and source-integrity checks"
+admin-web/src/ui/index.ts,React Admin,Runtime source or assets,Retained,80,80,"Type check, lint and owning feature suites"
+admin-web/tests/app/ScreenBoundary.test.tsx,React Admin,Test or fixture,Modified,881,891,Admin test suite inventory
+admin-web/tests/app/SessionProblem.test.tsx,React Admin,Test or fixture,Modified,1943,1953,Admin test suite inventory
+admin-web/tests/app/authority.test.ts,React Admin,Test or fixture,Retained,1066,1066,Admin test suite inventory
+admin-web/tests/app/config.test.ts,React Admin,Test or fixture,Retained,2894,2894,Admin test suite inventory
+admin-web/tests/app/route-access.test.ts,React Admin,Test or fixture,Retained,6297,6297,Admin test suite inventory
+admin-web/tests/app/sensitive-access.test.ts,React Admin,Test or fixture,Retained,2595,2595,Admin test suite inventory
+admin-web/tests/app/session-recovery.test.tsx,React Admin,Test or fixture,Retained,6888,6888,Admin test suite inventory
+admin-web/tests/app/session-return.test.tsx,React Admin,Test or fixture,Modified,1323,1333,Admin test suite inventory
+admin-web/tests/browser/fence-fixture.ts,React Admin,Test or fixture,Retained,1901,1901,Browser qualification or retained browser fixture
+admin-web/tests/browser/fence.html,React Admin,Test or fixture,Retained,545,545,Browser qualification or retained browser fixture
+admin-web/tests/browser/fixture-server.mjs,React Admin,Test or fixture,Retained,10981,10981,Browser qualification or retained browser fixture
+admin-web/tests/browser/predecessor-transition.mjs,React Admin,Test or fixture,Retained,23274,23274,Browser qualification or retained browser fixture
+admin-web/tests/browser/smoke.mjs,React Admin,Test or fixture,Retained,12543,12543,Browser qualification or retained browser fixture
+admin-web/tests/burimunsi/contracts.test.ts,React Admin,Test or fixture,Retained,6334,6334,Admin test suite inventory
+admin-web/tests/burimunsi/delivery-release-race.mjs,React Admin,Test or fixture,Retained,4509,4509,Admin test suite inventory
+admin-web/tests/burimunsi/fixture.ts,React Admin,Test or fixture,Retained,3570,3570,Admin test suite inventory
+admin-web/tests/burimunsi/native-revocation.postgres.mjs,React Admin,Test or fixture,Retained,17440,17440,Admin test suite inventory
+admin-web/tests/burimunsi/nativeProvisioning.test.ts,React Admin,Test or fixture,Retained,16577,16577,Admin test suite inventory
+admin-web/tests/burimunsi/nativeProvisioningPanel.test.tsx,React Admin,Test or fixture,Retained,7437,7437,Admin test suite inventory
+admin-web/tests/burimunsi/nativeRevocation.test.ts,React Admin,Test or fixture,Retained,13156,13156,Admin test suite inventory
+admin-web/tests/burimunsi/operator-race.postgres.mjs,React Admin,Test or fixture,Retained,4676,4676,Admin test suite inventory
+admin-web/tests/burimunsi/operatorPreparation.test.ts,React Admin,Test or fixture,Retained,3146,3146,Admin test suite inventory
+admin-web/tests/burimunsi/page.test.tsx,React Admin,Test or fixture,Retained,42847,42847,Admin test suite inventory
+admin-web/tests/burimunsi/source-parity.generated.json,React Admin,Test or fixture,Retained,14185,14185,Admin test suite inventory
+admin-web/tests/burimunsi/source-parity.md,React Admin,Test or fixture,Retained,4390,4390,Admin test suite inventory
+admin-web/tests/burimunsi/source-parity.page.test.tsx,React Admin,Test or fixture,Retained,4988,4988,Admin test suite inventory
+admin-web/tests/burimunsi/source-parity.postgres.mjs,React Admin,Test or fixture,Retained,14202,14202,Admin test suite inventory
+admin-web/tests/burimunsi/source-parity.test.ts,React Admin,Test or fixture,Retained,5189,5189,Admin test suite inventory
+admin-web/tests/core/canonical-core-fixtures.json,React Admin,Test or fixture,Retained,12294,12294,Admin test suite inventory
+admin-web/tests/core/canonical-reconciliation-fixture.json,React Admin,Test or fixture,Retained,16198,16198,Admin test suite inventory
+admin-web/tests/core/contracts.test.ts,React Admin,Test or fixture,Retained,6147,6147,Admin test suite inventory
+admin-web/tests/core/group-create.test.tsx,React Admin,Test or fixture,Retained,9507,9507,Admin test suite inventory
+admin-web/tests/core/group-detail-fixtures.json,React Admin,Test or fixture,Retained,22226,22226,Admin test suite inventory
+admin-web/tests/core/group-edit.test.tsx,React Admin,Test or fixture,Retained,11836,11836,Admin test suite inventory
+admin-web/tests/core/legacy-group-actions.test.ts,React Admin,Test or fixture,Retained,13897,13897,Admin test suite inventory
+admin-web/tests/core/legacy-group-ownership.test.tsx,React Admin,Test or fixture,Retained,6998,6998,Admin test suite inventory
+admin-web/tests/core/legacy-group-page.test.tsx,React Admin,Test or fixture,Retained,11116,11116,Admin test suite inventory
+admin-web/tests/core/legacy-group-status.test.tsx,React Admin,Test or fixture,Retained,16313,16313,Admin test suite inventory
+admin-web/tests/core/legacy-journal-create.test.tsx,React Admin,Test or fixture,Retained,19138,19138,Admin test suite inventory
+admin-web/tests/core/legacy-journal-edit.test.tsx,React Admin,Test or fixture,Retained,20796,20796,Admin test suite inventory
+admin-web/tests/core/legacy-journal-post.test.tsx,React Admin,Test or fixture,Retained,17533,17533,Admin test suite inventory
+admin-web/tests/core/legacy-linked-journal-create.test.tsx,React Admin,Test or fixture,Retained,18394,18394,Admin test suite inventory
+admin-web/tests/core/legacy-membership-actions.test.ts,React Admin,Test or fixture,Retained,15628,15628,Admin test suite inventory
+admin-web/tests/core/legacy-membership-page.test.tsx,React Admin,Test or fixture,Retained,8900,8900,Admin test suite inventory
+admin-web/tests/core/legacy-payee-create.test.tsx,React Admin,Test or fixture,Retained,8056,8056,Admin test suite inventory
+admin-web/tests/core/legacy-person-access-backend-check.mjs,React Admin,Test or fixture,Retained,6626,6626,Admin test suite inventory
+admin-web/tests/core/legacy-person-access-page.test.tsx,React Admin,Test or fixture,Retained,10946,10946,Admin test suite inventory
+admin-web/tests/core/legacy-person-access.test.ts,React Admin,Test or fixture,Retained,10588,10588,Admin test suite inventory
+admin-web/tests/core/legacy-user-create-page.test.tsx,React Admin,Test or fixture,Retained,8784,8784,Admin test suite inventory
+admin-web/tests/core/legacy-user-create.test.ts,React Admin,Test or fixture,Retained,11158,11158,Admin test suite inventory
+admin-web/tests/core/legacy-user-edit-page.test.tsx,React Admin,Test or fixture,Retained,7383,7383,Admin test suite inventory
+admin-web/tests/core/legacy-user-edit.test.ts,React Admin,Test or fixture,Retained,11436,11436,Admin test suite inventory
+admin-web/tests/core/legacy-user-status-backend-check.mjs,React Admin,Test or fixture,Retained,6135,6135,Admin test suite inventory
+admin-web/tests/core/legacy-user-status.test.tsx,React Admin,Test or fixture,Retained,12452,12452,Admin test suite inventory
+admin-web/tests/core/membership-create.test.tsx,React Admin,Test or fixture,Retained,8029,8029,Admin test suite inventory
+admin-web/tests/core/membership-edit.test.tsx,React Admin,Test or fixture,Retained,8683,8683,Admin test suite inventory
+admin-web/tests/core/pages.test.tsx,React Admin,Test or fixture,Modified,24231,24291,Admin test suite inventory
+admin-web/tests/core/payee-edit.test.tsx,React Admin,Test or fixture,Retained,6712,6712,Admin test suite inventory
+admin-web/tests/core/payment-reference.test.tsx,React Admin,Test or fixture,Modified,12049,12109,Admin test suite inventory
+admin-web/tests/core/pending-attempt.test.ts,React Admin,Test or fixture,Retained,7565,7565,Admin test suite inventory
+admin-web/tests/core/reconciliation-actions.test.ts,React Admin,Test or fixture,Retained,15239,15239,Admin test suite inventory
+admin-web/tests/core/reconciliation-ui.test.tsx,React Admin,Test or fixture,Retained,8345,8345,Admin test suite inventory
+admin-web/tests/core/transaction-evidence.test.tsx,React Admin,Test or fixture,Retained,15898,15898,Admin test suite inventory
+admin-web/tests/core/transaction-reverse.test.tsx,React Admin,Test or fixture,Retained,10634,10634,Admin test suite inventory
+admin-web/tests/core/user-create.test.tsx,React Admin,Test or fixture,Retained,7856,7856,Admin test suite inventory
+admin-web/tests/core/user-edit.test.tsx,React Admin,Test or fixture,Retained,11822,11822,Admin test suite inventory
+admin-web/tests/foundation/setup.ts,React Admin,Test or fixture,Retained,150,150,Admin test suite inventory
+admin-web/tests/foundation/shell.test.tsx,React Admin,Test or fixture,Modified,4794,5495,Admin test suite inventory
+admin-web/tests/ledger-accounts/actions.test.ts,React Admin,Test or fixture,Retained,10474,10474,Admin test suite inventory
+admin-web/tests/ledger-accounts/pages.test.tsx,React Admin,Test or fixture,Retained,9613,9613,Admin test suite inventory
+admin-web/tests/legacy-ledger-accounts/actions.test.ts,React Admin,Test or fixture,Retained,11637,11637,Admin test suite inventory
+admin-web/tests/legacy-ledger-accounts/page.test.tsx,React Admin,Test or fixture,Retained,8093,8093,Admin test suite inventory
+admin-web/tests/legacy-payees/actions.test.ts,React Admin,Test or fixture,Retained,12287,12287,Admin test suite inventory
+admin-web/tests/legacy-payees/fixture.ts,React Admin,Test or fixture,Retained,3570,3570,Admin test suite inventory
+admin-web/tests/legacy-payees/ui.test.tsx,React Admin,Test or fixture,Retained,6169,6169,Admin test suite inventory
+admin-web/tests/legacy-transactions/actions.test.tsx,React Admin,Test or fixture,Retained,24387,24387,Admin test suite inventory
+admin-web/tests/legacy-transactions/create-source.test.tsx,React Admin,Test or fixture,Retained,16793,16793,Admin test suite inventory
+admin-web/tests/legacy-transactions/create.test.tsx,React Admin,Test or fixture,Retained,20492,20492,Admin test suite inventory
+admin-web/tests/licenses/LicensesPage.test.tsx,React Admin,Test or fixture,Retained,867,867,Admin test suite inventory
+admin-web/tests/native/run-receiver-instrumentation.py,React Admin,Test or fixture,Retained,1959,1959,Admin test suite inventory
+admin-web/tests/notes/OperatorNotes.test.tsx,React Admin,Test or fixture,Retained,4564,4564,Admin test suite inventory
+admin-web/tests/notes/noteActions.test.ts,React Admin,Test or fixture,Retained,3695,3695,Admin test suite inventory
+admin-web/tests/operations/contracts.test.ts,React Admin,Test or fixture,Retained,8666,8666,Admin test suite inventory
+admin-web/tests/operations/crossTab.test.ts,React Admin,Test or fixture,Retained,15440,15440,Admin test suite inventory
+admin-web/tests/operations/emailActions.test.ts,React Admin,Test or fixture,Retained,4846,4846,Admin test suite inventory
+admin-web/tests/operations/emailPanel.test.tsx,React Admin,Test or fixture,Retained,5012,5012,Admin test suite inventory
+admin-web/tests/operations/gatewayActivation.test.ts,React Admin,Test or fixture,Retained,8162,8162,Admin test suite inventory
+admin-web/tests/operations/gatewayActivationPanel.test.tsx,React Admin,Test or fixture,Modified,6618,6652,Admin test suite inventory
+admin-web/tests/operations/gatewayEnrollment.test.ts,React Admin,Test or fixture,Retained,11333,11333,Admin test suite inventory
+admin-web/tests/operations/gatewayEnrollmentPage.test.tsx,React Admin,Test or fixture,Retained,7811,7811,Admin test suite inventory
+admin-web/tests/operations/gatewayRecoveryLink.test.tsx,React Admin,Test or fixture,Modified,2326,2329,Admin test suite inventory
+admin-web/tests/operations/gatewayRevocation.test.ts,React Admin,Test or fixture,Retained,10369,10369,Admin test suite inventory
+admin-web/tests/operations/gatewayRevocationPanel.test.tsx,React Admin,Test or fixture,Modified,7399,7425,Admin test suite inventory
+admin-web/tests/operations/memberReceiptReveal.test.ts,React Admin,Test or fixture,Retained,5032,5032,Admin test suite inventory
+admin-web/tests/operations/memberReceiptRevealPanel.test.tsx,React Admin,Test or fixture,Retained,3832,3832,Admin test suite inventory
+admin-web/tests/operations/momo.test.tsx,React Admin,Test or fixture,Retained,17466,17466,Admin test suite inventory
+admin-web/tests/operations/momoAssignment.test.ts,React Admin,Test or fixture,Retained,14391,14391,Admin test suite inventory
+admin-web/tests/operations/momoAssignmentPanel.test.tsx,React Admin,Test or fixture,Retained,11715,11715,Admin test suite inventory
+admin-web/tests/operations/momoConflict.test.ts,React Admin,Test or fixture,Retained,12604,12604,Admin test suite inventory
+admin-web/tests/operations/momoConflictPanel.test.tsx,React Admin,Test or fixture,Retained,9548,9548,Admin test suite inventory
+admin-web/tests/operations/momoSourceActions.test.ts,React Admin,Test or fixture,Retained,13917,13917,Admin test suite inventory
+admin-web/tests/operations/momoSourceActionsPanel.test.tsx,React Admin,Test or fixture,Retained,13863,13863,Admin test suite inventory
+admin-web/tests/operations/momoSourcePage.test.tsx,React Admin,Test or fixture,Retained,4168,4168,Admin test suite inventory
+admin-web/tests/operations/momoSourceReveal.test.ts,React Admin,Test or fixture,Retained,6421,6421,Admin test suite inventory
+admin-web/tests/operations/momoSourceRevealPanel.test.tsx,React Admin,Test or fixture,Retained,7046,7046,Admin test suite inventory
+admin-web/tests/operations/pages.test.tsx,React Admin,Test or fixture,Modified,16956,17020,Admin test suite inventory
+admin-web/tests/operations/receiverGrantActions.test.ts,React Admin,Test or fixture,Retained,9535,9535,Admin test suite inventory
+admin-web/tests/operations/receiverGrantCreation.test.tsx,React Admin,Test or fixture,Retained,18072,18072,Admin test suite inventory
+admin-web/tests/operations/receiverGrantPanel.test.tsx,React Admin,Test or fixture,Retained,5484,5484,Admin test suite inventory
+admin-web/tests/operations/smsActions.test.ts,React Admin,Test or fixture,Retained,7361,7361,Admin test suite inventory
+admin-web/tests/operations/smsPanel.test.tsx,React Admin,Test or fixture,Retained,5404,5404,Admin test suite inventory
+admin-web/tests/overview/SmsOversight.test.tsx,React Admin,Test or fixture,Retained,3337,3337,Admin test suite inventory
+admin-web/tests/overview/overview.test.ts,React Admin,Test or fixture,Retained,2428,2428,Admin test suite inventory
+admin-web/tests/privacy/PrivacyPage.test.tsx,React Admin,Test or fixture,Retained,11294,11294,Admin test suite inventory
+admin-web/tests/privacy/contracts.test.ts,React Admin,Test or fixture,Retained,5561,5561,Admin test suite inventory
+admin-web/tests/privacy/journal.test.ts,React Admin,Test or fixture,Retained,2931,2931,Admin test suite inventory
+admin-web/tests/pwa/package-pwa.test.mjs,React Admin,Test or fixture,Modified,5189,5747,Admin test suite inventory
+admin-web/tests/receipt-review/panel.test.tsx,React Admin,Test or fixture,Retained,11442,11442,Admin test suite inventory
+admin-web/tests/receipt-review/review.test.ts,React Admin,Test or fixture,Retained,12469,12469,Admin test suite inventory
+admin-web/tests/reconciliation/legacy-actions.test.ts,React Admin,Test or fixture,Retained,16564,16564,Admin test suite inventory
+admin-web/tests/reconciliation/legacy-fixture.ts,React Admin,Test or fixture,Retained,6133,6133,Admin test suite inventory
+admin-web/tests/reconciliation/legacy-ui.test.tsx,React Admin,Test or fixture,Retained,5808,5808,Admin test suite inventory
+admin-web/tests/requests/RequestHistoryPage.test.tsx,React Admin,Test or fixture,Retained,3215,3215,Admin test suite inventory
+admin-web/tests/requests/cancellation-ui.test.tsx,React Admin,Test or fixture,Retained,6765,6765,Admin test suite inventory
+admin-web/tests/requests/cancellation.test.ts,React Admin,Test or fixture,Retained,11677,11677,Admin test suite inventory
+admin-web/tests/requests/requests.test.ts,React Admin,Test or fixture,Retained,3267,3267,Admin test suite inventory
+admin-web/tests/route-compat/GroupSelectionPage.test.tsx,React Admin,Test or fixture,Retained,4253,4253,Admin test suite inventory
+admin-web/tests/session/assisted-gateway.test.ts,React Admin,Test or fixture,Retained,18152,18152,Admin test suite inventory
+admin-web/tests/session/assisted-operator-ui.test.tsx,React Admin,Test or fixture,Retained,12827,12827,Admin test suite inventory
+admin-web/tests/session/assisted-operator.test.ts,React Admin,Test or fixture,Retained,19473,19473,Admin test suite inventory
+admin-web/tests/session/assisted.test.tsx,React Admin,Test or fixture,Retained,5079,5079,Admin test suite inventory
+admin-web/tests/session/captcha.test.ts,React Admin,Test or fixture,Retained,2224,2224,Admin test suite inventory
+admin-web/tests/session/client.test.ts,React Admin,Test or fixture,Retained,9356,9356,Admin test suite inventory
+admin-web/tests/session/cloudflare-team-mutations.test.ts,React Admin,Test or fixture,Modified,10400,10410,Admin test suite inventory
+admin-web/tests/session/cloudflare-team-ui.test.tsx,React Admin,Test or fixture,Retained,5352,5352,Admin test suite inventory
+admin-web/tests/session/custody-realm.test.ts,React Admin,Test or fixture,Retained,2568,2568,Admin test suite inventory
+admin-web/tests/session/google-policy.test.ts,React Admin,Test or fixture,Retained,5490,5490,Admin test suite inventory
+admin-web/tests/session/google.test.ts,React Admin,Test or fixture,Retained,4285,4285,Admin test suite inventory
+admin-web/tests/session/invitation-recovery.test.ts,React Admin,Test or fixture,Retained,3770,3770,Admin test suite inventory
+admin-web/tests/session/login-ui.test.tsx,React Admin,Test or fixture,Modified,5078,5078,Admin test suite inventory
+admin-web/tests/session/logout-intent.test.ts,React Admin,Test or fixture,Retained,8375,8375,Admin test suite inventory
+admin-web/tests/session/managed-mfa-blocked.test.tsx,React Admin,Test or fixture,Retained,4925,4925,Admin test suite inventory
+admin-web/tests/session/managed-mfa-controller.test.ts,React Admin,Test or fixture,Retained,27233,27233,Admin test suite inventory
+admin-web/tests/session/managed-mfa-ui.test.tsx,React Admin,Test or fixture,Retained,6302,6302,Admin test suite inventory
+admin-web/tests/session/mfa-authority.test.ts,React Admin,Test or fixture,Retained,3214,3214,Admin test suite inventory
+admin-web/tests/session/mfa-recovery.test.ts,React Admin,Test or fixture,Retained,2501,2501,Admin test suite inventory
+admin-web/tests/session/owner-identity.test.ts,React Admin,Test or fixture,Retained,5537,5537,Admin test suite inventory
+admin-web/tests/session/security-ui.test.tsx,React Admin,Test or fixture,Modified,6922,6997,Admin test suite inventory
+admin-web/tests/session/sensitive-deadline.test.ts,React Admin,Test or fixture,Retained,2256,2256,Admin test suite inventory
+admin-web/tests/session/session.test.ts,React Admin,Test or fixture,Modified,35217,35222,Admin test suite inventory
+admin-web/tests/session/sms-access-mutation.test.ts,React Admin,Test or fixture,Modified,8849,8853,Admin test suite inventory
+admin-web/tests/session/sms-controls.test.tsx,React Admin,Test or fixture,Modified,27361,27425,Admin test suite inventory
+admin-web/tests/session/sms-materialization-status.test.tsx,React Admin,Test or fixture,Retained,8706,8706,Admin test suite inventory
+admin-web/tests/session/sms-policy-mutation.test.ts,React Admin,Test or fixture,Modified,14282,14286,Admin test suite inventory
+admin-web/tests/session/team-mutations.test.ts,React Admin,Test or fixture,Modified,14882,14889,Admin test suite inventory
+admin-web/tests/session/team-ui.test.tsx,React Admin,Test or fixture,Modified,11240,13233,Admin test suite inventory
+admin-web/tests/session/team.test.ts,React Admin,Test or fixture,Modified,4033,4038,Admin test suite inventory
+admin-web/tsconfig.json,React Admin,"Build, public asset or package input",Retained,507,507,Locked build and PWA verification
+admin-web/vite.config.ts,React Admin,"Build, public asset or package input",Retained,870,870,Locked build and PWA verification
+deploy/admin-api/.gitignore,Historical D1 API,Local compatibility source or fixture,Retained,53,53,D1 compatibility suite and baseline comparison
+deploy/admin-api/README.md,Historical D1 API,Local compatibility source or fixture,Retained,17548,17548,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0001_admin_accounts.sql,Historical D1 API,Local compatibility source or fixture,Retained,2407,2407,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0002_collect_core.sql,Historical D1 API,Local compatibility source or fixture,Retained,30614,30614,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0003_posted_verification_guard.sql,Historical D1 API,Local compatibility source or fixture,Retained,733,733,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0004_operating_actions.sql,Historical D1 API,Local compatibility source or fixture,Retained,6319,6319,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0005_member_cloudflare.sql,Historical D1 API,Local compatibility source or fixture,Retained,9475,9475,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0006_gateway_cloudflare.sql,Historical D1 API,Local compatibility source or fixture,Retained,6415,6415,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0007_email_only_dispatch.sql,Historical D1 API,Local compatibility source or fixture,Retained,967,967,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0008_admin_people.sql,Historical D1 API,Local compatibility source or fixture,Retained,7400,7400,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0009_admin_reconciliation.sql,Historical D1 API,Local compatibility source or fixture,Retained,6003,6003,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0010_admin_sms_facts.sql,Historical D1 API,Local compatibility source or fixture,Retained,10050,10050,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0011_admin_transaction_sms_lineage.sql,Historical D1 API,Local compatibility source or fixture,Retained,3334,3334,D1 compatibility suite and baseline comparison
+deploy/admin-api/migrations/0012_gateway_receiver_ingress.sql,Historical D1 API,Local compatibility source or fixture,Retained,5117,5117,D1 compatibility suite and baseline comparison
+deploy/admin-api/package-lock.json,Historical D1 API,Local compatibility source or fixture,Retained,50028,50028,D1 compatibility suite and baseline comparison
+deploy/admin-api/package.json,Historical D1 API,Local compatibility source or fixture,Retained,1043,1043,D1 compatibility suite and baseline comparison
+deploy/admin-api/scripts/bootstrap-owner.mjs,Historical D1 API,Local compatibility source or fixture,Retained,1967,1967,D1 compatibility suite and baseline comparison
+deploy/admin-api/seeds/member-content.json,Historical D1 API,Local compatibility source or fixture,Retained,4202,4202,D1 compatibility suite and baseline comparison
+deploy/admin-api/seeds/member-content.sql,Historical D1 API,Local compatibility source or fixture,Retained,3045,3045,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/admin-sms.mjs,Historical D1 API,Local compatibility source or fixture,Retained,31296,31296,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/core.mjs,Historical D1 API,Local compatibility source or fixture,Retained,34104,34104,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/email-dispatch.mjs,Historical D1 API,Local compatibility source or fixture,Retained,10841,10841,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/emails.mjs,Historical D1 API,Local compatibility source or fixture,Retained,6954,6954,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/gateway.mjs,Historical D1 API,Local compatibility source or fixture,Retained,36500,36500,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/member-email.mjs,Historical D1 API,Local compatibility source or fixture,Retained,610,610,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/member-worker.mjs,Historical D1 API,Local compatibility source or fixture,Retained,1801,1801,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/member.mjs,Historical D1 API,Local compatibility source or fixture,Retained,45889,45889,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/observability.mjs,Historical D1 API,Local compatibility source or fixture,Retained,1192,1192,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/operations.mjs,Historical D1 API,Local compatibility source or fixture,Retained,54204,54204,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/receiver-ingress.mjs,Historical D1 API,Local compatibility source or fixture,Retained,25311,25311,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/reconciliation.mjs,Historical D1 API,Local compatibility source or fixture,Retained,29019,29019,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/security.mjs,Historical D1 API,Local compatibility source or fixture,Retained,2250,2250,D1 compatibility suite and baseline comparison
+deploy/admin-api/src/worker.mjs,Historical D1 API,Local compatibility source or fixture,Retained,28987,28987,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/accounts.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,34290,34290,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/admin-sms.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,41446,41446,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/bootstrap.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,2275,2275,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/collect-core-schema.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,21799,21799,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/core-read.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,41184,41184,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/email-dispatch.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,13090,13090,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/emails.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,2637,2637,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/gateway.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,24157,24157,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/member-migration.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,4635,4635,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/member.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,31140,31140,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/observability.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,1270,1270,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/operations.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,58680,58680,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/people-schema.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,7067,7067,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/posted-verification.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,10526,10526,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/receiver-ingress.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,29432,29432,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/reconciliation.test.mjs,Historical D1 API,Local compatibility source or fixture,Retained,31158,31158,D1 compatibility suite and baseline comparison
+deploy/admin-api/test/transaction-source-fixture.mjs,Historical D1 API,Local compatibility source or fixture,Retained,4257,4257,D1 compatibility suite and baseline comparison
+deploy/admin-api/wrangler.local.jsonc,Historical D1 API,Local compatibility source or fixture,Retained,494,494,D1 compatibility suite and baseline comparison
+deploy/platform-admin/.gitignore,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,46,46,"Worker, bundle and boundary tests"
+deploy/platform-admin/README.md,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,6559,6559,"Worker, bundle and boundary tests"
+deploy/platform-admin/package-lock.json,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,49490,49490,"Worker, bundle and boundary tests"
+deploy/platform-admin/package.json,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,292,292,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/index.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,5249,4846,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/local-challenge-controller.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Added,,12694,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/local-challenge.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,19981,7369,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/static-recovery.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,4987,5040,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/supabase-transport.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,25317,3833,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/transport-body.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Added,,2244,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/transport-cookies.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Added,,3757,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/transport-failure.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Added,,896,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/transport-request.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Added,,7506,"Worker, bundle and boundary tests"
+deploy/platform-admin/src/transport-response.js,Cloudflare frontend,"Worker, managed profile, tests or provenance",Added,,8618,"Worker, bundle and boundary tests"
+deploy/platform-admin/supabase-transport.provenance.json,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,12776,13730,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/backend-selection.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,15370,15749,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/burimunsi-access.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,1373,1373,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/cloud-production.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,2888,2888,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/cloud-profile.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,4384,4384,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/fixtures/document-renderers.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,2639,2639,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/fixtures/static-handoff-harness.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,5254,5254,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/human-parent-bundle.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,6235,6235,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/human-parent.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,7902,7902,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/owner-identity-header.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,1342,1342,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/static-handoff.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,11808,12384,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/supabase-transport-bounded.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Modified,6317,7519,"Worker, bundle and boundary tests"
+deploy/platform-admin/test/supabase-transport.test.mjs,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,49592,49592,"Worker, bundle and boundary tests"
+deploy/platform-admin/wrangler.supabase-qa.jsonc,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,1072,1072,"Worker, bundle and boundary tests"
+deploy/platform-admin/wrangler.supabase.jsonc,Cloudflare frontend,"Worker, managed profile, tests or provenance",Retained,1040,1040,"Worker, bundle and boundary tests"
+docs/implementation/2026-11-20-admin-preview-browser.json,Release records,Historical record or evidence,Retained,617,617,Exact baseline comparison
+docs/implementation/2026-11-20-admin-provider-deployments.json,Release records,Historical record or evidence,Retained,5314,5314,Exact baseline comparison
+docs/implementation/2026-11-20-admin-retirement-independent-restore.json,Release records,Historical record or evidence,Retained,1109,1109,Exact baseline comparison
+docs/implementation/2026-11-20-public-admin-hosts.json,Release records,Historical record or evidence,Retained,26462,26462,Exact baseline comparison
+docs/implementation/2026-11-20-react-admin-live-cutover.json,Release records,Historical record or evidence,Retained,11973,11973,Exact baseline comparison
+docs/implementation/2026-11-20-react-admin-navigation.json,Release records,Historical record or evidence,Retained,5438,5438,Exact baseline comparison
+docs/implementation/2026-11-20-react-admin-session-route-recovery.json,Release records,Historical record or evidence,Retained,3528,3528,Exact baseline comparison
+docs/implementation/2026-11-20-react-admin-source-qualification.json,Release records,Historical record or evidence,Retained,8391,8391,Exact baseline comparison
+docs/implementation/burimunsi-android/drafts/private-quarantine-managed-admin.draft.sql,Release records,Historical record or evidence,Retained,18640,18640,Exact baseline comparison
+docs/release/ADMIN_PWA_CUTOVER_LIVE_GATE_2026-09-03.json,Release records,Historical record or evidence,Retained,7999,7999,Exact baseline comparison
+docs/release/ADMIN_SUPABASE_DEPLOYMENT_2026-09-04.md,Release records,Historical record or evidence,Retained,6730,6730,Exact baseline comparison
+docs/release/ADMIN_WHATSAPP_PREAPPROVAL_2026-09-02.md,Release records,Historical record or evidence,Retained,12034,12034,Exact baseline comparison
+docs/release/HYBRID_ADMIN_BROWSER_QA_2026-09-03.md,Release records,Historical record or evidence,Retained,3437,3437,Exact baseline comparison
+docs/release/HYBRID_AUTHENTICATED_ADMIN_UAT_2026-09-03.md,Release records,Historical record or evidence,Retained,8817,8817,Exact baseline comparison
+docs/release/SECOND_ADMIN_WHATSAPP_APPROVAL_2026-09-03.json,Release records,Historical record or evidence,Retained,1555,1555,Exact baseline comparison
+docs/release/admin-ci-build-2026-09-29/README.md,Release records,Historical record or evidence,Retained,1940,1940,Exact baseline comparison
+docs/release/admin-notification-paging-2026-09-29/README.md,Release records,Historical record or evidence,Retained,7145,7145,Exact baseline comparison
+docs/release/admin-notification-paging-2026-09-29/clean-134-replay.json,Release records,Historical record or evidence,Retained,29382,29382,Exact baseline comparison
+docs/release/admin-notification-paging-2026-09-29/historical-134-uat.stdout,Release records,Historical record or evidence,Retained,66,66,Exact baseline comparison
+docs/release/admin-notification-paging-2026-09-29/historical-134-upgrade.json,Release records,Historical record or evidence,Retained,1473,1473,Exact baseline comparison
+docs/release/admin-notification-paging-2026-09-29/parity.stdout,Release records,Historical record or evidence,Retained,234,234,Exact baseline comparison
+docs/release/admin-notification-paging-2026-09-29/summary.json,Release records,Historical record or evidence,Retained,5245,5245,Exact baseline comparison
+docs/release/admin-paging-2026-09-28/README.md,Release records,Historical record or evidence,Retained,5786,5786,Exact baseline comparison
+docs/release/admin-pwa-cache-2026-09-28/README.md,Release records,Historical record or evidence,Retained,3056,3056,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/README.md,Release records,Historical record or evidence,Retained,3773,3773,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/UI_CONTRACT.md,Release records,Historical record or evidence,Retained,4854,4854,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/01/README.md,Release records,Historical record or evidence,Retained,443,443,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/01/roster-compact-2x-errors.png,Release records,Historical record or evidence,Retained,9392,9392,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/01/roster-page-2-light.png,Release records,Historical record or evidence,Retained,9655,9655,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/01/validation.json,Release records,Historical record or evidence,Retained,6367,6367,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/02/README.md,Release records,Historical record or evidence,Retained,365,365,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/02/roster-compact-2x-errors.png,Release records,Historical record or evidence,Retained,42061,42061,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/02/roster-page-2-light.png,Release records,Historical record or evidence,Retained,51929,51929,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/attempts/02/validation.json,Release records,Historical record or evidence,Retained,7840,7840,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/roster-compact-2x-errors.png,Release records,Historical record or evidence,Retained,45831,45831,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/roster-page-2-light.png,Release records,Historical record or evidence,Retained,51929,51929,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/source-authority.json,Release records,Historical record or evidence,Retained,1367,1367,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/sql-decoder-source-validation.json,Release records,Historical record or evidence,Retained,582,582,Exact baseline comparison
+docs/release/admin-roster-provenance-2026-09-30/validation.json,Release records,Historical record or evidence,Retained,7840,7840,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/README.md,Release records,Historical record or evidence,Retained,5680,5680,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/RELOAD_RECOVERY_PROPOSAL.md,Release records,Historical record or evidence,Retained,5601,5601,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/analyze.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/analyze.stdout,Release records,Historical record or evidence,Retained,96,96,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/artifact-sha256.json,Release records,Historical record or evidence,Retained,2309,2309,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/attempt-01/tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/attempt-01/tests.stdout,Release records,Historical record or evidence,Retained,13513,13513,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/attempt-02/tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/attempt-02/tests.stdout,Release records,Historical record or evidence,Retained,11518,11518,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/feature-revoked.png,Release records,Historical record or evidence,Retained,21676,21676,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/recovery-tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/recovery-tests.stdout,Release records,Historical record or evidence,Retained,11835,11835,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/runtime.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/runtime.stdout,Release records,Historical record or evidence,Retained,625,625,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/source-snapshot/lib/admin/core/admin_roster_dialog.dart,Release records,Historical record or evidence,Retained,20492,20492,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/source-snapshot/lib/admin/core/admin_roster_import.dart,Release records,Historical record or evidence,Retained,26945,26945,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/source-snapshot/lib/admin/core/admin_roster_models.dart,Release records,Historical record or evidence,Retained,15963,15963,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/source-snapshot/test/admin_roster_dialog_test.dart,Release records,Historical record or evidence,Retained,14143,14143,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/source-snapshot/test/admin_roster_import_test.dart,Release records,Historical record or evidence,Retained,33183,33183,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/uncertain-submission.png,Release records,Historical record or evidence,Retained,61448,61448,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/validate.py,Release records,Historical record or evidence,Retained,3376,3376,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/validation.json,Release records,Historical record or evidence,Retained,8026,8026,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/xlsx-regression.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-recovery-2026-09-30/xlsx-regression.stdout,Release records,Historical record or evidence,Retained,9271,9271,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/BROWSER-AUTH-STORAGE-PLAN.md,Release records,Historical record or evidence,Retained,12141,12141,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/FRESH-AUTH-149-PROTOCOL-PROPOSED.md,Release records,Historical record or evidence,Retained,9856,9856,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/README.md,Release records,Historical record or evidence,Retained,7854,7854,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/after.json,Release records,Historical record or evidence,Retained,20406,20406,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/backup-archive-list.txt,Release records,Historical record or evidence,Retained,216366,216366,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/before.json,Release records,Historical record or evidence,Retained,20406,20406,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/checkpoint.json,Release records,Historical record or evidence,Retained,1227,1227,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/result.json,Release records,Historical record or evidence,Retained,1716,1716,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/reviewed-source.sql,Release records,Historical record or evidence,Retained,13749,13749,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/stderr,Release records,Historical record or evidence,Retained,54,54,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/adversarial144-root-attempt1/stdout,Release records,Historical record or evidence,Retained,611,611,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/after.json,Release records,Historical record or evidence,Retained,20406,20406,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/backup-archive-list.txt,Release records,Historical record or evidence,Retained,213549,213549,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/before.json,Release records,Historical record or evidence,Retained,20085,20085,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/checkpoint.json,Release records,Historical record or evidence,Retained,1235,1235,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/executed-upgrade.sql,Release records,Historical record or evidence,Retained,41262,41262,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/result.json,Release records,Historical record or evidence,Retained,1726,1726,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/reviewed-source.sql,Release records,Historical record or evidence,Retained,20025,20025,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/apply144-root-attempt1/stdout,Release records,Historical record or evidence,Retained,1,1,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/analyze.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/analyze.stdout,Release records,Historical record or evidence,Retained,96,96,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/browser-bookmark.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/browser-bookmark.stdout,Release records,Historical record or evidence,Retained,243,243,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/concurrency-source-syntax.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/concurrency-source-syntax.stdout,Release records,Historical record or evidence,Retained,10,10,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/roster-tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/roster-tests.stdout,Release records,Historical record or evidence,Retained,17621,17621,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/runtime.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/runtime.stdout,Release records,Historical record or evidence,Retained,625,625,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/validation.json,Release records,Historical record or evidence,Retained,55217,55217,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/xlsx-regression.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt1/xlsx-regression.stdout,Release records,Historical record or evidence,Retained,9350,9350,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/analyze.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/analyze.stdout,Release records,Historical record or evidence,Retained,96,96,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/browser-bookmark.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/browser-bookmark.stdout,Release records,Historical record or evidence,Retained,243,243,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/concurrency-source-syntax.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/concurrency-source-syntax.stdout,Release records,Historical record or evidence,Retained,10,10,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/roster-tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/roster-tests.stdout,Release records,Historical record or evidence,Retained,17057,17057,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/runtime.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/runtime.stdout,Release records,Historical record or evidence,Retained,625,625,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/validation.json,Release records,Historical record or evidence,Retained,55282,55282,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/xlsx-regression.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt2-actual144/xlsx-regression.stdout,Release records,Historical record or evidence,Retained,9326,9326,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/analyze.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/analyze.stdout,Release records,Historical record or evidence,Retained,96,96,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/browser-bookmark.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/browser-bookmark.stdout,Release records,Historical record or evidence,Retained,243,243,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/concurrency-source-syntax.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/concurrency-source-syntax.stdout,Release records,Historical record or evidence,Retained,10,10,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/roster-tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/roster-tests.stdout,Release records,Historical record or evidence,Retained,17192,17192,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/runtime.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/runtime.stdout,Release records,Historical record or evidence,Retained,625,625,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/validation.json,Release records,Historical record or evidence,Retained,55282,55282,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/xlsx-regression.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/attempt3-current-logout/xlsx-regression.stdout,Release records,Historical record or evidence,Retained,9326,9326,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/after.json,Release records,Historical record or evidence,Retained,20406,20406,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/backup-archive-list.txt,Release records,Historical record or evidence,Retained,216366,216366,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/before.json,Release records,Historical record or evidence,Retained,20406,20406,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/checkpoint.json,Release records,Historical record or evidence,Retained,862,862,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/checkpoint144.json,Release records,Historical record or evidence,Retained,130588,130588,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/result.json,Release records,Historical record or evidence,Retained,1351,1351,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/source-hashes.json,Release records,Historical record or evidence,Retained,272,272,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/concurrency144-root-attempt1/stdout,Release records,Historical record or evidence,Retained,36687,36687,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/after.json,Release records,Historical record or evidence,Retained,20406,20406,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/backup-archive-list.txt,Release records,Historical record or evidence,Retained,216366,216366,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/before.json,Release records,Historical record or evidence,Retained,20406,20406,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/checkpoint.json,Release records,Historical record or evidence,Retained,1221,1221,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/result.json,Release records,Historical record or evidence,Retained,1710,1710,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/reviewed-source.sql,Release records,Historical record or evidence,Retained,13654,13654,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/stderr,Release records,Historical record or evidence,Retained,54,54,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/receipts144-root-attempt1/stdout,Release records,Historical record or evidence,Retained,36817,36817,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/sources-attempt1.json,Release records,Historical record or evidence,Retained,25979,25979,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/sources-attempt2-actual144.json,Release records,Historical record or evidence,Retained,25866,25866,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/sources-attempt3-current-logout.json,Release records,Historical record or evidence,Retained,25198,25198,Exact baseline comparison
+docs/release/admin-roster-reload-2026-09-30/validate.py,Release records,Historical record or evidence,Retained,3988,3988,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/README.md,Release records,Historical record or evidence,Retained,3053,3053,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt1-tested-sources-before.json,Release records,Historical record or evidence,Retained,12251,12251,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt1-tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt1-tests.stdout,Release records,Historical record or evidence,Retained,84760,84760,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt2-session-controls-sources-before.json,Release records,Historical record or evidence,Retained,948,948,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt2-session-controls.json,Release records,Historical record or evidence,Retained,2534,2534,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt2-session-controls.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt2-session-controls.stdout,Release records,Historical record or evidence,Retained,16007,16007,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/analysis.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/analysis.stdout,Release records,Historical record or evidence,Retained,96,96,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/runtime.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/runtime.stdout,Release records,Historical record or evidence,Retained,625,625,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/sources-before.json,Release records,Historical record or evidence,Retained,25035,25035,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/tests.stdout,Release records,Historical record or evidence,Retained,43388,43388,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt3-integrated/validation.json,Release records,Historical record or evidence,Retained,54021,54021,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/analysis.stderr,Release records,Historical record or evidence,Retained,29,29,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/analysis.stdout,Release records,Historical record or evidence,Retained,274,274,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/runtime.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/runtime.stdout,Release records,Historical record or evidence,Retained,625,625,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/sources-before.json,Release records,Historical record or evidence,Retained,25145,25145,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/tests.stdout,Release records,Historical record or evidence,Retained,44883,44883,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt4-integrated/validation.json,Release records,Historical record or evidence,Retained,54342,54342,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/analysis.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/analysis.stdout,Release records,Historical record or evidence,Retained,96,96,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/runtime.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/runtime.stdout,Release records,Historical record or evidence,Retained,625,625,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/sources-before.json,Release records,Historical record or evidence,Retained,25145,25145,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/tests.stderr,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/tests.stdout,Release records,Historical record or evidence,Retained,45598,45598,Exact baseline comparison
+docs/release/admin-session-actions-2026-09-30/attempt5-integrated/validation.json,Release records,Historical record or evidence,Retained,54341,54341,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/admin08-root-artifact-readback.json,Release records,Historical record or evidence,Retained,723,723,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930230200_admin_receipt_overview.sql,Release records,Historical record or evidence,Retained,3725,3725,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20260930230300_admin_transaction_lifecycle.sql,Release records,Historical record or evidence,Retained,11105,11105,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-migrations/20261001000300_admin_exception_reads.sql,Release records,Historical record or evidence,Retained,7090,7090,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-python/admin_exception_reads_uat.py,Release records,Historical record or evidence,Retained,31893,31893,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/backend-uat/executed-python/collect_admin_combined_upgrade_uat.py,Release records,Historical record or evidence,Retained,34672,34672,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt1/executed-migrations/20260930230200_admin_receipt_overview.sql,Release records,Historical record or evidence,Retained,3725,3725,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt1/executed-migrations/20260930230300_admin_transaction_lifecycle.sql,Release records,Historical record or evidence,Retained,11105,11105,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt1/executed-migrations/20261001000300_admin_exception_reads.sql,Release records,Historical record or evidence,Retained,7102,7102,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt1/executed-python/admin_exception_reads_uat.py,Release records,Historical record or evidence,Retained,31164,31164,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt1/executed-python/collect_admin_combined_upgrade_uat.py,Release records,Historical record or evidence,Retained,34672,34672,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt2/executed-migrations/20260930230200_admin_receipt_overview.sql,Release records,Historical record or evidence,Retained,3725,3725,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt2/executed-migrations/20260930230300_admin_transaction_lifecycle.sql,Release records,Historical record or evidence,Retained,11105,11105,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt2/executed-migrations/20261001000300_admin_exception_reads.sql,Release records,Historical record or evidence,Retained,7102,7102,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt2/executed-python/admin_exception_reads_uat.py,Release records,Historical record or evidence,Retained,31481,31481,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/exception-reads-v2/prior-attempt2/executed-python/collect_admin_combined_upgrade_uat.py,Release records,Historical record or evidence,Retained,34672,34672,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/executed-migrations/20260930230200_admin_receipt_overview.sql,Release records,Historical record or evidence,Retained,3725,3725,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/executed-migrations/20260930230300_admin_transaction_lifecycle.sql,Release records,Historical record or evidence,Retained,11105,11105,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/executed-migrations/20261001000300_admin_exception_reads.sql,Release records,Historical record or evidence,Retained,7090,7090,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/backend-uat/executed-python/collect_admin_combined_upgrade_uat.py,Release records,Historical record or evidence,Retained,34672,34672,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/diagnostics/attempt1/executed-migrations/20260930230200_admin_receipt_overview.sql,Release records,Historical record or evidence,Retained,3725,3725,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/diagnostics/attempt1/executed-migrations/20260930230300_admin_transaction_lifecycle.sql,Release records,Historical record or evidence,Retained,11105,11105,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/diagnostics/attempt1/executed-migrations/20261001000300_admin_exception_reads.sql,Release records,Historical record or evidence,Retained,7090,7090,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/diagnostics/attempt1/executed-python/collect_admin_combined_upgrade_uat.py,Release records,Historical record or evidence,Retained,34672,34672,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/historical/attempt2/executed-migrations/20260930230200_admin_receipt_overview.sql,Release records,Historical record or evidence,Retained,3725,3725,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/historical/attempt2/executed-migrations/20260930230300_admin_transaction_lifecycle.sql,Release records,Historical record or evidence,Retained,11105,11105,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/historical/attempt2/executed-migrations/20261001000300_admin_exception_reads.sql,Release records,Historical record or evidence,Retained,7090,7090,Exact baseline comparison
+docs/release/collect-codex-goal-2026-09-30/safe-receipt-actions/historical/attempt2/executed-python/collect_admin_combined_upgrade_uat.py,Release records,Historical record or evidence,Retained,34672,34672,Exact baseline comparison
+docs/release/critical-review-2026-10-01/admin-live.json,Release records,Historical record or evidence,Retained,8334,8334,Exact baseline comparison
+docs/release/critical-review-2026-10-01/admin-live.stderr.txt,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/final-local-flutter-2026-10-01/current-final-set-attempt1/admin_receipts.stdout,Release records,Historical record or evidence,Retained,20256,20256,Exact baseline comparison
+docs/release/financial-core-2026-09-28/admin-permission-revocation-uat.stdout,Release records,Historical record or evidence,Retained,1717,1717,Exact baseline comparison
+docs/release/reconciliation-ui-2026-09-30/logs/admin-regression-attempt-1.stderr.txt,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/reconciliation-ui-2026-09-30/logs/admin-regression-attempt-1.stdout.txt,Release records,Historical record or evidence,Retained,26430,26430,Exact baseline comparison
+docs/release/reconciliation-ui-2026-09-30/logs/admin-regression-before-typography-fix.stderr.txt,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/reconciliation-ui-2026-09-30/logs/admin-regression-before-typography-fix.stdout.txt,Release records,Historical record or evidence,Retained,24245,24245,Exact baseline comparison
+docs/release/reconciliation-ui-2026-09-30/logs/admin-regression.stderr.txt,Release records,Historical record or evidence,Retained,0,0,Exact baseline comparison
+docs/release/reconciliation-ui-2026-09-30/logs/admin-regression.stdout.txt,Release records,Historical record or evidence,Retained,24245,24245,Exact baseline comparison
+docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/admin_delete_user_test.dart,Release records,Historical record or evidence,Retained,1303,1303,Exact baseline comparison
+docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/admin_test.dart,Release records,Historical record or evidence,Retained,6156,6156,Exact baseline comparison
+docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_admin_custom_providers_api_test.dart,Release records,Historical record or evidence,Retained,6115,6115,Exact baseline comparison
+docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_admin_mfa_api_test.dart,Release records,Historical record or evidence,Retained,1581,1581,Exact baseline comparison
+docs/release/retired-gotrue-tests-2026-10-30/source/third_party/gotrue/test/src/gotrue_admin_oauth_api_test.dart,Release records,Historical record or evidence,Retained,5969,5969,Exact baseline comparison
+docs/release/revolut-design/verification/current-20261001/admin-browser-matrix.json,Release records,Historical record or evidence,Retained,2864087,2864087,Exact baseline comparison
+docs/release/revolut-design/verification/current-20261001/admin-current-source-binding.json,Release records,Historical record or evidence,Retained,556035,556035,Exact baseline comparison
+docs/release/revolut-design/verification/current-20261001/admin-independent-visual-review.json,Release records,Historical record or evidence,Retained,54758,54758,Exact baseline comparison
+docs/release/revolut-design/verification/current-20261001/admin-record-reflow-review-20261001.json,Release records,Historical record or evidence,Retained,6460,6460,Exact baseline comparison
+docs/release/revolut-design/verification/current-20261001/admin-source-readback-final.json,Release records,Historical record or evidence,Retained,795,795,Exact baseline comparison
+docs/release/visual-regression-review-2026-10-01/root211-reviewed-candidates/retained-baselines-before/admin_overview_desktop.png,Release records,Historical record or evidence,Retained,203864,203864,Exact baseline comparison
+docs/release/visual-review-2026-09-28/admin_overview_desktop_candidate.png,Release records,Historical record or evidence,Retained,192494,192494,Exact baseline comparison
+scripts/admin_pwa_hosting_gate.sh,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,141,141,Build receipt or targeted contract verification
+scripts/admin_pwa_live_gate.sh,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,126,126,Build receipt or targeted contract verification
+scripts/admin_pwa_manifest_gate.sh,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,133,133,Build receipt or targeted contract verification
+scripts/admin_pwa_release_build.sh,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,350,350,Build receipt or targeted contract verification
+scripts/make/admin.mk,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,658,658,Build receipt or targeted contract verification
+scripts/qa/admin_source_candidate.py,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,6703,6703,Build receipt or targeted contract verification
+scripts/supabase/admin_build_config.py,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,8207,8207,Build receipt or targeted contract verification
+scripts/supabase/test_admin_build_config.py,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,12850,12850,Build receipt or targeted contract verification
+scripts/supabase/testing/current-admin-email-fixture.mjs,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,6571,6571,Build receipt or targeted contract verification
+scripts/templates/admin_pwa_service_worker.js,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,5679,5679,Build receipt or targeted contract verification
+scripts/tests/admin_pwa_worker_cache_test.mjs,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,15528,15528,Build receipt or targeted contract verification
+scripts/tests/test_admin_source_candidate.py,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,3936,3936,Build receipt or targeted contract verification
+supabase/functions/_shared/admin-security.js,Managed Admin API,Shared direct dependency,Modified,3088,3518,Admin route and dependency tests
+supabase/functions/_shared/application-fence.js,Managed Admin API,Shared direct dependency,Retained,17327,17327,Admin route and dependency tests
+supabase/functions/_shared/auth-cleanup.js,Managed Admin API,Shared direct dependency,Retained,2177,2177,Admin route and dependency tests
+supabase/functions/_shared/auth-http.js,Managed Admin API,Shared direct dependency,Retained,3661,3661,Admin route and dependency tests
+supabase/functions/_shared/deployment-profile.js,Managed Admin API,Shared direct dependency,Retained,3956,3956,Admin route and dependency tests
+supabase/functions/_shared/domain/admin-google.js,Managed Admin API,"Route, operation or authority source",Retained,747,747,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_access_notice_email.js,Managed Admin API,"Route, operation or authority source",Retained,4718,4718,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_account_support/NOBLE-LICENSE.txt,Managed Admin API,"Route, operation or authority source",Removed,1109,,Caller and contract review before deletion
+supabase/functions/_shared/domain/admin_account_support/emails.js,Managed Admin API,"Route, operation or authority source",Retained,7566,7566,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_account_support/errors.js,Managed Admin API,"Route, operation or authority source",Added,,630,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_account_support/security.js,Managed Admin API,"Route, operation or authority source",Removed,18581,,Caller and contract review before deletion
+supabase/functions/_shared/domain/admin_accounts.js,Managed Admin API,"Route, operation or authority source",Modified,31365,9648,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_accounts_legacy.js,Managed Admin API,"Route, operation or authority source",Modified,13221,11425,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_bff_tokens.js,Managed Admin API,"Route, operation or authority source",Added,,2180,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_bridge.js,Managed Admin API,"Route, operation or authority source",Modified,46154,5379,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_burimunsi_access.js,Managed Admin API,"Route, operation or authority source",Retained,6151,6151,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_burimunsi_authority.js,Managed Admin API,"Route, operation or authority source",Retained,1403,1403,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_burimunsi_native_work.js,Managed Admin API,"Route, operation or authority source",Retained,5350,5350,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_burimunsi_observations.js,Managed Admin API,"Route, operation or authority source",Retained,13277,13277,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_burimunsi_operators.js,Managed Admin API,"Route, operation or authority source",Retained,8021,8021,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_burimunsi_provisioning.js,Managed Admin API,"Route, operation or authority source",Retained,5299,5299,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_burimunsi_setup.js,Managed Admin API,"Route, operation or authority source",Retained,3727,3727,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_email_auth.js,Managed Admin API,"Route, operation or authority source",Retained,11536,11536,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_email_code_policy.js,Managed Admin API,"Route, operation or authority source",Retained,640,640,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_email_policy.js,Managed Admin API,"Route, operation or authority source",Retained,3881,3881,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_invitation.js,Managed Admin API,"Route, operation or authority source",Retained,8892,8892,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_invitation_v2.js,Managed Admin API,"Route, operation or authority source",Retained,14594,14594,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_managed_mfa.js,Managed Admin API,"Route, operation or authority source",Retained,10025,10025,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_member_receipts.js,Managed Admin API,"Route, operation or authority source",Retained,4541,4541,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_mfa_bff.js,Managed Admin API,"Route, operation or authority source",Modified,22785,13517,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_mfa_stage.js,Managed Admin API,"Route, operation or authority source",Added,,7973,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_momo.js,Managed Admin API,"Route, operation or authority source",Modified,43226,19116,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_momo_payment_review.js,Managed Admin API,"Route, operation or authority source",Added,,13676,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_momo_reads.js,Managed Admin API,"Route, operation or authority source",Added,,11634,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_operation_fields.js,Managed Admin API,"Route, operation or authority source",Added,,331,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_operations.js,Managed Admin API,"Route, operation or authority source",Added,,6113,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_oversight.js,Managed Admin API,"Route, operation or authority source",Retained,15359,15359,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_owner_precheck.js,Managed Admin API,"Route, operation or authority source",Modified,1224,1235,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_password.js,Managed Admin API,"Route, operation or authority source",Retained,2128,2128,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_privacy.js,Managed Admin API,"Route, operation or authority source",Retained,1203,1203,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_read_database.js,Managed Admin API,"Route, operation or authority source",Retained,1035,1035,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_reconciliation.js,Managed Admin API,"Route, operation or authority source",Added,,9430,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_reconciliation_reads.js,Managed Admin API,"Route, operation or authority source",Retained,6405,6405,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_record_mutations.js,Managed Admin API,"Route, operation or authority source",Added,,17741,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_record_sources.js,Managed Admin API,"Route, operation or authority source",Added,,11387,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_record_values.js,Managed Admin API,"Route, operation or authority source",Added,,1017,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_records.js,Managed Admin API,"Route, operation or authority source",Modified,23203,11457,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_request_aliases.js,Managed Admin API,"Route, operation or authority source",Added,,3083,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_request_history.js,Managed Admin API,"Route, operation or authority source",Added,,6920,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_search.js,Managed Admin API,"Route, operation or authority source",Retained,4564,4564,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_session.js,Managed Admin API,"Route, operation or authority source",Added,,11439,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_session_refresh.js,Managed Admin API,"Route, operation or authority source",Added,,6056,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_sms_receipts.js,Managed Admin API,"Route, operation or authority source",Retained,13347,13347,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_sync.js,Managed Admin API,"Route, operation or authority source",Retained,3893,3893,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/admin_team.js,Managed Admin API,"Route, operation or authority source",Added,,4541,"Edge checks, Node tests and selected PG17 tests"
+supabase/functions/_shared/domain/auth.js,Managed Admin API,Shared direct dependency,Retained,24023,24023,Admin route and dependency tests
+supabase/functions/_shared/domain/burimunsi/admin-provisioning.js,Managed Admin API,Shared direct dependency,Retained,14934,14934,Admin route and dependency tests
+supabase/functions/_shared/domain/burimunsi/admin-scope-selection.js,Managed Admin API,Shared direct dependency,Retained,1182,1182,Admin route and dependency tests
+supabase/functions/_shared/domain/burimunsi/admin-scope-setup.js,Managed Admin API,Shared direct dependency,Retained,14959,14959,Admin route and dependency tests
+supabase/functions/_shared/domain/burimunsi/operator-access.d.mts,Managed Admin API,Shared direct dependency,Retained,510,510,Admin route and dependency tests
+supabase/functions/_shared/domain/burimunsi/operator-access.mjs,Managed Admin API,Shared direct dependency,Retained,695,695,Admin route and dependency tests
+supabase/functions/_shared/domain/burimunsi/wire/operator-capabilities.generated.mjs,Managed Admin API,Shared direct dependency,Retained,376,376,Admin route and dependency tests
+supabase/functions/_shared/domain/canonical_people.js,Managed Admin API,Shared direct dependency,Retained,1433,1433,Admin route and dependency tests
+supabase/functions/_shared/domain/challenge.js,Managed Admin API,Shared direct dependency,Retained,5096,5096,Admin route and dependency tests
+supabase/functions/_shared/domain/contribution-posting.mjs,Managed Admin API,Shared direct dependency,Retained,7414,7414,Admin route and dependency tests
+supabase/functions/_shared/domain/index.js,Managed Admin API,Shared direct dependency,Retained,6111,6111,Admin route and dependency tests
+supabase/functions/_shared/domain/operations.js,Managed Admin API,Shared direct dependency,Retained,5554,5554,Admin route and dependency tests
+supabase/functions/_shared/domain/privacy_portal.js,Managed Admin API,Shared direct dependency,Retained,9405,9405,Admin route and dependency tests
+supabase/functions/_shared/domain/privacy_portal_assets.js,Managed Admin API,Shared direct dependency,Retained,43551,43551,Admin route and dependency tests
+supabase/functions/_shared/serve.js,Managed Admin API,Shared direct dependency,Retained,21975,21975,Admin route and dependency tests
+supabase/functions/_shared/tests/admin-access-notice-email.test.mjs,Managed Admin API,Test or fixture,Retained,6673,6673,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-burimunsi-observations.test.mjs,Managed Admin API,Test or fixture,Retained,14621,14621,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-email-auth.test.mjs,Managed Admin API,Test or fixture,Retained,25355,25355,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-email-bff.test.mjs,Managed Admin API,Test or fixture,Retained,10505,10505,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-email-mutation-policy.test.mjs,Managed Admin API,Test or fixture,Retained,6039,6039,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-invitation-notice-pg.test.ts,Managed Admin API,Test or fixture,Modified,48604,48801,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-invitation-pg.test.ts,Managed Admin API,Test or fixture,Retained,33045,33045,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-invitation-v2-routing.test.mjs,Managed Admin API,Test or fixture,Retained,2613,2613,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-invitation-v2.test.mjs,Managed Admin API,Test or fixture,Retained,33246,33246,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-invitation.test.mjs,Managed Admin API,Test or fixture,Retained,30545,30545,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-managed-mfa.test.mjs,Managed Admin API,Test or fixture,Retained,10268,10268,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-members-directory.test.mjs,Managed Admin API,Test or fixture,Modified,5502,8192,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-membership-patch.test.mjs,Managed Admin API,Test or fixture,Modified,8144,8206,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-mfa-bff.test.mjs,Managed Admin API,Test or fixture,Retained,27845,27845,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-mfa-route-gate.test.mjs,Managed Admin API,Test or fixture,Retained,1619,1619,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-oversight.test.mjs,Managed Admin API,Test or fixture,Retained,7806,7806,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-owner-guard.test.mjs,Managed Admin API,Test or fixture,Retained,2589,2589,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-owner-precheck.test.mjs,Managed Admin API,Test or fixture,Retained,2192,2192,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-password-policy-pg.test.ts,Managed Admin API,Test or fixture,Retained,7372,7372,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-password-policy-stale-pg.test.ts,Managed Admin API,Test or fixture,Retained,1913,1913,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-password-policy.test.mjs,Managed Admin API,Test or fixture,Retained,11858,11858,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-payment-evidence.test.mjs,Managed Admin API,Test or fixture,Retained,5016,5016,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-persistent-refresh.test.mjs,Managed Admin API,Test or fixture,Retained,25511,25511,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-platform-sponsored-group.test.mjs,Managed Admin API,Test or fixture,Modified,10315,10377,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-public-receiver-format.test.mjs,Managed Admin API,Test or fixture,Modified,11012,11074,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-queue-sla.test.mjs,Managed Admin API,Test or fixture,Retained,1846,1846,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/admin-sms-content.integration.test.ts,Managed Admin API,Test or fixture,Retained,21947,21947,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/auth-http-logout.test.mjs,Managed Admin API,Test or fixture,Retained,15174,15174,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/admin-access.test.mjs,Managed Admin API,Test or fixture,Retained,28308,28308,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/admin-provisioning-route.test.mjs,Managed Admin API,Test or fixture,Retained,7532,7532,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/admin-provisioning.test.mjs,Managed Admin API,Test or fixture,Retained,12640,12640,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/helpers/admin-email-fixture.js,Managed Admin API,Test or fixture,Retained,9905,9905,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/helpers/admin-password-policy-fixture.js,Managed Admin API,Test or fixture,Retained,6494,6494,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/helpers/fenced-module.js,Managed Admin API,Test or fixture,Modified,5139,5093,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/managed-admin-browser-origins.test.mjs,Managed Admin API,Test or fixture,Retained,3044,3044,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/native-auto-assignment-route.test.mjs,Managed Admin API,Test or fixture,Modified,7611,7630,Admin Node or Deno suite inventory
+supabase/functions/_shared/tests/receipt-sms-qualification-hold.test.mjs,Managed Admin API,Test or fixture,Modified,10536,10539,Admin Node or Deno suite inventory
+supabase/functions/admin-api/index.ts,Managed Admin API,"Route, operation or authority source",Retained,91,91,"Edge checks, Node tests and selected PG17 tests"
+supabase/migrations/20261020184012_collect_admin_invitation_attempts.sql,PostgreSQL,Versioned migration,Retained,27332,27332,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261020193752_collect_admin_invitation_access_notice_v2.sql,PostgreSQL,Versioned migration,Retained,31484,31484,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261020195249_collect_admin_invitation_public_id_preservation.sql,PostgreSQL,Versioned migration,Retained,2289,2289,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261023002500_collect_admin_recent_email_source_upgrade.sql,PostgreSQL,Versioned migration,Retained,85877,85877,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261023072038_collect_admin_initial_email_proof_ack.sql,PostgreSQL,Versioned migration,Retained,2954,2954,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261023102707_collect_retire_admin_mfa_enrollment.sql,PostgreSQL,Versioned migration,Retained,8461,8461,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261111043455_collect_admin_email_otp_lifetime.sql,PostgreSQL,Versioned migration,Retained,12012,12012,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261111120000_collect_admin_persistent_sessions.sql,PostgreSQL,Versioned migration,Retained,6445,6445,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261111121100_burimunsi_admin_observations.sql,PostgreSQL,Versioned migration,Retained,18640,18640,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261114110100_collect_admin_mfa_authority.sql,PostgreSQL,Versioned migration,Retained,23294,23294,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261114110300_collect_admin_mfa_intent_recovery.sql,PostgreSQL,Versioned migration,Retained,16206,16206,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261115010100_collect_admin_mfa_activation.sql,PostgreSQL,Versioned migration,Retained,23304,23304,Exact baseline comparison and selected PG17 fixtures
+supabase/migrations/20261119114600_burimunsi_admin_sms_health.sql,PostgreSQL,Versioned migration,Retained,6601,6601,Exact baseline comparison and selected PG17 fixtures
+supabase/tests/admin-email-ttl36-contract.sql,PostgreSQL,Database test or fixture,Retained,15638,15638,Managed database fixture inventory
+supabase/tests/burimunsi/admin-mfa-activation-contract.sql,PostgreSQL,Database test or fixture,Retained,8322,8322,Managed database fixture inventory
+supabase/tests/burimunsi/admin-mfa-authority-contract.sql,PostgreSQL,Database test or fixture,Retained,4810,4810,Managed database fixture inventory
+supabase/tests/burimunsi/admin-mfa-policy-contract.sql,PostgreSQL,Database test or fixture,Retained,2656,2656,Managed database fixture inventory
+supabase/tests/burimunsi/admin-mfa-rotation-contract.sql,PostgreSQL,Database test or fixture,Retained,4121,4121,Managed database fixture inventory
+supabase/tests/burimunsi/compile-platform-public-group-fixture.mjs,PostgreSQL,Database test or fixture,Modified,9262,9570,Managed database fixture inventory
+test/fixtures/admin-member-capture-dto-examples.json,Published fixtures,Recorded workflow response or provenance,Retained,53374,53374,Exact baseline comparison and owning test coverage
+test/fixtures/admin-sms-capture-dto-examples.json,Published fixtures,Recorded workflow response or provenance,Retained,23771,23771,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/SOURCE.json,Published fixtures,Recorded workflow response or provenance,Retained,3161,3161,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-actual-terminal-archive-acknowledgement.json,Published fixtures,Recorded workflow response or provenance,Retained,6220,6220,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-all-framework-callbacks-before-archive.json,Published fixtures,Recorded workflow response or provenance,Retained,5215,5215,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-arm-expected-callback-plan.json,Published fixtures,Recorded workflow response or provenance,Retained,3146,3146,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-bounded-duplicate-heavy-history.json,Published fixtures,Recorded workflow response or provenance,Retained,10944,10944,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-current-receipt-before-automatic-grant.json,Published fixtures,Recorded workflow response or provenance,Retained,513,513,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-directory-first.json,Published fixtures,Recorded workflow response or provenance,Retained,1220,1220,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-filtered-empty-directory.json,Published fixtures,Recorded workflow response or provenance,Retained,474,474,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-late-contradictory-observation.json,Published fixtures,Recorded workflow response or provenance,Retained,6636,6636,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-missing-receipt-is-unavailable.json,Published fixtures,Recorded workflow response or provenance,Retained,504,504,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-partial-multipart-observations.json,Published fixtures,Recorded workflow response or provenance,Retained,3958,3958,Exact baseline comparison and owning test coverage
+test/fixtures/admin_automatic_gateway_observed/admin-prior-grant-before-arm.json,Published fixtures,Recorded workflow response or provenance,Retained,1558,1558,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-action-receipt.json,Published fixtures,Recorded workflow response or provenance,Retained,356,356,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-cleared.json,Published fixtures,Recorded workflow response or provenance,Retained,912,912,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-empty.json,Published fixtures,Recorded workflow response or provenance,Retained,327,327,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-filtered.json,Published fixtures,Recorded workflow response or provenance,Retained,918,918,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-populated.json,Published fixtures,Recorded workflow response or provenance,Retained,3702,3702,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-progress-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,262,262,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-recorded-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,632,632,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/observed-unknown-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,263,263,Exact baseline comparison and owning test coverage
+test/fixtures/admin_exception_reads_v2/provenance.json,Published fixtures,Recorded workflow response or provenance,Retained,2984,2984,Exact baseline comparison and owning test coverage
+test/fixtures/admin_investigation_v1.json,Published fixtures,Recorded workflow response or provenance,Retained,3500,3500,Exact baseline comparison and owning test coverage
+test/fixtures/admin_operating_policy/current.json,Published fixtures,Recorded workflow response or provenance,Retained,2099,2099,Exact baseline comparison and owning test coverage
+test/fixtures/admin_operational_health148.json,Published fixtures,Recorded workflow response or provenance,Retained,4240,4240,Exact baseline comparison and owning test coverage
+test/fixtures/admin_operational_health150.json,Published fixtures,Recorded workflow response or provenance,Retained,4374,4374,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-cancelled-action.json,Published fixtures,Recorded workflow response or provenance,Retained,527,527,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-cancelled-inspection.json,Published fixtures,Recorded workflow response or provenance,Retained,436,436,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-in-progress-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,271,271,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-linked-rwanda-inspection.json,Published fixtures,Recorded workflow response or provenance,Retained,422,422,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-not-recorded-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,272,272,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-preexisting-eligible-inspection.json,Published fixtures,Recorded workflow response or provenance,Retained,422,422,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-prior-attempt-inspection.json,Published fixtures,Recorded workflow response or provenance,Retained,439,439,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-reauthenticated-original-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,822,822,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-recorded-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,822,822,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-revision-exhausted-inspection.json,Published fixtures,Recorded workflow response or provenance,Retained,442,442,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-unavailable-inspection.json,Published fixtures,Recorded workflow response or provenance,Retained,270,270,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/observed-unclassified-inspection.json,Published fixtures,Recorded workflow response or provenance,Retained,270,270,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_cancel_v1/provenance.json,Published fixtures,Recorded workflow response or provenance,Retained,4423,4423,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/SOURCE.json,Published fixtures,Recorded workflow response or provenance,Retained,2384,2384,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/audit-receipt_operation_run.json,Published fixtures,Recorded workflow response or provenance,Retained,2377,2377,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/audit-receipt_operations_policy.json,Published fixtures,Recorded workflow response or provenance,Retained,2158,2158,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/audit-supervisor_identity.json,Published fixtures,Recorded workflow response or provenance,Retained,2168,2168,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/evidence-backlog_results.json,Published fixtures,Recorded workflow response or provenance,Retained,913,913,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/evidence-budget-refusals-with-exceptions.json,Published fixtures,Recorded workflow response or provenance,Retained,1658,1658,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/evidence-budget_refusals.json,Published fixtures,Recorded workflow response or provenance,Retained,416,416,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/evidence-events.json,Published fixtures,Recorded workflow response or provenance,Retained,7066,7066,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/evidence-quota-events.json,Published fixtures,Recorded workflow response or provenance,Retained,10345,10345,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/evidence-reservations.json,Published fixtures,Recorded workflow response or provenance,Retained,1139,1139,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/quota-first-tied.json,Published fixtures,Recorded workflow response or provenance,Retained,1183,1183,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/quota-first.json,Published fixtures,Recorded workflow response or provenance,Retained,1129,1129,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/quota-last-tied.json,Published fixtures,Recorded workflow response or provenance,Retained,1037,1037,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/quota-last.json,Published fixtures,Recorded workflow response or provenance,Retained,983,983,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/run-closed.json,Published fixtures,Recorded workflow response or provenance,Retained,2045,2045,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/run-config-unavailable.json,Published fixtures,Recorded workflow response or provenance,Retained,1656,1656,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/run-quota-closed.json,Published fixtures,Recorded workflow response or provenance,Retained,2044,2044,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/run-short.json,Published fixtures,Recorded workflow response or provenance,Retained,1786,1786,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/run-unavailable.json,Published fixtures,Recorded workflow response or provenance,Retained,425,425,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_history_actual/starts-refused.json,Published fixtures,Recorded workflow response or provenance,Retained,630,630,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_recovery_actual/legacy-backlog-after-handling.json,Published fixtures,Recorded workflow response or provenance,Retained,909,909,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_recovery_actual/legacy-reservations.json,Published fixtures,Recorded workflow response or provenance,Retained,794,794,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_recovery_actual/mapped-backlog.json,Published fixtures,Recorded workflow response or provenance,Retained,947,947,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_recovery_actual/mapped-reservations.json,Published fixtures,Recorded workflow response or provenance,Retained,794,794,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_recovery_actual/partial-refused-budget.json,Published fixtures,Recorded workflow response or provenance,Retained,984,984,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_recovery_actual/short-principal-run.json,Published fixtures,Recorded workflow response or provenance,Retained,1810,1810,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operational_recovery_actual/zero-sms-budget-refusal.json,Published fixtures,Recorded workflow response or provenance,Retained,984,984,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-owner-configure.json,Published fixtures,Recorded workflow response or provenance,Retained,243,243,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-owner-expired-global_policy.json,Published fixtures,Recorded workflow response or provenance,Retained,255,255,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-owner-expired-owner_request.json,Published fixtures,Recorded workflow response or provenance,Retained,255,255,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-progress.json,Published fixtures,Recorded workflow response or provenance,Retained,254,254,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-owner-lookup-recorded.json,Published fixtures,Recorded workflow response or provenance,Retained,530,530,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-owner-stop-lookup.json,Published fixtures,Recorded workflow response or provenance,Retained,529,529,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-owner-stop.json,Published fixtures,Recorded workflow response or provenance,Retained,242,242,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/observed-policy-default.json,Published fixtures,Recorded workflow response or provenance,Retained,531,531,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_operations_v2/provenance.json,Published fixtures,Recorded workflow response or provenance,Retained,2667,2667,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-activate-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,476,476,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-enroll-input-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,410,410,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-enroll-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,475,475,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-identity-active-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,547,547,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-identity-expired-active-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,547,547,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-identity-pages-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,16143,16143,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-identity-revoked-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,573,573,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-revoke-input-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,466,466,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-revoke-lookup-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,887,887,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/observed-revoke-v3.json,Published fixtures,Recorded workflow response or provenance,Retained,562,562,Exact baseline comparison and owning test coverage
+test/fixtures/admin_receipt_principal_v3/provenance.json,Published fixtures,Recorded workflow response or provenance,Retained,4117,4117,Exact baseline comparison and owning test coverage
+test/fixtures/declared_admin/collect-admin-gateway-owner-request-v1.fixture.json,Published fixtures,Recorded workflow response or provenance,Retained,831,831,Exact baseline comparison and owning test coverage
+test/fixtures/declared_admin/collect-admin-gateway-v1.fixture.json,Published fixtures,Recorded workflow response or provenance,Retained,1723,1723,Exact baseline comparison and owning test coverage
+test/fixtures/declared_admin/collect-shadow-supervisor-v1.fixture.json,Published fixtures,Recorded workflow response or provenance,Retained,1241,1241,Exact baseline comparison and owning test coverage
+test/fixtures/local-challenge-parent-harness.mjs,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,5270,5270,Build receipt or targeted contract verification
+test/local-challenge-parent.test.mjs,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Modified,16730,16870,Build receipt or targeted contract verification
+tools/collect-admin-mcp/DIRECT_DESKTOP.md,API consumer,Local Admin tool or test,Retained,8890,8890,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/OPERATOR_WORKFLOWS.md,API consumer,Local Admin tool or test,Retained,13780,13780,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/README.md,API consumer,Local Admin tool or test,Retained,22837,22837,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/config/operator.example.json,API consumer,Local Admin tool or test,Retained,507,507,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/package.json,API consumer,Local Admin tool or test,Retained,1372,1372,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/api.mjs,API consumer,Local Admin tool or test,Retained,6127,6127,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/config.mjs,API consumer,Local Admin tool or test,Retained,5668,5668,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/direct-desktop/contract.mjs,API consumer,Local Admin tool or test,Retained,6910,6910,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/direct-desktop/core.mjs,API consumer,Local Admin tool or test,Retained,31589,31589,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/direct-desktop/journal.mjs,API consumer,Local Admin tool or test,Retained,15724,15724,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/direct-desktop/runtime.mjs,API consumer,Local Admin tool or test,Retained,2174,2174,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/direct-desktop/server.mjs,API consumer,Local Admin tool or test,Retained,1956,1956,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/direct-desktop/tools.mjs,API consumer,Local Admin tool or test,Retained,3623,3623,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/human_challenge.mjs,API consumer,Local Admin tool or test,Retained,14693,14693,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/login.mjs,API consumer,Local Admin tool or test,Retained,6740,6740,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/login_otp.mjs,API consumer,Local Admin tool or test,Retained,9393,9393,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/oversight.mjs,API consumer,Local Admin tool or test,Retained,11807,11807,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/retention_api.mjs,API consumer,Local Admin tool or test,Retained,4513,4513,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/retention_cli.mjs,API consumer,Local Admin tool or test,Retained,4859,4859,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/retention_contract.mjs,API consumer,Local Admin tool or test,Retained,9587,9587,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/retention_journal.mjs,API consumer,Local Admin tool or test,Retained,5013,5013,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/retention_operator.mjs,API consumer,Local Admin tool or test,Retained,15866,15866,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/server.mjs,API consumer,Local Admin tool or test,Retained,1437,1437,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/stdio.mjs,API consumer,Local Admin tool or test,Retained,7236,7236,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/tools.mjs,API consumer,Local Admin tool or test,Retained,29922,29922,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/src/verify_email.mjs,API consumer,Local Admin tool or test,Retained,3559,3559,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/capabilities.test.mjs,API consumer,Local Admin tool or test,Retained,6332,6332,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/contracts.test.mjs,API consumer,Local Admin tool or test,Modified,2229,2404,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/direct-desktop-core.test.mjs,API consumer,Local Admin tool or test,Retained,28544,28544,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/direct-desktop-fixtures.mjs,API consumer,Local Admin tool or test,Retained,4248,4248,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/direct-desktop-journal.test.mjs,API consumer,Local Admin tool or test,Retained,26397,26397,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/direct-desktop-mcp.test.mjs,API consumer,Local Admin tool or test,Retained,26749,26749,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/direct-desktop-runtime.test.mjs,API consumer,Local Admin tool or test,Retained,3645,3645,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/fixture-preload.mjs,API consumer,Local Admin tool or test,Retained,790,790,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/fixtures/admin-sms-capture-dto-examples.json,API consumer,Local Admin tool or test,Retained,23771,23771,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/human_challenge.test.mjs,API consumer,Local Admin tool or test,Retained,14627,14627,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/login_otp.test.mjs,API consumer,Local Admin tool or test,Retained,27489,27489,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/membership-receipts.test.mjs,API consumer,Local Admin tool or test,Retained,4686,4686,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/oversight-fixture.mjs,API consumer,Local Admin tool or test,Retained,2263,2263,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/oversight.test.mjs,API consumer,Local Admin tool or test,Retained,4868,4868,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/retention-api.test.mjs,API consumer,Local Admin tool or test,Retained,8414,8414,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/retention-operator.test.mjs,API consumer,Local Admin tool or test,Retained,18249,18249,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/server.test.mjs,API consumer,Local Admin tool or test,Retained,51409,51409,SDK and Admin consumer regression suite
+tools/collect-admin-mcp/test/stdio.test.mjs,API consumer,Local Admin tool or test,Retained,3266,3266,SDK and Admin consumer regression suite
+web/.well-known/apple-app-site-association,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,235,235,Build receipt or targeted contract verification
+web/.well-known/assetlinks.json,Delivery and browser,"Gates, hosted profiles, PWA or browser inputs",Retained,442,442,Build receipt or targeted contract verification

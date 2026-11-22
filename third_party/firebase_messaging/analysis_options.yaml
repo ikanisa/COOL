@@ -1,0 +1,7 @@
+# Retain unchanged upstream runtime bytes while analyzing the native fork.
+include: ../../analysis_options.yaml
+
+analyzer:
+  errors:
+    prefer_final_fields: ignore
+    prefer_final_locals: ignore

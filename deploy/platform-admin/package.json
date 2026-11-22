@@ -1,0 +1,17 @@
+{
+  "name": "@collect/platform-admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.0",
+    "esbuild": "0.28.2"
+  },
+  "overrides": {
+    "miniflare": {
+      "undici": "7.30.1"
+    }
+  }
+}

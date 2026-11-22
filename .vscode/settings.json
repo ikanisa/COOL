@@ -1,0 +1,29 @@
+{
+    "dart.flutterSdkPath": "/Users/jeanbosco/Developer/flutter",
+    "dart.sdkPath": "/Users/jeanbosco/Developer/flutter/bin/cache/dart-sdk",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "files.watcherExclude": {
+        "**/.dart_tool/**": true,
+        "**/build/**": true,
+        "**/build_stale_*/**": true,
+        "**/ios/Pods/**": true,
+        "**/android/.gradle/**": true,
+        "**/android/.kotlin/**": true
+    },
+    "files.exclude": {
+        "**/.dart_tool": true,
+        "**/build": true,
+        "**/build_stale_*": true,
+        "**/ios/Pods": true,
+        "**/android/.gradle": true,
+        "**/android/.kotlin": true
+    },
+    "search.exclude": {
+        "**/.dart_tool": true,
+        "**/build": true,
+        "**/build_stale_*": true,
+        "**/ios/Pods": true,
+        "**/android/.gradle": true,
+        "**/android/.kotlin": true
+    }
+}

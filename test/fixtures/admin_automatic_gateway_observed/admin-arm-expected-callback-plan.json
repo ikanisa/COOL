@@ -1,0 +1,103 @@
+{
+  "arm": {
+    "armed_at": "2026-10-01T17:38:47.198867Z",
+    "expires_at": "2026-10-01T17:39:16.964799Z",
+    "request_id": "08083db8-519a-4ae4-8112-f0b750012f92",
+    "health_observation_id": "2592e38c-f014-498a-8f7b-fba5b4291043"
+  },
+  "rows": [
+    {
+      "code": "ORIGINAL_REQUEST_RECORDED",
+      "action": "arm_dispatch",
+      "source": "arm",
+      "tp_status": null,
+      "request_id": "08083db8-519a-4ae4-8112-f0b750012f92",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:38:47.212519Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    },
+    {
+      "code": "ORIGINAL_REQUEST_RECORDED",
+      "action": "dispatch_grant",
+      "source": "grant",
+      "tp_status": null,
+      "request_id": "12a9f899-07d1-49ac-a3d5-035774ed58ee",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:38:46.965274Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_automatic_gateway_evidence",
+  "status": "available",
+  "attempt": {
+    "state": "send_started",
+    "run_id": "6f1bdff9-a720-4a70-b6b5-078451121622",
+    "device_id": "00b99206-df3d-4ca9-a10a-678dd2f391bf",
+    "issued_at": "2026-10-01T17:38:46.964799Z",
+    "attempt_id": "e6d7d99a-c933-4bcb-9198-23446d45eca4",
+    "expires_at": "2026-10-01T17:39:16.964799Z",
+    "receipt_id": "cdb13dc1-1f30-4807-a614-dd841555be65",
+    "updated_at": "2026-10-01T17:38:47.198867Z",
+    "principal_id": "46dc084e-8896-4610-b4aa-ac32f98490b3",
+    "fence_version": 1,
+    "segment_count": 2,
+    "policy_revision": 2,
+    "grant_request_id": "12a9f899-07d1-49ac-a3d5-035774ed58ee",
+    "health_observation_id": "2592e38c-f014-498a-8f7b-fba5b4291043"
+  },
+  "checked_at": "2026-10-01T17:38:47.305754Z",
+  "receipt_id": "cdb13dc1-1f30-4807-a614-dd841555be65",
+  "archive_ack": null,
+  "next_cursor": null,
+  "carrier_proof": false,
+  "send_authority": false,
+  "delivery_proven": false,
+  "contract_version": 3,
+  "history_complete": false,
+  "expected_callbacks": [
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "09d8d5f0-20e6-4355-96eb-1917c7ee7f1e",
+      "result_code": null,
+      "callback_kind": "delivery",
+      "segment_index": 0,
+      "has_observation": false
+    },
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "5db3a624-4645-4853-870f-927828a7eae5",
+      "result_code": null,
+      "callback_kind": "sent",
+      "segment_index": 0,
+      "has_observation": false
+    },
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "3c3e1621-a312-4ab2-b2e0-8d5b6349457f",
+      "result_code": null,
+      "callback_kind": "delivery",
+      "segment_index": 1,
+      "has_observation": false
+    },
+    {
+      "tp_status": null,
+      "consistent": false,
+      "callback_id": "c00e45c6-5492-403a-859c-9689daff7052",
+      "result_code": null,
+      "callback_kind": "sent",
+      "segment_index": 1,
+      "has_observation": false
+    }
+  ],
+  "sample_valid_until": "2026-10-01T17:39:47.305754Z"
+}

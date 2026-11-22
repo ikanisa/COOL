@@ -1,0 +1,289 @@
+import 'package:flutter/material.dart';
+
+import '../../app/theme/collect_colors.dart';
+import '../../app/theme/collect_icons.dart';
+import '../../app/theme/collect_radius.dart';
+import '../../app/theme/collect_spacing.dart';
+import '../../app/theme/collect_typography.dart';
+import 'collect_foundation.dart';
+import 'collect_chrome.dart';
+import 'collect_tone_icon.dart';
+
+class CollectIdDisplay extends StatelessWidget {
+  const CollectIdDisplay({
+    required this.publicId,
+    this.label = 'Collect ID',
+    this.onCopy,
+    super.key,
+  });
+
+  final String publicId;
+  final String label;
+  final VoidCallback? onCopy;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final value = publicId.trim().isEmpty ? '------' : publicId.trim();
+    return CollectCard(
+      emphasis: CollectCardEmphasis.hero,
+      padding: CollectSpacing.cardPaddingComfortable,
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label.toUpperCase(),
+                  style: CollectTypography.eyebrowLabel(colors.textMuted),
+                ),
+                CollectSpacing.gap8,
+                SelectableText(
+                  value,
+                  style: CollectTypography.collectIdDisplay(colors.textPrimary),
+                ),
+              ],
+            ),
+          ),
+          IconButton.filledTonal(
+            tooltip: 'Copy Collect ID',
+            onPressed: onCopy,
+            icon: const Icon(CollectIcons.copy),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CollectStatusChip extends StatelessWidget {
+  const CollectStatusChip({
+    required this.label,
+    this.tone = CollectStatusTone.neutral,
+    this.icon,
+    super.key,
+  });
+
+  final String label;
+  final CollectStatusTone tone;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final foreground = colors.statusForeground(tone);
+    return Semantics(
+      label: 'Status: $label',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colors.statusBackground(tone),
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(color: foreground.withValues(alpha: 0.22)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: CollectSpacing.x3,
+              vertical: CollectSpacing.x2,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  collectStatusIcon(tone, icon),
+                  size: 15,
+                  color: foreground,
+                ),
+                CollectSpacing.gapW8,
+                Flexible(
+                  child: Text(
+                    label,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: foreground,
+                      fontWeight: CollectTypography.weightBold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CollectPeopleCount extends StatelessWidget {
+  const CollectPeopleCount({
+    required this.count,
+    this.color,
+    this.iconSize = 16,
+    this.textStyle,
+    super.key,
+  });
+
+  final int? count;
+  final Color? color;
+  final double iconSize;
+  final TextStyle? textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final resolvedColor = color ?? context.collectColors.textSecondary;
+    return Semantics(
+      label: count == null
+          ? 'Contributor count unavailable'
+          : '$count ${count == 1 ? 'contributor' : 'contributors'}',
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(CollectIcons.people, size: iconSize, color: resolvedColor),
+            CollectSpacing.gapW4,
+            Text(
+              count?.toString() ?? '—',
+              style:
+                  textStyle ??
+                  Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: resolvedColor,
+                    fontWeight: CollectTypography.weightMedium,
+                  ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CollectAvatar extends StatelessWidget {
+  const CollectAvatar({
+    required this.label,
+    this.imageUrl,
+    this.size = 40,
+    super.key,
+  });
+
+  final String label;
+  final String? imageUrl;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final hasImage = imageUrl != null && imageUrl!.isNotEmpty;
+    return CircleAvatar(
+      radius: size / 2,
+      backgroundColor: colors.statusBackground(CollectStatusTone.privacy),
+      foregroundColor: colors.textPrimary,
+      foregroundImage: hasImage ? NetworkImage(imageUrl!) : null,
+      onForegroundImageError: hasImage ? (error, stackTrace) {} : null,
+      // The same own-product fallback remains visible while loading and when
+      // an optional account image is unavailable.
+      child: Icon(
+        CollectIcons.people,
+        color: colors.textPrimary,
+        size: (size * 0.68).clamp(22, 38).toDouble(),
+      ),
+    );
+  }
+}
+
+class SectionHeader extends StatelessWidget {
+  const SectionHeader({
+    required this.title,
+    this.actionLabel,
+    this.onAction,
+    super.key,
+  });
+
+  final String title;
+  final String? actionLabel;
+  final VoidCallback? onAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final foreground = context.collectColors.textPrimary;
+    final largeText = MediaQuery.textScalerOf(context).scale(1) >= 1.3;
+    final titleStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
+      color: foreground,
+      fontWeight: CollectTypography.weightSemibold,
+      letterSpacing: CollectTypography.trackingDefault,
+    );
+    final actionStyle = Theme.of(context).textTheme.labelLarge?.copyWith(
+      fontWeight: CollectTypography.weightMedium,
+      letterSpacing: CollectTypography.trackingDefault,
+    );
+    double textWidth(String text, TextStyle? style) {
+      final painter = TextPainter(
+        text: TextSpan(
+          text: text,
+          style: DefaultTextStyle.of(context).style.merge(style),
+        ),
+        textDirection: Directionality.of(context),
+        textScaler: MediaQuery.textScalerOf(context),
+      )..layout();
+      final width = painter.width;
+      painter.dispose();
+      return width;
+    }
+
+    final action = actionLabel == null
+        ? null
+        : TextButton(
+            onPressed: onAction,
+            style: TextButton.styleFrom(
+              foregroundColor: foreground,
+              padding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x2,
+                vertical: CollectSpacing.x1,
+              ),
+              minimumSize: const Size(0, CollectSpacing.target),
+              textStyle: actionStyle,
+            ),
+            child: Text(
+              actionLabel!,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final stacked =
+            action != null &&
+            textWidth(title, titleStyle) +
+                    textWidth(actionLabel!, actionStyle) +
+                    CollectSpacing.x2 * 2 >
+                constraints.maxWidth;
+        final heading = CollectHeadingText(
+          title: title,
+          level: 2,
+          style: titleStyle,
+          maxLines: stacked ? null : (largeText ? 3 : 1),
+          softWrap: stacked || largeText,
+          overflow: stacked ? TextOverflow.visible : TextOverflow.ellipsis,
+        );
+        if (stacked) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              heading,
+              Align(alignment: AlignmentDirectional.centerEnd, child: action),
+            ],
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(child: heading),
+            ?action,
+          ],
+        );
+      },
+    );
+  }
+}

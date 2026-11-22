@@ -1,0 +1,189 @@
+{
+  "format": "collect.react-admin.source-qualification.v1",
+  "qualified_utc": "2026-11-20",
+  "scope": "React Admin package and the build, hosting and qualification inputs declared in admin-web/scripts/source-inputs.json",
+  "candidate": {
+    "base_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+    "product_tree": "467c9eabbe934ff7ea610b410c5a4561af6e5951",
+    "ref": "refs/collect/candidates/react-admin/34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4/467c9eabbe934ff7ea610b410c5a4561af6e5951",
+    "files": 538,
+    "bytes": 8267310,
+    "index_sha256_before": "e551f7fb1c45ef48e8c3ade44bf027aad9825c1ad4e00f036c7e7ae12c22a540",
+    "index_sha256_after": "e551f7fb1c45ef48e8c3ade44bf027aad9825c1ad4e00f036c7e7ae12c22a540",
+    "head_admin_files": 0,
+    "index_admin_files": 0,
+    "head": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+    "checkout_branch": "codex/burimunsi-android-integration-20261109",
+    "staged_paths": 0
+  },
+  "original_custody": {
+    "original_t7_react": {
+      "archive_sha256": "6fd2b54326916333649e59c4913b940417a732eaf8600af254637647749bde16",
+      "manifest_sha256": "673824bf4a35fb7624e9f3baf8f8d2a6389ebcec42b1f99591c369bbbcd06fd3",
+      "source_files": 576,
+      "source_sha256": "e69e8bdd2a6cbd3418c7b29e540d1ebe74de426406dce40404fc78b0f420326a"
+    },
+    "admitted_react": {
+      "ref": "refs/collect/candidates/react-admin/34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4/467c9eabbe934ff7ea610b410c5a4561af6e5951",
+      "files": 334,
+      "source_sha256": "14b609b09d4ffb55631eb4a992705f678bab2863a80723961cc1a35ab3a34b3e"
+    },
+    "react_paths": {
+      "original_only": 247,
+      "admitted_only": 5,
+      "identical": 302,
+      "edited": 27
+    },
+    "flutter_retirement": {
+      "archive_sha256": "13f7299a2c65c4c042bc68630a3d10ab2704b1ad86a25cbed3adaacd672c6b55",
+      "source_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+      "verified_files": 2154,
+      "current_paths": {
+        "edited": 77,
+        "absent": 663,
+        "identical": 1414
+      },
+      "working_tree_deletions_in_archive": 662,
+      "working_tree_deletions_outside_archive": [
+        "web/public/app-screens/account-deletion-b95fdb220fda.png",
+        "web/public/app-screens/group-detail-582d9d3ebd21.png",
+        "web/public/app-screens/groups-a3afac41233c.png",
+        "web/public/app-screens/home-b9ea247884a3.png",
+        "web/public/app-screens/privacy-d4f7f94d1b08.png",
+        "web/public/app-screens/security-0f2bde766ea6.png",
+        "web/public/app-screens/terms-ab0bd9ec6002.png"
+      ]
+    }
+  },
+  "archive_locations": {
+    "original": "/Volumes/T7/01 Projects/COLLECT/_consolidated/archives/Original-T7-COLLECT-20261119",
+    "retirement": "/Volumes/T7/01 Projects/COLLECT/_consolidated/archives/2026-11-19-flutter-admin-retirement-0oan_54q"
+  },
+  "original_react_difference": {
+    "original_only_by_boundary": {
+      "host": 120,
+      "backend-compat": 98,
+      "client-compat": 11,
+      "tests": 8,
+      "src": 4,
+      "preview.html": 1,
+      "scripts": 1,
+      "vite.preview.config.ts": 1,
+      "deno.lock": 1,
+      "IMPLEMENTATION-STATUS.md": 1,
+      "ROUTE-PARITY.md": 1
+    },
+    "admitted_only": [
+      "admin-web/scripts/build-admin.mjs",
+      "admin-web/scripts/source-inputs.json",
+      "admin-web/scripts/verify-live.mjs",
+      "admin-web/src/features/burimunsi/operatorApproval.ts",
+      "admin-web/tests/browser/smoke.mjs"
+    ],
+    "original_operator_fixture": {
+      "path": "admin-web/tests/burimunsi/operator-race.postgres.mjs",
+      "sha256": "a38e5fe6deefdd6ad6ceda15b24e04ae9d38a258ca04fcd64fd6b7ad402dd90e",
+      "bytes": 11294,
+      "recovery_tree": "48a6df47637603f6f19a5a9b340b1d279cbea124",
+      "purpose": "Historical predecessor characterization only"
+    },
+    "retired_file_absent_from_source_index": "scripts/tests/admin_pwa_cookie_entrypoint_smoke.mjs"
+  },
+  "qualification": {
+    "toolchain": {
+      "node": "24.19.0",
+      "npm": "11.6.1",
+      "react": "19.3.1",
+      "vite": "8.3.8",
+      "postgresql": "17.11",
+      "playwright_core": "1.62.1",
+      "chrome": "157.0.8103.80"
+    },
+    "fresh_install": {
+      "mode": "npm ci from checked materialization and populated package cache, offline",
+      "packages": {
+        "admin-web": 257,
+        "deploy/platform-admin": 91,
+        "scripts/supabase --omit=dev": 14
+      }
+    },
+    "pinned_inputs": {
+      "admin-web/package-lock.json": "2daeb627b817352ee44fddad7df16c6d697a5574243610c63b3d6c961438d7b1",
+      "deploy/platform-admin/package-lock.json": "bb63b628ec699f782bc1784bff7ac02e19b14f04f21080a9969c44ea16e1084e",
+      "scripts/supabase/package-lock.json": "0e78debb42061d642a4b31408cab5a7e8df022632735f61561d018dcdd26fa71",
+      "admin-web/tests/burimunsi/operator-race.postgres.mjs": "1142fc3be4a28802bde50a79a01f770e6b51de082f99777c2d35891a3584a0d3",
+      "supabase/migrations/20261116215300_burimunsi_operator_identity_guard.sql": "15a51f98a768334fd852372f2fb7e0de2193a2c8cba5520fc9c57143900371b2"
+    },
+    "extracted_index_equals_tree": true,
+    "react": {
+      "test_files": 133,
+      "passed": 960,
+      "typecheck": "pass",
+      "lint": "pass"
+    },
+    "host_transport": {
+      "passed": 118,
+      "skipped": 0
+    },
+    "pwa_packaging": {
+      "passed": 4
+    },
+    "postgres": {
+      "operator_v2": "Effective grants checked after installing the complete guarded migration on owned PostgreSQL 17. A mismatched principal raised 40001 with zero approval, command or audit rows written.",
+      "pin_revocation": "Scoped catalog, exact receipts, cancellation, rollback, replay and conflict passed on a disposable Unix-socket fixture.",
+      "fixture_guards": "The local operator fixture supplies synthetic owner and fence helpers. Hosted auth, RLS and deployment profiles require separate verification."
+    },
+    "maintained_handler_checks": {
+      "run_from": "integration working checkout",
+      "passed": 6,
+      "source": "supabase/functions/_shared/tests/burimunsi/admin-access.test.mjs",
+      "scenarios": [
+        "guarded contract negotiation",
+        "malformed or misplaced negotiation rejection",
+        "ordinary staff refusal",
+        "fresh owner email requirement",
+        "changed principal returning 409 without retry",
+        "mismatched receipt withholding success"
+      ]
+    },
+    "source_admission_tests": {
+      "fresh_candidate": 3,
+      "application_and_candidate_suite": 43
+    },
+    "browser": {
+      "environment": "synthetic_loopback",
+      "origin": "http://127.0.0.1:4187",
+      "passed": [
+        "otp_sign_in_and_httponly_cookie",
+        "reload_restores_session",
+        "fresh_mobile_deep_link_requires_sign_in",
+        "sign_out_clears_fixture_cookie",
+        "installed_worker_caches_static_files_only"
+      ]
+    },
+    "fixture": {
+      "artifact": "build/admin-web-source-467c9eab",
+      "receipt": "build/admin-web-source-467c9eab.json",
+      "receipt_sha256": "013c6d69fa5a261b2b4d05ca9942be55a15c5a8734f1ebab78c8ef64d79b72ab",
+      "source": {
+        "commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+        "clean": false,
+        "sha256": "b30f4629164af73a87d4dafeef0512a95a067a358ad80aa3dbd975418b9aca24"
+      },
+      "files": 44,
+      "backend": "unconfigured",
+      "hosted_verified": false,
+      "previous_44_file_fixture_sources": {
+        "admin-web-burimunsi-fixture-20261119-220933.json": "85ad9428c8ded772ef5d8b2907c6237d6bad0e81dee9ba0d10ed0cd1d7d598be",
+        "admin-web-burimunsi-fixture-20261119-221209.json": "7365919d612886b1b06225780f92e087a1909949bce52d8111f17ed267bba601",
+        "admin-web-burimunsi-fixture-20261119-222839.json": "0675d1aab24b896084fd4e90c6814263effd0106aacf58fa3cecf0964e574614",
+        "admin-web-fixture.json": "dfa5bbc0e3aea47913bcd4da3293e40ba296ab1b6b9b98d86bfadb0150aa7606"
+      }
+    }
+  },
+  "outstanding": [
+    "The real integration branch and index have no React Admin source paths. A fresh clone of its current HEAD still materializes its historical tracked state.",
+    "This product tree covers the declared Admin inputs. Reconciliation of the complete Collect and native BuriMunsi source tree, release artifacts, and retirement changes into a reviewed integration commit remains open.",
+    "Hosted deployment, configured HTTPS, production CI and provider or device verification require independent evidence."
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "required": "records.read",
+  "staff": ["records.read", "members.enroll", "payments.allocate"],
+  "adminOnly": ["staff.manage", "sms.read", "gateway.manage"]
+}

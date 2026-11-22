@@ -1,0 +1,6 @@
+{
+  "root": "android/receiver",
+  "files": {
+    "CollectSmsReceiver.kt": "824effcef051c95b98bc513f39a8e7d0b9250b03"
+  }
+}

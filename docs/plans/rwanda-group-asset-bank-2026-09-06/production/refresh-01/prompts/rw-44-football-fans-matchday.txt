@@ -1,0 +1,19 @@
+Use case: photorealistic-natural
+
+Asset type: One original photographic cover for a Collect contribution group. Working concept: Football fans together.
+
+Scene and subjects: A lively candid photograph of a fictional adult Rwandan community football supporters group cheering at a local stadium, designed as a group contribution cover. Five adult friends, women and men spanning several ages, stand close together laughing, singing and clapping, wearing bright cobalt blue, white and golden-yellow unbranded football shirts and scarves. A central woman leads a chant; another fan waves a plain small blue cloth behind shoulder height. Other adult supporters and the stand are softly blurred. Realistic matchday afternoon light, saturated yet believable cloth colour, spontaneous expressions, natural sweat and movement. No aggression, flares, alcohol brand, readable banner, club crest or sponsor. Show a welcoming community pooling support for its team. Compact central faces and hands, a quiet strip of sky/stand above and blue fabric below.
+
+Materials and details: All people are fictional adults. Detailed natural skin, believable hands and everyday locally plausible clothing. Plain unbranded objects and clothing; no letters, numbers, crest, logos or financial confirmation. Group names belong in the Collect UI overlay, not in generated pixels.
+
+Lighting and palette: Fresh, vibrant, true-to-life daylight and natural skin tones; rich blue, teal, white, coral and green appropriate to the brief.
+
+Primary focal subject: Football fans together community.
+
+Style: Highly realistic candid Rwandan event photography: present-day adults, varied ages and natural expressions caught during real-looking interaction, never looking at the camera. Rich true-to-life colour, lively warmth and believable daylight, detailed skin with natural texture, candid movement and gently imperfect fabric folds. Shot by an excellent local documentary photographer, not a posed corporate advertisement. No sepia, beige filter, washed-out muted palette, plastic skin or cinematic fantasy. Fictional illustrative scene, not documentary evidence of an actual event.
+
+Composition and intended crops: Generate one image, portrait 3:4, ideally 1536 x 2048 pixels; record the actual output dimensions. Keep the story-critical faces and object cluster within the central 60% of width and the middle 45% of height. Leave the upper 15% and lower 25% visually quiet for Collect's category and title overlays. All essential content must remain understandable in the tall 358:438 card, square/circle avatar and central 3:2 preview crops. Do not bake in a UI, text, vignette or gradient.
+
+Text: None. Do not render any words, numbers or interface.
+
+Constraints: All depicted people are fictional adults, with no real customer likeness, testimonial or identifiable institution. Use contemporary everyday clothing except the occasion-specific dress explicitly requested. Keep phones and notebooks unreadable; avoid cash piles, readable currency, payment confirmations, bank cards, logos, watermarks, text, official flags and political insignia. No safari shorthand, generic pan-African costume, humiliating poverty imagery, medical distress or graphic death. No collage, multiple scenes, border or app screenshot. This is original illustrative photography, not evidence that money has been received, a loan granted, insurance activated or a partnership established.

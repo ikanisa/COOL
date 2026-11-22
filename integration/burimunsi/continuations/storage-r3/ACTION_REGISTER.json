@@ -1,0 +1,152 @@
+{
+  "schema_version": 3,
+  "continuation": "storage-policies-r3",
+  "date": "2026-11-09",
+  "source_tree_digest": "f4e54db78c69d3db60ae661b06109f12a6dbafbaa5ddc72a2e776bcf6a5bc9b2",
+  "production_qualified": false,
+  "previous_registers": [
+    "history/r1/ACTION_REGISTER.json",
+    "history/r2/ACTION_REGISTER.json"
+  ],
+  "tasks": [
+    {
+      "id": "STP-R3-01",
+      "task": "Authenticated AES-GCM record envelope and strict identity separation",
+      "source_status": "implemented",
+      "local_verification": "passed",
+      "files": [
+        "adapters/jvm/JournalRecordProtection.kt"
+      ],
+      "checks": [
+        "authenticated_migration"
+      ],
+      "native_adoption": "not_applicable_host_crypto",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "STP-R3-02",
+      "task": "Authenticated append-only journal and permanent migration provenance",
+      "source_status": "implemented",
+      "local_verification": "passed",
+      "files": [
+        "adapters/jvm/AppendOnlyLifecycleJournal.kt"
+      ],
+      "checks": [
+        "authenticated_migration",
+        "authenticated_process_restart"
+      ],
+      "native_adoption": "not_wired_to_app",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "STP-R3-03",
+      "task": "Explicit legacy-state adoption, preserving pending outcomes and original evidence",
+      "source_status": "implemented_against_explicit_capture_and_lock_ports",
+      "local_verification": "passed",
+      "files": [
+        "policy/LegacyLifecycleMigration.kt",
+        "adapters/jvm/AppendOnlyLifecycleJournal.kt"
+      ],
+      "checks": [
+        "authenticated_migration",
+        "authenticated_process_restart"
+      ],
+      "native_adoption": "product_legacy_decoder_and_cutover_not_integrated",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "STP-R3-04",
+      "task": "Existing-key Android factory and separate product factory sources",
+      "source_status": "implemented_source_factory",
+      "local_verification": "passed",
+      "files": [
+        "adapters/android/AndroidLifecycleStorage.kt",
+        "sources/burimunsi/native/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/BuriMunsiLifecycleStorage.kt",
+        "sources/mmoney/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/MMoneyLifecycleStorage.kt"
+      ],
+      "checks": [
+        "shared_policy_copy_identity",
+        "authenticated_migration_compile",
+        "burimunsi_retained_host_suite",
+        "evidence/current/product_factory_host_compile.json"
+      ],
+      "native_adoption": "actual_Android_provider_not_executed",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "STP-R3-05",
+      "task": "Source-bound host regressions and fresh exact-R2 patch reconstruction",
+      "source_status": "implemented",
+      "local_verification": "passed",
+      "files": [
+        "tools/run_storage_checks.py",
+        "tests/authenticated/AuthenticatedMigrationChecks.kt",
+        "tests/test_authenticated_restart.py"
+      ],
+      "checks": [
+        "evidence/current/summary.json",
+        "patches/r3/PATCH_VERIFICATION.json"
+      ],
+      "native_adoption": "not_native_acceptance",
+      "external_acceptance": "not_obtained"
+    }
+  ],
+  "remaining_requirements": [
+    {
+      "id": "EXT-01",
+      "status": "blocked",
+      "task": "Receiving Collect checkout consolidation and conflict resolution",
+      "reason": "No user working checkout modified; preserve independent workstreams.",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "EXT-02",
+      "status": "partially_completed",
+      "task": "Actual product legacy decoder, writer freeze and durable cutover gate",
+      "reason": "Generic authenticated persistence/migration now implemented; product mappings and app/worker adoption still required.",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "EXT-03",
+      "status": "blocked",
+      "task": "Pinned Android compilation, lint and instrumentation",
+      "reason": "Host compilation is not a pinned Android build.",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "EXT-04",
+      "status": "blocked",
+      "task": "Android storage, Keystore, Room/SQLCipher, reboot, OEM and power-loss qualification",
+      "reason": "No intended-device acceptance evidence supplied.",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "EXT-05",
+      "status": "partially_completed",
+      "task": "Native immutable archives, pending recovery UI and replacement effects",
+      "reason": "Verifier and generic coordinator exist; product effect adapters and UI remain.",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "EXT-06",
+      "status": "blocked",
+      "task": "Real authenticated backend receipt and PostgreSQL outcome acceptance",
+      "reason": "No live service/database acceptance executed.",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "EXT-07",
+      "status": "blocked",
+      "task": "Retention/compaction policy and trusted monotonic rollback anchor",
+      "reason": "Authenticated history alone cannot detect removal of a valid suffix; capacity fails closed.",
+      "external_acceptance": "not_obtained"
+    },
+    {
+      "id": "EXT-08",
+      "status": "not_implemented",
+      "task": "Explicit dedicated Android alias/directory provisioning and key lifecycle",
+      "reason": "Opening never creates or replaces a key; provisioning must inspect surviving evidence and retain archive access.",
+      "external_acceptance": "not_obtained"
+    }
+  ]
+}

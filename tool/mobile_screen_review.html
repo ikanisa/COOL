@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Collect screen review</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #182126;
+      background: #f7f9f9;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; }
+    button, a { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid #167e71; outline-offset: 2px; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 68px;
+      padding: 12px 24px;
+      border-bottom: 1px solid #dce3e2;
+      background: #fff;
+    }
+    h1 { margin: 0; font-size: 19px; line-height: 1.25; font-weight: 700; }
+    .meta { color: #52636a; font-size: 13px; line-height: 1.4; }
+    .layout { display: grid; grid-template-columns: 236px minmax(0, 1fr); min-height: calc(100vh - 68px); }
+    nav { border-right: 1px solid #dce3e2; background: #fff; }
+    .tabs { display: flex; flex-direction: column; gap: 3px; padding: 16px 10px; }
+    .tab {
+      min-height: 43px;
+      padding: 8px 12px;
+      border: 0;
+      border-radius: 6px;
+      color: #344148;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+    .tab:hover { background: #f0f4f3; }
+    .tab[aria-selected="true"] { color: #0d6258; background: #e4f2ee; font-weight: 650; }
+    main { min-width: 0; }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      min-height: 68px;
+      padding: 12px 22px;
+      border-bottom: 1px solid #dce3e2;
+      background: #fff;
+    }
+    h2 { margin: 0; font-size: 17px; line-height: 1.25; }
+    .route { margin-top: 3px; color: #607078; font-size: 13px; }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .actions button, .actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 6px 12px;
+      border: 1px solid #cbd6d3;
+      border-radius: 6px;
+      color: #213330;
+      background: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .actions button:hover, .actions a:hover { background: #eaf3f0; }
+    .stage {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: calc(100vh - 136px);
+      padding: 24px;
+      background: #e8eeef;
+    }
+    .stage img {
+      display: block;
+      width: auto;
+      max-width: min(100%, 420px);
+      max-height: calc(100vh - 184px);
+      height: auto;
+      object-fit: contain;
+      box-shadow: 0 8px 28px #18212624;
+    }
+    @media (max-width: 700px) {
+      body { width: 100vw; overflow-x: hidden; }
+      header, .layout, nav, main, .toolbar, .stage { width: 100%; min-width: 0; max-width: 100%; }
+      header { align-items: flex-start; min-height: 0; gap: 8px; padding: 12px 16px; }
+      h1 { min-width: 0; font-size: 17px; }
+      .meta { flex: 0 1 125px; min-width: 0; font-size: 11px; text-align: right; }
+      .layout { display: flex; flex-direction: column; min-height: 0; }
+      nav { border-right: 0; border-bottom: 1px solid #dce3e2; overflow-x: auto; scrollbar-width: none; }
+      nav::-webkit-scrollbar { display: none; }
+      .tabs { flex-direction: row; width: max-content; gap: 4px; padding: 8px; }
+      .tab { min-height: 38px; white-space: nowrap; text-align: center; }
+      .toolbar { padding: 12px 16px; }
+      .stage { min-height: 0; padding: 16px; }
+      .stage img { width: calc(100vw - 32px); min-width: 0; max-width: 420px; max-height: none; }
+    }
+    @media (max-width: 360px) {
+      header { flex-wrap: wrap; }
+      .meta { flex: 1 0 100%; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Collect screen review</h1>
+    <div class="meta">iOS fixture captures<br>7 Sep 2026</div>
+  </header>
+  <div class="layout">
+    <nav aria-label="Screens"><div class="tabs" id="tabs" role="tablist"></div></nav>
+    <main>
+      <div class="toolbar">
+        <div><h2 id="screen-title">Home</h2><div class="route" id="screen-route">/home</div></div>
+        <div class="actions">
+          <button type="button" id="previous">Previous</button>
+          <button type="button" id="next">Next</button>
+          <a id="full-image" href="../web/public/app-screens/home-c0a62ed4ced3.png" target="_blank" rel="noopener">Open image</a>
+        </div>
+      </div>
+      <div class="stage" id="screen-panel" role="tabpanel" aria-labelledby="screen-title">
+        <img id="screen-image" src="../web/public/app-screens/home-c0a62ed4ced3.png" alt="Collect home screen with example data">
+      </div>
+    </main>
+  </div>
+  <script>
+    const screens = [
+      { id: 'home', title: 'Home', route: '/home', file: 'home-c0a62ed4ced3.png', alt: 'Collect home screen with balance, activity and Explore Groups using example data' },
+      { id: 'groups', title: 'Groups', route: '/groups', file: 'groups-08cfb5130784.png', alt: 'Collect Groups screen with Rwanda photo cards and example group information' },
+      { id: 'group-detail', title: 'Group details', route: '/groups/qa-private-group', file: 'group-detail-aa0624e7c7d5.png', alt: 'Collect group details, balance, members and contribution actions using example data' },
+      { id: 'security', title: 'Security', route: '/settings/security', file: 'security-ab4cafded6f0.png', alt: 'Collect security settings and MoMo payment safety information' },
+      { id: 'privacy', title: 'Privacy', route: '/settings/legal/privacy', file: 'privacy-7b76225f8802.png', alt: 'The Privacy Policy screen in the Collect app' },
+      { id: 'terms', title: 'Terms', route: '/settings/legal/terms', file: 'terms-f670cece7e23.png', alt: 'The Terms and Conditions screen in the Collect app' },
+      { id: 'account-deletion', title: 'Account deletion', route: '/settings/account/delete', file: 'account-deletion-832163ce2213.png', alt: 'Collect account deletion screen before any reason or submission is selected' }
+    ];
+    const imageRoot = '../web/public/app-screens/';
+    const tabs = document.getElementById('tabs');
+    const buttons = screens.map((screen) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'tab';
+      button.role = 'tab';
+      button.textContent = screen.title;
+      button.addEventListener('click', () => { location.hash = screen.id; });
+      tabs.append(button);
+      return button;
+    });
+    let currentIndex = 0;
+    function renderFromHash() {
+      const index = screens.findIndex((screen) => screen.id === location.hash.slice(1));
+      currentIndex = index < 0 ? 0 : index;
+      const screen = screens[currentIndex];
+      document.getElementById('screen-title').textContent = screen.title;
+      document.getElementById('screen-route').textContent = screen.route;
+      const image = document.getElementById('screen-image');
+      image.src = imageRoot + screen.file;
+      image.alt = screen.alt;
+      document.getElementById('full-image').href = image.src;
+      buttons.forEach((button, buttonIndex) => {
+        button.setAttribute('aria-selected', buttonIndex === currentIndex ? 'true' : 'false');
+        button.tabIndex = buttonIndex === currentIndex ? 0 : -1;
+      });
+    }
+    document.getElementById('previous').addEventListener('click', () => {
+      location.hash = screens[(currentIndex - 1 + screens.length) % screens.length].id;
+    });
+    document.getElementById('next').addEventListener('click', () => {
+      location.hash = screens[(currentIndex + 1) % screens.length].id;
+    });
+    tabs.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const offset = event.key === 'ArrowRight' ? 1 : -1;
+      const index = (currentIndex + offset + screens.length) % screens.length;
+      location.hash = screens[index].id;
+      buttons[index].focus();
+    });
+    window.addEventListener('hashchange', renderFromHash);
+    renderFromHash();
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+.request-lookup { padding: 22px; max-width: 800px; }
+.request-lookup h2, .request-history-heading h2 { margin: 0 0 16px; font-size: 1rem; }
+.request-lookup form { display: flex; gap: 12px; align-items: end; }
+.request-lookup form .admin-field { flex: 1; }
+.request-result { margin-top: 18px; overflow-wrap: anywhere; }
+.request-result dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 20px; }
+.request-result dt { color: var(--admin-muted); }
+.request-result dd { margin: 0; }
+.request-cancellation { margin-top: 20px; overflow-wrap: anywhere; }
+.request-cancellation form { display: block; }
+.request-recovery { padding: 22px; margin-top: 20px; max-width: 800px; overflow-wrap: anywhere; }
+.request-recovery h2 { margin: 0 0 12px; font-size: 1rem; }
+.request-history-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 30px 0 12px; }
+.request-history-heading h2 { margin: 0; }
+.request-pagination { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px; color: var(--admin-muted); }
+@media (max-width: 520px) { .request-lookup form { flex-direction: column; align-items: stretch; } }

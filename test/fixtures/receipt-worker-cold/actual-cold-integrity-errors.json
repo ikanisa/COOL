@@ -1,0 +1,44 @@
+{
+  "worker_lookup": {
+    "code": "55000",
+    "message": "receipt_worker_history_integrity",
+    "actual_sql_stderr": "ERROR:  55000: receipt_worker_history_integrity\nCONTEXT:  PL/pgSQL function collect_receipt_worker_history.read_logical(text,text) line 12 at RAISE\nPL/pgSQL function collect_receipt_worker_history.read_payload(text,text) line 2 at assignment\nPL/pgSQL function public.get_receipt_exception_worker_request_v1(uuid) line 9 at RETURN\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "actual_exit_code": 3
+  },
+  "worker_execute": {
+    "code": "55000",
+    "message": "receipt_worker_history_integrity",
+    "actual_sql_stderr": "ERROR:  55000: receipt_worker_history_integrity\nCONTEXT:  PL/pgSQL function collect_receipt_worker_history.read_logical(text,text) line 12 at RAISE\nPL/pgSQL function collect_receipt_worker_history.read_payload(text,text) line 2 at assignment\nPL/pgSQL function public.execute_receipt_exception_worker_v1(uuid,bigint,timestamp with time zone) line 16 at RETURN\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "actual_exit_code": 3
+  },
+  "scan_lookup": {
+    "code": "55000",
+    "message": "receipt_worker_history_integrity",
+    "actual_sql_stderr": "ERROR:  55000: receipt_worker_history_integrity\nCONTEXT:  PL/pgSQL function collect_receipt_worker_history.read_logical(text,text) line 12 at RAISE\nPL/pgSQL function collect_receipt_worker_history.read_payload(text,text) line 2 at assignment\nPL/pgSQL function public.get_receipt_deferral_exception_scan_v1(uuid) line 6 at RETURN\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "actual_exit_code": 3
+  },
+  "transport_lookup": {
+    "code": "55000",
+    "message": "receipt_worker_history_integrity",
+    "actual_sql_stderr": "ERROR:  55000: receipt_worker_history_integrity\nCONTEXT:  PL/pgSQL function collect_receipt_worker_history.read_logical(text,text) line 12 at RAISE\nPL/pgSQL function collect_receipt_worker_history.read_payload(text,text) line 2 at assignment\nPL/pgSQL function public.get_receipt_worker_transport_request_v1(uuid) line 6 at RETURN\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "actual_exit_code": 3
+  },
+  "admin_detail": {
+    "code": "55000",
+    "message": "receipt_worker_history_integrity",
+    "actual_sql_stderr": "ERROR:  55000: receipt_worker_history_integrity\nCONTEXT:  PL/pgSQL function collect_receipt_worker_history.read_logical(text,text) line 12 at RAISE\nPL/pgSQL function collect_receipt_worker_history.read_payload(text,text) line 2 at assignment\nPL/pgSQL function public.admin_get_receipt_worker_transport_v1(uuid) line 9 at assignment\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "actual_exit_code": 3
+  },
+  "admin_health": {
+    "code": "55000",
+    "message": "receipt_worker_history_integrity",
+    "actual_sql_stderr": "ERROR:  55000: receipt_worker_history_integrity\nCONTEXT:  PL/pgSQL function collect_receipt_worker_history.read_logical(text,text) line 12 at RAISE\nPL/pgSQL function collect_receipt_worker_history.read_payload(text,text) line 2 at assignment\nPL/pgSQL function public.admin_get_receipt_exception_worker_health_v1() line 17 at assignment\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "actual_exit_code": 3
+  },
+  "base_schedule": {
+    "code": "55000",
+    "message": "receipt_worker_history_integrity",
+    "actual_sql_stderr": "ERROR:  55000: receipt_worker_history_integrity\nCONTEXT:  PL/pgSQL function collect_receipt_worker_history.read_logical(text,text) line 12 at RAISE\nPL/pgSQL function collect_receipt_worker_history.read_payload(text,text) line 2 at assignment\nSQL statement \"SELECT collect_receipt_worker_history.read_payload('worker_receipt',j.request_id::text)\"\nPL/pgSQL function collect_ops.receipt_transport_base_schedule() line 12 at PERFORM\nLOCATION:  exec_stmt_raise, pl_exec.c:3911\n",
+    "actual_exit_code": 3
+  }
+}

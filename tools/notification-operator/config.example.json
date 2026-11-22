@@ -1,0 +1,5 @@
+{
+  "format": "collect.operator.client-config.v1",
+  "enabled": false,
+  "origin": "https://admin-supabase-qa.collect.ikanisa.com"
+}

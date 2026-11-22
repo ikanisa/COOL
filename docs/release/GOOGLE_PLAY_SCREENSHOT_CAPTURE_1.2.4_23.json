@@ -1,0 +1,78 @@
+{
+  "version_name": "1.2.4",
+  "version_code": 23,
+  "captured_at": "2026-09-07T06:32:40.684496Z",
+  "status": "pass",
+  "capture_source": "Android emulator native product capture",
+  "device": "Collect_Design_Renderer_QA_20260905",
+  "app_entrypoint": "integration_test/google_play_store_preview.dart",
+  "capture_driver": "test_driver/google_play_store_screenshots.dart",
+  "runtime_boundary": "Actual CollectApp, production router and production widgets with an explicitly synthetic repository. These are Play Store images, not signed-release artifact design acceptance.",
+  "data_source": "synthetic_store_fixture",
+  "native_capture_manifest": {
+    "path": ".cache/google-play-submission-20260906/screenshots/capture-manifest.json",
+    "sha256": "1873b7e5bc7c54b09df3701114b3adf019a660c2055b6f30e55d67e1ff6a28e7",
+    "case_count": 18
+  },
+  "routes": {
+    "01-home": "/home",
+    "02-groups": "/groups",
+    "03-featured-groups": "/groups?filter=featured",
+    "04-group": "/groups/qa-private-group",
+    "05-contribute": "/groups/qa-private-group/contribute",
+    "06-activity": "/activity"
+  },
+  "visual_review": {
+    "status": "pass_for_store_export",
+    "reviewed_sets": [
+      "phoneScreenshots",
+      "sevenInchScreenshots",
+      "tenInchScreenshots"
+    ],
+    "content": "Current Rwanda group photography, Featured Groups, group detail, Rwanda MoMo contribution and Activity were visually inspected. No production customer, credential, OTP, live bank account, raw SMS, email or reconciliation evidence is present."
+  },
+  "sets": {
+    "phoneScreenshots": {
+      "dimensions": "1080x1920",
+      "density": 440,
+      "format": "JPEG",
+      "count": 6,
+      "sha256": {
+        "01-home.jpg": "69bf21794d4a712b7a207406bb28b70fd421bb51b061e46e3d1e49d9a89df09c",
+        "02-groups.jpg": "b71d320962a0c964ab243fc929841fc10f4f4e06b2e2247bbbdf206e2c6249fe",
+        "03-featured-groups.jpg": "6e3ee720aaaa9f7fd2488ee16f9cc32008d9a7a2b8eb61d68d3f177184271235",
+        "04-group.jpg": "ce5bd2ed78a0421cb9ad7cb590c0bd215ec5a241ab08307639cb8ea2b5b6bab6",
+        "05-contribute.jpg": "e107fc2b02a865a3a00e10c57900be93cce8466259300910fb6eb81a5e896d65",
+        "06-activity.jpg": "d7ba0ead84e1b45b68a5897342fdebf32cc9bfa6f940ccaa2e387f15bd29b241"
+      }
+    },
+    "sevenInchScreenshots": {
+      "dimensions": "1200x1920",
+      "density": 240,
+      "format": "JPEG",
+      "count": 6,
+      "sha256": {
+        "01-home.jpg": "b31b02f47be3e98315dc6fee0b4204efae5cb4303196fcd43712876291449b00",
+        "02-groups.jpg": "c30402bd8ecb36113bd3d9e747db72406f7203b8328bf6e567fbbf85680e2d8b",
+        "03-featured-groups.jpg": "b241621941f6a6af22d0d178b47e1b61f9e53f0be8bc1fd2c02866fe6dbc0dd1",
+        "04-group.jpg": "dc01dd2d25c0cf31b0b32c6b7b2ca2fd5af0fe581b0801bed71940666185cf89",
+        "05-contribute.jpg": "8086ca5038e8d7370b0792b492cccc76f3096c62bdb280a797bfa0120f2f91c6",
+        "06-activity.jpg": "786326ff33d0a500a60d4b88807e63590f08041574074d21a64a7240022682fe"
+      }
+    },
+    "tenInchScreenshots": {
+      "dimensions": "1600x2560",
+      "density": 240,
+      "format": "JPEG",
+      "count": 6,
+      "sha256": {
+        "01-home.jpg": "25aa9b99374e94355909874d10d2d3fa3d92214ebd09b56fe7ae03c159f8599b",
+        "02-groups.jpg": "2ae4cb8194a0133ebbc8deb4c9a9589cbe05ed1c1912f4a96578245c65049ecf",
+        "03-featured-groups.jpg": "1c5564fd03e65172e6e470d61427d9bcdf217de04f5fe919c1a2c036d44d0b53",
+        "04-group.jpg": "d892eb53867cf1278d89bdb96a28d61afe30fb4e148b6e90a88f1dcae40ac76a",
+        "05-contribute.jpg": "8efcf867a60ab1c39171fdbf93a1e31e6a7ce1f830107f1c56b5151b5c16e00d",
+        "06-activity.jpg": "d157bbafad0dd6f80d5b0eae6a772dd7cc50439af62e82c53c287f4159968ffa"
+      }
+    }
+  }
+}

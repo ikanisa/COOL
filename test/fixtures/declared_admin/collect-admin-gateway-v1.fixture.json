@@ -1,0 +1,51 @@
+{
+  "contract_version": 1,
+  "scope": "platform_global",
+  "checked_at": "2026-10-01T00:00:20.000000Z",
+  "sample_valid_until": "2026-10-01T00:01:20.000000Z",
+  "limit": 20,
+  "total": 1,
+  "next_cursor": null,
+  "rows": [
+    {
+      "device_id": "99790000-0000-4000-8000-000000000001",
+      "installation_id": "99790000-0000-4000-8000-000000000003",
+      "key_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "signing_certificate_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "state": "active",
+      "enrolled_at": "2026-10-01T00:00:00.000000Z",
+      "activated_at": "2026-10-01T00:00:10.000000Z",
+      "revoked_at": null,
+      "dispatch_authority": "pending",
+      "dispatch_available": false,
+      "health": {
+        "observation_id": "99790000-0000-4000-8000-000000000004",
+        "reported_at": "2026-10-01T00:00:05.000000Z",
+        "ingested_at": "2026-10-01T00:00:06.000000Z",
+        "observation_valid_until": "2026-10-01T00:02:05.000000Z",
+        "freshness": "fresh",
+        "sms_permission": false,
+        "network": "unvalidated",
+        "telephony": "unknown",
+        "sim_selected": false,
+        "local_pause": true,
+        "carrier_proof": false
+      },
+      "callback_observations": {
+        "total": 0,
+        "sent": 0,
+        "delivery": 0
+      },
+      "last_owner_action": {
+        "action": "activate",
+        "receipt": {
+          "device_id": "99790000-0000-4000-8000-000000000001",
+          "request_id": "99790000-0000-4000-8000-000000000002",
+          "state_at_action": "active",
+          "recorded_at": "2026-10-01T00:00:10.000000Z",
+          "replay": false
+        }
+      }
+    }
+  ]
+}

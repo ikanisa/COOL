@@ -1,0 +1,101 @@
+TAP version 13
+ok 1 - phone 0780000816
+ok 2 - phone +250780000816
+ok 3 - phone 250780000816
+ok 4 - phone 00250780000816
+ok 5 - phone 780000816
+ok 6 - phone +250 780 000 816
+ok 7 - reject phone staff@example.test
+ok 8 - reject phone abc0780000816
+ok 9 - reject phone *********816
+ok 10 - reject phone 078000081
+ok 11 - reject phone ++250780000816
+ok 12 - reject phone +250760000816
+ok 13 - reject phone 0780000816<script>
+ok 14 - all 10000 PINs preserve leading zeroes
+ok 15 - invalid PIN length/script
+ok 16 - invalid PIN length/script
+ok 17 - invalid PIN length/script
+ok 18 - invalid PIN length/script
+ok 19 - invalid PIN length/script
+ok 20 - invalid PIN length/script
+ok 21 - invalid PIN length/script
+ok 22 - exact RWF
+ok 23 - reject amount 0
+ok 24 - reject amount -1
+ok 25 - reject amount +10
+ok 26 - reject amount 1.0
+ok 27 - reject amount 1e4
+ok 28 - reject amount 10,00
+ok 29 - reject amount 00
+ok 30 - reject amount 9007199254740992
+ok 31 - calendar and timezone
+ok 32 - reject timestamp 2026-02-29 12:00:00
+ok 33 - reject timestamp 2026-01-01 24:00:00
+ok 34 - reject timestamp 2026-00-00 00:00:00
+ok 35 - preserve original M-Money facts
+ok 36 - full phone extracted only when present
+ok 37 - malformed message rejected
+ok 38 - malformed message rejected
+ok 39 - malformed message rejected
+ok 40 - malformed message rejected
+ok 41 - malformed message rejected
+ok 42 - wrong sender rejected
+ok 43 - incomplete multipart rejected
+ok 44 - SIM missing/mismatch never queued
+ok 45 - bound receipt eligible for capture, not member credit
+ok 46 - durable matching ACK
+ok 47 - bad ACK retains evidence
+ok 48 - bad ACK retains evidence
+ok 49 - bad ACK retains evidence
+ok 50 - bad ACK retains evidence
+ok 51 - bad ACK retains evidence
+ok 52 - bad ACK retains evidence
+ok 53 - bad ACK retains evidence
+ok 54 - staff cannot gain SMS by a capability flag
+ok 55 - admin non-gateway cannot read SMS
+ok 56 - admin registered gateway read
+ok 57 - session expiry
+ok 58 - persist command before send and refuse repeated UI dispatch
+ok 59 - unknown outcome cannot become another mutation
+ok 60 - even identical prepared commands are not silently resubmitted
+ok 61 - resolved command can start a new operation
+ok 62 - server reconciliation can recover an interrupted prepared command
+ok 63 - conflicting terminal reconciliation is rejected
+ok 64 - non-terminal reconciliation is rejected
+ok 65 - first definitive rejection is terminal
+ok 66 - uncertain first response 0 stays pending
+ok 67 - uncertain first response 200 stays pending
+ok 68 - uncertain first response 408 stays pending
+ok 69 - uncertain first response 425 stays pending
+ok 70 - uncertain first response 429 stays pending
+ok 71 - uncertain first response 500 stays pending
+ok 72 - uncertain first response 503 stays pending
+ok 73 - failed retry 400 cannot reject original command
+ok 74 - failed retry 401 cannot reject original command
+ok 75 - failed retry 403 cannot reject original command
+ok 76 - failed retry 404 cannot reject original command
+ok 77 - failed retry 409 cannot reject original command
+ok 78 - failed retry 413 cannot reject original command
+ok 79 - failed retry 415 cannot reject original command
+ok 80 - failed retry 422 cannot reject original command
+ok 81 - failed retry 429 cannot reject original command
+ok 82 - failed retry 503 cannot reject original command
+ok 83 - process recreation of SENT preserves uncertainty
+ok 84 - legacy SENT journal with zero attempts is never assumed unsent
+ok 85 - old failure cannot overwrite newer dispatch
+ok 86 - delayed failure cannot overwrite authenticated reconciliation
+ok 87 - low-level mark cannot reject an unknown command
+ok 88 - failed durable journal write prevents dispatch witness
+ok 89 - session witness rejects A to B to A replacement
+ok 90 - old 401 does not clear replacement session
+ok 91 - logout fences a delayed sign-in response
+ok 92 - failed secure persistence cannot install session
+ok 93 - current session invalidation clears exactly once
+ok 94 - reject unsafe API origin
+ok 95 - reject unsafe API origin
+ok 96 - reject unsafe API origin
+ok 97 - reject unsafe API origin
+ok 98 - reject unsafe API origin
+ok 99 - exact TLS origin
+1..99

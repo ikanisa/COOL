@@ -1,0 +1,57 @@
+{
+  "format": "collect.jobs.scheduler.v3",
+  "project_ref": "rrlduytparvsjfmegalh",
+  "function_name": "collect-jobs",
+  "endpoint": "https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs",
+  "method": "POST",
+  "authorization": {
+    "header": "Authorization",
+    "scheme": "Bearer",
+    "vault_secret_name": "collect_job_token_v1"
+  },
+  "cron": {
+    "name": "collect-jobs-maintenance-v1",
+    "expression": "*/5 * * * *",
+    "timezone": "UTC",
+    "install_active": false
+  },
+  "request": {
+    "body_template": {
+      "dispatch_id": "original_dispatch_id"
+    },
+    "timeout_ms": 120000
+  },
+  "budgets": {
+    "max_dispatches_per_utc_month": 10000,
+    "unconfirmed_after_seconds": 180,
+    "review_wait_seconds": 300,
+    "history_days": 30,
+    "cron_history_days": 7,
+    "prune_limit": 500,
+    "response_bytes": 16384
+  },
+  "activation": {
+    "mode": "maintenance_only",
+    "momo_processing_paused": true,
+    "readiness_max_age_seconds": 3600,
+    "probe_max_age_seconds": 900
+  },
+  "processing": {
+    "mode": "receipt_processing_v1",
+    "contract": "collect.receipt-processing.v1",
+    "enabled_by_default": false,
+    "batch_limit": 1,
+    "max_provider_requests_per_utc_month": 10000,
+    "requires_source_model_and_approval_binding": true
+  },
+  "notifications": {
+    "modes": ["notification_delivery_v1", "receipt_and_push_v1"],
+    "contract": "collect.android-push.v1",
+    "enabled_by_default": false,
+    "batch_limit": 1,
+    "max_delivery_attempts_per_utc_month": 10000,
+    "max_provider_http_requests_per_utc_month": 20000,
+    "requires_source_project_package_start_and_approval_binding": true
+  },
+  "qualification": "Source implementation only. No hosted extension, Vault secret, scheduler object, Cron job or provider has been activated by this artifact. Receipt and Android push lanes retain their own durable queues; the scheduler journal records wake-ups."
+}

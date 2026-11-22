@@ -1,0 +1,25 @@
+{
+  "status": "route_and_entrypoint_discovery_only",
+  "product_acceptance": "unverified",
+  "rows": 332,
+  "by_surface": {
+    "admin_browser": 24,
+    "admin_installed_pwa": 24,
+    "android_member": 37,
+    "database_migration": 127,
+    "edge_function": 8,
+    "ios_member": 37,
+    "member_browser": 37,
+    "notification_operator_tool": 9,
+    "public_flutter": 9,
+    "public_static": 20
+  },
+  "remaining_inventory": [
+    "Overlays and component states",
+    "Roles, membership and geographic cases",
+    "Platform and installed runtime availability",
+    "API/RPC/table/storage dependencies",
+    "Source comparators and independent acceptance evidence"
+  ],
+  "scope_sha256": "47957006653f9ecd1b4717a39e0a6d5931940ac16841a05c729224d3ab95ee09"
+}

@@ -1,0 +1,149 @@
+name: Collect Android public certificate diagnostic
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-certificate:
+    if: github.event_name == 'workflow_dispatch' && github.repository == 'ikanisa/COOL'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions: {}
+    steps:
+      - name: Compare the public certificate only
+        env:
+          COLLECT_KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          COLLECT_STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+          COLLECT_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        shell: bash
+        run: |
+          umask 077
+          python3 - <<'PY'
+          import base64
+          import binascii
+          import hashlib
+          import hmac
+          import json
+          import os
+          import re
+          import shutil
+          import subprocess
+          import sys
+          import tempfile
+
+          EXPECTED_SHA256 = "9EE12172C78A8A487906D9159BFDD17B4D78ABA3541F17B410659E6D60DDCC10"
+          MAX_ENCODED_BYTES = 65536
+          MAX_STORE_BYTES = 49152
+          MAX_CERTIFICATE_BYTES = 65536
+
+
+          class ClosedFailure(Exception):
+              pass
+
+
+          def require(value, status):
+              if not value:
+                  raise ClosedFailure(status)
+
+
+          def decode_base64(value, maximum):
+              require(0 < len(value) <= maximum, "input_invalid")
+              try:
+                  encoded = value.encode("ascii")
+                  require(re.fullmatch(rb"[A-Za-z0-9+/= \t\r\n]+", encoded), "input_invalid")
+                  compact = re.sub(rb"[ \t\r\n]", b"", encoded)
+                  decoded = base64.b64decode(compact, validate=True)
+              except (UnicodeError, binascii.Error, ValueError):
+                  raise ClosedFailure("input_invalid") from None
+              require(decoded and base64.b64encode(decoded) == compact, "input_invalid")
+              return decoded
+
+
+          def private_write(path, contents):
+              flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+              with os.fdopen(os.open(path, flags, 0o600), "wb") as handle:
+                  handle.write(contents)
+
+
+          def main():
+              status, fingerprint, matched = "runtime_error", None, False
+              private_dir, child_env = None, {}
+              os.umask(0o077)
+              try:
+                  encoded = os.environ.pop("COLLECT_KEYSTORE_BASE64", "")
+                  password = os.environ.pop("COLLECT_STORE_PASSWORD", "")
+                  alias = os.environ.pop("COLLECT_KEY_ALIAS", "")
+                  require(encoded and password and alias, "secrets_unavailable")
+                  require(len(password.encode("utf-8")) <= 1024 and "\0" not in password, "input_invalid")
+                  # A restricted quoted config value keeps even the secret alias out of
+                  # argv, and cannot introduce an option or a Java property expansion.
+                  require(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.@+ /:-]{0,127}", alias), "input_invalid")
+                  store = decode_base64(encoded, MAX_ENCODED_BYTES)
+                  require(len(store) <= MAX_STORE_BYTES, "input_invalid")
+                  tool = shutil.which("keytool")
+                  require(tool is not None, "tool_unavailable")
+                  tool = os.path.realpath(tool)
+                  private_dir = tempfile.mkdtemp(prefix="collect-cert-", dir=os.environ.get("RUNNER_TEMP") or None)
+                  os.chmod(private_dir, 0o700)
+                  store_path = os.path.join(private_dir, "keystore.bin")
+                  config_path = os.path.join(private_dir, "keytool.conf")
+                  private_write(store_path, store)
+                  private_write(config_path, ('keytool.exportcert = -alias "' + alias + '"\n').encode("ascii"))
+                  child_env = {
+                      "PATH": os.defpath,
+                      "HOME": private_dir,
+                      "TMPDIR": private_dir,
+                      "LANG": "C.UTF-8",
+                      "COLLECT_STORE_PASSWORD": password,
+                  }
+                  # Both streams stay in unlinked private temporary files. Neither a
+                  # certificate body, alias, keystore, password nor tool error is logged.
+                  with tempfile.TemporaryFile(dir=private_dir) as output, tempfile.TemporaryFile(dir=private_dir) as errors:
+                      result = subprocess.run(
+                          [tool, "-conf", config_path, "-exportcert", "-rfc", "-keystore", store_path,
+                           "-storepass:env", "COLLECT_STORE_PASSWORD"],
+                          stdin=subprocess.DEVNULL, stdout=output, stderr=errors,
+                          cwd=private_dir, env=child_env, timeout=40, check=False,
+                      )
+                      require(result.returncode == 0, "certificate_export_failed")
+                      output.seek(0)
+                      pem = output.read(MAX_CERTIFICATE_BYTES + 1)
+                  require(len(pem) <= MAX_CERTIFICATE_BYTES, "certificate_invalid")
+                  certificate = re.fullmatch(
+                      rb"-----BEGIN CERTIFICATE-----\r?\n([A-Za-z0-9+/=\r\n]+)-----END CERTIFICATE-----\r?\n?", pem,
+                  )
+                  require(certificate is not None, "certificate_invalid")
+                  try:
+                      der = decode_base64(certificate.group(1).decode("ascii"), MAX_CERTIFICATE_BYTES)
+                  except ClosedFailure:
+                      raise ClosedFailure("certificate_invalid") from None
+                  fingerprint = hashlib.sha256(der).hexdigest().upper()
+                  matched = hmac.compare_digest(fingerprint, EXPECTED_SHA256)
+                  status = "match" if matched else "mismatch"
+              except ClosedFailure as error:
+                  status = error.args[0]
+              except subprocess.TimeoutExpired:
+                  status = "tool_timeout"
+              except Exception:
+                  status = "runtime_error"
+              finally:
+                  child_env.clear()
+                  encoded = password = alias = store = None
+                  if private_dir is not None:
+                      try:
+                          shutil.rmtree(private_dir)
+                          if os.path.lexists(private_dir):
+                              status = "cleanup_failed"
+                      except Exception:
+                          status = "cleanup_failed"
+              print(json.dumps({"status": status, "public_certificate_sha256": fingerprint,
+                                "matches_expected": matched}, separators=(",", ":"), sort_keys=True))
+              return 0 if status == "match" and matched else 1
+
+
+          if __name__ == "__main__":
+              sys.exit(main())
+          PY

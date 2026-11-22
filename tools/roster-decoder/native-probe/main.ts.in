@@ -1,0 +1,15 @@
+// Synthetic dependency investigation only. This is not an application route.
+const root=__PREPARED_ROOT_JSON__;
+Deno.serve(async request=>{
+ const kind=new URL(request.url).pathname.slice(1);
+ if(!['image','pdfium','qpdf'].includes(kind))return Response.json({code:'not_found'},{status:404});
+ try{
+  const worker=await EdgeRuntime.userWorkers.create({servicePath:root+'/'+kind,
+   memoryLimitMb:384,workerTimeoutMs:10000,cpuTimeSoftLimitMs:4000,cpuTimeHardLimitMs:5000,
+   noModuleCache:false,forceCreate:true,allowRemoteModules:false,noNpm:true,envVars:[],
+   staticPatterns:[root+'/'+kind+'/vendor/parser.wasm'],
+   permissions:{allow_all:false,deny_net:[],deny_env:[],allow_read:[root,'/var/tmp/sb-compile-edge-runtime'],
+    deny_write:[],deny_run:[],deny_ffi:[],deny_sys:[]}});
+  return await worker.fetch(request);
+ }catch(error){return Response.json({ok:false,stage:'worker_boot',error:String(error).slice(0,220)},{status:503});}
+});

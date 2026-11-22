@@ -1,0 +1,48 @@
+{
+  "arm": null,
+  "rows": [
+    {
+      "code": "ORIGINAL_REQUEST_RECORDED",
+      "action": "dispatch_grant",
+      "source": "grant",
+      "tp_status": null,
+      "request_id": "12a9f899-07d1-49ac-a3d5-035774ed58ee",
+      "callback_id": null,
+      "occurred_at": null,
+      "recorded_at": "2026-10-01T17:38:46.965274Z",
+      "result_code": null,
+      "callback_kind": null,
+      "segment_index": null
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_automatic_gateway_evidence",
+  "status": "available",
+  "attempt": {
+    "state": "granted",
+    "run_id": "6f1bdff9-a720-4a70-b6b5-078451121622",
+    "device_id": "00b99206-df3d-4ca9-a10a-678dd2f391bf",
+    "issued_at": "2026-10-01T17:38:46.964799Z",
+    "attempt_id": "e6d7d99a-c933-4bcb-9198-23446d45eca4",
+    "expires_at": "2026-10-01T17:39:16.964799Z",
+    "receipt_id": "cdb13dc1-1f30-4807-a614-dd841555be65",
+    "updated_at": "2026-10-01T17:38:46.964799Z",
+    "principal_id": "46dc084e-8896-4610-b4aa-ac32f98490b3",
+    "fence_version": 1,
+    "segment_count": 2,
+    "policy_revision": 2,
+    "grant_request_id": "12a9f899-07d1-49ac-a3d5-035774ed58ee",
+    "health_observation_id": "2592e38c-f014-498a-8f7b-fba5b4291043"
+  },
+  "checked_at": "2026-10-01T17:38:47.078895Z",
+  "receipt_id": "cdb13dc1-1f30-4807-a614-dd841555be65",
+  "archive_ack": null,
+  "next_cursor": null,
+  "carrier_proof": false,
+  "send_authority": false,
+  "delivery_proven": false,
+  "contract_version": 3,
+  "history_complete": false,
+  "expected_callbacks": [],
+  "sample_valid_until": "2026-10-01T17:39:47.078895Z"
+}

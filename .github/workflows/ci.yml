@@ -1,0 +1,797 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      android_signed_candidate:
+        description: Build a reviewed signed production AAB candidate without publishing
+        type: boolean
+        required: true
+        default: false
+      android_expected_commit:
+        description: Reviewed full main commit, equal to this dispatch SHA
+        type: string
+        required: false
+      android_source_sha256:
+        description: Reviewed canonical source manifest SHA-256
+        type: string
+        required: false
+      android_approval_record:
+        description: External scoped candidate approval JSON, exact UTF-8 bytes
+        type: string
+        required: false
+      android_approval_sha256:
+        description: SHA-256 of exact approval record bytes
+        type: string
+        required: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}-${{ github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate && 'android-signed-candidate' || 'checks' }}
+  cancel-in-progress: ${{ !(github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate) }}
+
+permissions:
+  contents: read
+
+# ── Shared setup anchor ───────────────────────────────────────────────
+# Re-used across parallel jobs via composite actions isn't needed here;
+# each job declares its own setup for clarity and cache independence.
+
+jobs:
+  # ── 0. Repo hygiene (fast ~10s) ────────────────────────────────────
+  repo-hygiene:
+    name: Repo hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Secret & binary file scan
+        run: |
+          BLOCKED_PATTERNS='\.jks$|\.keystore$|\.bak$|\.old$|\.orig$|sa-key.*\.json$'
+          ALLOW_LIST='\.gitignore$|\.env\.example$'
+          MATCHES=$(git ls-files | grep -E "$BLOCKED_PATTERNS" | grep -vE "$ALLOW_LIST" || true)
+          if [ -n "$MATCHES" ]; then
+            echo "::error::Tracked files match blocked patterns:"
+            echo "$MATCHES"
+            exit 1
+          fi
+          echo "✅ No blocked secret/binary files tracked"
+
+      - name: Release secret scan
+        run: make release-secret-scan
+
+      - name: Verify declared CI credential and platform boundaries
+        run: |
+          python3 scripts/qa/collect_ci_policy.py
+          python3 scripts/tests/test_collect_ci_policy.py
+
+      - name: Source integrity
+        run: make source-integrity
+
+      - name: Sole Revolut design authority
+        run: |
+          make revolut-design-authority
+          python3 scripts/tests/revolut_design_authority_test.py
+
+      - name: Verify asset manifest and Rwanda runtime inventory
+        run: |
+          ruby scripts/tests/asset_manifest_integrity_test.rb
+          ruby scripts/tests/group_runtime_integrity_test.rb
+          ruby scripts/qa/group_runtime_integrity.rb --root . --json
+          python3 scripts/tests/rwanda_release_scope_test.py
+
+      - name: QA tooling regression tests
+        run: make qa-tooling-test
+
+      - name: Coverage gate regression tests
+        run: python3 scripts/tests/coverage_gate_test.py
+
+      - name: Patch marker scan
+        run: |
+          MATCHES=$(git grep -n -E '^\*\*\* (Begin Patch|Add File:|Update File:|Delete File:|Move to:|End Patch)$' -- \
+            '.github/workflows/**' \
+            'android/**' \
+            'ios/**' \
+            'lib/**' \
+            'scripts/**' \
+            'deploy/**' \
+            'test/**' \
+            'integration_test/**' \
+            'tool/**' || true)
+          if [ -n "$MATCHES" ]; then
+            echo "::error::Committed source contains raw patch markers:"
+            echo "$MATCHES"
+            exit 1
+          fi
+          echo "✅ No raw patch markers found in committed source"
+
+      - name: Deprecated theme API budget
+        run: |
+          COUNT=$(grep -rl 'AppColors\|CoolPalette' lib/ 2>/dev/null | wc -l | tr -d ' ')
+          BUDGET=8
+          echo "📊 Deprecated theme API files: $COUNT (budget: $BUDGET)"
+          if [ "$COUNT" -gt "$BUDGET" ]; then
+            echo "::error::Deprecated theme API usage ($COUNT files) exceeds budget ($BUDGET). Migrate before merging."
+            exit 1
+          fi
+          echo "✅ Theme API budget OK"
+
+      - name: Large file size check
+        run: |
+          WARN=500
+          FAIL=1200
+          EXIT_CODE=0
+
+          while IFS= read -r file; do
+            lines=$(wc -l < "$file" | tr -d ' ')
+            case "$file" in
+              lib/l10n/app_localizations.dart|lib/l10n/app_localizations_*.dart|*.g.dart)
+                continue
+                ;;
+            esac
+            if [ "$lines" -gt "$FAIL" ]; then
+              echo "::error::$file ($lines lines) exceeds hard limit ($FAIL)"
+              EXIT_CODE=1
+            elif [ "$lines" -gt "$WARN" ]; then
+              echo "::warning::$file ($lines lines) exceeds soft limit ($WARN)"
+            fi
+          done < <(find lib/ -name '*.dart' -type f 2>/dev/null)
+
+          while IFS= read -r file; do
+            lines=$(wc -l < "$file" | tr -d ' ')
+            if [ "$lines" -gt "$FAIL" ]; then
+              echo "::error::$file ($lines lines) exceeds hard limit ($FAIL)"
+              EXIT_CODE=1
+            elif [ "$lines" -gt "$WARN" ]; then
+              echo "::warning::$file ($lines lines) exceeds soft limit ($WARN)"
+            fi
+          done < <(find deploy/platform-api/src deploy/platform-admin/src -name '*.js' -type f 2>/dev/null)
+
+          exit $EXIT_CODE
+
+  # ── 1. Static analysis (fast ~30s) ─────────────────────────────────
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get --enforce-lockfile
+      - name: Verify pinned local file_saver fork
+        run: |
+          python3 scripts/supply_chain/verify_file_saver_fork.py --fetch --check
+          python3 -m unittest scripts.tests.file_saver_fork_provenance_test
+      - name: Verify retained Firebase Messaging fork provenance
+        run: |
+          python3 scripts/tests/pub_fork_origin_test.py
+          python3 scripts/supply_chain/verify_pub_forks.py fetch --cache-dir "$RUNNER_TEMP/collect-pub-forks"
+          python3 scripts/supply_chain/verify_pub_forks.py verify --cache-dir "$RUNNER_TEMP/collect-pub-forks" --output "$RUNNER_TEMP/collect-pub-forks-verification.json"
+      - name: Verify canonical product capability content
+        run: |
+          ruby scripts/generate_product_capability_content.rb --check
+          ruby scripts/tests/product_capability_content_test.rb
+          ruby scripts/tests/public_capability_contract_test.rb
+      - name: Set up pinned Node for public media fixture checks
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+      - name: Verify public media bootstrap boundaries
+        run: |
+          node scripts/tests/public_media_bootstrap_test.mjs
+          node --test scripts/tests/collect_diagnostic_observer_test.mjs scripts/tests/public_browser_served_resource_test.mjs
+      - run: make format-check
+      - run: flutter analyze --fatal-infos
+
+  # ── 2. Unit Tests (medium ~1.5min) ───────────────────────────────────
+  unit-test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get --enforce-lockfile
+
+      - name: Run unit + widget tests
+        run: flutter test --concurrency=4 --exclude-tags=integration --test-randomize-ordering-seed=random --file-reporter json:test-results.json --coverage
+
+      - name: Run managed member sync in Chrome
+        run: flutter test --no-pub --platform chrome test/core/managed_web_sync_test.dart
+      - name: Verify retained member history receipts on VM and Chrome
+        run: make test-history-retained
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unit-test-results
+          path: test-results.json
+          retention-days: 14
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
+          retention-days: 14
+
+      - name: Coverage threshold gate
+        run: |
+          ruby scripts/qa/lcov_coverage.rb coverage/lcov.info 40
+          python3 scripts/qa/coverage_gate.py coverage/lcov.info --threshold 40
+
+  admin-web-build:
+    name: React Admin Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: admin-web/package-lock.json
+      - name: Install locked React Admin dependencies
+        run: npm ci --prefix admin-web --no-audit --no-fund
+      - name: Check React Admin and the PWA package
+        run: |
+          npm --prefix admin-web run typecheck
+          npm --prefix admin-web run lint
+          npm --prefix admin-web test
+          node --test admin-web/tests/pwa/package-pwa.test.mjs
+          node scripts/tests/admin_pwa_worker_cache_test.mjs
+      - name: Exercise the compiled Admin entry and session recovery in Chromium
+        run: |
+          admin-web/node_modules/.bin/playwright-core install --with-deps --no-shell chromium
+          node admin-web/scripts/build-admin.mjs fixture
+          node admin-web/tests/browser/smoke.mjs build/admin-web-fixture
+      - name: Build and bind the Supabase Admin candidate
+        env:
+          ADMIN_APP_URL: https://platform-admin.collect.ikanisa.com
+          COLLECT_BACKEND: supabase
+          SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+          SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_ADMIN_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_ENABLED: ${{ vars.COLLECT_AUTH_CAPTCHA_ENABLED || 'false' }}
+          AUTH_CAPTCHA_PROVIDER: ${{ vars.COLLECT_AUTH_CAPTCHA_PROVIDER || '' }}
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY || '' }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+        run: |
+          bash scripts/admin_pwa_release_build.sh
+          node admin-web/scripts/build-admin.mjs verify-ci
+          bash scripts/admin_pwa_hosting_gate.sh --json
+      - name: Retain the React Admin artifact and its source receipt
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: admin-platform-pwa-candidate
+          path: |
+            build/admin-web/
+            build/admin-web.json
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error
+
+  # Artifact identity is verified independently of the build job.
+  admin-platform-candidate:
+    name: Platform Admin Candidate Identity
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [repo-hygiene, admin-web-build, supabase-platform, supabase-admin-consumers]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: admin-platform-pwa-candidate
+          path: build
+      - name: Verify the React Admin artifact against the workflow commit
+        env:
+          ADMIN_APP_URL: https://platform-admin.collect.ikanisa.com
+          COLLECT_BACKEND: supabase
+          SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+          SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_ADMIN_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_ENABLED: ${{ vars.COLLECT_AUTH_CAPTCHA_ENABLED || 'false' }}
+          AUTH_CAPTCHA_PROVIDER: ${{ vars.COLLECT_AUTH_CAPTCHA_PROVIDER || '' }}
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY || '' }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+        run: node admin-web/scripts/build-admin.mjs verify-ci
+
+  # ── 3. Fixture journey smoke (native device UAT runs separately) ────
+  integration-test:
+    name: Member journey smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get --enforce-lockfile
+
+      - name: Run member fixture journeys
+        run: >-
+          flutter test --no-pub --concurrency=4
+          test/persona_uat_smoke_test.dart
+          test/features/auth_error_recovery_test.dart
+          test/features/mobile_review_navigation_test.dart
+          --file-reporter json:test-results.json
+
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: integration-test-results
+          path: test-results.json
+          retention-days: 14
+
+  # ── 4. Governance docs + deep-link checks (fast ~15s) ──────────────
+  docs-check:
+    name: Docs sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate notification and deep-link routing
+        run: bash scripts/notification_readiness_gate.sh
+
+      - name: Build and validate public deep-link assets
+        run: bash scripts/public_website_ci_gate.sh static
+
+  ruby-delivery-tools:
+    name: Frozen Ruby delivery dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      FASTLANE_SKIP_UPDATE_CHECK: '1'
+      FASTLANE_OPT_OUT_USAGE: '1'
+      FASTLANE_HIDE_CHANGELOG: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Check frozen bundle and actual ZIP boundary
+        run: |
+          bundle check
+          bundle exec ruby scripts/tests/ruby_dependency_security_test.rb
+          bundle exec fastlane lanes
+
+  cover-catalog:
+    name: Generated cover catalog tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+      - run: make cover-catalog-test
+
+  # ── 7. APK size gate (slow ~5min, depends on analyze) ──────────────
+  apk-size:
+    name: APK size check
+    runs-on: ubuntu-latest
+    needs: [analyze]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Java
+        uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version: '17'
+          problem-matcher: true
+          cache: gradle
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open(".fvmrc", "r", encoding="utf-8") as handle:
+              config = json.load(handle)
+
+          print(f"version={config['flutter']}")
+          PY
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+
+      - run: flutter pub get --enforce-lockfile
+
+      - name: Build release APK size proxy (dev flavor)
+        env:
+          COLLECT_BACKEND: supabase
+          SUPABASE_URL: https://rrlduytparvsjfmegalh.supabase.co
+          SUPABASE_API_URL: https://platform-admin.collect.ikanisa.com
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+          AUTH_CAPTCHA_ENABLED: 'true'
+          AUTH_CAPTCHA_PROVIDER: turnstile
+          AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY }}
+          GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+        run: |
+          set -euo pipefail
+          umask 077
+          PUBLIC_CONFIG="$(mktemp "$RUNNER_TEMP/collect-apk-size-defines.XXXXXX.json")"
+          trap 'rm -f "$PUBLIC_CONFIG"' EXIT
+          python3 scripts/qa/native_build_config.py android --defines-output "$PUBLIC_CONFIG"
+          flutter build apk --release --split-per-abi --no-pub --flavor dev --dart-define=FLAVOR=dev --dart-define-from-file="$PUBLIC_CONFIG"
+
+      - name: Check per-device APK size budget
+        run: |
+          shopt -s nullglob
+          APK_PATHS=(build/app/outputs/flutter-apk/app-*-dev-release.apk)
+          if [ "${#APK_PATHS[@]}" -ne 3 ]; then
+            echo "::error::Expected 3 split APKs, found ${#APK_PATHS[@]}"
+            exit 1
+          fi
+
+          MAX_SIZE_BYTES=$((50 * 1048576))
+          for APK_PATH in "${APK_PATHS[@]}"; do
+            APK_SIZE_BYTES=$(stat -c%s "$APK_PATH")
+            APK_SIZE_MB=$(awk -v bytes="$APK_SIZE_BYTES" 'BEGIN { printf "%.2f", bytes / 1048576 }')
+            echo "📦 $(basename "$APK_PATH"): ${APK_SIZE_MB} MB"
+            echo "- $(basename "$APK_PATH"): ${APK_SIZE_MB} MB" >> "$GITHUB_STEP_SUMMARY"
+            if [ "$APK_SIZE_BYTES" -gt "$MAX_SIZE_BYTES" ]; then
+              echo "::error::$(basename "$APK_PATH") (${APK_SIZE_MB} MB) exceeds the 50 MB per-device budget"
+              exit 1
+            fi
+          done
+
+          echo "✅ All split APKs are within the 50 MB per-device budget"
+
+  cloudflare-backend:
+    if: ${{ false }} # Retained legacy history; no automatic backend execution.
+    name: Cloudflare account and operating services
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: deploy/admin-api
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: deploy/admin-api/package-lock.json
+      - name: Install locked backend test dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check Worker syntax
+        run: npm run check
+      - name: Verify accounts, permissions, operations and email with local workerd and D1
+        # Email bindings are in-memory fixtures. No provider credentials or
+        # hosted database are supplied to this job.
+        run: npm test
+
+  cloudflare-platform:
+    if: ${{ false }} # Retained legacy history; no automatic backend execution.
+    name: Cloudflare canonical app backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: deploy/platform-api
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+          cache: npm
+          cache-dependency-path: deploy/platform-api/package-lock.json
+      - name: Install locked current backend dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify Auth17 and historical recovery with isolated D1
+        run: node ../../scripts/qa/recovery17_ci.mjs
+      - name: Verify platform health probe policy
+        run: node --test ../../scripts/tests/platform_health_probe_test.mjs
+      - name: Verify atomic public configuration preparation and guards
+        run: node --test ../../scripts/tests/public_configuration_apply_test.mjs ../../scripts/tests/policy_configuration_update_test.mjs
+      - name: Verify source-bound legal-only draft policy preparation
+        run: |
+          ruby ../../scripts/tests/public_configuration_payload_test.rb
+          ruby ../../scripts/tests/policy_configuration_payload_test.rb
+      - name: Verify isolated atomic D1 restore preparation and recovery
+        run: node --test ../../scripts/tests/atomic_d1_restore_test.mjs
+      - name: Verify current12 SMS and decision-head recovery regression
+        run: node --test ../../scripts/tests/recovery12_test.mjs
+      - name: Verify current13 SMS metadata-grant recovery regression
+        run: node --test ../../scripts/tests/recovery13_test.mjs
+      - name: Verify candidate15 MoMo authority and processing recovery quarantine
+        run: node --test ../../scripts/tests/recovery15_test.mjs
+      - name: Verify inert MoMo release candidate capture and tamper guards
+        run: node --test ../../scripts/tests/momo_release_candidate_test.mjs
+      - name: Verify portable deployment toolchain guards
+        run: node --test ../../scripts/tests/approved_toolchain_test.mjs ../../scripts/tests/approved_toolchain_snapshot_test.mjs
+      - name: Verify explicit Auth17 source operation inventory
+        run: node scripts/operation_inventory.mjs --check-auth17
+      - name: Verify actual Worker, D1, R2, authorization and recovery boundaries
+        # Outbound provider fixtures are controlled; no live credentials are supplied.
+        run: npm test
+
+  supabase-admin-consumers:
+    name: Supabase Admin host and operator contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Install locked current Admin hosting test tooling
+        working-directory: deploy/platform-admin
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify privileged human challenge parent and origin boundary
+        working-directory: ${{ github.workspace }}
+        run: node --test deploy/platform-admin/test/human-parent.test.mjs deploy/platform-admin/test/human-parent-bundle.test.mjs
+      - name: Verify notification operator authorization and transport boundaries
+        working-directory: tools/notification-operator
+        run: node --test --test-concurrency=1 test/operator.test.mjs test/mcp.test.mjs test/transport.test.mjs test/auth.test.mjs
+
+      - name: Verify read-only Admin MCP syntax and protocol
+        working-directory: tools/collect-admin-mcp
+        run: |
+          npm run check
+          npm test
+      - name: Verify Admin entry and retirement routes
+        working-directory: ${{ github.workspace }}
+        run: |
+          node --test scripts/tests/admin_cloudflare_retirement_worker_test.mjs
+          node --test scripts/tests/admin_entry_test.mjs deploy/admin-entry/pages/test.mjs
+
+  supabase-platform:
+    name: Current managed Supabase qualification
+    # The called workflow is resolved from this exact candidate commit. Its
+    # source and synthetic PostgreSQL jobs retain their own deadlines.
+    uses: ./.github/workflows/supabase.yml
+
+  android-signing-policy:
+    name: Existing protected Android signing environment
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate && github.ref == 'refs/heads/main' }}
+    # Do not name an environment here: GitHub must not auto-create an absent
+    # signing environment before the read-only policy check has passed.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+    env:
+      COLLECT_ANDROID_EXPECTED_COMMIT: ${{ inputs.android_expected_commit }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.android_expected_commit }}
+          persist-credentials: false
+      - name: Read existing signing environment policy without signing inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B scripts/qa/android_signed_candidate.py policy
+
+  android-signed-candidate:
+    name: Reviewed signed Android candidate without publication
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.android_signed_candidate && github.ref == 'refs/heads/main' }}
+    needs: [analyze, android-signing-policy]
+    environment: collect-android-signing
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      actions: read
+    env:
+      COLLECT_ANDROID_EXPECTED_COMMIT: ${{ inputs.android_expected_commit }}
+      COLLECT_ANDROID_SOURCE_SHA256: ${{ inputs.android_source_sha256 }}
+      COLLECT_ANDROID_APPROVAL_SHA256: ${{ inputs.android_approval_sha256 }}
+      REVIEWED_ANDROID_APPROVAL_RECORD: ${{ inputs.android_approval_record }}
+      COLLECT_ANDROID_APPROVED_UPLOAD_CERT_SHA256: ${{ vars.COLLECT_ANDROID_APPROVED_UPLOAD_CERT_SHA256 }}
+      PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER: ${{ vars.COLLECT_PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER }}
+      COLLECT_ANDROID_GOOGLE_SERVICES_JSON: ${{ vars.COLLECT_ANDROID_GOOGLE_SERVICES_JSON }}
+      COLLECT_BACKEND: supabase
+      COLLECT_DEPLOYMENT_PROFILE: ${{ vars.COLLECT_DEPLOYMENT_PROFILE }}
+      COLLECT_DEPLOYMENT_PROFILE_SHA256: ${{ vars.COLLECT_DEPLOYMENT_PROFILE_SHA256 }}
+      COLLECT_SMS_AUTH_ENABLED: ${{ vars.COLLECT_SMS_AUTH_ENABLED || 'false' }}
+      SUPABASE_URL: ${{ vars.COLLECT_SUPABASE_URL }}
+      SUPABASE_API_URL: ${{ vars.COLLECT_SUPABASE_API_URL }}
+      SUPABASE_ADMIN_API_URL: ${{ vars.COLLECT_SUPABASE_ADMIN_API_URL }}
+      SUPABASE_PUBLISHABLE_KEY: ${{ vars.COLLECT_SUPABASE_PUBLISHABLE_KEY }}
+      AUTH_CAPTCHA_ENABLED: 'true'
+      AUTH_CAPTCHA_PROVIDER: turnstile
+      AUTH_CAPTCHA_SITE_KEY: ${{ vars.COLLECT_AUTH_CAPTCHA_SITE_KEY }}
+      GOOGLE_AUTH_ENABLED: ${{ vars.COLLECT_GOOGLE_AUTH_ENABLED || 'false' }}
+      APP_PUBLIC_URL: ${{ vars.COLLECT_APP_PUBLIC_URL }}
+      ADMIN_APP_URL: ${{ vars.COLLECT_ADMIN_APP_URL }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.android_expected_commit }}
+          persist-credentials: false
+      - name: Require reviewed main dispatch
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/main
+          test "$GITHUB_SHA" = "$COLLECT_ANDROID_EXPECTED_COMMIT"
+          test "$GITHUB_REPOSITORY" = ikanisa/COOL
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version: '17'
+          problem-matcher: true
+      - name: Prepare pinned Android bundletool
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          bundletool_dir="$(mktemp -d "$RUNNER_TEMP/collect-bundletool.XXXXXX")"
+          bundletool_jar="$bundletool_dir/bundletool-all-1.18.3.jar"
+          curl --disable --fail --silent --show-error --location --proto '=https' --proto-redir '=https' --tlsv1.2 --retry 2 --max-time 120 --max-filesize 32520401 \
+            https://github.com/google/bundletool/releases/download/1.18.3/bundletool-all-1.18.3.jar | python3 -c '
+          import hashlib, os, sys
+          limit = 32520401
+          digest = hashlib.sha256()
+          total = 0
+          with open(sys.argv[1], "xb") as output:
+              while True:
+                  block = sys.stdin.buffer.read(1048576)
+                  if not block:
+                      break
+                  total += len(block)
+                  if total > limit:
+                      print("Bundletool download exceeds expected size.", file=sys.stderr)
+                      sys.exit(1)
+                  digest.update(block)
+                  output.write(block)
+              output.flush()
+              os.fsync(output.fileno())
+          if total != limit:
+              print("Bundletool download size does not match the pinned release.", file=sys.stderr)
+              sys.exit(1)
+          if digest.hexdigest() != "a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29":
+              print("Bundletool SHA-256 does not match the pinned release.", file=sys.stderr)
+              sys.exit(1)
+          ' "$bundletool_jar"
+          printf 'COLLECT_BUNDLETOOL_JAR=%s\n' "$bundletool_jar" >> "$GITHUB_ENV"
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: python3 -c 'import json; print("version=" + json.load(open(".fvmrc"))["flutter"])' >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: stable
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          cache: true
+      - name: Resolve pinned native dependencies without signing inputs
+        run: flutter pub get --enforce-lockfile
+      - name: Offline Android candidate boundary checks
+        run: python3 -B scripts/tests/android_signed_candidate_test.py
+      - name: Verify scoped approval, public profile, policy and exact source before signing inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B scripts/qa/android_signed_candidate.py prepare
+      - name: Build and inspect signed production candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+        run: python3 -B scripts/qa/android_signed_candidate.py build
+      - name: Remove only owned transient signing and provider files
+        if: ${{ always() }}
+        run: python3 -B scripts/qa/android_signed_candidate.py cleanup
+      - name: Retain exact signed candidate and public provenance
+        if: ${{ success() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: collect-android-signed-candidate
+          path: |
+            ${{ runner.temp }}/android-delivery/Collect.aab
+            ${{ runner.temp }}/android-delivery/Collect.apk
+            ${{ runner.temp }}/android-delivery/inspection.json
+            ${{ runner.temp }}/android-delivery/source-manifest.json
+            ${{ runner.temp }}/android-delivery/public-profile.json
+            ${{ runner.temp }}/android-delivery/build-manifest.json
+            ${{ runner.temp }}/android-delivery/native-build.json
+            ${{ runner.temp }}/android-delivery/environment-policy.json
+          if-no-files-found: error
+          retention-days: 14

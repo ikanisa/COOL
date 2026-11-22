@@ -1,0 +1,27 @@
+--- packages/flutter_tools/lib/src/build_system/targets/icon_tree_shaker.dart
++++ packages/flutter_tools/lib/src/build_system/targets/icon_tree_shaker.dart
+@@ -207,6 +207,10 @@
+       'using codepoints $codePointsString',
+     );
+     final Process fontSubsetProcess = await _processManager.start(cmd);
++    // Drain both pipes while the child runs: waiting for exit first can block
++    // a verbose subsetter once either operating-system pipe buffer fills.
++    final Future<String> stdout = utf8.decodeStream(fontSubsetProcess.stdout);
++    final Future<String> stderr = utf8.decodeStream(fontSubsetProcess.stderr);
+     try {
+       await ProcessUtils.writelnToStdinUnsafe(
+         stdin: fontSubsetProcess.stdin,
+@@ -219,9 +223,11 @@
+     }
+ 
+     final int code = await fontSubsetProcess.exitCode;
++    final String stdoutText = await stdout;
++    final String stderrText = await stderr;
+     if (code != 0) {
+-      _logger.printTrace(await utf8.decodeStream(fontSubsetProcess.stdout));
+-      _logger.printError(await utf8.decodeStream(fontSubsetProcess.stderr));
++      _logger.printTrace(stdoutText);
++      _logger.printError(stderrText);
+       throw IconTreeShakerException._('Font subsetting failed with exit code $code.');
+     }
+     final String message = getSubsetSummaryMessage(input, _fs.file(outputPath));

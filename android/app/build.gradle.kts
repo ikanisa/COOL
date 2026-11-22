@@ -1,0 +1,713 @@
+import java.util.Properties
+import java.io.File
+import java.security.KeyStore
+import java.security.MessageDigest
+import java.util.Locale
+import java.util.Base64
+import java.net.URI
+import java.nio.file.Files
+import org.gradle.api.artifacts.dsl.LockMode
+import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.OutputFile
+import com.android.build.api.artifact.SingleArtifact
+import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.tasks.TaskAction
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
+plugins {
+    id("com.android.application")
+    id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")
+}
+
+abstract class CollectVariantPluginRegistrant : DefaultTask() {
+    @get:InputDirectory
+    abstract val originalJavaDirectory: DirectoryProperty
+
+    @get:InputFile
+    abstract val adapterSource: RegularFileProperty
+
+    @get:Input
+    abstract val omitNotifications: Property<Boolean>
+
+    @get:OutputDirectory
+    abstract val outputDirectory: DirectoryProperty
+
+    @TaskAction
+    fun generate() {
+        val originalDirectory = originalJavaDirectory.get().asFile
+        val original = originalDirectory.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
+        // The shared Java adapter validates the complete input tree, including
+        // verified AppleDouble metadata and all alias/additional-source guards.
+        val output = outputDirectory.get().asFile.resolve("io/flutter/plugins/GeneratedPluginRegistrant.java")
+        val javaExecutable = File(System.getProperty("java.home"), "bin/java")
+        val process = ProcessBuilder(
+            javaExecutable.absolutePath, "--source", "17", adapterSource.get().asFile.absolutePath,
+            original.absolutePath, output.absolutePath, omitNotifications.get().toString(),
+        ).inheritIO().start()
+        check(process.waitFor() == 0) { "Collect generated registrant adapter refused an unknown input" }
+    }
+}
+
+// The manifest merger can reintroduce an implicit storage permission after
+// tools:remove markers. Transform its source artifact only for the debug fixture.
+abstract class CollectFixtureMergedManifest : DefaultTask() {
+    @get:InputFile
+    abstract val mergedManifest: RegularFileProperty
+
+    @get:InputFile
+    abstract val adapterSource: RegularFileProperty
+
+    @get:OutputFile
+    abstract val fixtureManifest: RegularFileProperty
+
+    @TaskAction
+    fun transform() {
+        val javaExecutable = File(System.getProperty("java.home"), "bin/java")
+        val process = ProcessBuilder(
+            javaExecutable.absolutePath, "--source", "17", adapterSource.get().asFile.absolutePath,
+            mergedManifest.get().asFile.absolutePath, fixtureManifest.get().asFile.absolutePath,
+        ).inheritIO().start()
+        check(process.waitFor() == 0) { "Collect media fixture manifest boundary refused its input" }
+    }
+}
+
+// Explicit source-only QA exports may build an unsigned production-flavour
+// artifact without private provider/signing inputs. Default store builds retain
+// their signing checks. The QA marker is packaged and separately verified.
+val collectUnsignedLocalQaRaw = providers.gradleProperty("collectUnsignedLocalQa").orNull
+require(collectUnsignedLocalQaRaw == null || collectUnsignedLocalQaRaw in setOf("true", "false")) {
+    "collectUnsignedLocalQa must be explicitly true or false"
+}
+val collectUnsignedLocalQa = collectUnsignedLocalQaRaw == "true"
+
+// Public installation target only. A matching host is neither enrollment nor
+// send authority; the default keeps the internal gateway offline.
+val collectPublicDefines = linkedMapOf<String, String>()
+providers.gradleProperty("dart-defines").orNull.orEmpty().split(',').filter { it.isNotEmpty() }.forEach { encoded ->
+    val decoded = String(Base64.getDecoder().decode(encoded), Charsets.UTF_8)
+    val separator = decoded.indexOf('=')
+    require(separator > 0) { "Invalid Collect compile configuration" }
+    val key = decoded.substring(0, separator)
+    require(collectPublicDefines.put(key, decoded.substring(separator + 1)) == null) { "Duplicate Collect compile configuration" }
+}
+val collectBackend = collectPublicDefines["COLLECT_BACKEND"] ?: "supabase"
+require(collectBackend in setOf("cloudflare", "supabase")) { "Unsupported Collect backend" }
+val collectCloudProject = "https://rrlduytparvsjfmegalh.supabase.co"
+val collectCloudApiOrigins = setOf(
+    collectCloudProject,
+    "https://collect.ikanisa.com",
+    "https://admin.collect.ikanisa.com",
+    "https://platform-admin.collect.ikanisa.com",
+    "https://admin-supabase-qa.collect.ikanisa.com",
+)
+fun collectOrigin(value: String): URI {
+    val uri = URI(value)
+    require(uri.scheme == "https" && !uri.host.isNullOrEmpty() && uri.rawUserInfo == null &&
+        uri.rawQuery == null && uri.rawFragment == null && uri.port in setOf(-1, 443) &&
+        uri.path in setOf("", "/")) { "Collect native backend requires an HTTPS origin" }
+    return uri
+}
+val collectSupabaseProject = if (collectBackend == "supabase") collectOrigin(collectPublicDefines["SUPABASE_URL"].orEmpty()) else null
+val collectSupabaseApi = if (collectBackend == "supabase") collectOrigin(
+    collectPublicDefines["SUPABASE_API_URL"].orEmpty().ifEmpty { collectPublicDefines["SUPABASE_URL"].orEmpty() }
+) else null
+val collectApprovedApiHost = collectSupabaseApi?.host?.lowercase(Locale.US) ?: "api.collect.ikanisa.com"
+val collectApiPathPrefix = if (collectBackend == "supabase") "/functions/v1/collect-api" else ""
+val collectPublishableKey = if (collectBackend == "supabase") collectPublicDefines["SUPABASE_PUBLISHABLE_KEY"].orEmpty() else ""
+require(collectBackend != "supabase" || collectPublishableKey.matches(Regex("sb_publishable_[A-Za-z0-9_-]{10,300}"))) {
+    "Supabase native transport requires a publishable key"
+}
+val collectProjectOrigin = collectSupabaseProject?.let { "https://${it.host.lowercase(Locale.US)}" }
+require(collectBackend != "supabase" || collectProjectOrigin == collectCloudProject) {
+    "Supabase native transport requires the Collect Cloud project"
+}
+val collectDeploymentRaw = collectPublicDefines["COLLECT_DEPLOYMENT_PROFILE"]
+val collectDeploymentDigest = collectPublicDefines["COLLECT_DEPLOYMENT_PROFILE_SHA256"]
+if (collectBackend == "supabase" && collectDeploymentRaw == null && collectDeploymentDigest == null) {
+    val apiOrigin = collectSupabaseApi?.let { "https://${it.host.lowercase(Locale.US)}" }
+    val adminApiOrigin = collectPublicDefines["SUPABASE_ADMIN_API_URL"]?.takeIf { it.isNotEmpty() }
+        ?.let { collectOrigin(it) }?.let { "https://${it.host.lowercase(Locale.US)}" }
+    require(apiOrigin in collectCloudApiOrigins &&
+        (adminApiOrigin == null || adminApiOrigin in collectCloudApiOrigins)) {
+        "Supabase native transport requires approved Collect API origins"
+    }
+}
+if (collectDeploymentRaw != null || collectDeploymentDigest != null) {
+    require(collectDeploymentRaw != null && collectDeploymentRaw.length <= 8192 &&
+        collectDeploymentDigest?.matches(Regex("[a-f0-9]{64}")) == true) {
+        "Collect deployment profile and SHA256 must be configured together"
+    }
+    val profile = JsonSlurper().parseText(collectDeploymentRaw) as? Map<*, *>
+        ?: error("Invalid Collect deployment profile")
+    val fields = setOf("format", "id", "mode", "environment", "supabase_origin", "member_api_origin", "admin_origin", "public_origin", "google_callback_origin")
+    require(profile.keys == fields && profile.values.all { it is String }) { "Invalid Collect deployment profile" }
+    val canonical = JsonOutput.toJson(profile.entries.associate { it.key as String to it.value as String }.toSortedMap())
+    val digest = MessageDigest.getInstance("SHA-256").digest(canonical.toByteArray(Charsets.UTF_8)).joinToString("") { "%02x".format(it) }
+    require(canonical == collectDeploymentRaw && digest == collectDeploymentDigest &&
+        profile["format"] == "collect.deployment.v1" &&
+        (profile["id"] as String).matches(Regex("[a-z][a-z0-9-]{0,62}")) &&
+        profile["mode"] == "managed" &&
+        profile["environment"] in setOf("production", "qualification")) { "Invalid Collect deployment identity" }
+    fields.filter { it.endsWith("_origin") }.forEach { key ->
+        val raw = profile[key] as String
+        val value = collectOrigin(raw)
+        val host = value.host.lowercase(Locale.US)
+        require(raw == "https://$host" && host.contains('.') && !host.endsWith('.') && host.length <= 253 &&
+            host.split('.').all { it.matches(Regex("[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?")) } &&
+            !host.matches(Regex("[0-9.]+"))) {
+            "Collect deployment origins require canonical HTTPS hostnames"
+        }
+    }
+    require(profile["google_callback_origin"] in setOf(profile["member_api_origin"], profile["admin_origin"]) &&
+        profile["supabase_origin"] == collectProjectOrigin &&
+        profile["member_api_origin"] == collectSupabaseApi?.let { "https://${it.host.lowercase(Locale.US)}" } &&
+        profile["admin_origin"] == collectPublicDefines["SUPABASE_ADMIN_API_URL"] &&
+        profile["admin_origin"] == collectPublicDefines["ADMIN_APP_URL"] &&
+        profile["public_origin"] == collectPublicDefines["APP_PUBLIC_URL"] &&
+        profile["environment"] == collectPublicDefines["APP_ENVIRONMENT"]) { "Collect native origins must match the deployment profile" }
+}
+require(collectPublicDefines["SUPABASE_AUTH_ISSUER"] == null ||
+    collectPublicDefines["SUPABASE_AUTH_ISSUER"] == collectProjectOrigin?.plus("/auth/v1")) {
+    "Collect native Auth must use the public Supabase issuer"
+}
+val collectSessionOwner = if (collectProjectOrigin == null) "00000000-0000-4000-8000-000000000001" else {
+    val digest = MessageDigest.getInstance("SHA-256").digest("collect-auth-session:v1:supabase:$collectProjectOrigin".toByteArray(Charsets.UTF_8))
+        .joinToString("") { "%02x".format(it) }
+    "${digest.substring(0, 8)}-${digest.substring(8, 12)}-4${digest.substring(13, 16)}-8${digest.substring(17, 20)}-${digest.substring(20, 32)}"
+}
+val collectGatewayHost = providers.gradleProperty("collectGatewayHost").orNull.orEmpty()
+require(collectGatewayHost.isEmpty() || collectGatewayHost == collectApprovedApiHost) {
+    "collectGatewayHost must match the governed Collect backend host"
+}
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (!collectUnsignedLocalQa && keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
+}
+fun signingEnvName(name: String): String =
+    "COOL_ANDROID_" + name
+        .replace(Regex("([a-z])([A-Z])"), "$1_$2")
+        .uppercase(Locale.US)
+
+fun signingValue(name: String): String? {
+    if (collectUnsignedLocalQa) return null
+    return (keystoreProperties[name] as String?)
+        ?: (findProperty(name) as String?)
+        ?: System.getenv(signingEnvName(name))
+}
+
+fun String.normalizedSha256(): String = replace(":", "").uppercase(Locale.US)
+
+fun certificateSha256(storeFile: File, storePassword: String, keyAlias: String): String {
+    val password = storePassword.toCharArray()
+    val loadErrors = mutableListOf<String>()
+    for (storeType in listOf("JKS", "PKCS12")) {
+        try {
+            val keyStore = KeyStore.getInstance(storeType)
+            storeFile.inputStream().use { keyStore.load(it, password) }
+            val certificate = keyStore.getCertificate(keyAlias)
+                ?: error("alias '$keyAlias' was not found")
+            val digest = MessageDigest.getInstance("SHA-256").digest(certificate.encoded)
+            return digest.joinToString("") { "%02X".format(it) }
+        } catch (error: Exception) {
+            loadErrors += "$storeType: ${error.message}"
+        }
+    }
+    throw GradleException("Unable to read Android signing certificate from ${storeFile.path}: ${loadErrors.joinToString("; ")}")
+}
+
+val expectedPlaySigningSha256 = (
+    (keystoreProperties["COOL_EXPECTED_PLAY_SIGNING_SHA256"] as String?)
+        ?: (findProperty("COOL_EXPECTED_PLAY_SIGNING_SHA256") as String?)
+        ?: System.getenv("COOL_EXPECTED_PLAY_SIGNING_SHA256")
+        ?: "45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92"
+).normalizedSha256()
+val expectedUploadSigningSha256 = (
+    (keystoreProperties["COOL_EXPECTED_UPLOAD_SIGNING_SHA256"] as String?)
+        ?: (findProperty("COOL_EXPECTED_UPLOAD_SIGNING_SHA256") as String?)
+        ?: System.getenv("COOL_EXPECTED_UPLOAD_SIGNING_SHA256")
+        ?: "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
+)?.normalizedSha256()
+val releaseStoreFileValue = signingValue("storeFile")
+val releaseStoreFile = releaseStoreFileValue?.let { value ->
+    val moduleRelative = file(value)
+    val androidRootRelative = rootProject.file(value)
+    when {
+        moduleRelative.exists() -> moduleRelative
+        androidRootRelative.exists() -> androidRootRelative
+        else -> moduleRelative
+    }
+}
+val releaseKeyAlias = signingValue("keyAlias")
+val releaseStorePassword = signingValue("storePassword")
+val releaseKeyPassword = signingValue("keyPassword")
+val hasReleaseSigning =
+    releaseStoreFile?.exists() == true &&
+        releaseKeyAlias != null &&
+        releaseStorePassword != null &&
+        releaseKeyPassword != null
+val releaseSigningSha256 = if (hasReleaseSigning) {
+    certificateSha256(releaseStoreFile!!, releaseStorePassword!!, releaseKeyAlias!!)
+} else {
+    null
+}
+val releaseSigningMatchesPlay = releaseSigningSha256 == expectedPlaySigningSha256
+val releaseSigningMatchesExpectedUpload =
+    expectedUploadSigningSha256 == null || releaseSigningSha256 == expectedUploadSigningSha256
+val signProductionDebugWithPlayKey = (
+    (keystoreProperties["COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY"] as String?)
+        ?: (findProperty("COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY") as String?)
+        ?: System.getenv("COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY")
+        ?: "true"
+).toBoolean()
+
+val playIntegrityCloudProjectNumber =
+    (
+        (findProperty("PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER") as String?)
+            ?: System.getenv("PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER")
+            ?: "-1"
+    ).ifBlank { "-1" }
+
+android {
+    namespace = "app.cool.mobile"
+    compileSdk = maxOf(flutter.compileSdkVersion, 37)
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig = true
+        resValues = true
+    }
+
+    defaultConfig {
+        buildConfigField("String", "COLLECT_API_HOST", "\"$collectApprovedApiHost\"")
+        buildConfigField("String", "COLLECT_API_PATH_PREFIX", "\"$collectApiPathPrefix\"")
+        buildConfigField("String", "COLLECT_PUBLISHABLE_KEY", "\"$collectPublishableKey\"")
+        buildConfigField("String", "COLLECT_AUTH_SESSION_OWNER", "\"$collectSessionOwner\"")
+        buildConfigField("String", "COLLECT_AUTH_ISSUER", "\"${collectProjectOrigin?.plus("/auth/v1") ?: "collect-platform-api"}\"")
+        buildConfigField("String", "COLLECT_AUTH_AUDIENCE", "\"${if (collectBackend == "supabase") "authenticated" else "collect"}\"")
+        applicationId = "app.cool.mobile"
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+        buildConfigField(
+            "long",
+            "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER",
+            "${playIntegrityCloudProjectNumber}L",
+        )
+    }
+
+    signingConfigs {
+        create("release") {
+            if (hasReleaseSigning) {
+                keyAlias = releaseKeyAlias!!
+                keyPassword = releaseKeyPassword!!
+                storeFile = releaseStoreFile!!
+                storePassword = releaseStorePassword!!
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+        debug {
+            if (hasReleaseSigning && releaseSigningMatchesPlay && signProductionDebugWithPlayKey) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+    }
+
+    flavorDimensions += "channel"
+    productFlavors {
+        create("dev") {
+            dimension = "channel"
+            applicationIdSuffix = ".dev"
+        }
+        // Separate data/UID and launcher from both installed Collect apps.
+        // Only the debug variant exists; this is never a release candidate.
+        create("media_capture") {
+            dimension = "channel"
+            applicationIdSuffix = ".mediafixture"
+            resValue("string", "app_name", "Collect Media Fixture")
+        }
+        create("internal_receiver") {
+            dimension = "channel"
+            applicationIdSuffix = ".receiver"
+            manifestPlaceholders["enableSmsReceiver"] = true
+        }
+        create("internal_gateway") {
+            dimension = "channel"
+            applicationIdSuffix = ".gateway"
+            resValue("string", "app_name", "Collect Gateway")
+            resValue("string", "collect_gateway_backend_host", collectGatewayHost)
+        }
+        create("production") {
+            dimension = "channel"
+        }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+// Flutter's pinned loader adds native plugins to build-type Api configurations,
+// regardless of flavor. Member flavors retain local/FCM notifications. The
+// standalone native receiver and sender do not register notification plugins.
+val collectPluginMetadataFile = rootProject.file("../.flutter-plugins-dependencies")
+check(collectPluginMetadataFile.isFile && !Files.isSymbolicLink(collectPluginMetadataFile.toPath())) {
+    "Collect native flavor adapter requires regular Flutter plugin metadata; run flutter pub get first"
+}
+val collectPluginMetadata = JsonSlurper().parse(collectPluginMetadataFile) as Map<*, *>
+val collectAndroidPluginRows = (collectPluginMetadata["plugins"] as Map<*, *>)["android"] as List<*>
+val collectNotificationPluginDependencies = mapOf(
+    "flutter_local_notifications" to emptyList<String>(),
+    "firebase_messaging" to listOf("firebase_core"),
+)
+collectNotificationPluginDependencies.forEach { (pluginName, expectedDependencies) ->
+    val rows = collectAndroidPluginRows.filter { (it as Map<*, *>)["name"] == pluginName }
+    check(rows.size == 1) { "Unknown Flutter notification plugin topology: $pluginName" }
+    val row = rows.single() as Map<*, *>
+    check(
+        row["native_build"] == true && row["dev_dependency"] == false &&
+            row["dependencies"] == expectedDependencies &&
+            collectAndroidPluginRows.none {
+                pluginName in ((it as Map<*, *>)["dependencies"] as List<*>)
+            },
+    ) { "Unknown Flutter notification native dependency topology: $pluginName" }
+}
+val collectNotificationProjects = collectNotificationPluginDependencies.keys.map { project(":$it") }
+val collectNotificationProjectPaths = collectNotificationPluginDependencies.keys.map { ":$it" }.toSet()
+val collectStandaloneNativeFlavors = setOf("internal_gateway", "internal_receiver")
+val collectNoNotificationFlavors = collectStandaloneNativeFlavors + "media_capture"
+val collectMemberFlavors = android.productFlavors.filter { it.name !in collectNoNotificationFlavors }
+check(
+    android.productFlavors.map { it.name }.containsAll(collectStandaloneNativeFlavors) &&
+        collectMemberFlavors.isNotEmpty(),
+) {
+    "Collect native notification adapter requires the declared native and member flavors"
+}
+collectMemberFlavors.forEach { flavor ->
+    collectNotificationProjects.forEach { dependency ->
+        dependencies.add("${flavor.name}Api", dependency)
+    }
+}
+val collectBuildTypeApis = android.buildTypes.map { "${it.name}Api" }.toSet()
+val collectNotificationRelocations = mutableSetOf<String>()
+extensions.extraProperties["collectNotificationRelocations"] = collectNotificationRelocations
+configurations.configureEach {
+    if (name in collectBuildTypeApis) {
+        val apiConfiguration = this
+        fun relocateNotification(dependency: ProjectDependency) {
+            check(collectNotificationRelocations.add("${apiConfiguration.name}:${dependency.path}")) {
+                "Duplicate Flutter notification build-type dependency in ${apiConfiguration.name}: ${dependency.path}"
+            }
+            check(apiConfiguration.dependencies.remove(dependency)) {
+                "Unable to relocate Flutter notification native dependency"
+            }
+        }
+        // Flutter can add the plugin in a later afterEvaluate callback. Observe
+        // that exact addition without requiring it during earlier dependency
+        // inspection; already-present dependencies are handled before use.
+        dependencies.whenObjectAdded {
+            if (this is ProjectDependency && path in collectNotificationProjectPaths) {
+                relocateNotification(this)
+            }
+        }
+        withDependencies {
+            val notifications = filterIsInstance<ProjectDependency>().filter {
+                it.path in collectNotificationProjectPaths
+            }
+            check(notifications.groupBy { it.path }.values.all { it.size == 1 }) {
+                "Duplicate Flutter notification build-type dependency in $name"
+            }
+            notifications.forEach { relocateNotification(it) }
+        }
+    }
+}
+
+// Java classes do not support flavor overlays. Replace only the shared Java
+// source directory (one registrant plus verified macOS metadata) with one
+// task-generated directory per variant, leaving Flutter's original untouched.
+val collectOriginalJavaDirectory = file("src/main/java")
+val collectRegistrantAdapterSource = rootProject.file("gradle/CollectPluginRegistrant.java")
+val collectRegistrantInputCheck = ProcessBuilder(
+    File(System.getProperty("java.home"), "bin/java").absolutePath,
+    "--source", "17", collectRegistrantAdapterSource.absolutePath,
+    "--check-directory", collectOriginalJavaDirectory.absolutePath,
+).inheritIO().start()
+check(collectRegistrantInputCheck.waitFor() == 0) {
+    "Collect native flavor adapter refused an unknown main/java input"
+}
+android.sourceSets.named("main") {
+    val declared = java.directories
+    check(declared.any { file(it).canonicalFile == collectOriginalJavaDirectory.canonicalFile }) {
+        "Unknown Android main Java source directory topology"
+    }
+    java.setSrcDirs(declared.filter { file(it).canonicalFile != collectOriginalJavaDirectory.canonicalFile })
+}
+androidComponents.beforeVariants { variant ->
+    if (variant.productFlavors.any { it.first == "channel" && it.second == "media_capture" } &&
+        variant.buildType != "debug") {
+        variant.enable = false
+    }
+}
+// This offline fixture has no Firebase configuration or provider enrollment.
+tasks.matching { it.name == "processMedia_captureDebugGoogleServices" }.configureEach {
+    enabled = false
+}
+androidComponents.onVariants { variant ->
+    if (variant.productFlavors.any { it.first == "channel" && it.second == "media_capture" }) {
+        check(variant.buildType == "debug" && variant.name == "media_captureDebug") {
+            "Only the isolated debug media fixture may transform its manifest"
+        }
+        val boundary = tasks.register(
+            "collect${variant.name.replaceFirstChar { it.uppercaseChar() }}ManifestBoundary",
+            CollectFixtureMergedManifest::class.java,
+        ) {
+            adapterSource.set(rootProject.layout.projectDirectory.file("qa/CollectFixtureManifest.java"))
+        }
+        variant.artifacts.use(boundary)
+            .wiredWithFiles(CollectFixtureMergedManifest::mergedManifest, CollectFixtureMergedManifest::fixtureManifest)
+            .toTransform(SingleArtifact.MERGED_MANIFEST)
+    }
+    // Flutter's combined-variant JNI directory is consumed by AGP's merger,
+    // but is absent from AGP 9.0.1's incremental sourceFolderInputs collection.
+    // A normal file input makes changed generated libraries trigger the full
+    // JNI merge, while retaining Flutter's existing compile/copy dependencies.
+    val flutterJniLibraries = layout.buildDirectory.dir(
+        "intermediates/flutter/${variant.name}/jniLibs",
+    )
+    val mergeJniTaskName = "merge${variant.name.replaceFirstChar { it.uppercase() }}JniLibFolders"
+    tasks.matching { it.name == mergeJniTaskName }.configureEach {
+        inputs.files(flutterJniLibraries.map { it.asFileTree })
+            .withPropertyName("collectFlutterJniLibraries")
+            .withPathSensitivity(PathSensitivity.RELATIVE)
+    }
+
+    val generateRegistrant = tasks.register<CollectVariantPluginRegistrant>(
+        "generateCollect${variant.name.replaceFirstChar { it.uppercase() }}PluginRegistrant",
+    ) {
+        originalJavaDirectory.set(collectOriginalJavaDirectory)
+        adapterSource.set(collectRegistrantAdapterSource)
+        omitNotifications.set(variant.productFlavors.any {
+            it.first == "channel" && it.second in collectNoNotificationFlavors
+        })
+        outputDirectory.set(layout.buildDirectory.dir("generated/collectPluginRegistrants/${variant.name}"))
+    }
+    variant.sources.java?.addGeneratedSourceDirectory(generateRegistrant) { it.outputDirectory }
+        ?: error("Android variant ${variant.name} has no generated Java source adapter")
+}
+
+gradle.taskGraph.whenReady {
+    val sourceAnalysisTasks = setOf(
+        "lintDevDebug", "lintProductionDebug", "lintProductionRelease",
+        "lintVitalProductionRelease", "lintAnalyzeProductionRelease",
+        "testDevDebugUnitTest", "testProductionDebugUnitTest",
+    )
+    val requested = gradle.startParameter.taskNames.map { it.substringAfterLast(':') }
+    val sourceAnalysisOnly = requested.isNotEmpty() && requested.all { it in sourceAnalysisTasks }
+    val finalArtifactTasks = setOf(
+        "assembleProductionRelease", "bundleProductionRelease", "packageProductionRelease",
+        "packageProductionReleaseBundle", "signProductionReleaseBundle",
+        "validateSigningProductionRelease", "installProductionRelease",
+    )
+    val includesFinalArtifact = allTasks.any { it.project == project && it.name in finalArtifactTasks }
+    val productionReleaseTaskRequested = allTasks.any { task ->
+        task.name.contains("ProductionRelease", ignoreCase = true)
+    } && (!sourceAnalysisOnly || includesFinalArtifact)
+    // The dedicated receiver is distributed directly. Its release APK must use
+    // the reviewed certificate too; AGP otherwise permits an unsigned release.
+    val receiverReleaseArtifactRequested = allTasks.any { task ->
+        task.project == project && task.name in setOf(
+            "assembleInternal_receiverRelease", "bundleInternal_receiverRelease",
+            "packageInternal_receiverRelease", "packageInternal_receiverReleaseBundle",
+            "signInternal_receiverReleaseBundle", "validateSigningInternal_receiverRelease",
+            "installInternal_receiverRelease",
+        )
+    }
+    val playInstalledOverwriteTaskRequested = allTasks.any { task ->
+        signProductionDebugWithPlayKey && task.name.contains("ProductionDebug", ignoreCase = true)
+    } && (!sourceAnalysisOnly || includesFinalArtifact)
+    if (sourceAnalysisOnly && !includesFinalArtifact) {
+        allTasks.filter { task ->
+            task.project == project && task.name in setOf(
+                "processProductionReleaseGoogleServices", "processProductionDebugGoogleServices",
+            )
+        }.forEach { it.enabled = false }
+    }
+    if (!collectUnsignedLocalQa && (productionReleaseTaskRequested || receiverReleaseArtifactRequested || playInstalledOverwriteTaskRequested)) {
+        if (!hasReleaseSigning) {
+            throw GradleException(
+                "Production Android signing requires android/key.properties or COOL_ANDROID_* environment variables " +
+                    "pointing at the Google Play upload key."
+            )
+        }
+        if ((productionReleaseTaskRequested || receiverReleaseArtifactRequested) && !releaseSigningMatchesExpectedUpload) {
+            throw GradleException(
+                "Configured Android upload signing certificate SHA-256 $releaseSigningSha256 does not match " +
+                    "the expected upload certificate SHA-256 $expectedUploadSigningSha256. " +
+                    "Point android/key.properties or COOL_ANDROID_* environment variables at the registered Google Play upload key."
+            )
+        }
+        if (playInstalledOverwriteTaskRequested && !releaseSigningMatchesPlay) {
+            throw GradleException(
+                "Configured Android signing certificate SHA-256 $releaseSigningSha256 does not match " +
+                    "the expected Play app-signing certificate SHA-256 $expectedPlaySigningSha256. " +
+                    "Set COOL_SIGN_PRODUCTION_DEBUG_WITH_PLAY_KEY=false for upload-key debug builds, or point signing at the Play app-signing/original release key for Play-installed package overwrite QA."
+            )
+        }
+    }
+}
+
+// Lock only the app's reviewed production graph. Writing/enforcing these locks
+// does not modify any Flutter SDK or plugin cache project.
+dependencyLocking {
+    lockMode.set(LockMode.STRICT)
+}
+configurations.matching {
+    it.name in setOf("productionReleaseRuntimeClasspath", "productionReleaseCompileClasspath")
+}.configureEach {
+    resolutionStrategy.activateDependencyLocking()
+}
+
+if (collectUnsignedLocalQa) {
+    val markerDir = layout.buildDirectory.dir("generated/collectLocalQa/assets")
+    val marker = tasks.register("writeCollectUnsignedLocalQaMarker") {
+        outputs.dir(markerDir)
+        doLast {
+            val file = markerDir.get().file("collect-local-unsigned-qa.json").asFile
+            file.parentFile.mkdirs()
+            file.writeText("""{"kind":"local_unsigned_native_qa","store_acceptance":false,"provider_configuration":false,"signing":false}""" + "\n")
+        }
+    }
+    // AGP9 rejects Provider arguments on legacy source-set directory methods.
+    // The directory is static for this build; its explicit pre-build dependency
+    // below keeps marker generation ordered before asset merging.
+    android.sourceSets.getByName("production").assets.srcDir(markerDir.get().asFile)
+    android.sourceSets.getByName("internal_gateway").assets.srcDir(markerDir.get().asFile)
+    android.sourceSets.getByName("internal_receiver").assets.srcDir(markerDir.get().asFile)
+    val markerPreBuildNames = listOf("Production", "Internal_gateway", "Internal_receiver").flatMap { flavor ->
+        android.buildTypes.map { type ->
+            "pre${flavor}${type.name.replaceFirstChar { it.uppercase() }}Build"
+        }
+    }.toSet()
+    tasks.matching { it.name in markerPreBuildNames }.configureEach { dependsOn(marker) }
+}
+
+dependencies {
+    // Kotlin's metadata alignment can materialize this already-selected compile
+    // dependency only after strict runtime lock constraints are applied. Declare
+    // the same pinned compiler version so lock generation observes it as well.
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.4.20")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    implementation("com.google.android.play:integrity:1.6.0")
+    testImplementation("junit:junit:4.13.2")
+    // Gateway JVM contracts need real JSON; Android's mockable API throws.
+    testImplementation("org.json:json:20260814")
+}
+
+// Firebase is configured only for the store/staging application IDs. Keep
+// development and restricted-SMS QA variants buildable without inventing
+// Firebase clients for package IDs that are not registered with the project.
+tasks.configureEach {
+    if (
+        name.matches(
+            Regex(
+                "process(?:Dev|Internal_receiver|Internal_gateway)(?:Debug|Profile|Release)GoogleServices",
+                RegexOption.IGNORE_CASE,
+            ),
+        )
+    ) {
+        enabled = false
+    }
+    if (
+        collectUnsignedLocalQa && name in setOf(
+            "processProductionReleaseGoogleServices", "processProductionDebugGoogleServices",
+        )
+    ) {
+        enabled = false
+    }
+}
+
+tasks.register("printReleaseSigningCertificateStatus") {
+    group = "verification"
+    description = "Print redacted production signing certificate status as JSON."
+
+    fun jsonString(value: String?): String =
+        if (value == null) {
+            "null"
+        } else {
+            "\"" + value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n") + "\""
+        }
+
+    doLast {
+        val status = when {
+            !hasReleaseSigning -> "blocked"
+            !releaseSigningMatchesExpectedUpload -> "blocked"
+            else -> "pass"
+        }
+        val message = when {
+            !hasReleaseSigning -> "Production Android signing material is missing."
+            !releaseSigningMatchesExpectedUpload -> "Configured Android signing certificate does not match the expected Google Play upload certificate."
+            expectedUploadSigningSha256 == null -> "Configured Android upload signing material is present; upload certificate pinning is not configured."
+            else -> "Configured Android signing certificate matches the expected Google Play upload certificate."
+        }
+
+        println(
+            """
+            {
+              "status": ${jsonString(status)},
+              "message": ${jsonString(message)},
+              "store_file_configured": ${releaseStoreFileValue != null},
+              "store_file_exists": ${releaseStoreFile?.exists() == true},
+              "key_alias_configured": ${releaseKeyAlias != null},
+              "store_password_configured": ${releaseStorePassword != null},
+              "key_password_configured": ${releaseKeyPassword != null},
+              "configured_certificate_sha256": ${jsonString(releaseSigningSha256)},
+              "expected_upload_signing_sha256": ${jsonString(expectedUploadSigningSha256)},
+              "matches_expected_upload_certificate": $releaseSigningMatchesExpectedUpload,
+              "expected_play_signing_sha256": ${jsonString(expectedPlaySigningSha256)},
+              "matches_expected_play_signing_certificate": $releaseSigningMatchesPlay,
+              "play_app_signing_certificate_note": "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users.",
+              "secret_handling": "This task prints certificate fingerprints and boolean configuration state only; it does not print keystore passwords or key aliases."
+            }
+            """.trimIndent()
+        )
+    }
+}

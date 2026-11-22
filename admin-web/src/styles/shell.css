@@ -1,0 +1,39 @@
+.admin-shell { display: grid; grid-template-columns: var(--admin-rail) minmax(0, 1fr); min-height: 100vh; }
+.admin-sidebar { display: flex; flex-direction: column; min-width: 0; height: 100vh; position: sticky; top: 0; background: var(--admin-surface); border-right: 1px solid var(--admin-line); z-index: 40; }
+.admin-brand { display: flex; align-items: center; gap: 11px; min-height: 78px; padding: 16px 20px; border-bottom: 1px solid var(--admin-line); }
+.admin-brand-mark { display: block; width: 42px; height: 42px; object-fit: contain; border-radius: 12px; }
+.admin-brand-copy { min-width: 0; display: flex; flex-direction: column; }
+.admin-brand-title { font-size: 1.1rem; font-weight: 750; letter-spacing: -.04em; line-height: 1.15; }
+.admin-brand-caption { margin-top: 3px; color: var(--admin-muted); font-size: .6875rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.admin-sidebar-scroll { overflow-y: auto; flex: 1; padding: 17px 12px 26px; scrollbar-width: thin; }
+.admin-nav-group + .admin-nav-group { margin-top: 16px; }
+.admin-nav-heading { padding: 8px 13px; color: var(--admin-subtle); font-size: .6875rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.admin-nav-link { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 9px 12px; border-radius: 10px; color: var(--admin-muted); font-weight: 550; }
+.admin-nav-link:hover { background: var(--admin-surface-soft); color: var(--admin-ink); }
+.admin-nav-link--active { background: var(--admin-accent-surface); color: var(--admin-accent-ink); font-weight: 700; }
+.admin-nav-link span { min-width: 0; overflow-wrap: anywhere; }
+.admin-nav-chevron { margin-left: auto; width: 16px; height: 16px; opacity: 0; }
+.admin-nav-link:hover .admin-nav-chevron, .admin-nav-link--active .admin-nav-chevron { opacity: .8; }
+.admin-nav-empty { padding: 0 12px; color: var(--admin-muted); }
+.admin-sidebar-footer { border-top: 1px solid var(--admin-line); padding: 16px 20px; color: var(--admin-muted); font-size: .75rem; }
+.admin-sidebar-close, .admin-menu-button { display: none; }
+.admin-menu-scrim { display: none; }
+.admin-main-column { min-width: 0; }
+.admin-topbar { display: flex; align-items: center; gap: 18px; min-height: 74px; position: sticky; top: 0; z-index: 30; padding: 10px 34px; background: var(--admin-surface); border-bottom: 1px solid var(--admin-line); }
+.admin-crumb { display: flex; align-items: center; gap: 10px; min-width: 0; color: var(--admin-muted); font-size: .8125rem; }
+.admin-crumb strong { overflow: hidden; color: var(--admin-ink); text-overflow: ellipsis; white-space: nowrap; }
+.admin-top-spacer { flex: 1; }
+.admin-top-search { display: flex; align-items: center; gap: 9px; width: min(24%, 335px); min-width: 215px; height: 40px; padding: 0 12px; border: 1px solid var(--admin-line); border-radius: 10px; background: var(--admin-surface-soft); color: var(--admin-muted); }
+.admin-top-search:focus-within { outline: 3px solid var(--admin-focus); outline-offset: 2px; }
+.admin-top-search input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--admin-ink); background: transparent; font-size: .8125rem; }
+.admin-top-search input:focus-visible { outline: none; }
+.admin-top-search kbd { padding: 2px 5px; color: var(--admin-muted); border: 1px solid var(--admin-line); border-radius: 5px; background: var(--admin-surface); font-size: .6875rem; white-space: nowrap; }
+.admin-profile { position: relative; }
+.admin-profile-button { display: flex; align-items: center; gap: 10px; min-height: 42px; padding: 0; border: 0; border-radius: 10px; background: transparent; color: inherit; }
+.admin-avatar { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--admin-accent-surface); color: var(--admin-accent-ink); font-weight: 750; }
+.admin-operator-role { color: var(--admin-muted); font-size: .75rem; font-weight: 700; }
+.admin-profile-menu { display: flex; flex-direction: column; gap: 6px; min-width: 190px; position: absolute; right: 0; top: calc(100% + 8px); padding: 14px; overflow-wrap: anywhere; background: var(--admin-surface); border: 1px solid var(--admin-line); border-radius: 12px; box-shadow: var(--admin-shadow); }
+.admin-profile-menu span { color: var(--admin-muted); font-size: .75rem; }
+.admin-profile-menu button { display: flex; align-items: center; gap: 8px; min-height: 42px; margin-top: 4px; padding: 8px; border: 0; border-radius: 8px; color: var(--admin-ink); background: transparent; text-align: left; }
+.admin-profile-menu button:hover { background: var(--admin-surface-soft); }
+.admin-content { width: 100%; max-width: 1640px; margin: 0 auto; padding: 31px 38px 72px; }

@@ -1,0 +1,1104 @@
+path,area,role,change,baseline_bytes,current_bytes,verification_basis
+.github/workflows/burimunsi-native.yml,Shared consumer,Direct native dependency or contract tool,Retained,5493,5493,Call-site and owning suite verification
+admin-web/src/features/burimunsi/BuriMunsiPage.tsx,Admin provisioning,Native provisioning consumer or fixture,Retained,24297,24297,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/NATIVE_ACCESS_BOUNDARY.md,Admin provisioning,Native provisioning consumer or fixture,Retained,2735,2735,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/NativeProvisioningPanel.tsx,Admin provisioning,Native provisioning consumer or fixture,Retained,14246,14246,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/NativeRevocationPanel.tsx,Admin provisioning,Native provisioning consumer or fixture,Retained,5847,5847,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/OPERATOR_APPROVAL_BOUNDARY.md,Admin provisioning,Native provisioning consumer or fixture,Retained,2588,2588,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/OperatorApprovalPreview.tsx,Admin provisioning,Native provisioning consumer or fixture,Retained,7405,7405,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/contracts.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,11954,11954,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/index.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,108,108,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/nativeAccess.ts,Admin provisioning,Native provisioning consumer or fixture,Added,,3964,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/nativeProvisioning.ts,Admin provisioning,Native provisioning consumer or fixture,Modified,28024,28030,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/nativeRevocation.ts,Admin provisioning,Native provisioning consumer or fixture,Modified,20688,17369,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/operatorApproval.ts,Admin provisioning,Native provisioning consumer or fixture,Modified,14358,14377,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/operatorPreparation.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,3417,3417,"Admin type, lint and BuriMunsi feature suites"
+admin-web/src/features/burimunsi/recovery.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,8056,8056,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/contracts.test.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,6334,6334,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/delivery-release-race.mjs,Admin provisioning,Native provisioning consumer or fixture,Retained,4509,4509,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/fixture.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,3570,3570,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/native-revocation.postgres.mjs,Admin provisioning,Native provisioning consumer or fixture,Retained,17440,17440,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/nativeProvisioning.test.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,16577,16577,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/nativeProvisioningPanel.test.tsx,Admin provisioning,Native provisioning consumer or fixture,Retained,7437,7437,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/nativeRevocation.test.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,13156,13156,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/operator-race.postgres.mjs,Admin provisioning,Native provisioning consumer or fixture,Retained,4676,4676,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/operatorPreparation.test.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,3146,3146,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/page.test.tsx,Admin provisioning,Native provisioning consumer or fixture,Retained,42847,42847,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/source-parity.generated.json,Admin provisioning,Native provisioning consumer or fixture,Retained,14185,14185,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/source-parity.md,Admin provisioning,Native provisioning consumer or fixture,Retained,4390,4390,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/source-parity.page.test.tsx,Admin provisioning,Native provisioning consumer or fixture,Retained,4988,4988,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/source-parity.postgres.mjs,Admin provisioning,Native provisioning consumer or fixture,Retained,14202,14202,"Admin type, lint and BuriMunsi feature suites"
+admin-web/tests/burimunsi/source-parity.test.ts,Admin provisioning,Native provisioning consumer or fixture,Retained,5189,5189,"Admin type, lint and BuriMunsi feature suites"
+contracts/burimunsi-api/OBSERVATIONS.md,Contract,Versioned wire or role input,Retained,7732,7732,Exact generator and consumer comparisons
+contracts/burimunsi-api/operator-access.json,Contract,Versioned wire or role input,Retained,164,164,Exact generator and consumer comparisons
+contracts/burimunsi-api/profile.json,Contract,Versioned wire or role input,Retained,4626,4626,Exact generator and consumer comparisons
+contracts/burimunsi-api/schema.json,Contract,Versioned wire or role input,Retained,146470,146470,Exact generator and consumer comparisons
+contracts/paged-restoration.json,Shared consumer,Direct native dependency or contract tool,Retained,1541,1541,Call-site and owning suite verification
+contracts/presentation-state-coverage.json,Shared consumer,Direct native dependency or contract tool,Retained,1776,1776,Call-site and owning suite verification
+contracts/read-only-recovery-retry.json,Shared consumer,Direct native dependency or contract tool,Retained,1544,1544,Call-site and owning suite verification
+contracts/ui-copy.json,Shared consumer,Direct native dependency or contract tool,Retained,88856,88856,Call-site and owning suite verification
+contracts/uiux-journeys.json,Shared consumer,Direct native dependency or contract tool,Retained,5436,5436,Call-site and owning suite verification
+deploy/managed-native-ingress/README.md,Managed ingress,"Ingress implementation, test or provenance",Retained,7070,7070,Worker and synthetic handler integration suites
+deploy/managed-native-ingress/handler-integration/README.md,Managed ingress,"Ingress implementation, test or provenance",Retained,621,621,Worker and synthetic handler integration suites
+deploy/managed-native-ingress/handler-integration/current-inputs.json,Managed ingress,"Ingress implementation, test or provenance",Retained,4348,4348,Worker and synthetic handler integration suites
+deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs,Managed ingress,"Ingress implementation, test or provenance",Retained,20475,20475,Worker and synthetic handler integration suites
+deploy/managed-native-ingress/handler-integration/synthetic-postgres.mjs,Managed ingress,"Ingress implementation, test or provenance",Retained,2287,2287,Worker and synthetic handler integration suites
+deploy/managed-native-ingress/upstream-response.js,Managed ingress,"Ingress implementation, test or provenance",Added,,3126,Worker and synthetic handler integration suites
+deploy/managed-native-ingress/worker.js,Managed ingress,"Ingress implementation, test or provenance",Modified,7858,5513,Worker and synthetic handler integration suites
+deploy/managed-native-ingress/worker.test.mjs,Managed ingress,"Ingress implementation, test or provenance",Modified,16631,17537,Worker and synthetic handler integration suites
+deploy/platform-admin/src/supabase-transport.js,Shared consumer,Direct native dependency or contract tool,Retained,25317,25317,Call-site and owning suite verification
+deploy/platform-admin/test/burimunsi-access.test.mjs,Shared consumer,Direct native dependency or contract tool,Retained,1373,1373,Call-site and owning suite verification
+docs/implementation/burimunsi-android/README.md,Release records,Historical record or pinned product fixture,Retained,18751,18751,Unchanged against the source baseline
+docs/implementation/burimunsi-android/archive-verification.json,Release records,Historical record or pinned product fixture,Retained,1600,1600,Unchanged against the source baseline
+docs/implementation/burimunsi-android/cloudflare-current.json,Release records,Historical record or pinned product fixture,Retained,2174,2174,Unchanged against the source baseline
+docs/implementation/burimunsi-android/cloudflare-tls-readback.json,Release records,Historical record or pinned product fixture,Retained,1372,1372,Unchanged against the source baseline
+docs/implementation/burimunsi-android/current-status.json,Release records,Historical record or pinned product fixture,Retained,4862,4862,Unchanged against the source baseline
+docs/implementation/burimunsi-android/dependency-compatibility.md,Release records,Historical record or pinned product fixture,Retained,4301,4301,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/NATIVE-PROMOTION-DESIGN.md,Release records,Historical record or pinned product fixture,Retained,6245,6245,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/NATIVE-SESSION-PHONE-STATUS.md,Release records,Historical record or pinned product fixture,Retained,2238,2238,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/PROTECTED-OWNER-STATUS.md,Release records,Historical record or pinned product fixture,Retained,2359,2359,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/STATUS.md,Release records,Historical record or pinned product fixture,Retained,1960,1960,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-contract.sql,Release records,Historical record or pinned product fixture,Retained,35255,35255,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/chain-result.json,Release records,Historical record or pinned product fixture,Retained,9631,9631,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/container.json,Release records,Historical record or pinned product fixture,Retained,134,134,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/intent.json,Release records,Historical record or pinned product fixture,Retained,12027,12027,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/observation-races.py,Release records,Historical record or pinned product fixture,Retained,14236,14236,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/owner-predecessor-synthetic.json,Release records,Historical record or pinned product fixture,Retained,27963,27963,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/result.json,Release records,Historical record or pinned product fixture,Retained,259,259,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/retention-after-drafts.json,Release records,Historical record or pinned product fixture,Retained,1368,1368,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/retention-post-draft-synthetic.json,Release records,Historical record or pinned product fixture,Retained,110389,110389,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-synthetic-run01/retention-predecessor-functions.json,Release records,Historical record or pinned product fixture,Retained,99668,99668,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-auto-transactions.draft.sql,Release records,Historical record or pinned product fixture,Retained,61860,61860,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-canonical-intake.draft.sql,Release records,Historical record or pinned product fixture,Retained,25055,25055,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/native-intake-retention.draft.sql,Release records,Historical record or pinned product fixture,Retained,4095,4095,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/private-quarantine-managed-admin.draft.sql,Release records,Historical record or pinned product fixture,Retained,18640,18640,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/private-quarantine.draft.sql,Release records,Historical record or pinned product fixture,Retained,57719,57719,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/protected-owner-identity.draft.sql,Release records,Historical record or pinned product fixture,Retained,20823,20823,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drafts/retention-inspection.draft.sql,Release records,Historical record or pinned product fixture,Retained,17171,17171,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/Final_Handover_and_Implementation_Plan.md,Release records,Historical record or pinned product fixture,Retained,49868,49868,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/registers/BuriMunsi_Original_65_Task_Contracts.json,Release records,Historical record or pinned product fixture,Retained,627318,627318,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/registers/Engineering_r3_Original_36_Actions.json,Release records,Historical record or pinned product fixture,Retained,76447,76447,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/registers/Handover_Action_Register.json,Release records,Historical record or pinned product fixture,Retained,122785,122785,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/registers/Integration_and_Business_Detail.csv,Release records,Historical record or pinned product fixture,Retained,9171,9171,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/registers/Master_Actions.csv,Release records,Historical record or pinned product fixture,Retained,65338,65338,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/registers/Sources.csv,Release records,Historical record or pinned product fixture,Retained,4791,4791,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/00_Supplied_Remaining_Tasks.md,Release records,Historical record or pinned product fixture,Retained,33276,33276,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/02_Collect_Integration.md,Release records,Historical record or pinned product fixture,Retained,10197,10197,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/11_Receiver_Source_Closure.md,Release records,Historical record or pinned product fixture,Retained,4074,4074,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/49_Remaining_Tasks_v0.17.0.md,Release records,Historical record or pinned product fixture,Retained,78619,78619,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/52_Remaining_Tasks_v0.18.0.md,Release records,Historical record or pinned product fixture,Retained,77395,77395,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/53_Canonical_Integration_v0.19.0-canonical.1.md,Release records,Historical record or pinned product fixture,Retained,15087,15087,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/54_A04_Consolidation.md,Release records,Historical record or pinned product fixture,Retained,12067,12067,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/55_A04_Post_Command_Integration.md,Release records,Historical record or pinned product fixture,Retained,6666,6666,Unchanged against the source baseline
+docs/implementation/burimunsi-android/drive-handover/source-reviews/56_A04_Reviewed_Collect_Intake.md,Release records,Historical record or pinned product fixture,Retained,7282,7282,Unchanged against the source baseline
+docs/implementation/burimunsi-android/implementation-plan.md,Release records,Historical record or pinned product fixture,Retained,31462,31462,Unchanged against the source baseline
+docs/implementation/burimunsi-android/live-uat-2026-11-11.md,Release records,Historical record or pinned product fixture,Retained,8126,8126,Unchanged against the source baseline
+docs/implementation/burimunsi-android/mvp-testing-readiness-2026-11-11.md,Release records,Historical record or pinned product fixture,Retained,28003,28003,Unchanged against the source baseline
+docs/implementation/burimunsi-android/native-processing-control.md,Release records,Historical record or pinned product fixture,Retained,3431,3431,Unchanged against the source baseline
+docs/implementation/burimunsi-android/production-goal.json,Release records,Historical record or pinned product fixture,Retained,91246,91246,Unchanged against the source baseline
+docs/implementation/burimunsi-android/prototype-reference/index.html,Release records,Historical record or pinned product fixture,Retained,203647,203647,Unchanged against the source baseline
+docs/implementation/burimunsi-android/prototype-reference/provenance.json,Release records,Historical record or pinned product fixture,Retained,1491,1491,Unchanged against the source baseline
+docs/implementation/burimunsi-android/prototype-reference/screen-map.json,Release records,Historical record or pinned product fixture,Retained,3182,3182,Unchanged against the source baseline
+docs/implementation/burimunsi-android/prototype-reference/ui-contract.json,Release records,Historical record or pinned product fixture,Retained,3222,3222,Unchanged against the source baseline
+docs/implementation/burimunsi-android/release-merge.json,Release records,Historical record or pinned product fixture,Retained,1896,1896,Unchanged against the source baseline
+docs/implementation/burimunsi-android/runtime-merge.md,Release records,Historical record or pinned product fixture,Retained,7510,7510,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/MANIFEST.json,Release records,Historical record or pinned product fixture,Retained,1800,1800,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/README.md,Release records,Historical record or pinned product fixture,Retained,715,715,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/android/src/main/java/com/ikanisa/burimunsi/onboarding/SmartOnboardingScreen.kt,Release records,Historical record or pinned product fixture,Retained,10982,10982,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/backend/package.json,Release records,Historical record or pinned product fixture,Retained,162,162,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/backend/src/document-import.mjs,Release records,Historical record or pinned product fixture,Retained,2845,2845,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/backend/src/http-routes.mjs,Release records,Historical record or pinned product fixture,Retained,1728,1728,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/backend/src/ocr.mjs,Release records,Historical record or pinned product fixture,Retained,2361,2361,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/backend/src/onboarding.mjs,Release records,Historical record or pinned product fixture,Retained,6653,6653,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/backend/test/onboarding.test.mjs,Release records,Historical record or pinned product fixture,Retained,5605,5605,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/docs/INTEGRATION.md,Release records,Historical record or pinned product fixture,Retained,7996,7996,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-addenda/BuriMunsi_Smart_Member_Onboarding_v1.0.0/docs/node-test-results.txt,Release records,Historical record or pinned product fixture,Retained,2418,2418,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-candidate.json,Release records,Historical record or pinned product fixture,Retained,398922,398922,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-import.json,Release records,Historical record or pinned product fixture,Retained,72997,72997,Unchanged against the source baseline
+docs/implementation/burimunsi-android/source-reader-next.md,Release records,Historical record or pinned product fixture,Retained,4676,4676,Unchanged against the source baseline
+docs/implementation/burimunsi-android/staff-testing-pack.md,Release records,Historical record or pinned product fixture,Retained,8103,8103,Unchanged against the source baseline
+docs/implementation/burimunsi-android/supplemental-import.json,Release records,Historical record or pinned product fixture,Retained,121433,121433,Unchanged against the source baseline
+docs/implementation/burimunsi-android/supplemental-review.md,Release records,Historical record or pinned product fixture,Retained,7335,7335,Unchanged against the source baseline
+docs/implementation/burimunsi-android/validation-summary.json,Release records,Historical record or pinned product fixture,Retained,24797,24797,Unchanged against the source baseline
+integration/burimunsi/continuations/.gitignore,Continuation packages,Versioned source or evidence,Retained,182,182,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/README.md,Continuation packages,Versioned source or evidence,Retained,7135,7135,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/docs/INTEGRATION.md,Continuation packages,Versioned source or evidence,Retained,4877,4877,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/docs/PROVENANCE_SETUP.md,Continuation packages,Versioned source or evidence,Retained,9788,9788,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/docs/SECURITY_BOUNDARIES.md,Continuation packages,Versioned source or evidence,Retained,6196,6196,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/docs/action-register.json,Continuation packages,Versioned source or evidence,Retained,3026,3026,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/BuriMunsi-build-UNEXECUTED.example.json,Continuation packages,Versioned source or evidence,Retained,744,744,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/BuriMunsi-promotion-UNEXECUTED.example.json,Continuation packages,Versioned source or evidence,Retained,749,749,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/BuriMunsi-source-UNEXECUTED.example.json,Continuation packages,Versioned source or evidence,Retained,747,747,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/M-Money-build-UNEXECUTED.example.json,Continuation packages,Versioned source or evidence,Retained,742,742,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/M-Money-promotion-UNEXECUTED.example.json,Continuation packages,Versioned source or evidence,Retained,747,747,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/M-Money-source-UNEXECUTED.example.json,Continuation packages,Versioned source or evidence,Retained,745,745,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/README.md,Continuation packages,Versioned source or evidence,Retained,1915,1915,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/provenance-UNSIGNED.example.json,Continuation packages,Versioned source or evidence,Retained,400,400,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/examples/trust-policy-UNCONFIGURED.example.json,Continuation packages,Versioned source or evidence,Retained,212,212,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/pyproject.toml,Continuation packages,Versioned source or evidence,Retained,190,190,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/run_checks.py,Continuation packages,Versioned source or evidence,Retained,5478,5478,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/src/provenance_exchange.py,Continuation packages,Versioned source or evidence,Retained,6694,6694,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/src/release_guard.py,Continuation packages,Versioned source or evidence,Retained,36461,36461,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/src/release_guard_adapter.py,Continuation packages,Versioned source or evidence,Retained,3291,3291,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/src/release_provenance.py,Continuation packages,Versioned source or evidence,Retained,9912,9912,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/src/triage_credentials.py,Continuation packages,Versioned source or evidence,Retained,4646,4646,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/fixtures.py,Continuation packages,Versioned source or evidence,Retained,3736,3736,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/provenance_fixtures.py,Continuation packages,Versioned source or evidence,Retained,3425,3425,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/run_unittest.py,Continuation packages,Versioned source or evidence,Retained,1162,1162,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/test_integration.py,Continuation packages,Versioned source or evidence,Retained,4612,4612,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/test_r3_delivery.py,Continuation packages,Versioned source or evidence,Retained,6835,6835,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/test_r3_hardening.py,Continuation packages,Versioned source or evidence,Retained,13288,13288,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/test_r4_exchange.py,Continuation packages,Versioned source or evidence,Retained,6424,6424,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/test_r4_provenance.py,Continuation packages,Versioned source or evidence,Retained,15172,15172,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/tests/test_release_guard.py,Continuation packages,Versioned source or evidence,Retained,17041,17041,Unchanged against the source baseline
+integration/burimunsi/continuations/release-r4/toolchain-requirements.json,Continuation packages,Versioned source or evidence,Retained,405,405,Unchanged against the source baseline
+integration/burimunsi/continuations/sms-r4/.gitignore,Continuation packages,Versioned source or evidence,Retained,54,54,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/R2_to_R3_Source.patch,Continuation packages,Versioned source or evidence,Retained,75490,75490,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/R3_to_R4_Source.patch,Continuation packages,Versioned source or evidence,Retained,129878,129878,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/README.md,Continuation packages,Versioned source or evidence,Retained,9672,9672,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/SHA256SUMS.txt,Continuation packages,Versioned source or evidence,Retained,13615,13615,Unchanged against the source baseline
+integration/burimunsi/continuations/sms-r4/SOURCE_MANIFEST.json,Continuation packages,Versioned source or evidence,Retained,22706,22706,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/TASK_STATUS.json,Continuation packages,Versioned source or evidence,Retained,5968,5968,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/VERIFICATION.md,Continuation packages,Versioned source or evidence,Retained,4088,4088,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/INTEGRATION.md,Continuation packages,Versioned source or evidence,Retained,5500,5500,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/MERGE_DECISIONS.md,Continuation packages,Versioned source or evidence,Retained,2031,2031,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/PERSISTENCE_FORMAT.md,Continuation packages,Versioned source or evidence,Retained,4150,4150,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/POLICY_COVERAGE.md,Continuation packages,Versioned source or evidence,Retained,2111,2111,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/R2_INTEGRATION.md,Continuation packages,Versioned source or evidence,Retained,8691,8691,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/R2_MERGE_DECISIONS.md,Continuation packages,Versioned source or evidence,Retained,3525,3525,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/R2_POLICY_COVERAGE.md,Continuation packages,Versioned source or evidence,Retained,2570,2570,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/R2_README.md,Continuation packages,Versioned source or evidence,Retained,7080,7080,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/R4_INTEGRATION.md,Continuation packages,Versioned source or evidence,Retained,5640,5640,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/docs/R4_MERGE_DECISIONS.md,Continuation packages,Versioned source or evidence,Retained,1686,1686,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/PATCH_VERIFICATION.json,Continuation packages,Versioned source or evidence,Retained,996,996,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/RUN_NOTES.md,Continuation packages,Versioned source or evidence,Retained,996,996,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_core.compile.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_core.compile.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_core.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_core.stdout.log,Continuation packages,Versioned source or evidence,Retained,4175,4175,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.compile.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.compile.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_receiver.stdout.log,Continuation packages,Versioned source or evidence,Retained,2293,2293,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.compile.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.compile.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/buri_reliability.stdout.log,Continuation packages,Versioned source or evidence,Retained,2956,2956,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/missing_prerequisite_verification.json,Continuation packages,Versioned source or evidence,Retained,18988,18988,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.compile.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.compile.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.json,Continuation packages,Versioned source or evidence,Retained,1715,1715,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/mmoney_sms.stdout.log,Continuation packages,Versioned source or evidence,Retained,1474,1474,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.compile.stderr.log,Continuation packages,Versioned source or evidence,Retained,714,714,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.compile.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.json,Continuation packages,Versioned source or evidence,Retained,8756,8756,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/persistence_r3.stdout.log,Continuation packages,Versioned source or evidence,Retained,6254,6254,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/policies_r2.compile.stderr.log,Continuation packages,Versioned source or evidence,Retained,1058,1058,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/policies_r2.compile.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/policies_r2.json,Continuation packages,Versioned source or evidence,Retained,18605,18605,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/policies_r2.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/policies_r2.stdout.log,Continuation packages,Versioned source or evidence,Retained,13117,13117,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/protected_r4.compile.stderr.log,Continuation packages,Versioned source or evidence,Retained,362,362,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/protected_r4.compile.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/protected_r4.json,Continuation packages,Versioned source or evidence,Retained,9619,9619,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/protected_r4.stderr.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/protected_r4.stdout.log,Continuation packages,Versioned source or evidence,Retained,6935,6935,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/python.stderr.log,Continuation packages,Versioned source or evidence,Retained,3085,3085,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/python.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/tool-java.stderr.log,Continuation packages,Versioned source or evidence,Retained,187,187,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/tool-java.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/tool-kotlinc.stderr.log,Continuation packages,Versioned source or evidence,Retained,59,59,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/tool-kotlinc.stdout.log,Continuation packages,Versioned source or evidence,Retained,0,0,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/evidence/verification.json,Continuation packages,Versioned source or evidence,Retained,20125,20125,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/fixtures/classification.json,Continuation packages,Versioned source or evidence,Retained,12573,12573,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/fixtures/classification.tsv,Continuation packages,Versioned source or evidence,Retained,7711,7711,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/fixtures/mmoney-inherited.json,Continuation packages,Versioned source or evidence,Retained,3853,3853,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt,Continuation packages,Versioned source or evidence,Retained,5116,5116,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/provenance/R2_BASELINE.json,Continuation packages,Versioned source or evidence,Retained,6578,6578,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/provenance/R3_BASELINE.json,Continuation packages,Versioned source or evidence,Retained,12916,12916,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/provenance/R3_README.md,Continuation packages,Versioned source or evidence,Retained,7014,7014,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/provenance/R3_SHA256SUMS.txt,Continuation packages,Versioned source or evidence,Retained,11683,11683,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/provenance/R3_SOURCE_MANIFEST.json,Continuation packages,Versioned source or evidence,Retained,19533,19533,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/provenance/R3_TASK_STATUS.json,Continuation packages,Versioned source or evidence,Retained,4930,4930,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/provenance/R3_VERIFICATION.md,Continuation packages,Versioned source or evidence,Retained,3467,3467,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/scripts/install_overlay.py,Continuation packages,Versioned source or evidence,Retained,4944,4944,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/scripts/verify.py,Continuation packages,Versioned source or evidence,Retained,10033,10033,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/adapters/burimunsi/BuriSmsClassifier.kt,Continuation packages,Versioned source or evidence,Retained,1709,1709,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/adapters/mmoney/MmoneySmsClassifier.kt,Continuation packages,Versioned source or evidence,Retained,2678,2678,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Acknowledgements.kt,Continuation packages,Versioned source or evidence,Retained,4255,4255,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/CommitDriver.kt,Continuation packages,Versioned source or evidence,Retained,5528,5528,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Duplicates.kt,Continuation packages,Versioned source or evidence,Retained,1987,1987,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/EncryptedJournal.kt,Continuation packages,Versioned source or evidence,Retained,5461,5461,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Evidence.kt,Continuation packages,Versioned source or evidence,Retained,6686,6686,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Identity.kt,Continuation packages,Versioned source or evidence,Retained,4752,4752,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt,Continuation packages,Versioned source or evidence,Retained,6676,6676,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt,Continuation packages,Versioned source or evidence,Retained,4436,4436,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/ProtectedJournalPort.kt,Continuation packages,Versioned source or evidence,Retained,6388,6388,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt,Continuation packages,Versioned source or evidence,Retained,12230,12230,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/Retry.kt,Continuation packages,Versioned source or evidence,Retained,1771,1771,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt,Continuation packages,Versioned source or evidence,Retained,10705,10705,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/src/main/kotlin/rw/ikanisa/sms/policy/TrustedCheckpoint.kt,Continuation packages,Versioned source or evidence,Retained,2555,2555,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/tests/kotlin/PolicyChecks.kt,Continuation packages,Versioned source or evidence,Retained,34755,34755,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/tests/persistence/PersistenceChecks.kt,Continuation packages,Versioned source or evidence,Retained,31012,31012,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/tests/protected/ProtectedChecks.kt,Continuation packages,Versioned source or evidence,Retained,22027,22027,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/tests/python/test_delivery.py,Continuation packages,Versioned source or evidence,Retained,7901,7901,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/tests/python/test_persistence_delivery.py,Continuation packages,Versioned source or evidence,Retained,3851,3851,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/tests/python/test_protected_delivery.py,Continuation packages,Versioned source or evidence,Retained,3675,3675,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/PROVENANCE.json,Continuation packages,Versioned source or evidence,Retained,14400,14400,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/Acknowledgement.kt,Continuation packages,Versioned source or evidence,Retained,755,755,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/GatewayHealth.kt,Continuation packages,Versioned source or evidence,Retained,3460,3460,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/Models.kt,Continuation packages,Versioned source or evidence,Retained,3039,3039,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/OperationJournal.kt,Continuation packages,Versioned source or evidence,Retained,4892,4892,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/PageIntegrity.kt,Continuation packages,Versioned source or evidence,Retained,954,954,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/Presentation.kt,Continuation packages,Versioned source or evidence,Retained,2354,2354,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/Receipt.kt,Continuation packages,Versioned source or evidence,Retained,2985,2985,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/ScreenGate.kt,Continuation packages,Versioned source or evidence,Retained,628,628,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/SessionAuthority.kt,Continuation packages,Versioned source or evidence,Retained,1513,1513,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/SnapshotFreshness.kt,Continuation packages,Versioned source or evidence,Retained,391,391,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/Values.kt,Continuation packages,Versioned source or evidence,Retained,3237,3237,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/core/ViewMemory.kt,Continuation packages,Versioned source or evidence,Retained,1249,1249,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/effective/ReceiptAckPolicy.kt,Continuation packages,Versioned source or evidence,Retained,1356,1356,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/BuriQueueFile.kt,Continuation packages,Versioned source or evidence,Retained,3329,3329,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/BuriReceiverReliability.kt,Continuation packages,Versioned source or evidence,Retained,2079,2079,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/MomoGatewayPolicy.kt,Continuation packages,Versioned source or evidence,Retained,4957,4957,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/MomoGatewayWakeupGate.kt,Continuation packages,Versioned source or evidence,Retained,583,583,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/MomoMultipartPolicy.kt,Continuation packages,Versioned source or evidence,Retained,15242,15242,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/ReceiptAckPolicy.kt,Continuation packages,Versioned source or evidence,Retained,1280,1280,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/ReceiptCipher.kt,Continuation packages,Versioned source or evidence,Retained,1229,1229,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/SmsQueueEventBus.kt,Continuation packages,Versioned source or evidence,Retained,1080,1080,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/receiver/SmsQueueOwnerPolicy.kt,Continuation packages,Versioned source or evidence,Retained,599,599,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/recipe/prepare_receiver.py,Continuation packages,Versioned source or evidence,Retained,24799,24799,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/tests/CoreChecks.kt,Continuation packages,Versioned source or evidence,Retained,11815,11815,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/tests/ReceiverChecks.kt,Continuation packages,Versioned source or evidence,Retained,13756,13756,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/buri/tests/ReliabilityChecks.kt,Continuation packages,Versioned source or evidence,Retained,9958,9958,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/ExportWriters.kt,Continuation packages,Versioned source or evidence,Retained,13720,13720,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/LedgerRules.kt,Continuation packages,Versioned source or evidence,Retained,9856,9856,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/Models.kt,Continuation packages,Versioned source or evidence,Retained,5062,5062,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/PdfPresentation.kt,Continuation packages,Versioned source or evidence,Retained,5318,5318,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/core/ReferenceIdentity.kt,Continuation packages,Versioned source or evidence,Retained,2409,2409,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/data/IntakeIdentity.kt,Continuation packages,Versioned source or evidence,Retained,683,683,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/IncomingSms.kt,Continuation packages,Versioned source or evidence,Retained,354,354,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsBroadcastPolicy.kt,Continuation packages,Versioned source or evidence,Retained,1773,1773,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsHistoryQuery.kt,Continuation packages,Versioned source or evidence,Retained,953,953,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsMultipartEnvelope.kt,Continuation packages,Versioned source or evidence,Retained,3749,3749,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsObservationFactory.kt,Continuation packages,Versioned source or evidence,Retained,664,664,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/platform/SmsSourceEvidence.kt,Continuation packages,Versioned source or evidence,Retained,1519,1519,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/tests/SmsReliabilityContractCases.kt,Continuation packages,Versioned source or evidence,Retained,8324,8324,SHA-256 verified
+integration/burimunsi/continuations/sms-r4/vendor/mmoney/tests/SmsReliabilityProbe.kt,Continuation packages,Versioned source or evidence,Retained,320,320,SHA-256 verified
+integration/burimunsi/continuations/storage-r3/ACTION_REGISTER.json,Continuation packages,Versioned source or evidence,Retained,5646,5646,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/ORIGIN.json,Continuation packages,Versioned source or evidence,Retained,884,884,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/README.md,Continuation packages,Versioned source or evidence,Retained,1690,1690,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/adapters/android/AndroidLifecycleStorage.kt,Continuation packages,Versioned source or evidence,Retained,1991,1991,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/adapters/jvm/AppendOnlyLifecycleJournal.kt,Continuation packages,Versioned source or evidence,Retained,17112,17112,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/adapters/jvm/JournalRecordProtection.kt,Continuation packages,Versioned source or evidence,Retained,5453,5453,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/DurableOperationStore.kt,Continuation packages,Versioned source or evidence,Retained,6790,6790,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/OperationJournal.kt,Continuation packages,Versioned source or evidence,Retained,5072,5072,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Values.kt,Continuation packages,Versioned source or evidence,Retained,3237,3237,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/DurableStorageCoordinator.kt,Continuation packages,Versioned source or evidence,Retained,9137,9137,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LegacyLifecycleMigration.kt,Continuation packages,Versioned source or evidence,Retained,3517,3517,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/LifecycleSnapshotCodec.kt,Continuation packages,Versioned source or evidence,Retained,6635,6635,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/ProtectedFileAccess.kt,Continuation packages,Versioned source or evidence,Retained,3281,3281,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageFailureClassifier.kt,Continuation packages,Versioned source or evidence,Retained,2868,2868,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/StorageLifecyclePolicy.kt,Continuation packages,Versioned source or evidence,Retained,15985,15985,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/VerifiedEvidenceArchive.kt,Continuation packages,Versioned source or evidence,Retained,2390,2390,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/AndroidLifecycleStorage.kt,Continuation packages,Versioned source or evidence,Retained,1991,1991,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/android/BuriMunsiLifecycleStorage.kt,Continuation packages,Versioned source or evidence,Retained,677,677,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/AppendOnlyLifecycleJournal.kt,Continuation packages,Versioned source or evidence,Retained,17112,17112,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/burimunsi/core/src/main/kotlin/rw/ikanisa/storagepolicy/jvm/JournalRecordProtection.kt,Continuation packages,Versioned source or evidence,Retained,5453,5453,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/docs/DURABLE_LIFECYCLE_CONTRACT.md,Continuation packages,Versioned source or evidence,Retained,11022,11022,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/docs/IMPLEMENTATION_AND_VERIFICATION.md,Continuation packages,Versioned source or evidence,Retained,11937,11937,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/docs/STORAGE_POLICY.md,Continuation packages,Versioned source or evidence,Retained,10414,10414,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/patches/r2/CHANGE_LEDGER.json,Continuation packages,Versioned source or evidence,Retained,5422,5422,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/patches/r3/CHANGE_LEDGER.json,Continuation packages,Versioned source or evidence,Retained,4677,4677,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/policy/DurableStorageCoordinator.kt,Continuation packages,Versioned source or evidence,Retained,9137,9137,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/policy/LegacyLifecycleMigration.kt,Continuation packages,Versioned source or evidence,Retained,3517,3517,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/policy/LifecycleSnapshotCodec.kt,Continuation packages,Versioned source or evidence,Retained,6635,6635,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/policy/ProtectedFileAccess.kt,Continuation packages,Versioned source or evidence,Retained,3281,3281,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/policy/StorageFailureClassifier.kt,Continuation packages,Versioned source or evidence,Retained,2868,2868,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/policy/StorageLifecyclePolicy.kt,Continuation packages,Versioned source or evidence,Retained,15985,15985,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/policy/VerifiedEvidenceArchive.kt,Continuation packages,Versioned source or evidence,Retained,2390,2390,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/tests/StoragePolicyChecks.kt,Continuation packages,Versioned source or evidence,Retained,24123,24123,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/tests/authenticated/AuthenticatedMigrationChecks.kt,Continuation packages,Versioned source or evidence,Retained,15739,15739,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/tests/durable/DurableLifecycleChecks.kt,Continuation packages,Versioned source or evidence,Retained,28134,28134,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/tests/test_authenticated_restart.py,Continuation packages,Versioned source or evidence,Retained,3483,3483,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/tests/test_process_restart.py,Continuation packages,Versioned source or evidence,Retained,3690,3690,Unchanged against the source baseline
+integration/burimunsi/continuations/storage-r3/tools/verify_imported.py,Continuation packages,Versioned source or evidence,Retained,8046,8046,Unchanged against the source baseline
+integration/burimunsi/gateway-classification/proposal.sql,Integration input,"SQL proposal, input or fixture",Retained,4991,4991,Direct consumer or synthetic fixture review
+integration/burimunsi/provisioning/README.md,Integration input,"SQL proposal, input or fixture",Retained,8758,8758,Direct consumer or synthetic fixture review
+integration/burimunsi/provisioning/proposal.sql,Integration input,"SQL proposal, input or fixture",Retained,25830,25830,Direct consumer or synthetic fixture review
+integration/burimunsi/scope-setup/fixture-verification.test.mjs,Integration input,"SQL proposal, input or fixture",Retained,3024,3024,Direct consumer or synthetic fixture review
+integration/burimunsi/scope-setup/proposal.sql,Integration input,"SQL proposal, input or fixture",Retained,28938,28938,Direct consumer or synthetic fixture review
+integration/collect-posting/payments.js,Integration input,"SQL proposal, input or fixture",Retained,20916,20916,Direct consumer or synthetic fixture review
+native/burimunsi/.gitignore,Android,"Build, brand or dependency input",Retained,165,165,Native source fingerprint
+native/burimunsi/THIRD_PARTY_NOTICES.md,Android,"Build, brand or dependency input",Retained,1111,1111,Native source fingerprint
+native/burimunsi/api-tests/contract-integration.test.mjs,Android,Host and integration fixture,Retained,6906,6906,Native suite source inventory
+native/burimunsi/app/build.gradle.kts,Android,"Build, brand or dependency input",Modified,14646,14442,Native source fingerprint
+native/burimunsi/app/proguard-rules.pro,Android,"Build, brand or dependency input",Retained,217,217,Native source fingerprint
+native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/InstalledUpgradeTest.kt,Android,Installed test,Retained,6959,6959,Instrumentation source roster
+native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/NativeSandboxContractTest.kt,Android,Installed test,Retained,13961,13961,Instrumentation source roster
+native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/NativeUiContractTest.kt,Android,Installed test,Modified,72741,72715,Instrumentation source roster
+native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/StaffPackageIsolationTest.kt,Android,Installed test,Retained,2598,2598,Instrumentation source roster
+native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/export/ExportRenderingTest.kt,Android,Installed test,Retained,9899,9899,Instrumentation source roster
+native/burimunsi/app/src/androidTestInternal_receiver/kotlin/app/cool/mobile/receiver_sms/CarrierFixtureReplayTest.kt,Android,Installed test,Retained,4101,4101,Instrumentation source roster
+native/burimunsi/app/src/androidTestInternal_receiver/kotlin/app/cool/mobile/receiver_sms/GatewayDurabilityTest.kt,Android,Installed test,Retained,20743,20743,Instrumentation source roster
+native/burimunsi/app/src/internal_receiver/AndroidManifest.xml,Android,Source-set configuration or resources,Retained,3244,3244,Source boundary and Android packaging checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriCapturePolicy.kt,Android,Application source,Retained,7584,7584,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriContinuousSyncService.kt,Android,Application source,Retained,22152,22152,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriQueueFile.kt,Android,Application source,Retained,3329,3329,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriReceiverProfile.kt,Android,Application source,Retained,7216,7216,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriReceiverReliability.kt,Android,Application source,Retained,2446,2446,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriReceiverStorage.kt,Android,Application source,Retained,570,570,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ContinuousSyncHealth.kt,Android,Application source,Retained,3256,3256,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ContinuousSyncWork.kt,Android,Application source,Retained,3271,3271,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/HeldRecoveryJournal.kt,Android,Application source,Retained,8173,8173,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationBackground.kt,Android,Application source,Retained,7306,7306,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationCapture.kt,Android,Application source,Retained,10866,10866,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationConfigStore.kt,Android,Application source,Modified,6067,6089,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationCoordinator.kt,Android,Application source,Retained,11733,11733,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationGateway.kt,Android,Application source,Retained,5609,5609,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationHeldInbox.kt,Android,Application source,Added,,8543,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationInboxAudit.kt,Android,Application source,Added,,15912,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationInboxBackfill.kt,Android,Application source,Added,,8640,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationInboxQueries.kt,Android,Application source,Added,,1821,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationLegacyOwnership.kt,Android,Application source,Retained,4560,4560,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationPduCapture.kt,Android,Application source,Retained,2587,2587,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationRecovery.kt,Android,Application source,Modified,54326,19838,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationSmsReceiver.kt,Android,Application source,Retained,3025,3025,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationStateStore.kt,Android,Application source,Retained,8328,8328,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationSyncCycle.kt,Android,Application source,Retained,22469,22469,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationSyncDiagnostics.kt,Android,Application source,Retained,9368,9368,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationWakeup.kt,Android,Application source,Retained,1014,1014,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/PduCorrelationStore.kt,Android,Application source,Retained,9908,9908,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/PduInboxCorrelation.kt,Android,Application source,Retained,10118,10118,Android compiler and Kotlin source checks
+native/burimunsi/app/src/internal_receiver/kotlin/rw/ikanisa/burimunsi/gateway/GatewayFactory.kt,Android,Application source,Retained,20257,20257,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/AndroidManifest.xml,Android,Source-set configuration or resources,Retained,1565,1565,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/AndroidListingDocuments.kt,Android,Application source,Added,,4873,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/AndroidMemberInputs.kt,Android,Application source,Added,,11888,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/BuriApplication.kt,Android,Application source,Retained,445,445,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/MainActivity.kt,Android,Application source,Modified,22786,8371,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/MemberPhotoFiles.kt,Android,Application source,Retained,1987,1987,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/MemberPhotoInput.kt,Android,Application source,Retained,3295,3295,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/SessionNetworkObserver.kt,Android,Application source,Retained,1250,1250,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/AllocationReceiptVersions.kt,Android,Application source,Retained,1854,1854,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/ApiClient.kt,Android,Application source,Retained,18549,18549,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/CollectAdminTransport.kt,Android,Application source,Retained,11466,11466,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/Dto.kt,Android,Application source,Retained,7321,7321,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/ManagedCollectBroker.kt,Android,Application source,Retained,4718,4718,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeCommandRepository.kt,Android,Application source,Added,,17192,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeListingRequests.kt,Android,Application source,Added,,915,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeReceiverPairing.kt,Android,Application source,Added,,5657,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeRecordData.kt,Android,Application source,Added,,10499,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeRepository.kt,Android,Application source,Modified,83114,13021,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeSessionRequests.kt,Android,Application source,Added,,653,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeSessions.kt,Android,Application source,Added,,35305,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeSmsData.kt,Android,Application source,Added,,11879,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeWireData.kt,Android,Application source,Retained,1345,1345,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/SupportContactClient.kt,Android,Application source,Retained,4019,4019,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/export/ListingExportData.kt,Android,Application source,Retained,8916,8916,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/export/NativePdfExporter.kt,Android,Application source,Retained,10431,10431,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/gateway/GatewayPort.kt,Android,Application source,Retained,1591,1591,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/AndroidNavigationCheckpointStore.kt,Android,Application source,Retained,635,635,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/AndroidOperationStore.kt,Android,Application source,Retained,3195,3195,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/AndroidReceiverRetirementStore.kt,Android,Application source,Retained,3785,3785,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/DeviceProvisioning.kt,Android,Application source,Retained,4317,4317,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/SecureStore.kt,Android,Application source,Retained,3592,3592,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriAccountScreens.kt,Android,Application source,Added,,11626,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriApp.kt,Android,Application source,Modified,101759,15419,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriComponents.kt,Android,Application source,Added,,13984,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriController.kt,Android,Application source,Retained,4037,4037,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriMemberEnrollmentSheet.kt,Android,Application source,Added,,10625,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriOperationSheets.kt,Android,Application source,Added,,11257,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriRecordsScreens.kt,Android,Application source,Added,,17763,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriSheetHost.kt,Android,Application source,Added,,13494,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriSmsScreen.kt,Android,Application source,Added,,13946,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt,Android,Application source,Modified,104112,98689,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/MemberImportInputs.kt,Android,Application source,Retained,3213,3213,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeCollectionPosting.kt,Android,Application source,Retained,7105,7105,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeListingDownloads.kt,Android,Application source,Retained,11873,11873,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeListingQueries.kt,Android,Application source,Added,,4211,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeMemberDirectory.kt,Android,Application source,Retained,3629,3629,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeMemberRegistration.kt,Android,Application source,Retained,4739,4739,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeNavigationCheckpoints.kt,Android,Application source,Retained,2928,2928,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeOperationIo.kt,Android,Application source,Retained,558,558,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativePagedRestoration.kt,Android,Application source,Retained,5110,5110,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeReceiverQueuePreview.kt,Android,Application source,Retained,5516,5516,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeReceiverStatus.kt,Android,Application source,Retained,9605,9605,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeSessionBootstrap.kt,Android,Application source,Retained,3528,3528,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeSmsDisclosure.kt,Android,Application source,Added,,3786,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeSmsInboxScan.kt,Android,Application source,Retained,8333,8333,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/Theme.kt,Android,Application source,Retained,5144,5144,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiBehavior.kt,Android,Application source,Retained,2898,2898,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiFeedback.kt,Android,Application source,Retained,10116,10116,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiFeedbackModels.kt,Android,Application source,Retained,580,580,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiListingTools.kt,Android,Application source,Retained,18677,18677,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiPreferences.kt,Android,Application source,Retained,4969,4969,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiState.kt,Android,Application source,Modified,4996,4975,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiStringIds.kt,Android,Generated contract,Retained,41003,41003,Exact generator comparison
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/BuriMunsiSchemas.kt,Android,Generated contract,Retained,105396,105396,Exact generator comparison
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/ResponseTransport.kt,Android,Application source,Retained,4683,4683,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/WireContract.kt,Android,Application source,Retained,26448,26448,Android compiler and Kotlin source checks
+native/burimunsi/app/src/main/res/drawable-nodpi/burimunsi_brand_logo.png,Android,Source-set configuration or resources,Retained,193079,193079,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable-nodpi/burimunsi_launcher_asset.png,Android,Source-set configuration or resources,Retained,46071,46071,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/burimunsi_launcher_foreground.xml,Android,Source-set configuration or resources,Retained,152,152,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/burimunsi_splash.xml,Android,Source-set configuration or resources,Retained,351,351,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/burimunsi_splash_icon.xml,Android,Source-set configuration or resources,Retained,403,403,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_activity.xml,Android,Source-set configuration or resources,Retained,401,401,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_alert.xml,Android,Source-set configuration or resources,Retained,382,382,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_arrow.xml,Android,Source-set configuration or resources,Retained,365,365,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_back.xml,Android,Source-set configuration or resources,Retained,366,366,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_check.xml,Android,Source-set configuration or resources,Retained,367,367,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_clock.xml,Android,Source-set configuration or resources,Retained,595,595,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_close.xml,Android,Source-set configuration or resources,Retained,373,373,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_device.xml,Android,Source-set configuration or resources,Retained,653,653,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_export.xml,Android,Source-set configuration or resources,Retained,387,387,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_eye.xml,Android,Source-set configuration or resources,Retained,625,625,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_filter.xml,Android,Source-set configuration or resources,Retained,375,375,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_help.xml,Android,Source-set configuration or resources,Retained,622,622,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_history.xml,Android,Source-set configuration or resources,Retained,390,390,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_home.xml,Android,Source-set configuration or resources,Retained,410,410,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_info.xml,Android,Source-set configuration or resources,Retained,599,599,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_link.xml,Android,Source-set configuration or resources,Retained,415,415,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_lock.xml,Android,Source-set configuration or resources,Retained,675,675,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_members.xml,Android,Source-set configuration or resources,Retained,645,645,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_out.xml,Android,Source-set configuration or resources,Retained,387,387,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_pause.xml,Android,Source-set configuration or resources,Retained,368,368,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_plus.xml,Android,Source-set configuration or resources,Retained,369,369,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_power.xml,Android,Source-set configuration or resources,Retained,380,380,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_search.xml,Android,Source-set configuration or resources,Retained,417,417,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_settings.xml,Android,Source-set configuration or resources,Retained,1063,1063,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_shield.xml,Android,Source-set configuration or resources,Retained,404,404,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_sms.xml,Android,Source-set configuration or resources,Retained,386,386,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/drawable/ic_sync.xml,Android,Source-set configuration or resources,Retained,419,419,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/mipmap-anydpi-v26/burimunsi_launcher.xml,Android,Source-set configuration or resources,Retained,245,245,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/mipmap-hdpi/burimunsi_launcher.png,Android,Source-set configuration or resources,Retained,2789,2789,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/mipmap-mdpi/burimunsi_launcher.png,Android,Source-set configuration or resources,Retained,1556,1556,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/mipmap-xhdpi/burimunsi_launcher.png,Android,Source-set configuration or resources,Retained,4183,4183,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/mipmap-xxhdpi/burimunsi_launcher.png,Android,Source-set configuration or resources,Retained,7830,7830,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/mipmap-xxxhdpi/burimunsi_launcher.png,Android,Source-set configuration or resources,Retained,12136,12136,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values-rw/strings.xml,Android,Source-set configuration or resources,Retained,184,184,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values-rw/sync_notifications.xml,Android,Source-set configuration or resources,Retained,529,529,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values-rw/ui_strings.xml,Android,Source-set configuration or resources,Retained,51292,51292,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values-v27/styles.xml,Android,Source-set configuration or resources,Retained,158,158,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values-v31/styles.xml,Android,Source-set configuration or resources,Retained,486,486,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values/burimunsi_brand.xml,Android,Source-set configuration or resources,Retained,89,89,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values/strings.xml,Android,Source-set configuration or resources,Retained,159,159,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values/styles.xml,Android,Source-set configuration or resources,Retained,493,493,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values/sync_notifications.xml,Android,Source-set configuration or resources,Retained,612,612,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/values/ui_strings.xml,Android,Source-set configuration or resources,Retained,46315,46315,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/xml/app_restrictions.xml,Android,Source-set configuration or resources,Retained,401,401,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/xml/backup_rules.xml,Android,Source-set configuration or resources,Retained,223,223,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/xml/data_extraction_rules.xml,Android,Source-set configuration or resources,Retained,522,522,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/xml/locales_config.xml,Android,Source-set configuration or resources,Retained,197,197,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/xml/member_photo_paths.xml,Android,Source-set configuration or resources,Retained,176,176,Source boundary and Android packaging checks
+native/burimunsi/app/src/main/res/xml/network_security_config.xml,Android,Source-set configuration or resources,Retained,178,178,Source boundary and Android packaging checks
+native/burimunsi/app/src/nativeTest/AndroidManifest.xml,Android,Source-set configuration or resources,Removed,258,,Caller and contract review before deletion
+native/burimunsi/app/src/offline/AndroidManifest.xml,Android,Source-set configuration or resources,Added,,258,Source boundary and Android packaging checks
+native/burimunsi/app/src/qualification/AndroidManifest.xml,Android,Source-set configuration or resources,Removed,258,,Caller and contract review before deletion
+native/burimunsi/app/src/staff/AndroidManifest.xml,Android,Source-set configuration or resources,Retained,950,950,Source boundary and Android packaging checks
+native/burimunsi/app/src/staff/kotlin/rw/ikanisa/burimunsi/gateway/GatewayFactory.kt,Android,Application source,Retained,1534,1534,Android compiler and Kotlin source checks
+native/burimunsi/branding/asset-source.json,Android,"Build, brand or dependency input",Retained,2001,2001,Native source fingerprint
+native/burimunsi/branding/owner-masters/curved-swoosh.png,Android,"Build, brand or dependency input",Retained,286106,286106,Native source fingerprint
+native/burimunsi/branding/owner-masters/orange-arc-wordmark.png,Android,"Build, brand or dependency input",Retained,625316,625316,Native source fingerprint
+native/burimunsi/branding/owner-masters/orange-swoosh-square.png,Android,"Build, brand or dependency input",Retained,277968,277968,Native source fingerprint
+native/burimunsi/build.gradle.kts,Android,"Build, brand or dependency input",Retained,281,281,Native source fingerprint
+native/burimunsi/capture-tests/AndroidContext.kt,Android,Host and integration fixture,Retained,715,715,Native suite source inventory
+native/burimunsi/capture-tests/AndroidLog.kt,Android,Host and integration fixture,Retained,106,106,Native suite source inventory
+native/burimunsi/capture-tests/AndroidTelephony.kt,Android,Host and integration fixture,Retained,397,397,Native suite source inventory
+native/burimunsi/capture-tests/BuildConfig.kt,Android,Host and integration fixture,Retained,84,84,Native suite source inventory
+native/burimunsi/capture-tests/CaptureWakeChecks.kt,Android,Host and integration fixture,Retained,3370,3370,Native suite source inventory
+native/burimunsi/capture-tests/ReceiverFixture.kt,Android,Host and integration fixture,Retained,3268,3268,Native suite source inventory
+native/burimunsi/configuration/authority-transition.md,Android,"Build, brand or dependency input",Retained,2855,2855,Native source fingerprint
+native/burimunsi/configuration/installation.example.properties,Android,"Build, brand or dependency input",Retained,1243,1243,Native source fingerprint
+native/burimunsi/configuration/testing-candidate.md,Android,"Build, brand or dependency input",Retained,3843,3843,Native source fingerprint
+native/burimunsi/core/build.gradle.kts,Android,"Build, brand or dependency input",Retained,1195,1195,Native source fingerprint
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Acknowledgement.kt,Android,Core and core tests,Removed,755,,Caller and contract review before deletion
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ExactDisplay.kt,Android,Core and core tests,Retained,3067,3067,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/GatewayHealth.kt,Android,Core and core tests,Retained,4200,4200,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/InstallationEnrollment.kt,Android,Core and core tests,Retained,4158,4158,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ListingQuery.kt,Android,Core and core tests,Retained,5485,5485,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ManagedCollectSession.kt,Android,Core and core tests,Retained,9561,9561,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/MemberImportScope.kt,Android,Core and core tests,Retained,439,439,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Models.kt,Android,Core and core tests,Modified,3836,3889,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/NavigationCheckpoint.kt,Android,Core and core tests,Retained,5510,5510,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Observation.kt,Android,Core and core tests,Modified,7666,5659,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ObservationConsent.kt,Android,Core and core tests,Added,,2000,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ObservationJournal.kt,Android,Core and core tests,Retained,9989,9989,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ObservationSource.kt,Android,Core and core tests,Retained,2696,2696,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/OperationJournal.kt,Android,Core and core tests,Modified,9784,9905,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PageIntegrity.kt,Android,Core and core tests,Retained,954,954,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PagedRestoration.kt,Android,Core and core tests,Retained,2572,2572,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PaymentPresentation.kt,Android,Core and core tests,Retained,1384,1384,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Presentation.kt,Android,Core and core tests,Retained,2354,2354,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PresentationState.kt,Android,Core and core tests,Retained,4450,4450,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/RawDisclosure.kt,Android,Core and core tests,Retained,513,513,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ReadOnlyRecoveryRetry.kt,Android,Core and core tests,Retained,5962,5962,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Receipt.kt,Android,Core and core tests,Modified,5201,4505,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ReceiverCollectionScope.kt,Android,Core and core tests,Retained,547,547,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ReceiverRetirement.kt,Android,Core and core tests,Retained,5721,5721,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ScreenGate.kt,Android,Core and core tests,Retained,628,628,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ScreenRestoration.kt,Android,Core and core tests,Retained,2186,2186,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SessionAuthority.kt,Android,Core and core tests,Modified,6614,6701,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SmartOnboarding.kt,Android,Core and core tests,Retained,5654,5654,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SnapshotFreshness.kt,Android,Core and core tests,Retained,897,897,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Values.kt,Android,Core and core tests,Retained,3237,3237,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ViewMemory.kt,Android,Core and core tests,Retained,1249,1249,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/export/CsvEncoder.kt,Android,Core and core tests,Retained,2551,2551,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/export/ExportTable.kt,Android,Core and core tests,Retained,10291,10291,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/export/XlsxEncoder.kt,Android,Core and core tests,Retained,13434,13434,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/test/kotlin/rw/ikanisa/burimunsi/core/CoreChecks.kt,Android,Core and core tests,Modified,28408,28164,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/test/kotlin/rw/ikanisa/burimunsi/core/InstallationEnrollmentChecks.kt,Android,Core and core tests,Retained,5688,5688,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/test/kotlin/rw/ikanisa/burimunsi/core/ListingQueryChecks.kt,Android,Core and core tests,Retained,2878,2878,Core JVM tests and Kotlin source checks
+native/burimunsi/core/src/test/kotlin/rw/ikanisa/burimunsi/core/ManagedCollectSessionChecks.kt,Android,Core and core tests,Retained,11213,11213,Core JVM tests and Kotlin source checks
+native/burimunsi/cross-layer-tests/ApplicationStub.kt,Android,Host and integration fixture,Retained,202,202,Native suite source inventory
+native/burimunsi/cross-layer-tests/CommandViewChecks.kt,Android,Host and integration fixture,Retained,26818,26818,Native suite source inventory
+native/burimunsi/cross-layer-tests/MemberDocumentChecks.kt,Android,Host and integration fixture,Retained,9092,9092,Native suite source inventory
+native/burimunsi/cross-layer-tests/SessionBootstrapChecks.kt,Android,Host and integration fixture,Retained,14558,14558,Native suite source inventory
+native/burimunsi/cross-layer-tests/SupportContactStub.kt,Android,Host and integration fixture,Retained,197,197,Native suite source inventory
+native/burimunsi/cross-layer-tests/TransportStub.kt,Android,Host and integration fixture,Retained,2160,2160,Native suite source inventory
+native/burimunsi/export-tests/ExportChecks.kt,Android,Host and integration fixture,Retained,12848,12848,Native suite source inventory
+native/burimunsi/export-tests/verify_workbook.py,Android,Host and integration fixture,Retained,2144,2144,Native suite source inventory
+native/burimunsi/gateway-tests/ApiFailureStub.kt,Android,Host and integration fixture,Retained,252,252,Native suite source inventory
+native/burimunsi/gateway-tests/BuildConfigStub.kt,Android,Host and integration fixture,Retained,503,503,Native suite source inventory
+native/burimunsi/gateway-tests/ContextStub.kt,Android,Host and integration fixture,Retained,794,794,Native suite source inventory
+native/burimunsi/gateway-tests/ContinuousSyncStub.kt,Android,Host and integration fixture,Retained,521,521,Native suite source inventory
+native/burimunsi/gateway-tests/GatewayChecks.kt,Android,Host and integration fixture,Retained,30743,30743,Native suite source inventory
+native/burimunsi/gateway-tests/ManifestStub.kt,Android,Host and integration fixture,Retained,145,145,Native suite source inventory
+native/burimunsi/gateway-tests/ObservationGatewayStub.kt,Android,Host and integration fixture,Retained,1747,1747,Native suite source inventory
+native/burimunsi/gateway-tests/PermissionStub.kt,Android,Host and integration fixture,Retained,81,81,Native suite source inventory
+native/burimunsi/gateway-tests/ReceiverStub.kt,Android,Host and integration fixture,Retained,4668,4668,Native suite source inventory
+native/burimunsi/gateway-tests/SubscriptionStub.kt,Android,Host and integration fixture,Retained,273,273,Native suite source inventory
+native/burimunsi/gradle.properties,Android,"Build, brand or dependency input",Retained,252,252,Native source fingerprint
+native/burimunsi/gradle/wrapper/gradle-wrapper.properties,Android,"Build, brand or dependency input",Retained,339,339,Native source fingerprint
+native/burimunsi/gradlew,Android,"Build, brand or dependency input",Retained,209,209,Native source fingerprint
+native/burimunsi/http-tests/HttpChecks.kt,Android,Host and integration fixture,Retained,53620,53620,Native suite source inventory
+native/burimunsi/integration/canonical-integration-proposal.sql,Android,Integration input,Retained,6806,6806,Receiver pin or versioned SQL proposal
+native/burimunsi/integration/native-principal-session-upgrade-proposal.sql,Android,Integration input,Retained,2597,2597,Receiver pin or versioned SQL proposal
+native/burimunsi/integration/receipt-jobs-proposal.sql,Android,Integration input,Retained,4321,4321,Receiver pin or versioned SQL proposal
+native/burimunsi/integration/receiver-sources.json,Android,Integration input,Retained,1511,1511,Receiver pin or versioned SQL proposal
+native/burimunsi/integration/rematch-jobs-proposal.sql,Android,Integration input,Retained,7510,7510,Receiver pin or versioned SQL proposal
+native/burimunsi/integration/schema-proposal.sql,Android,Integration input,Retained,6775,6775,Receiver pin or versioned SQL proposal
+native/burimunsi/managed-login-tests/CollectAdminTransportChecks.kt,Android,Host and integration fixture,Retained,13941,13941,Native suite source inventory
+native/burimunsi/observation-adapter-tests/AdapterChecks.kt,Android,Host and integration fixture,Modified,97155,97876,Native suite source inventory
+native/burimunsi/observation-adapter-tests/BroadcastBackgroundStub.kt,Android,Host and integration fixture,Retained,526,526,Native suite source inventory
+native/burimunsi/observation-adapter-tests/BroadcastStub.kt,Android,Host and integration fixture,Retained,855,855,Native suite source inventory
+native/burimunsi/observation-adapter-tests/BroadcastTelephonyStub.kt,Android,Host and integration fixture,Retained,418,418,Native suite source inventory
+native/burimunsi/observation-adapter-tests/ClockStub.kt,Android,Host and integration fixture,Retained,223,223,Native suite source inventory
+native/burimunsi/observation-adapter-tests/ContextStub.kt,Android,Host and integration fixture,Modified,3318,3461,Native suite source inventory
+native/burimunsi/observation-adapter-tests/ObservationStoreStub.kt,Android,Host and integration fixture,Retained,790,790,Native suite source inventory
+native/burimunsi/observation-adapter-tests/ProvisioningStub.kt,Android,Host and integration fixture,Retained,174,174,Native suite source inventory
+native/burimunsi/observation-adapter-tests/RepositoryStub.kt,Android,Host and integration fixture,Retained,6190,6190,Native suite source inventory
+native/burimunsi/observation-adapter-tests/SecureStoreStub.kt,Android,Host and integration fixture,Retained,1195,1195,Native suite source inventory
+native/burimunsi/observation-adapter-tests/SettingsStub.kt,Android,Host and integration fixture,Retained,277,277,Native suite source inventory
+native/burimunsi/observation-adapter-tests/SyncApiStub.kt,Android,Host and integration fixture,Retained,300,300,Native suite source inventory
+native/burimunsi/observation-adapter-tests/UriStub.kt,Android,Host and integration fixture,Retained,122,122,Native suite source inventory
+native/burimunsi/pdu-tests/ContextStub.kt,Android,Host and integration fixture,Retained,84,84,Native suite source inventory
+native/burimunsi/pdu-tests/PduCorrelationChecks.kt,Android,Host and integration fixture,Retained,10555,10555,Native suite source inventory
+native/burimunsi/pdu-tests/SecureStoreStub.kt,Android,Host and integration fixture,Retained,490,490,Native suite source inventory
+native/burimunsi/photo-tests/MemberPhotoChecks.kt,Android,Host and integration fixture,Retained,2612,2612,Native suite source inventory
+native/burimunsi/pipeline-tests/native_execution_test.py,Android,Build or verification tooling,Modified,57165,58338,Pipeline tests and applicable CLI runs
+native/burimunsi/pipeline-tests/production_qualification_test.py,Android,Build or verification tooling,Retained,17172,17172,Pipeline tests and applicable CLI runs
+native/burimunsi/pipeline-tests/sign_candidate_test.py,Android,Build or verification tooling,Modified,31761,31890,Pipeline tests and applicable CLI runs
+native/burimunsi/presentation-tests/PagedRestorationChecks.kt,Android,Host and integration fixture,Retained,3223,3223,Native suite source inventory
+native/burimunsi/presentation-tests/PresentationChecks.kt,Android,Host and integration fixture,Retained,7717,7717,Native suite source inventory
+native/burimunsi/presentation-tests/StateFormattingChecks.kt,Android,Host and integration fixture,Retained,9427,9427,Native suite source inventory
+native/burimunsi/queue-tests/ContextStub.kt,Android,Host and integration fixture,Retained,194,194,Native suite source inventory
+native/burimunsi/queue-tests/ObservationStoreStub.kt,Android,Host and integration fixture,Retained,837,837,Native suite source inventory
+native/burimunsi/queue-tests/QueueChecks.kt,Android,Host and integration fixture,Retained,4242,4242,Native suite source inventory
+native/burimunsi/queue-tests/RepositoryStub.kt,Android,Host and integration fixture,Retained,883,883,Native suite source inventory
+native/burimunsi/receiver-tests/ReceiverChecks.kt,Android,Host and integration fixture,Retained,14663,14663,Native suite source inventory
+native/burimunsi/receiver-tests/ReliabilityChecks.kt,Android,Host and integration fixture,Modified,9958,10214,Native suite source inventory
+native/burimunsi/recovery-tests/CommandIdentityChecks.kt,Android,Host and integration fixture,Retained,8180,8180,Native suite source inventory
+native/burimunsi/recovery-tests/CommandRecoveryChecks.kt,Android,Host and integration fixture,Retained,11635,11635,Native suite source inventory
+native/burimunsi/recovery-tests/ReceiverRetirementChecks.kt,Android,Host and integration fixture,Retained,4969,4969,Native suite source inventory
+native/burimunsi/recovery-tests/RecoveryRetryChecks.kt,Android,Host and integration fixture,Retained,12014,12014,Native suite source inventory
+native/burimunsi/repository-tests/A04Checks.kt,Android,Host and integration fixture,Retained,11117,11117,Native suite source inventory
+native/burimunsi/repository-tests/ApiStub.kt,Android,Host and integration fixture,Retained,1006,1006,Native suite source inventory
+native/burimunsi/repository-tests/CommandRecoveryIntegrationChecks.kt,Android,Host and integration fixture,Retained,19676,19676,Native suite source inventory
+native/burimunsi/repository-tests/ContextStub.kt,Android,Host and integration fixture,Retained,43,43,Native suite source inventory
+native/burimunsi/repository-tests/JsonAdapter.kt,Android,Host and integration fixture,Retained,3833,3833,Native suite source inventory
+native/burimunsi/repository-tests/ListingRepositoryChecks.kt,Android,Host and integration fixture,Retained,5264,5264,Native suite source inventory
+native/burimunsi/repository-tests/MemberPaymentsChecks.kt,Android,Host and integration fixture,Retained,4535,4535,Native suite source inventory
+native/burimunsi/repository-tests/ObservationHintsChecks.kt,Android,Host and integration fixture,Retained,3198,3198,Native suite source inventory
+native/burimunsi/repository-tests/ObservationOwnershipChecks.kt,Android,Host and integration fixture,Modified,14430,14254,Native suite source inventory
+native/burimunsi/repository-tests/ReceiverRetirementChecks.kt,Android,Host and integration fixture,Retained,7161,7161,Native suite source inventory
+native/burimunsi/repository-tests/RecoveryChecks.kt,Android,Host and integration fixture,Retained,10176,10176,Native suite source inventory
+native/burimunsi/repository-tests/RecoveryRetryIntegrationChecks.kt,Android,Host and integration fixture,Retained,10947,10947,Native suite source inventory
+native/burimunsi/repository-tests/RepositoryChecks.kt,Android,Host and integration fixture,Modified,51539,51409,Native suite source inventory
+native/burimunsi/repository-tests/SmartOnboardingRepositoryChecks.kt,Android,Host and integration fixture,Retained,3145,3145,Native suite source inventory
+native/burimunsi/repository-tests/StaffSecretChecks.kt,Android,Host and integration fixture,Retained,17204,17204,Native suite source inventory
+native/burimunsi/repository-tests/StorageStub.kt,Android,Host and integration fixture,Modified,1373,1530,Native suite source inventory
+native/burimunsi/scripts/bootstrap_gradle.py,Android,Build or verification tooling,Retained,5663,5663,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/build_preflight.py,Android,Build or verification tooling,Modified,2907,3697,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/check_api_origin.py,Android,Build or verification tooling,Retained,1897,1897,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/controller_sources.sh,Android,Build or verification tooling,Modified,715,762,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/native_artifacts.py,Android,Build or verification tooling,Added,,6466,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/native_instrumentation_contract.py,Android,Build or verification tooling,Added,,6899,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/native_pipeline.py,Android,Build or verification tooling,Modified,34253,17610,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/native_pipeline_io.py,Android,Build or verification tooling,Added,,4732,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/prepare_receiver.py,Android,Build or verification tooling,Modified,35279,11932,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/qualify_production.py,Android,Build or verification tooling,Retained,11711,11711,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/receiver_adaptations.py,Android,Build or verification tooling,Added,,24002,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/release_readiness.py,Android,Build or verification tooling,Retained,24302,24302,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/repository_sources.sh,Android,Build or verification tooling,Added,,538,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/run_emulator_matrix.sh,Android,Build or verification tooling,Retained,2962,2962,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/setup_native_toolchain.py,Android,Build or verification tooling,Retained,3147,3147,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/sign_candidate.py,Android,Build or verification tooling,Retained,20455,20455,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_all.sh,Android,Build or verification tooling,Retained,1505,1505,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_authority_build_guard.py,Android,Build or verification tooling,Retained,5553,5553,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_capture_wakeup.sh,Android,Build or verification tooling,Retained,720,720,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_command_recovery.sh,Android,Build or verification tooling,Retained,963,963,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_cross_layer.sh,Android,Build or verification tooling,Modified,1788,1621,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_exports.sh,Android,Build or verification tooling,Retained,435,435,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_gateway.sh,Android,Build or verification tooling,Modified,1683,1606,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_http.sh,Android,Build or verification tooling,Retained,742,742,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_managed_login.sh,Android,Build or verification tooling,Retained,638,638,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_member_photo.sh,Android,Build or verification tooling,Retained,405,405,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_native_boundary.py,Android,Build or verification tooling,Retained,10322,10322,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_observation_adapter.sh,Android,Build or verification tooling,Modified,1588,1680,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_observation_queue.sh,Android,Build or verification tooling,Retained,719,719,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_pdu_correlation.sh,Android,Build or verification tooling,Retained,858,858,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_presentation.sh,Android,Build or verification tooling,Retained,638,638,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_receiver_policies.sh,Android,Build or verification tooling,Retained,924,924,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_repository.sh,Android,Build or verification tooling,Modified,2283,1860,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_sandbox_upgrade.py,Android,Build or verification tooling,Retained,7372,7372,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_sms_reliability.sh,Android,Build or verification tooling,Retained,679,679,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_ui_syntax.sh,Android,Build or verification tooling,Modified,2010,2098,Pipeline tests and applicable CLI runs
+native/burimunsi/scripts/verify_viewmodel.sh,Android,Build or verification tooling,Retained,3065,3065,Pipeline tests and applicable CLI runs
+native/burimunsi/settings.gradle.kts,Android,"Build, brand or dependency input",Retained,570,570,Native source fingerprint
+native/burimunsi/syntax-tests/ParseKotlin.kt,Android,Host and integration fixture,Retained,1402,1402,Native suite source inventory
+native/burimunsi/viewmodel-tests/AndroidManifestStub.kt,Android,Host and integration fixture,Retained,261,261,Native suite source inventory
+native/burimunsi/viewmodel-tests/AndroidPermissionStub.kt,Android,Host and integration fixture,Retained,82,82,Native suite source inventory
+native/burimunsi/viewmodel-tests/AndroidStub.kt,Android,Host and integration fixture,Retained,267,267,Native suite source inventory
+native/burimunsi/viewmodel-tests/BuildConfigStub.kt,Android,Host and integration fixture,Retained,303,303,Native suite source inventory
+native/burimunsi/viewmodel-tests/CheckpointChecks.kt,Android,Host and integration fixture,Retained,9290,9290,Native suite source inventory
+native/burimunsi/viewmodel-tests/ColdStartChecks.kt,Android,Host and integration fixture,Retained,10013,10013,Native suite source inventory
+native/burimunsi/viewmodel-tests/ComposeStub.kt,Android,Host and integration fixture,Retained,918,918,Native suite source inventory
+native/burimunsi/viewmodel-tests/ForegroundChecks.kt,Android,Host and integration fixture,Retained,13449,13449,Native suite source inventory
+native/burimunsi/viewmodel-tests/GatewayStub.kt,Android,Host and integration fixture,Retained,5581,5581,Native suite source inventory
+native/burimunsi/viewmodel-tests/JourneyChecks.kt,Android,Host and integration fixture,Retained,9734,9734,Native suite source inventory
+native/burimunsi/viewmodel-tests/JsonStub.kt,Android,Host and integration fixture,Retained,776,776,Native suite source inventory
+native/burimunsi/viewmodel-tests/LifecycleStub.kt,Android,Host and integration fixture,Retained,946,946,Native suite source inventory
+native/burimunsi/viewmodel-tests/ListingsDownloadsChecks.kt,Android,Host and integration fixture,Retained,10968,10968,Native suite source inventory
+native/burimunsi/viewmodel-tests/ManagedScopeChecks.kt,Android,Host and integration fixture,Retained,3718,3718,Native suite source inventory
+native/burimunsi/viewmodel-tests/NetworkStub.kt,Android,Host and integration fixture,Retained,606,606,Native suite source inventory
+native/burimunsi/viewmodel-tests/ObservationUiChecks.kt,Android,Host and integration fixture,Retained,15635,15635,Native suite source inventory
+native/burimunsi/viewmodel-tests/PagedRestorationChecks.kt,Android,Host and integration fixture,Retained,15332,15332,Native suite source inventory
+native/burimunsi/viewmodel-tests/PermissionChecks.kt,Android,Host and integration fixture,Retained,4726,4726,Native suite source inventory
+native/burimunsi/viewmodel-tests/PersistenceChecks.kt,Android,Host and integration fixture,Retained,6145,6145,Native suite source inventory
+native/burimunsi/viewmodel-tests/PresentationStateChecks.kt,Android,Host and integration fixture,Retained,16189,16189,Native suite source inventory
+native/burimunsi/viewmodel-tests/RawDisclosureChecks.kt,Android,Host and integration fixture,Retained,4296,4296,Native suite source inventory
+native/burimunsi/viewmodel-tests/ReceiverStatusChecks.kt,Android,Host and integration fixture,Retained,8752,8752,Native suite source inventory
+native/burimunsi/viewmodel-tests/RemoteSmsChecks.kt,Android,Host and integration fixture,Retained,19364,19364,Native suite source inventory
+native/burimunsi/viewmodel-tests/RepositoryStub.kt,Android,Host and integration fixture,Retained,25305,25305,Native suite source inventory
+native/burimunsi/viewmodel-tests/RetryFreshnessChecks.kt,Android,Host and integration fixture,Retained,7421,7421,Native suite source inventory
+native/burimunsi/viewmodel-tests/SessionNetworkChecks.kt,Android,Host and integration fixture,Retained,1824,1824,Native suite source inventory
+native/burimunsi/viewmodel-tests/SmartOnboardingChecks.kt,Android,Host and integration fixture,Modified,15886,15987,Native suite source inventory
+native/burimunsi/viewmodel-tests/SnapshotStub.kt,Android,Host and integration fixture,Retained,2345,2345,Native suite source inventory
+native/burimunsi/viewmodel-tests/StaffFreshnessChecks.kt,Android,Host and integration fixture,Retained,3130,3130,Native suite source inventory
+native/burimunsi/viewmodel-tests/StorageStub.kt,Android,Host and integration fixture,Retained,563,563,Native suite source inventory
+native/burimunsi/viewmodel-tests/ViewModelChecks.kt,Android,Host and integration fixture,Modified,19352,19364,Native suite source inventory
+scripts/generate_burimunsi_wire.py,Shared consumer,Direct native dependency or contract tool,Modified,4792,5742,Call-site and owning suite verification
+scripts/supabase/cloud-release/burimunsi-member-listing.test.mjs,Supabase,Qualification fixture or harness,Retained,7466,7466,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/burimunsi-members-profile.mjs,Supabase,Qualification fixture or harness,Retained,2953,2953,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/burimunsi-observation-reconcile.test.mjs,Supabase,Qualification fixture or harness,Retained,12335,12335,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/burimunsi-payment-reference.test.mjs,Supabase,Qualification fixture or harness,Retained,20228,20228,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/burimunsi-payment-sms.test.mjs,Supabase,Qualification fixture or harness,Retained,21305,21305,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/burimunsi-runtime-grants.test.mjs,Supabase,Qualification fixture or harness,Retained,15916,15916,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/fixtures/burimunsi-held-verified-status.sql,Supabase,Qualification fixture or harness,Retained,5385,5385,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/fixtures/burimunsi-members-profile-driver.mjs,Supabase,Qualification fixture or harness,Retained,14068,14068,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/fixtures/burimunsi-members-profile.sql,Supabase,Qualification fixture or harness,Retained,5855,5855,Synthetic PostgreSQL qualification
+scripts/supabase/cloud-release/fixtures/burimunsi-members.mjs,Supabase,Qualification fixture or harness,Retained,4193,4193,Synthetic PostgreSQL qualification
+scripts/supabase/testing/buri-isolated-pg/README.md,Supabase,Qualification fixture or harness,Retained,1873,1873,Synthetic PostgreSQL qualification
+scripts/supabase/testing/buri-isolated-pg/interrupt.test.mjs,Supabase,Qualification fixture or harness,Retained,2890,2890,Synthetic PostgreSQL qualification
+scripts/supabase/testing/buri-isolated-pg/qualify.mjs,Supabase,Qualification fixture or harness,Retained,7132,7132,Synthetic PostgreSQL qualification
+scripts/supabase/testing/buri-isolated-pg/report.mjs,Supabase,Qualification fixture or harness,Retained,1014,1014,Synthetic PostgreSQL qualification
+scripts/supabase/testing/buri-isolated-pg/report.test.mjs,Supabase,Qualification fixture or harness,Retained,907,907,Synthetic PostgreSQL qualification
+supabase/functions/_shared/burimunsi-retention-inspection.js,Shared consumer,Direct native dependency or contract tool,Retained,6170,6170,Call-site and owning suite verification
+supabase/functions/_shared/domain/admin_bridge.js,Shared consumer,Direct native dependency or contract tool,Retained,46154,46154,Call-site and owning suite verification
+supabase/functions/_shared/domain/admin_burimunsi_access.js,Managed API,Runtime or runtime configuration,Retained,6151,6151,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/admin_burimunsi_authority.js,Managed API,Runtime or runtime configuration,Added,,1403,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/admin_burimunsi_native_work.js,Managed API,Runtime or runtime configuration,Modified,5952,5350,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/admin_burimunsi_observations.js,Managed API,Runtime or runtime configuration,Retained,13277,13277,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/admin_burimunsi_operators.js,Managed API,Runtime or runtime configuration,Modified,8551,8021,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/admin_burimunsi_provisioning.js,Managed API,Runtime or runtime configuration,Modified,5768,5299,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/admin_burimunsi_setup.js,Managed API,Runtime or runtime configuration,Modified,4318,3727,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/acknowledgement.js,Managed API,Runtime or runtime configuration,Retained,1547,1547,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/admin-provisioning.js,Managed API,Runtime or runtime configuration,Retained,14934,14934,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/admin-scope-selection.js,Managed API,Runtime or runtime configuration,Retained,1182,1182,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/admin-scope-setup.js,Managed API,Runtime or runtime configuration,Retained,14959,14959,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/auth-service.js,Managed API,Runtime or runtime configuration,Retained,11033,11033,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/automatic-job-router.js,Managed API,Runtime or runtime configuration,Retained,810,810,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/automatic-work.js,Managed API,Runtime or runtime configuration,Retained,1666,1666,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/collect-canonical-entrypoint.mjs,Managed API,Runtime or runtime configuration,Removed,3003,,Caller and contract review before deletion
+supabase/functions/_shared/domain/burimunsi/collect-route.js,Managed API,Runtime or runtime configuration,Retained,8150,8150,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/collect-runtime.js,Managed API,Runtime or runtime configuration,Retained,11708,11708,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/command-authority.js,Managed API,Runtime or runtime configuration,Retained,641,641,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/compose-postgres.js,Managed API,Runtime or runtime configuration,Retained,16711,16711,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/compose.js,Managed API,Runtime or runtime configuration,Retained,3699,3699,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/contribution-service.js,Managed API,Runtime or runtime configuration,Retained,9369,9369,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/csv.js,Managed API,Runtime or runtime configuration,Retained,820,820,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/cursor.js,Managed API,Runtime or runtime configuration,Retained,1792,1792,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/errors.js,Managed API,Runtime or runtime configuration,Retained,986,986,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/gateway-registry.js,Managed API,Runtime or runtime configuration,Retained,2108,2108,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/http.js,Managed API,Runtime or runtime configuration,Retained,17668,17668,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/index.js,Managed API,Runtime or runtime configuration,Retained,1101,1101,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/listing-query.js,Managed API,Runtime or runtime configuration,Retained,7319,7319,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/managed-email-otp.js,Managed API,Runtime or runtime configuration,Retained,6666,6666,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/managed-request-gate.js,Managed API,Runtime or runtime configuration,Retained,3620,3620,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/member-service.js,Managed API,Runtime or runtime configuration,Retained,8707,8707,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/native-auto-evidence.js,Managed API,Runtime or runtime configuration,Retained,28029,28029,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/native-auto-parser.js,Managed API,Runtime or runtime configuration,Retained,12948,12948,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/native-auto-source.js,Managed API,Runtime or runtime configuration,Retained,3982,3982,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/native-promotion-evidence.js,Managed API,Runtime or runtime configuration,Retained,5405,5405,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/native-secrets.js,Managed API,Runtime or runtime configuration,Retained,995,995,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/native-sms-event-identity.js,Managed API,Runtime or runtime configuration,Retained,2207,2207,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/native-sms-member-match.js,Managed API,Runtime or runtime configuration,Retained,1600,1600,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/observation-display-hints.js,Managed API,Runtime or runtime configuration,Modified,2323,2326,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/observation-evidence.js,Managed API,Runtime or runtime configuration,Retained,10381,10381,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/operation-recovery.js,Managed API,Runtime or runtime configuration,Retained,3696,3696,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/operations-health.js,Managed API,Runtime or runtime configuration,Retained,2774,2774,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/operator-access.d.mts,Managed API,Generated wire contract,Retained,510,510,Exact generator comparison
+supabase/functions/_shared/domain/burimunsi/operator-access.mjs,Managed API,Runtime or runtime configuration,Retained,695,695,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/package.json,Managed API,Runtime or runtime configuration,Retained,116,116,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/partial-inbox-evidence.js,Managed API,Runtime or runtime configuration,Added,,7162,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/payment-history.js,Managed API,Runtime or runtime configuration,Retained,2329,2329,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/payment-sms-delivery.mjs,Managed API,Runtime or runtime configuration,Retained,6695,6695,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/payment-sms-template.mjs,Managed API,Runtime or runtime configuration,Retained,1975,1975,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/phone-pin-request.js,Managed API,Runtime or runtime configuration,Retained,15448,15448,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/pin.js,Managed API,Runtime or runtime configuration,Retained,4005,4005,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/policy.js,Managed API,Runtime or runtime configuration,Retained,4256,4256,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-auth-store.js,Managed API,Runtime or runtime configuration,Retained,20857,20857,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-authority.js,Managed API,Runtime or runtime configuration,Retained,3611,3611,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-canonical-adoption.js,Managed API,Runtime or runtime configuration,Retained,6829,6829,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-canonical-store.js,Managed API,Runtime or runtime configuration,Retained,19801,19801,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-collect-gateway.js,Managed API,Runtime or runtime configuration,Retained,30255,30255,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-collect-members.js,Managed API,Runtime or runtime configuration,Retained,10968,10968,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-command-outcome.js,Managed API,Runtime or runtime configuration,Retained,4417,4417,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-gateway-classification.js,Managed API,Runtime or runtime configuration,Retained,3144,3144,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-gateway-outcome.js,Managed API,Runtime or runtime configuration,Retained,1690,1690,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-gateway-upload.js,Managed API,Runtime or runtime configuration,Retained,15782,15782,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-identity-directory.js,Managed API,Runtime or runtime configuration,Retained,4590,4590,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-managed-actor.js,Managed API,Runtime or runtime configuration,Retained,2783,2783,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-managed-sessions.js,Managed API,Runtime or runtime configuration,Retained,6049,6049,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-member-listing.js,Managed API,Runtime or runtime configuration,Retained,6902,6902,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-native-auto-worker.js,Managed API,Runtime or runtime configuration,Retained,12165,12165,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-native-canonical-intake.js,Managed API,Runtime or runtime configuration,Retained,3109,3109,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-native-financial-custody.js,Managed API,Runtime or runtime configuration,Modified,16180,16224,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-native-financial-jobs.js,Managed API,Runtime or runtime configuration,Retained,6419,6419,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-native-promotion-assessment.js,Managed API,Runtime or runtime configuration,Removed,5238,,Caller and contract review before deletion
+supabase/functions/_shared/domain/burimunsi/postgres-native-sms-ledger.js,Managed API,Runtime or runtime configuration,Retained,17076,17076,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-native-unassigned-extraction.js,Managed API,Runtime or runtime configuration,Retained,8393,8393,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-native-work-grants.js,Managed API,Runtime or runtime configuration,Retained,5061,5061,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-observation-listing.js,Managed API,Runtime or runtime configuration,Retained,5650,5650,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-observation-reconcile-evidence.js,Managed API,Runtime or runtime configuration,Added,,8345,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-observation-reconciliation.js,Managed API,Runtime or runtime configuration,Modified,23460,15810,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-observations.js,Managed API,Runtime or runtime configuration,Retained,26160,26160,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-operation-recovery.js,Managed API,Runtime or runtime configuration,Retained,3078,3078,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-operator-directory.js,Managed API,Runtime or runtime configuration,Retained,3188,3188,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-phone-pin-sessions.js,Managed API,Runtime or runtime configuration,Retained,2502,2502,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-posting-allocation.js,Managed API,Runtime or runtime configuration,Retained,13027,13027,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-posting-authority.js,Managed API,Runtime or runtime configuration,Retained,5814,5814,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-posting-custody.js,Managed API,Runtime or runtime configuration,Retained,20521,20521,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-posting-preparation.js,Managed API,Runtime or runtime configuration,Retained,14809,14809,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-processing-admission.js,Managed API,Runtime or runtime configuration,Retained,3100,3100,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-receipt-job-store.js,Managed API,Runtime or runtime configuration,Retained,14615,14615,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-records-store.js,Managed API,Runtime or runtime configuration,Retained,31092,31092,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-rematch-job-store.js,Managed API,Runtime or runtime configuration,Retained,16165,16165,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-retained-sources.js,Managed API,Runtime or runtime configuration,Retained,9773,9773,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-scheduler.js,Managed API,Runtime or runtime configuration,Retained,10071,10071,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-scope-discovery.js,Managed API,Runtime or runtime configuration,Retained,1564,1564,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-shared-posting.js,Managed API,Runtime or runtime configuration,Retained,13558,13558,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-source-reader.js,Managed API,Runtime or runtime configuration,Retained,16543,16543,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-storage-witnesses.js,Managed API,Runtime or runtime configuration,Retained,6777,6777,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-values.js,Managed API,Runtime or runtime configuration,Retained,550,550,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/postgres-worker-authority.js,Managed API,Runtime or runtime configuration,Retained,4848,4848,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/posting-preparation.js,Managed API,Runtime or runtime configuration,Retained,5642,5642,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/receipt.js,Managed API,Runtime or runtime configuration,Retained,4902,4902,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/records-service.js,Managed API,Runtime or runtime configuration,Retained,18974,18974,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/rematch-worker.js,Managed API,Runtime or runtime configuration,Retained,3924,3924,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/smart-onboarding-dispatch.js,Managed API,Runtime or runtime configuration,Modified,9632,9148,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/smart-onboarding-import.js,Managed API,Runtime or runtime configuration,Modified,19925,12014,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/smart-onboarding-journal.js,Managed API,Runtime or runtime configuration,Modified,12240,11717,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/smart-onboarding-policy.js,Managed API,Runtime or runtime configuration,Retained,6965,6965,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/smart-onboarding-source.js,Managed API,Runtime or runtime configuration,Added,,8604,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/smart-onboarding-suggestions.js,Managed API,Runtime or runtime configuration,Retained,11546,11546,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/sms-evidence-input.js,Managed API,Runtime or runtime configuration,Added,,4882,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/unresolved-evidence.js,Managed API,Runtime or runtime configuration,Modified,23231,11120,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/values.js,Managed API,Runtime or runtime configuration,Retained,3366,3366,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/wire/burimunsi.generated.mjs,Managed API,Generated wire contract,Retained,87545,87545,Exact generator comparison
+supabase/functions/_shared/domain/burimunsi/wire/native-contract.mjs,Managed API,Runtime or runtime configuration,Retained,3574,3574,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/wire/operator-capabilities.generated.mjs,Managed API,Generated wire contract,Retained,376,376,Exact generator comparison
+supabase/functions/_shared/domain/burimunsi/wire/request-boundary.mjs,Managed API,Runtime or runtime configuration,Retained,3886,3886,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/wire/runtime.mjs,Managed API,Runtime or runtime configuration,Retained,16599,16599,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/burimunsi/worker.js,Managed API,Runtime or runtime configuration,Retained,4826,4826,Edge checks and BuriMunsi regression suites
+supabase/functions/_shared/domain/canonical_people.js,Shared consumer,Direct native dependency or contract tool,Retained,1433,1433,Call-site and owning suite verification
+supabase/functions/_shared/domain/contribution-posting.mjs,Shared consumer,Direct native dependency or contract tool,Retained,7414,7414,Call-site and owning suite verification
+supabase/functions/_shared/domain/index.js,Shared consumer,Direct native dependency or contract tool,Retained,6111,6111,Call-site and owning suite verification
+supabase/functions/_shared/native-direct-supabase-ingress.js,Shared consumer,Direct native dependency or contract tool,Retained,2951,2951,Call-site and owning suite verification
+supabase/functions/_shared/native-ingress-nonce.js,Shared consumer,Direct native dependency or contract tool,Retained,1701,1701,Call-site and owning suite verification
+supabase/functions/_shared/native-ingress.js,Shared consumer,Direct native dependency or contract tool,Retained,11355,11355,Call-site and owning suite verification
+supabase/functions/_shared/native-provider-budget.mjs,Shared consumer,Direct native dependency or contract tool,Retained,1733,1733,Call-site and owning suite verification
+supabase/functions/_shared/opensms-receipts.js,Shared consumer,Direct native dependency or contract tool,Retained,8881,8881,Call-site and owning suite verification
+supabase/functions/_shared/roster_native_jpeg_decoder.mjs,Shared consumer,Direct native dependency or contract tool,Retained,4412,4412,Call-site and owning suite verification
+supabase/functions/_shared/scheduled-native-auto.js,Shared consumer,Direct native dependency or contract tool,Retained,1097,1097,Call-site and owning suite verification
+supabase/functions/_shared/scheduled-native-financial-work.js,Shared consumer,Direct native dependency or contract tool,Retained,5869,5869,Call-site and owning suite verification
+supabase/functions/_shared/scheduled-native-sms-ledger.js,Shared consumer,Direct native dependency or contract tool,Retained,647,647,Call-site and owning suite verification
+supabase/functions/_shared/serve.js,Shared consumer,Direct native dependency or contract tool,Retained,21975,21975,Call-site and owning suite verification
+supabase/functions/_shared/tests/burimunsi/a04-primary-snapshot.test.mjs,Managed API,Test or fixture,Retained,1743,1743,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/admin-access.test.mjs,Managed API,Test or fixture,Retained,28308,28308,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/admin-provisioning-route.test.mjs,Managed API,Test or fixture,Retained,7532,7532,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/admin-provisioning.test.mjs,Managed API,Test or fixture,Retained,12640,12640,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/auth-service.test.mjs,Managed API,Test or fixture,Retained,12936,12936,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/authority-continuation.test.mjs,Managed API,Test or fixture,Retained,1060,1060,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/automatic-work.test.mjs,Managed API,Test or fixture,Retained,2083,2083,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/canonical-composition.test.mjs,Managed API,Test or fixture,Retained,5196,5196,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/canonical-managed-sessions.test.mjs,Managed API,Test or fixture,Retained,9127,9127,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/canonical-scheduler.test.mjs,Managed API,Test or fixture,Retained,8863,8863,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/canonical-service.test.mjs,Managed API,Test or fixture,Retained,7458,7458,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/canonical-source-adoption.test.mjs,Managed API,Test or fixture,Retained,10306,10306,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/canonical-source-reader.test.mjs,Managed API,Test or fixture,Retained,12473,12473,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/canonical-worker-identity.test.mjs,Managed API,Test or fixture,Retained,10335,10335,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/collect-gateway-fixture.mjs,Managed API,Test or fixture,Retained,9489,9489,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/collect-gateway.test.mjs,Managed API,Test or fixture,Retained,11599,11599,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/collect-member-commands.test.mjs,Managed API,Test or fixture,Retained,14946,14946,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/collect-route.test.mjs,Managed API,Test or fixture,Retained,17871,17871,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/collect-runtime.test.mjs,Managed API,Test or fixture,Retained,6729,6729,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/command-authority.test.mjs,Managed API,Test or fixture,Retained,3294,3294,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/command-outcome-conflict-postgres.test.mjs,Managed API,Test or fixture,Retained,3872,3872,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/command-outcome.test.mjs,Managed API,Test or fixture,Retained,6180,6180,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/compose-postgres.test.mjs,Managed API,Test or fixture,Retained,16567,16567,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/composition-adapters.test.mjs,Managed API,Test or fixture,Retained,4300,4300,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/fixtures.mjs,Managed API,Test or fixture,Retained,1507,1507,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/gateway-classification.test.mjs,Managed API,Test or fixture,Retained,5213,5213,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/gateway-profile.test.mjs,Managed API,Test or fixture,Retained,4128,4128,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/gateway-routing-fixture.mjs,Managed API,Test or fixture,Retained,4299,4299,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/gateway-routing.test.mjs,Managed API,Test or fixture,Retained,7504,7504,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/gateway-upload-fixture.mjs,Managed API,Test or fixture,Retained,6634,6634,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/gateway-upload.test.mjs,Managed API,Test or fixture,Retained,12885,12885,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/hardening-regressions.test.mjs,Managed API,Test or fixture,Retained,4371,4371,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/held-observation-compatibility.test.mjs,Managed API,Test or fixture,Retained,4816,4816,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/jsonb-persistence.test.mjs,Managed API,Test or fixture,Retained,7162,7162,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/listing-query.test.mjs,Managed API,Test or fixture,Retained,13335,13335,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/managed-email-otp.test.mjs,Managed API,Test or fixture,Retained,14532,14532,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/member-rematch.test.mjs,Managed API,Test or fixture,Retained,5263,5263,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-auto-format-regression.test.mjs,Managed API,Test or fixture,Retained,20913,20913,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-auto-parser.test.mjs,Managed API,Test or fixture,Retained,39804,39804,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-auto-worker.test.mjs,Managed API,Test or fixture,Retained,10211,10211,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-canonical-intake.test.mjs,Managed API,Test or fixture,Retained,4358,4358,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-financial-custody-independent.test.mjs,Managed API,Test or fixture,Retained,14772,14772,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-financial-custody.test.mjs,Managed API,Test or fixture,Modified,17798,17801,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-financial-jobs.test.mjs,Managed API,Test or fixture,Retained,4530,4530,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-gateway-pair.test.mjs,Managed API,Test or fixture,Retained,15599,15599,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-posting-identity.test.mjs,Managed API,Test or fixture,Retained,4560,4560,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-principal-fixture.mjs,Managed API,Test or fixture,Retained,4788,4788,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-principal-session.test.mjs,Managed API,Test or fixture,Retained,5904,5904,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-promotion-evidence.test.mjs,Managed API,Test or fixture,Retained,5139,5139,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-recipient-quote.test.mjs,Managed API,Test or fixture,Retained,3493,3493,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-sms-event-identity.test.mjs,Managed API,Test or fixture,Retained,3214,3214,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-sms-ledger.test.mjs,Managed API,Test or fixture,Retained,20062,20062,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-sms-member-match.test.mjs,Managed API,Test or fixture,Retained,1830,1830,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-unassigned-extraction.test.mjs,Managed API,Test or fixture,Retained,8527,8527,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-work-grants.test.mjs,Managed API,Test or fixture,Retained,2914,2914,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/native-work-scheduler.test.mjs,Managed API,Test or fixture,Retained,6976,6976,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/observation-adapter.test.mjs,Managed API,Test or fixture,Retained,64399,64399,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/observation-contract.test.mjs,Managed API,Test or fixture,Retained,12590,12590,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/observation-history-postgres.test.mjs,Managed API,Test or fixture,Retained,13156,13156,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/observation-processing.test.mjs,Managed API,Test or fixture,Retained,4785,4785,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/observation-reconcile.test.mjs,Managed API,Test or fixture,Retained,9533,9533,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/observation-source-keys-postgres.test.mjs,Managed API,Test or fixture,Retained,8517,8517,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/operation-recovery.test.mjs,Managed API,Test or fixture,Retained,10181,10181,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/operations-health.test.mjs,Managed API,Test or fixture,Retained,1908,1908,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/operator-directory.test.mjs,Managed API,Test or fixture,Retained,3201,3201,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/payment-conflict-read-model-postgres.test.mjs,Managed API,Test or fixture,Retained,4683,4683,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/payment-history.test.mjs,Managed API,Test or fixture,Retained,10143,10143,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/payment-sms-delivery.test.mjs,Managed API,Test or fixture,Retained,15360,15360,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/phone-pin-request.test.mjs,Managed API,Test or fixture,Retained,23734,23734,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/pin-phone-preservation.test.mjs,Managed API,Test or fixture,Retained,6668,6668,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/pin.test.mjs,Managed API,Test or fixture,Retained,1487,1487,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/policy-transport.test.mjs,Managed API,Test or fixture,Retained,7445,7445,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/postgres-authority.test.mjs,Managed API,Test or fixture,Retained,3032,3032,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/postgres-canonical-store.test.mjs,Managed API,Test or fixture,Retained,20492,20492,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/postgres-fixture.mjs,Managed API,Test or fixture,Retained,2460,2460,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/postgres-posting-custody.test.mjs,Managed API,Test or fixture,Retained,9674,9674,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/postgres-shared-posting.test.mjs,Managed API,Test or fixture,Retained,9762,9762,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/postgres-values.test.mjs,Managed API,Test or fixture,Retained,8470,8470,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-allocation-fixture.mjs,Managed API,Test or fixture,Retained,8352,8352,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-allocation.test.mjs,Managed API,Test or fixture,Retained,17546,17546,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-authority-fixture.mjs,Managed API,Test or fixture,Retained,3744,3744,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-authority-flow.test.mjs,Managed API,Test or fixture,Retained,4592,4592,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-authority.test.mjs,Managed API,Test or fixture,Retained,8678,8678,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-custody-fixture.mjs,Managed API,Test or fixture,Retained,7113,7113,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-custody-flow.test.mjs,Managed API,Test or fixture,Retained,2572,2572,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-custody-sqlite-fixture.mjs,Managed API,Test or fixture,Retained,7057,7057,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-executor-fixture.mjs,Managed API,Test or fixture,Retained,7837,7837,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-preparation-service-fixture.mjs,Managed API,Test or fixture,Retained,4385,4385,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/posting-preparation-service.test.mjs,Managed API,Test or fixture,Retained,12230,12230,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/prepared-contribution-fixture.mjs,Managed API,Test or fixture,Retained,2042,2042,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/prepared-contribution-flow.test.mjs,Managed API,Test or fixture,Retained,10527,10527,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/prepared-entrypoints.test.mjs,Managed API,Test or fixture,Retained,8543,8543,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/provisioning-admin-fixture.mjs,Managed API,Test or fixture,Retained,8783,8783,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/receipt-job-store.test.mjs,Managed API,Test or fixture,Retained,10017,10017,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/records-http.test.mjs,Managed API,Test or fixture,Retained,20827,20827,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/rematch-fixtures.mjs,Managed API,Test or fixture,Retained,3321,3321,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/rematch-flow.test.mjs,Managed API,Test or fixture,Retained,8848,8848,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/rematch-job-store.test.mjs,Managed API,Test or fixture,Retained,12252,12252,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/scheduled-canonical.test.mjs,Managed API,Test or fixture,Retained,4401,4401,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/scope-setup-fixture.mjs,Managed API,Test or fixture,Retained,5521,5521,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/scope-setup-postgres-json.test.mjs,Managed API,Test or fixture,Retained,1315,1315,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/scope-setup.test.mjs,Managed API,Test or fixture,Retained,12866,12866,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/shared-posting-equivalence.test.mjs,Managed API,Test or fixture,Retained,3844,3844,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/shared-posting-fixture.mjs,Managed API,Test or fixture,Retained,4400,4400,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/shared-posting-flow.test.mjs,Managed API,Test or fixture,Retained,8711,8711,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/shared-posting-sqlite.test.mjs,Managed API,Test or fixture,Retained,8088,8088,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-member-batch.test.mjs,Managed API,Test or fixture,Retained,3802,3802,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-dispatch.test.mjs,Managed API,Test or fixture,Retained,22206,22206,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-http.test.mjs,Managed API,Test or fixture,Retained,7293,7293,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-import.test.mjs,Managed API,Test or fixture,Modified,19979,20045,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-journal-postgres.test.ts,Managed API,Test or fixture,Retained,10598,10598,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-journal.test.mjs,Managed API,Test or fixture,Retained,7320,7320,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-native-jpeg.test.mjs,Managed API,Test or fixture,Retained,7628,7628,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-policy.test.mjs,Managed API,Test or fixture,Retained,3258,3258,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-postgres-fixture.test.mjs,Managed API,Test or fixture,Retained,10520,10520,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-signed-bridge.test.mjs,Managed API,Test or fixture,Retained,4990,4990,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/smart-onboarding-suggestions.test.mjs,Managed API,Test or fixture,Retained,2625,2625,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/sqlite/posting-fixture.sql,Managed API,Test or fixture,Retained,2324,2324,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/staff-resolution.test.mjs,Managed API,Test or fixture,Retained,11018,11018,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/storage-iceberg-retention-postgres.test.mjs,Managed API,Test or fixture,Retained,2937,2937,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/storage-witness-fixture.mjs,Managed API,Test or fixture,Retained,8202,8202,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/storage-witness-preflight.test.mjs,Managed API,Test or fixture,Retained,8218,8218,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/storage-witness-source.test.mjs,Managed API,Test or fixture,Retained,5760,5760,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/strict-json-values.test.mjs,Managed API,Test or fixture,Retained,6104,6104,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/synthetic/smart-onboarding-postgres-check.sql,Managed API,Test or fixture,Retained,4081,4081,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/synthetic/smart-onboarding-postgres-setup.sql,Managed API,Test or fixture,Retained,2054,2054,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/unresolved-evidence.test.mjs,Managed API,Test or fixture,Modified,18385,18450,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/values-receipt.test.mjs,Managed API,Test or fixture,Retained,6138,6138,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/work-ownership-regression.test.mjs,Managed API,Test or fixture,Retained,3107,3107,BuriMunsi Node or Deno suite inventory
+supabase/functions/_shared/tests/burimunsi/worker.test.mjs,Managed API,Test or fixture,Retained,4794,4794,BuriMunsi Node or Deno suite inventory
+supabase/functions/collect-api/index.ts,Shared consumer,Direct native dependency or contract tool,Retained,461,461,Call-site and owning suite verification
+supabase/functions/collect-jobs/index.ts,Shared consumer,Direct native dependency or contract tool,Retained,84,84,Call-site and owning suite verification
+supabase/managed-native-ingress/nonce-ledger-lifecycle.test.mjs,Managed ingress,"Ingress implementation, test or provenance",Retained,8148,8148,Worker and synthetic handler integration suites
+supabase/managed-native-ingress/nonce-ledger-pg.test.mjs,Managed ingress,"Ingress implementation, test or provenance",Retained,12593,12593,Worker and synthetic handler integration suites
+supabase/managed-native-ingress/nonce-ledger.sql,Managed ingress,"Ingress implementation, test or provenance",Retained,4339,4339,Worker and synthetic handler integration suites
+supabase/managed-native-ingress/nonce-ledger.test.mjs,Managed ingress,"Ingress implementation, test or provenance",Retained,4971,4971,Worker and synthetic handler integration suites
+supabase/managed-native-ingress/nonce-retention-migration.sql,Managed ingress,"Ingress implementation, test or provenance",Retained,14740,14740,Worker and synthetic handler integration suites
+supabase/migrations/20261109234517_burimunsi_native_operator_schema.sql,Supabase,Versioned migration,Retained,49837,49837,Unchanged against the source baseline
+supabase/migrations/20261110030800_burimunsi_sms_source_scope.sql,Supabase,Versioned migration,Retained,8488,8488,Unchanged against the source baseline
+supabase/migrations/20261110032620_burimunsi_native_provisioning.sql,Supabase,Versioned migration,Retained,25849,25849,Unchanged against the source baseline
+supabase/migrations/20261110040728_burimunsi_gateway_classification.sql,Supabase,Versioned migration,Retained,5053,5053,Unchanged against the source baseline
+supabase/migrations/20261110052756_burimunsi_dynamic_scope_setup.sql,Supabase,Versioned migration,Retained,29114,29114,Unchanged against the source baseline
+supabase/migrations/20261110093218_burimunsi_managed_email_preauth.sql,Supabase,Versioned migration,Retained,14663,14663,Unchanged against the source baseline
+supabase/migrations/20261110143000_burimunsi_native_phone_pin.sql,Supabase,Versioned migration,Retained,58116,58116,Unchanged against the source baseline
+supabase/migrations/20261110181003_burimunsi_gateway_handoff.sql,Supabase,Versioned migration,Retained,68866,68866,Unchanged against the source baseline
+supabase/migrations/20261110193000_burimunsi_canonical_receipt_adoption.sql,Supabase,Versioned migration,Retained,12665,12665,Unchanged against the source baseline
+supabase/migrations/20261111120200_burimunsi_native_session_renewal.sql,Supabase,Versioned migration,Retained,24203,24203,Unchanged against the source baseline
+supabase/migrations/20261111120400_burimunsi_passcode_session_rotation.sql,Supabase,Versioned migration,Retained,7110,7110,Unchanged against the source baseline
+supabase/migrations/20261111120500_burimunsi_native_logout_barrier.sql,Supabase,Versioned migration,Retained,4129,4129,Unchanged against the source baseline
+supabase/migrations/20261111121000_burimunsi_private_observations.sql,Supabase,Versioned migration,Retained,57719,57719,Unchanged against the source baseline
+supabase/migrations/20261111121100_burimunsi_admin_observations.sql,Supabase,Versioned migration,Retained,18640,18640,Unchanged against the source baseline
+supabase/migrations/20261111121200_burimunsi_retention_inspection.sql,Supabase,Versioned migration,Retained,17171,17171,Unchanged against the source baseline
+supabase/migrations/20261111121300_burimunsi_pin_clock_skew.sql,Supabase,Versioned migration,Retained,6659,6659,Unchanged against the source baseline
+supabase/migrations/20261111121500_burimunsi_pin_bound_clock.sql,Supabase,Versioned migration,Retained,2739,2739,Unchanged against the source baseline
+supabase/migrations/20261111121600_burimunsi_pin_rotation_expiry.sql,Supabase,Versioned migration,Retained,2639,2639,Unchanged against the source baseline
+supabase/migrations/20261111121700_burimunsi_staff_phone_preservation.sql,Supabase,Versioned migration,Retained,5821,5821,Unchanged against the source baseline
+supabase/migrations/20261112200100_burimunsi_native_auto_transactions.sql,Supabase,Versioned migration,Retained,61860,61860,Unchanged against the source baseline
+supabase/migrations/20261113130000_burimunsi_native_observation_dedup.sql,Supabase,Versioned migration,Retained,13217,13217,Unchanged against the source baseline
+supabase/migrations/20261113130100_burimunsi_smart_onboarding_journal.sql,Supabase,Versioned migration,Retained,5541,5541,Unchanged against the source baseline
+supabase/migrations/20261113130200_burimunsi_account_sms_history.sql,Supabase,Versioned migration,Retained,10595,10595,Unchanged against the source baseline
+supabase/migrations/20261113130300_burimunsi_native_financial_work.sql,Supabase,Versioned migration,Retained,45067,45067,Unchanged against the source baseline
+supabase/migrations/20261113130400_burimunsi_native_financial_custody.sql,Supabase,Versioned migration,Retained,6858,6858,Unchanged against the source baseline
+supabase/migrations/20261113130500_burimunsi_native_work_discovery.sql,Supabase,Versioned migration,Retained,6703,6703,Unchanged against the source baseline
+supabase/migrations/20261113130600_burimunsi_native_work_retention_inspection.sql,Supabase,Versioned migration,Retained,5534,5534,Unchanged against the source baseline
+supabase/migrations/20261113130800_burimunsi_native_lease_history.sql,Supabase,Versioned migration,Retained,19786,19786,Unchanged against the source baseline
+supabase/migrations/20261113130900_burimunsi_native_sms_posting.sql,Supabase,Versioned migration,Retained,17298,17298,Unchanged against the source baseline
+supabase/migrations/20261114101000_burimunsi_native_sms_post_retry.sql,Supabase,Versioned migration,Retained,4803,4803,Unchanged against the source baseline
+supabase/migrations/20261114102000_burimunsi_native_event_identity.sql,Supabase,Versioned migration,Retained,19869,19869,Unchanged against the source baseline
+supabase/migrations/20261114110000_burimunsi_native_retention_positive_links.sql,Supabase,Versioned migration,Retained,7449,7449,Unchanged against the source baseline
+supabase/migrations/20261115010000_burimunsi_native_retention_evidence.sql,Supabase,Versioned migration,Retained,9698,9698,Unchanged against the source baseline
+supabase/migrations/20261116215300_burimunsi_operator_identity_guard.sql,Supabase,Versioned migration,Retained,4639,4639,Unchanged against the source baseline
+supabase/migrations/20261117060642_burimunsi_retention_text_subjects.sql,Supabase,Versioned migration,Retained,3820,3820,Unchanged against the source baseline
+supabase/migrations/20261117071343_collect_burimunsi_import_lineage_guard.sql,Supabase,Versioned migration,Retained,29723,29723,Unchanged against the source baseline
+supabase/migrations/20261117090952_burimunsi_native_parse_review.sql,Supabase,Versioned migration,Retained,6978,6978,Unchanged against the source baseline
+supabase/migrations/20261117134954_burimunsi_observation_processing_status.sql,Supabase,Versioned migration,Retained,12951,12951,Unchanged against the source baseline
+supabase/migrations/20261117180000_burimunsi_observation_reconcile_status.sql,Supabase,Versioned migration,Retained,7373,7373,Unchanged against the source baseline
+supabase/migrations/20261117190000_burimunsi_legacy_reconcile.sql,Supabase,Versioned migration,Retained,5735,5735,Unchanged against the source baseline
+supabase/migrations/20261118090305_burimunsi_automatic_payment_sms.sql,Supabase,Versioned migration,Retained,22394,22394,Unchanged against the source baseline
+supabase/migrations/20261119041000_burimunsi_ocr_disclosure_binding.sql,Supabase,Versioned migration,Retained,3139,3139,Unchanged against the source baseline
+supabase/migrations/20261119041100_burimunsi_payment_sms_status.sql,Supabase,Versioned migration,Retained,1635,1635,Unchanged against the source baseline
+supabase/migrations/20261119114500_burimunsi_members_keyset.sql,Supabase,Versioned migration,Retained,4060,4060,Unchanged against the source baseline
+supabase/migrations/20261119114600_burimunsi_admin_sms_health.sql,Supabase,Versioned migration,Retained,6601,6601,Unchanged against the source baseline
+supabase/migrations/20261120075011_burimunsi_native_journal_runtime_grants.sql,Supabase,Versioned migration,Retained,3773,3773,Unchanged against the source baseline
+supabase/migrations/20261121111100_burimunsi_journal_subject_links.sql,Supabase,Versioned migration,Retained,6241,6241,Unchanged against the source baseline
+supabase/migrations/20261121182000_burimunsi_journal_posting_subjects.sql,Supabase,Versioned migration,Retained,8327,8327,Unchanged against the source baseline
+supabase/tests/burimunsi/admin-mfa-activation-contract.sql,Supabase,SQL test or fixture tooling,Retained,8322,8322,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/admin-mfa-authority-contract.sql,Supabase,SQL test or fixture tooling,Retained,4810,4810,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/admin-mfa-policy-contract.sql,Supabase,SQL test or fixture tooling,Retained,2656,2656,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/admin-mfa-rotation-contract.sql,Supabase,SQL test or fixture tooling,Retained,4121,4121,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/canonical-adoption-contract.sql,Supabase,SQL test or fixture tooling,Retained,30669,30669,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-canonical-adoption-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,7467,7467,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-canonical-alternate-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,8638,8638,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-gateway-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,4269,4269,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-gateway-handoff-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,2240,2240,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-gateway-upload-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,6086,6086,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-member-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,3582,3582,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-platform-public-group-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,9262,9262,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-provisioning-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,6007,6007,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-scope-setup-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,5900,5900,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/compile-source-fixture.mjs,Supabase,SQL test or fixture tooling,Retained,1961,1961,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/direct-ingress-budget.postgres.mjs,Supabase,SQL test or fixture tooling,Retained,4577,4577,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/gateway-contract.sql,Supabase,SQL test or fixture tooling,Retained,24559,24559,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/gateway-handoff-contract.sql,Supabase,SQL test or fixture tooling,Retained,29531,29531,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/gateway-handoff-readonly-contract.sql,Supabase,SQL test or fixture tooling,Retained,4216,4216,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/gateway-handoff-support.sql,Supabase,SQL test or fixture tooling,Retained,18708,18708,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/gateway-upload-contract.sql,Supabase,SQL test or fixture tooling,Retained,14220,14220,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/managed-email-contract.sql,Supabase,SQL test or fixture tooling,Retained,17438,17438,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/member-command-contract.sql,Supabase,SQL test or fixture tooling,Retained,3085,3085,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/native-retention-evidence-contract.sql,Supabase,SQL test or fixture tooling,Retained,6059,6059,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/native-retention-positive-links-contract.sql,Supabase,SQL test or fixture tooling,Retained,4116,4116,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/operator-contract.sql,Supabase,SQL test or fixture tooling,Retained,9000,9000,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/operator-readonly.sql,Supabase,SQL test or fixture tooling,Retained,2225,2225,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/operator-seed.sql,Supabase,SQL test or fixture tooling,Retained,7726,7726,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-bound-clock-contract.sql,Supabase,SQL test or fixture tooling,Retained,4446,4446,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-clock-skew-contract.sql,Supabase,SQL test or fixture tooling,Retained,6138,6138,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-contract.sql,Supabase,SQL test or fixture tooling,Retained,29859,29859,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-logout-barrier-contract.sql,Supabase,SQL test or fixture tooling,Retained,6286,6286,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-passcode-rotation-contract.sql,Supabase,SQL test or fixture tooling,Retained,8855,8855,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-readonly-contract.sql,Supabase,SQL test or fixture tooling,Retained,3775,3775,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-renewal-contract.sql,Supabase,SQL test or fixture tooling,Retained,9092,9092,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/phone-pin-rotation-expiry-contract.sql,Supabase,SQL test or fixture tooling,Retained,6722,6722,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/platform-public-group-contract.sql,Supabase,SQL test or fixture tooling,Retained,6168,6168,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/postgres-fixture-pool.mjs,Supabase,SQL test or fixture tooling,Retained,3787,3787,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/provisioning-contract.sql,Supabase,SQL test or fixture tooling,Retained,41379,41379,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/qualify-native-member-scope.mjs,Supabase,SQL test or fixture tooling,Retained,14279,14279,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/qualify-staff-resolution-postgres.mjs,Supabase,SQL test or fixture tooling,Retained,9420,9420,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/records-query-build.py,Supabase,SQL test or fixture tooling,Retained,10320,10320,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/records-query-capture.mjs,Supabase,SQL test or fixture tooling,Retained,2886,2886,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/records-query-contract.sql,Supabase,SQL test or fixture tooling,Retained,7032,7032,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/scope-setup-contract.sql,Supabase,SQL test or fixture tooling,Retained,20669,20669,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/source-scope-contract.sql,Supabase,SQL test or fixture tooling,Retained,25310,25310,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/staff-phone-preservation-contract.sql,Supabase,SQL test or fixture tooling,Retained,21759,21759,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/staff-phone-preservation-races.py,Supabase,SQL test or fixture tooling,Retained,6621,6621,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/storage-iceberg-retention-contract.sql,Supabase,SQL test or fixture tooling,Retained,6022,6022,SQL fixture inventory and selected PG17 runs
+supabase/tests/burimunsi/storage-iceberg-retention-fixture-seed.sql,Supabase,SQL test or fixture tooling,Retained,4210,4210,SQL fixture inventory and selected PG17 runs
+tests/uiux_contract_test.py,Shared consumer,Direct native dependency or contract tool,Modified,17043,17667,Call-site and owning suite verification
+upstream/collect/README.md,Upstream receiver,Fixed source or documentation,Retained,797,797,Unchanged against the source baseline
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt,Upstream receiver,Fixed source input,Retained,8160,8160,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MemberSmsJobs.kt,Upstream receiver,Fixed source input,Retained,14178,14178,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayHttp.kt,Upstream receiver,Fixed source input,Retained,2593,2593,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayJobs.kt,Upstream receiver,Fixed source input,Retained,9732,9732,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayLocalRecovery.kt,Upstream receiver,Fixed source input,Retained,4397,4397,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayPolicy.kt,Upstream receiver,Fixed source input,Retained,4957,4957,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayRecovery.kt,Upstream receiver,Fixed source input,Retained,7313,7313,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayStore.kt,Upstream receiver,Fixed source input,Retained,7051,7051,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayWakeupGate.kt,Upstream receiver,Fixed source input,Retained,583,583,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoMultipartPolicy.kt,Upstream receiver,Fixed source input,Retained,15242,15242,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/ReceiptAckPolicy.kt,Upstream receiver,Fixed source input,Retained,1280,1280,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/ReceiptCipher.kt,Upstream receiver,Fixed source input,Retained,1229,1229,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsCaptureJournal.kt,Upstream receiver,Fixed source input,Retained,1607,1607,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueEventBus.kt,Upstream receiver,Fixed source input,Retained,1080,1080,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.kt,Upstream receiver,Fixed source input,Retained,599,599,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt,Upstream receiver,Fixed source input,Retained,16916,16916,Exact Git-blob check during receiver extraction
+upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueWorker.kt,Upstream receiver,Fixed source input,Retained,769,769,Exact Git-blob check during receiver extraction
+upstream/collect/supabase/functions/_shared/domain/encryption.js,Upstream receiver,Fixed source or documentation,Retained,4126,4126,Unchanged against the source baseline
+upstream/collect/supabase/functions/_shared/domain/payments.js,Upstream receiver,Fixed source or documentation,Retained,26976,26976,Unchanged against the source baseline

@@ -1,0 +1,139 @@
+{
+  "format": "collect.commit-backed-fullstack-source.v1",
+  "observed_utc": "2026-11-20T10:07:23+00:00",
+  "local_review_branch": "codex/collect-fullstack-cleanup-20261120",
+  "tested_commit": "0a0ef6f5356ddcde60a9b538a60c6e6fc181e501",
+  "base_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "commits": [
+    {
+      "commit": "243d5860e70ee6e1617e690fa997168eeba2c8e1",
+      "tree": "ff0b32e3ec41c2578075085dbb6b31962ae17eae",
+      "subject": "Consolidate the Collect web admin in React and retire the Flutter panel",
+      "paths": 1017
+    },
+    {
+      "commit": "6478dd32c12ab3a94df324deb768a795d2612f1d",
+      "tree": "926aac258271808c0ee3a4223704650f713b208d",
+      "subject": "Integrate BuriMunsi app, payment, database and restore changes",
+      "paths": 160
+    },
+    {
+      "commit": "ef753ffe65ecf79d670c734e922536d741c7ed92",
+      "tree": "06dfe30d6b17ff2e8ece9433a423e487208a0f81",
+      "subject": "Refactor Collect member payments and rebuild the public site inputs",
+      "paths": 84
+    },
+    {
+      "commit": "0a0ef6f5356ddcde60a9b538a60c6e6fc181e501",
+      "tree": "2f3041a7f65cfc01b4cee3aef54c6690ed564b13",
+      "subject": "Bind full-stack source, CI checks and audit evidence",
+      "paths": 105
+    }
+  ],
+  "selected_changes": 1366,
+  "selection_manifest_sha256": "8a8410921acc4b4a60b1bafa92b8988153716566cc47fdcbbbc40a6d452795a5",
+  "original_branch_index_preserved": true,
+  "omitted_worktree_paths": {
+    "deploy/managed-sms/ROOT_GITIGNORE_OVERWRITE.backup": "local backup or generated build state",
+    "docs/implementation/burimunsi-android/production-goal.json": "independent existing production-goal edits"
+  },
+  "git_inventory": {
+    "base": {
+      "commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+      "tracked_blobs": 116072,
+      "tracked_path_bytes": 7878986751,
+      "release_evidence_blobs": 110296,
+      "release_evidence_bytes": 7637513818,
+      "react_paths": 0
+    },
+    "candidate": {
+      "commit": "0a0ef6f5356ddcde60a9b538a60c6e6fc181e501",
+      "tracked_blobs": 115846,
+      "tracked_path_bytes": 7887912946,
+      "release_evidence_blobs": 110298,
+      "release_evidence_bytes": 7637619676,
+      "react_paths": 334
+    }
+  },
+  "clean_checkout": {
+    "mode": "Independent full local Git clone",
+    "shared_objects_or_alternates": false,
+    "initial_status_porcelain": "",
+    "tracked_react_files": 334,
+    "tracked_native_files": 319,
+    "retired_flutter_entrypoints": 0
+  },
+  "source_export": {
+    "schema": 2,
+    "files": 4234,
+    "bytes": 186524064,
+    "source_file_manifest_sha256": "cc44a04e512ceb4721ddac66b861850ac9b71e520ace2a74c6ff393021036d56",
+    "export_manifest_sha256": "6b4e62f5b2e77c2baf040939bd16dbe86a716e357cb109382af3d2befe554c08",
+    "compared_to_clone": true,
+    "differences": [],
+    "missing_indexed_sources": []
+  },
+  "react_production_build": {
+    "input_origin": "https://platform-admin.collect.ikanisa.com",
+    "supabase_project": "rrlduytparvsjfmegalh",
+    "public_variables": "Read from the configured GitHub repository. The publishable key matched the active Supabase project.",
+    "captcha_enabled": true,
+    "captcha_provider": "turnstile",
+    "google_sign_in_enabled": false,
+    "profile": "production",
+    "backend": "supabase",
+    "files": 44,
+    "product_source_sha256": "3c46961a9edd8a640018b11170a02e304564d869114bbdeeb05585615a3a652f",
+    "public_build_config_sha256": "d4fbd90daad358375287f0b446410bed90d6cc3823274784e3c7081c891b03e6",
+    "artifact_manifest_sha256": "7b113797b62cd2e0167a8406e8ed8d5ed8ded47cc6d5de894d81a2dff74ed0e3",
+    "passed": [
+      "production",
+      "verify-ci",
+      "verify-hosting"
+    ],
+    "hosted_verified": false
+  },
+  "tests": {
+    "integrated_runner": "scripts/qa/run_integrated_candidate_checks.sh",
+    "elapsed_seconds": 621,
+    "flutter_analysis": "passed",
+    "flutter_unit_widget": 2649,
+    "ordinary_suite_legacy_packet_skips": 1,
+    "member_browser_sync": 1,
+    "react_vitest_passed": 960,
+    "react_vitest_files": 133,
+    "pwa_packaging_passed": 4,
+    "pwa_worker_harness": "passed",
+    "joint_owned_pg17_passed": 18,
+    "source_integrity": "passed"
+  },
+  "retained_sql_decoder": {
+    "original_defines_sha256": "c37ee2f7c22284722d2e1c91353d938e4f03f4e4906be1aa31e30aeeb4eb9a6a",
+    "original_validation": "docs/release/data-correctness-2026-09-30/immutable-attempt23-current175-history-bridge-only/validation.json",
+    "original_encoder_commit": "eed1925260780d079a638603f22837f095f943be",
+    "original_encoder_sha256": "fc8838c02c3cc80d10088020753762992e34c72aae46dbc037e068bf53b179cf",
+    "captured_pages": 210,
+    "vm_passed": 6,
+    "chrome_passed": 6,
+    "current_database_rerun": false
+  },
+  "evidence_directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/0a0ef6f5356d",
+  "logs": {
+    "admin-deps.log": "8b4a3e6d5a281f39ad2d865a6d9124e68cf4a13d2309e927a7f4940aaf45db67",
+    "integrated.log": "b2bb4b4351e1aa7bf5d5ec449b97f1d2398f5f7d5b8766c308e72da9e8e20d5e",
+    "prod-build.log": "d5d3869b22aa8be9639ccfd0c9785a3ce756b0ae32b043413fd7e34fe67ae1da",
+    "prod-ci.log": "0b5ef082ebf2c4fa1a160d0021027d2dfcbcf22df69d8d6fc6377cbc2a20c343",
+    "prod-host.log": "0b5ef082ebf2c4fa1a160d0021027d2dfcbcf22df69d8d6fc6377cbc2a20c343",
+    "clean-fixture.log": "87a7e9902774d5dfee66a7b7652a7a67496056c9a55e3b15619fd35977302da4",
+    "export.json": "6ab6fe5f040c4efcdded7f5ad341c08556410f72ea9f7f019bf91b1f78e3be89",
+    "postgres18.log": "82b81f2250de0cf81c7b64f310c018fb770a7fa802b0eb5ec652129d4acb052c",
+    "integrity.log": "30810c7d98221315549b2dbed0d84ad3555bf73226c148b426ec2d24b33df559",
+    "archived-sql-vm.log": "38df0ee61d99d17ae69aaddd2ee7b3fc60cb42c962e8add440266438dc2b63a9",
+    "archived-sql-chrome.log": "1c1766256aa21bc8d4f3910c267d0f26713acaf58a8b21e082dc2125452dda60"
+  },
+  "release": {
+    "pushed": false,
+    "deployed": false,
+    "physical_phone_checked": false
+  }
+}

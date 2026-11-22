@@ -1,0 +1,150 @@
+{
+  "receipt": {
+    "id": "system",
+    "auth": "authenticated",
+    "alerts": [
+      {
+        "code": "receipt_parse_backlog",
+        "state": "ok",
+        "metric": "sms_pending",
+        "threshold": 100
+      },
+      {
+        "code": "receipt_parse_age",
+        "state": "not_applicable",
+        "metric": "sms_pending_age_seconds",
+        "threshold": 300
+      },
+      {
+        "code": "receipt_parse_failure",
+        "state": "ok",
+        "metric": "sms_failed_24h",
+        "threshold": 1
+      },
+      {
+        "code": "receipt_parser_lease_expired",
+        "state": "ok",
+        "metric": "sms_expired_parse_leases",
+        "threshold": 1
+      },
+      {
+        "code": "payment_unmatched",
+        "state": "ok",
+        "metric": "unallocated_events",
+        "threshold": 1
+      },
+      {
+        "code": "payment_review_age",
+        "state": "not_applicable",
+        "metric": "payment_review_age_seconds",
+        "threshold": 3600
+      },
+      {
+        "code": "reconciliation_exception",
+        "state": "ok",
+        "metric": "reconciliation_open",
+        "threshold": 1
+      },
+      {
+        "code": "push_queue_age",
+        "state": "not_applicable",
+        "metric": "push_due_age_seconds",
+        "threshold": 120
+      },
+      {
+        "code": "push_expired_lease",
+        "state": "ok",
+        "metric": "push_expired_leases",
+        "threshold": 1
+      },
+      {
+        "code": "push_missing_lease",
+        "state": "ok",
+        "metric": "push_missing_leases",
+        "threshold": 1
+      },
+      {
+        "code": "push_attempt_failure",
+        "state": "ok",
+        "metric": "push_failed_24h",
+        "threshold": 5
+      },
+      {
+        "code": "receipt_telemetry_stale",
+        "state": "unknown",
+        "metric": "receipt_telemetry_age_seconds",
+        "threshold": 300
+      },
+      {
+        "code": "push_scheduler_stale",
+        "state": "not_applicable",
+        "metric": "push_scheduler_age_seconds",
+        "threshold": 180
+      }
+    ],
+    "metrics": {
+      "push_due": 0,
+      "push_failed": 0,
+      "push_queued": 0,
+      "sms_pending": 0,
+      "reversals_24h": 0,
+      "push_retry_24h": 0,
+      "sms_failed_24h": 0,
+      "sms_parsed_24h": 1,
+      "payments_review": 0,
+      "push_failed_24h": 0,
+      "push_processing": 0,
+      "push_attempts_24h": 0,
+      "unallocated_events": 0,
+      "finality_processing": 0,
+      "payments_posted_24h": 0,
+      "push_expired_leases": 0,
+      "push_latency_p95_ms": null,
+      "push_missing_leases": 0,
+      "reconciliation_open": 0,
+      "durable_receipts_24h": 1,
+      "push_due_age_seconds": null,
+      "receipt_rejected_24h": 0,
+      "finality_processed_24h": 0,
+      "sms_pending_age_seconds": null,
+      "sms_expired_parse_leases": 0,
+      "push_provider_accepts_24h": 0,
+      "receipt_ack_generated_24h": 0,
+      "payment_review_age_seconds": null,
+      "push_scheduler_age_seconds": null,
+      "receipt_ack_latency_mean_ms": null,
+      "receipt_telemetry_age_seconds": null
+    },
+    "database": "reachable",
+    "scheduler": {
+      "state": "disabled",
+      "configuration_verified": false
+    },
+    "checked_at": "2026-09-30T20:05:31.384996+00:00",
+    "health_status": "unknown",
+    "window_seconds": 86400,
+    "evidence_limits": [
+      "ACK generation does not prove device receipt.",
+      "Provider acceptance does not prove user delivery.",
+      "Scheduler activation does not prove provider configuration."
+    ],
+    "contract_version": 1,
+    "failed_sms_parse": 0,
+    "threshold_version": 1,
+    "parser_pending_sms": 0,
+    "sample_valid_until": "2026-09-30T20:06:31.384996+00:00",
+    "unallocated_events": 0,
+    "failed_notifications": 0,
+    "queued_notifications": 0,
+    "processing_notifications": 0
+  },
+  "provenance": {
+    "packet": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry",
+    "installed_migration_count": 150,
+    "table_count": 149,
+    "source_sql_sha256": "aeed4c9bea5d5205576ec7393abebf5a9f4044032b7333835dfe7ba38667c49e",
+    "stdout_sha256": "31d8a6ef87e522f699de0d9263bce5f53b08232676a1d39fdae890bdc0a1d127",
+    "stderr_sha256": "c43c4086600f3f09d079f19544f676094b70d4b1006e29024368da610c9e3961",
+    "result_sha256": "95ea72adc43b0967959a8a6f7dbeb3f4822ad6577b68cbb29c8526de6349aa08"
+  }
+}

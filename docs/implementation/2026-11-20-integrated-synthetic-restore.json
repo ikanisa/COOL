@@ -1,0 +1,93 @@
+{
+  "format": "collect.integrated-synthetic-restore-qualification.v1",
+  "observed_utc": "2026-11-20T09:20:31Z",
+  "scope": "Two independently initialized socket-only local PostgreSQL clusters, with synthetic Auth and private Storage provider rows and a historical Collect October migration prefix.",
+  "working_tree_base_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "node": "v24.19.0",
+  "postgres": "17.11 (PostgreSQL) on macOS arm64",
+  "source_sha256": {
+    "scripts/supabase/managed-cloud-backup/prior-release-restore.fixture.mjs": "4e8f8964151ece1702916c99879fdf4ba40fe418cb01f953793ec91f119aa6b7",
+    "scripts/supabase/managed-cloud-backup/synthetic-backup.test.mjs": "cf7b4d3034c927fa3b59e9f1f1195cc6ede706afda7d9a8d7f9bfe17793e77d6",
+    "scripts/supabase/managed-cloud-backup/synthetic-backup.mjs": "23010d51f61dcb8766b2b5c7e71cb6727d8243e00018ae2c1ca674006f2bb84f",
+    "scripts/supabase/managed-cloud-backup/README.md": "9608aee2fa42c13187fa11b7204e8aee39b33a3fe6cfdef1a838884e0c7bd820",
+    "scripts/supabase/current-pg-transfer/object-transfer/transfer.mjs": "0342a10e621fe8a3ba3321c7a74e46d56c857ed4473cec1b9da3569a6956538b",
+    "scripts/supabase/current-pg-transfer/object-transfer/transfer.test.mjs": "4f18b82a296befe935deaf7aa2804ab6f80db11db70fc71888f8a99318885458",
+    "scripts/supabase/current-pg-transfer/test-support/owned-pg17.mjs": "d16afa140b3d2e45c25781bf5f7de1e071762b8cfbef417edb89b2017cc8f9db",
+    "scripts/supabase/testing/curated-platform-fixture.mjs": "9ff19f93833b5ebc3021a56da344a50d216fbeb5f1929ce6d7c40da92b849673",
+    "scripts/supabase/testing/member-realtime-interface.sql": "074e380664493eea86a56d3f3042460bbb33352bc4f46483fd19d559446b0e1b",
+    "supabase/functions/_shared/storage/protocol.js": "6117a178abc7d1e9486532fa25a3344fe83913dfc0f4399f438683a22ab5a6ce",
+    "supabase/functions/_shared/storage/postgres-journal.js": "2f9f0240012ef0f32db8b2cee48324aa25404344898666046113052957f93629",
+    "supabase/functions/_shared/domain/encryption.js": "b2021f6fd62bac32411d93de609229a20a02e2e22c052ae351fb42e2361fbc5c",
+    "supabase/tests/sql/00_local_auth_fixture.sql": "b935e17f44219f018cf1a864505d1895d71903885ca6c61c039d7ab6596117ea"
+  },
+  "test_runs": [
+    {
+      "command": "node --test --test-concurrency=1 scripts/supabase/managed-cloud-backup/synthetic-backup.test.mjs",
+      "tests": 11,
+      "pass": 11,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/verified-backup.tap",
+      "log_sha256": "ab259bfb176211553e27534f081dcf4d82ec72f1cad536103657f24b63a17cf2"
+    },
+    {
+      "command": "node --test --test-concurrency=1 scripts/supabase/current-pg-transfer/object-transfer/transfer.test.mjs",
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/object-transfer.tap",
+      "log_sha256": "754f0bbb6ceff57ef74d7df26e211b547e5556468bb8d6fb85cbce91a2e26f28"
+    }
+  ],
+  "integrated_test_diagnostic": {
+    "prior_migrations": 9,
+    "upgraded_migrations": 10,
+    "financial": {
+      "payments": 1,
+      "payment_minor": "7250",
+      "currency": "RWF",
+      "entries": 1,
+      "ledger_minor": "7250",
+      "evidence": 1,
+      "auth_users": 2
+    },
+    "roles": 5,
+    "prior_history_sha256": "e6b885193ebfb55f40a0493ed06e13a00387bb3973ae65ca057eeb0769574fb9",
+    "scoped_privileges_sha256": "3ee8fa58ffac82ff1480e855c4f489f4798551a0ee4c03fcfc25da4b07f14cac",
+    "successor": "20261022200028_collect_private_member_realtime.sql",
+    "successor_sql_sha256": "f27233a124b3b737f469915aa4eade6a4149272cfea2f6a15b6060389eefcf20",
+    "object_count": 1,
+    "object_bytes": 121,
+    "owner_reads": 2,
+    "other_subject_file_reads": 0,
+    "component_rejections": 6,
+    "foreign_point_rejections": 1,
+    "mode": "fenced",
+    "hosted": false
+  },
+  "source_capture": [
+    "Verified distinct cluster system identifiers, database names and the first nine reviewed migration statement hashes.",
+    "Wrote application-encrypted private evidence through the protected Storage protocol and PostgreSQL runtime journal into an exclusively created owner-only source file. The financial evidence trigger checked the committed journal and cleared the pending sealed payload.",
+    "Initialized, quiesced and drained the application fence. Held SHARE table locks across captured identity, object journal, provider metadata, financial, fence and migration rows throughout encrypted TLS database backup and independent file capture.",
+    "Bound the encrypted database, five scoped role profiles with membership, and external private object bytes to the observed migration history and fence operation."
+  ],
+  "restored_checks": [
+    "An empty peer restored archived owners and ACLs with pg_restore --single-transaction --exit-on-error. The privileged source backup login was absent on the target.",
+    "All five scoped roles remained non-login and had no superuser, role/database creation, replication or RLS bypass. The scoped membership preserved collect_test as grantor, SET enabled, ADMIN and INHERIT disabled. Owners, table grants and RLS flags for seven named relations matched their source hash.",
+    "Verified both synthetic Auth identities, exact domain principal linkage, current-principal mapping, one payment, an equal ledger contribution and their linked evidence.",
+    "The existing protected-object transfer coordinator restored the encrypted file and re-read it. Bucket privacy, owner, object identity, version, key, AAD, committed journal, ciphertext byte count, ciphertext digest and decrypted original matched.",
+    "The owner read the original bytes before and after the successor through a PostgreSQL RLS-gated file adapter and the application Storage verification and decryption. The other identity had zero file reads. Anonymous Storage and financial table queries were denied.",
+    "A runtime financial write without an admission raised collect_fence_unavailable. The target stayed fenced after upgrade.",
+    "Each of three missing and changed components plus a foreign fence operation failed before target application schema or role installation. Both clusters confirmed shutdown and removed their fixture directories."
+  ],
+  "external_gates": [
+    "Independent key and manifest custody, durable media, and off-device restoration.",
+    "Provider GoTrue sign-in and session recovery, managed Storage API authorization and bytes, managed project settings, WAL/PITR, production sizing and production restore privileges.",
+    "The November BuriMunsi release, its database dump, payment-reference migration and the exact hosted upgrade chain exceed this October rehearsal."
+  ]
+}

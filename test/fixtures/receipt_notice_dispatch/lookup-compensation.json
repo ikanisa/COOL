@@ -1,0 +1,24 @@
+{
+  "scope": "rw_receipt_notice_transport",
+  "result": {
+    "scope": "rw_receipt_notice_transport",
+    "action": "approve_notice_transport",
+    "audit_id": "0bc787d2-2605-49e3-87c4-1532004aa202",
+    "outbox_id": "ff3b029f-ec75-4896-a1db-92634e36c88a",
+    "expires_at": "2026-10-03T08:12:36.108005Z",
+    "request_id": "2fc3e8fa-af31-4eae-86db-4d28f29786cb",
+    "approval_id": "2c77d17a-dc09-432e-9599-e9afe8fce175",
+    "recorded_at": "2026-10-03T07:57:36.108005Z",
+    "notice_family": "reversal_notice",
+    "send_authority": false,
+    "candidate_sha256": "30767447486ee2b50da28db9a82220759a65fdf679368a1101c9f1b738164698",
+    "contract_version": 1,
+    "financial_action": false,
+    "prepared_review_id": "ca020117-e83c-4cf0-b40c-f9482d5e57d3",
+    "transport_revision": 1
+  },
+  "status": "recorded",
+  "request_id": "2fc3e8fa-af31-4eae-86db-4d28f29786cb",
+  "send_authority": false,
+  "contract_version": 1
+}

@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "scope": "Visual inspection of seven Chromium previews from the synthetic Collect fixture.",
+  "design_reference": "revolut-design@jean-bosco-skills",
+  "reviewed_at": "2026-11-22T05:18:59+00:00",
+  "capture_report_sha256": "8930b8821698e356af62cb8ff155a9a8b4c3e69caecb4da7dc5b8abac89670e0",
+  "runtime_sha256": "06023a2dd50982b9592b9d47fe5a7a93a3e3f5ef359f8649c8c3c8def621535a",
+  "build_manifest_sha256": "eb53934dc0bca58a6bbf4ac788ba0d39ee9f47f714b9a6be8065f87e33f208e3",
+  "native_acceptance": false,
+  "design_acceptance": false,
+  "release_acceptance": false,
+  "publication_approved": false,
+  "screens": [
+    {
+      "id": "home",
+      "sha256": "1eebdcbc4b490a86eb3e08f677a9300bd8309fbd9dc70672d03db7995c80f30e",
+      "reviewed_for_website": true,
+      "observation": "The recorded total and two synthetic contributions are legible. The Home tab is selected and the four navigation destinations are visible."
+    },
+    {
+      "id": "groups",
+      "sha256": "24167a6a7a85e3b936f159ea64b4d867e5885fa9f99fc811c432ddb4472b76c4",
+      "reviewed_for_website": true,
+      "observation": "The public-directory availability notice and the private example group are both visible. The example group title and total contrast against the photo."
+    },
+    {
+      "id": "group-detail",
+      "sha256": "1c2ae1b0570ec64cc64c865f9d70e9b31c03b08c0a55bed7c6832a8eeffe1b7c",
+      "reviewed_for_website": true,
+      "observation": "The recorded total, four group actions and provider settlement qualification are legible before the first activity item."
+    },
+    {
+      "id": "security",
+      "sha256": "a271c1834de41c9fd3992dc01d18a39c81d9e5b3f546f7b3b231d8d64f1b8480",
+      "reviewed_for_website": true,
+      "observation": "The MoMo PIN notice and four security destinations are fully visible."
+    },
+    {
+      "id": "privacy",
+      "sha256": "41d08d2e2ec5ef4f720f762dd5bf206848778efe3c2335186d7556eceae0afb3",
+      "reviewed_for_website": true,
+      "observation": "The data collection and sign-in disclosures are legible. The automatic SMS detection section begins at the foot of the viewport."
+    },
+    {
+      "id": "terms",
+      "sha256": "c62aaef04827f6e58ec97ba750ed7f6707b2e13b5e5b406241f7a6c3f55e8a66",
+      "reviewed_for_website": true,
+      "observation": "The opening product scope, contribution rails and group ownership are legible. Disputes and corrections starts below them."
+    },
+    {
+      "id": "account-deletion",
+      "sha256": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+      "reviewed_for_website": true,
+      "observation": "The inactive local fixture shows the request service notice and the full Get help button."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+// Workerd/Miniflare local-only smoke: no Hyperdrive binding or external fetch.
+process.env.CLOUDFLARE_CF_FETCH_ENABLED='false';const assert=require('node:assert/strict');const {resolve}=require('node:path');const {readFileSync}=require('node:fs');const {Miniflare}=require('miniflare');
+(async()=>{const mf=new Miniflare({cf:false,host:'127.0.0.1',port:0,telemetry:{enabled:false},workers:[{config:{name:'managed-sms-fixture',compatibilityDate:'2026-10-19',manifest:{mainModule:'worker.js',modulesRoot:'/',modules:{'worker.js':{type:'esm',contents:readFileSync(resolve('dist/worker.js'),'utf8')}}}},dev:{outboundService:{type:'fetcher',handler:()=>{throw Error('outbound_refused');}}}}]});
+ try{const response=await mf.dispatchFetch('https://sms.example.invalid/functions/v1/collect-sms/v1/messages',{method:'POST',headers:{authorization:'Bearer app_'+('a'.repeat(64)),'content-type':'application/json','idempotency-key':'synthetic'},body:JSON.stringify({kind:'receipt'})});
+  assert.equal(response.status,503);assert.equal(response.headers.get('cache-control'),'no-store');console.log('local Worker bundle remains closed');
+ }finally{await mf.dispose();}})().catch(()=>{console.error('local_bundle_check_failed');process.exitCode=1;});

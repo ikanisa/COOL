@@ -1,0 +1,20 @@
+{
+  "name": "@collect/managed-sms",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "deno test --cached-only --frozen-lockfile --lock=deno.lock --node-modules-dir=none test/worker.test.ts test/transactions.test.ts test/handler-access.test.ts",
+    "test:postgres": "./test/run-local-postgres.sh",
+    "test:cleanup": "python3 test/signal-cleanup.test.py",
+    "check": "deno check --cached-only --frozen-lockfile --lock=deno.lock --node-modules-dir=none src/worker.ts",
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "hono": "4.13.16",
+    "postgres": "3.4.7"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

@@ -1,0 +1,745 @@
+site:
+  brand: Collect by IKANISA
+  content_status: draft_for_legal_review
+  contacts:
+    general_support: info@ikanisa.com
+    privacy: info@ikanisa.com
+    complaints: info@ikanisa.com
+    partnerships: info@ikanisa.com
+  routes:
+    privacy: /privacy
+    terms: /terms
+    delete_account: /account-deletion
+    privacy_request: mailto:info@ikanisa.com?subject=Collect+privacy+request
+    cookies: /privacy/#cookies
+    subprocessors: /privacy/#sharing
+pages:
+  privacy:
+    id: privacy
+    title: Privacy Policy
+    slug: /privacy
+    seo:
+      title: Privacy Policy | Collect by IKANISA
+      description: Learn how Collect by IKANISA collects, uses, shares, protects, retains and deletes
+        personal data.
+    last_updated: 4 November 2026
+    hero:
+      eyebrow: PRIVACY AND TRUST
+      headline: Your data. Your choice. Your financial journey.
+      supporting_copy: Collect uses personal data to operate accounts, maintain group-contribution records,
+        review contribution evidence, protect the service and respond to support requests.
+      trust_statement: We do not sell your personal data.
+    privacy_at_a_glance:
+    - title: Account and group records
+      copy: Member screens use Collect IDs. Sign-in numbers, MoMo details and raw receipt evidence are
+        private.
+    - title: Evidence has limits
+      copy: A receipt or recorded contribution alone does not verify provider settlement. Authorised operators
+        review attribution separately.
+    - title: Planned services are unavailable
+      copy: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - title: Ask about your data
+      copy: Contact info@ikanisa.com to ask for access, correction, a copy or deletion. A request receipt
+        does not mean data has been erased.
+    - title: Collect does not hold funds
+      copy: Members authorise MoMo payments with their provider. Collect keeps contribution records and
+        does not hold customer funds.
+    sections:
+    - id: who-we-are
+      heading: 1. Who we are
+      body:
+      - 'Collect is operated by:'
+      details:
+        legal_entity: IKANISA
+        privacy_email: info@ikanisa.com
+        support_email: info@ikanisa.com
+      closing: For the personal data described in this Policy, IKANISA acts as the data controller unless
+        another organisation is identified as the controller. A partner bank, insurer or professional
+        service provider may act as a separate data controller for the products and services it provides.
+    - id: scope
+      heading: 2. What this Policy covers
+      intro: 'This Policy applies when you:'
+      bullets:
+      - Visit the Collect website
+      - Use an available Collect member or Admin application
+      - Create or join a group where supported
+      - Use an authorised, consented route for contribution evidence, including automatic Android SMS detection where enabled
+      - Manage authorised group, roster or reconciliation records
+      - Contact Collect support
+      closing: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - id: data-we-collect
+      heading: 3. Personal data we may collect
+      subsections:
+      - heading: Member account and contact information
+        bullets:
+        - Numeric Collect ID and the phone number or email used to sign in
+        - Google account identifier and verified email if you choose Google where enabled
+        - Rwanda country and currency profile
+        - MoMo provider, number and pay code
+        - Account, session, verification and notification-preference records
+        closing: The member app does not ask for or display personal names. Admin operator accounts and
+          authorised Direct-member or receipt records may contain names and contact details.
+      - heading: Group and contribution records
+        bullets:
+        - Group title, purpose, description and selected cover
+        - Membership, role and invitation records
+        - Contribution intents, amounts, currency and recorded status
+        - Ledger entries, reconciliation decisions, reasons and signed correction or reversal records
+        closing: Ledger totals are contribution records, not money held in a Collect account.
+      - heading: Receipt and roster evidence
+        bullets:
+        - Raw receipt text and related payer, receiver, amount, reference and time facts
+        - For opted-in Android members, the full text, sender and, when available, receipt time of new
+          messages detected automatically by the MoMo filter. The filter may also select unrelated messages
+          containing sensitive information, and Collect may automatically receive them.
+        - Source files and reviewed rows supplied through authorised roster imports
+        - Consent, access, review and audit records
+        closing: Raw evidence may contain personal names or telephone numbers. It is restricted to authorised
+          operational access. Receipt evidence alone is not independent proof of settlement.
+      - heading: Authentication and security information
+        bullets:
+        - Sign-in challenges, session identifiers and abuse-prevention signals
+        - Email-code delivery and verification records; a sign-in code expiring does not delete these records
+        - SMS-code delivery and verification records where enabled
+        - Google sign-in verification and account-linking records where enabled
+        - Protected Admin password and authenticator records
+        - Device or integrity-verification results where that capability is enabled
+        closing: Collect does not ask for a MoMo PIN or payment-provider OTP. Your Collect sign-in code
+          is for signing in to Collect.
+      - heading: Technical and support information
+        bullets:
+        - App or browser version and relevant device information
+        - Network, error, audit and security records
+        - Information you provide in a support, correction or deletion request
+      - heading: Planned services
+        body: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+          are planned directions. They are not services available through the current Collect app. Do
+          not send loan, insurance, identity-document or medical files for those services.
+    - id: sources
+      heading: 4. How we obtain personal data
+      intro: 'We may obtain information:'
+      bullets:
+      - Directly from you
+      - From an authorised group leader or operator handling group, receipt or roster evidence
+      - From enabled authentication, hosting or communication services
+      - From Google if you choose Google sign-in where enabled; Collect requests OpenID identity, email and basic profile access
+      - From your device when an enabled feature requires it and applicable consent is provided
+      closing: Where another person provides information about you, we may ask that person to confirm
+        that they are authorised to do so.
+    - id: uses
+      heading: 5. How we use personal data
+      intro: 'We use personal data to:'
+      bullets:
+      - Create and secure your account
+      - Create, join and administer groups where supported
+      - Record contribution intents and review evidence
+      - Maintain contribution ledgers and reasoned reconciliation history
+      - Manage available notification preferences and service channels
+      - Prevent misuse and investigate security incidents
+      - Handle support, correction, privacy and dispute requests
+      - Meet applicable legal obligations
+      closing: We do not use personal data for an unrelated purpose without an appropriate legal basis.
+    - id: legal-bases
+      heading: 6. Our legal bases
+      intro: 'Depending on the service and your location, we process personal data because:'
+      bullets:
+      - It is necessary to provide the service you requested
+      - You have given consent
+      - We must comply with a legal or regulatory obligation
+      - Processing is necessary to protect you, another person or the platform
+      - We or a partner have a legitimate interest that does not override your rights
+      - Processing is necessary to establish, exercise or defend a legal claim
+      closing: You may withdraw consent where processing depends on consent. Withdrawal does not affect
+        processing that was lawful before withdrawal.
+    - id: sharing
+      heading: 7. How information is shared
+      subsections:
+      - heading: Group visibility
+        body: Member screens use Collect IDs and permitted contribution status. Detailed amounts are restricted
+          by membership and owner permissions. Sign-in phones, MoMo details and raw receipt text are not
+          public group-card or share-link content.
+      - heading: Authorised operators
+        body: Operators with the required permissions may review member, roster, receipt and reconciliation
+          records for their assigned work. Sensitive actions require additional authentication and retained
+          audit records.
+      - heading: Technology and operational providers
+        body: Supabase provides Collect authentication, database and private evidence storage. Cloudflare
+          provides web hosting, API forwarding and security challenges. Records and recovery copies from
+          the earlier Cloudflare backend may remain in retained systems or archives; changing providers
+          does not erase them. Google provides identity verification if you choose Google sign-in where
+          enabled. Other enabled communications or support providers receive only the information
+          required for that service. Contact info@ikanisa.com for the applicable provider and processing
+          details.
+      - heading: Android camera code scanning
+        body: Where available, Collect's Android camera code scanning uses Google ML Kit. ML Kit processes
+          scanning input on your device and does not send input images or decoded code values to Google. The
+          SDK may connect to Google for updates or compatibility checks and may send device and app information,
+          per-install identifiers, and performance, configuration, event and error diagnostics to Google.
+          With automatic zoom, these diagnostics may also include a per-scan identifier, zoom changes and
+          candidate code bounding-box coordinates.
+        closing: Read the Google ML Kit terms at https://developers.google.com/ml-kit/terms and Android SDK
+          data disclosure at https://developers.google.com/ml-kit/android-data-disclosure.
+      - heading: Public authorities and legal claims
+        body: Information may be disclosed where a specific legal obligation or lawful request requires
+          it, or where needed to establish, exercise or defend a legal claim.
+      - heading: Planned partner services
+        body: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+          are planned directions. They are not services available through the current Collect app. Do
+          not send loan, insurance, identity-document or medical files for those services.
+    - id: international-transfers
+      heading: 8. Data processing location
+      body:
+      - Collect serves Rwanda users. Cloudflare and other enabled service providers may process information
+        outside Rwanda. This notice does not claim that all information is stored in Rwanda. Contact info@ikanisa.com
+        for the applicable processing locations and transfer arrangements.
+      subprocessor_link: /privacy/#sharing
+    - id: ai
+      heading: 9. AI and automated processing
+      body: AI document extraction is not enabled for production without approved provider, processing,
+        retention and human-review controls. Automated receipt parsing or a ledger record does not by
+        itself authenticate provider settlement. Collect does not offer automated lending, insurance or
+        eligibility decisions.
+      closing: You may ask support to review inaccurate information or a disputed contribution record.
+    - id: retention
+      heading: 10. How long we retain information
+      intro: 'We keep personal data only for as long as needed to:'
+      bullets:
+      - Operate the account and the requested group-record service
+      - Maintain contribution and audit history where a justified retention basis applies
+      - Prevent misuse and investigate security incidents
+      - Handle requests, disputes and legal claims
+      - Meet an identified applicable legal obligation
+      closing: Retention depends on the record category, purpose and any applicable obligation or legal
+        hold. Contact support for the period and basis applying to your records. Submitting a request
+        is not confirmation that profiles, evidence, exports or secured backups have been erased. Check
+        request status or contact support for the outcome and retained records.
+    - id: rights
+      heading: 11. Your privacy rights
+      intro: 'Depending on applicable law, you may request to:'
+      bullets:
+      - Access personal data we hold about you
+      - Receive a copy of your data
+      - Correct inaccurate or incomplete information
+      - Export data in a structured format
+      - Object to certain processing
+      - Restrict processing
+      - Withdraw consent
+      - Stop direct marketing
+      - Request deletion
+      - Challenge a decision based solely on automated processing
+      - Ask who has received your data
+      - Complain to a data-protection authority
+      contact:
+        email: info@ikanisa.com
+        privacy_request: mailto:info@ikanisa.com?subject=Collect+privacy+request
+      closing: We may need to verify your identity before completing a request.
+    - id: account-and-data-deletion
+      heading: 12. Account deletion and data deletion
+      subsections:
+      - heading: Delete your account in the Collect app
+        steps:
+        - Open Collect and sign in.
+        - Go to Settings.
+        - Select Security.
+        - Select Delete data.
+        - Choose a reason if you want to provide one.
+        - Select Send verification code.
+        - Enter the code sent to the phone number or confirmed email used for your Collect account and select Verify code.
+        - If verification is unavailable, select Get help.
+        - Select Submit request.
+        - Review the confirmation and select Submit request.
+        - Check or refresh request status in the app.
+        path: Settings → Security → Delete data
+      - id: delete-your-account-through-the-website
+        heading: Request deletion without the app
+        body: Contact Collect support to request account deletion. You do not need to reinstall the app
+          to submit a deletion request.
+        link: /account-deletion
+        email: info@ikanisa.com
+        recovery:
+          heading: Email help and follow-up
+          bullets:
+          - If no email app opens, copy info@ikanisa.com into your email service.
+          - Keep a copy of your email. If sending fails, check your email service before trying again.
+          - For a follow-up, reply in the same conversation and include any request reference already supplied.
+          closing: A sent email is not an acknowledgement from Collect or confirmation of deletion.
+      - heading: What happens after a deletion request
+        bullets:
+        - Verify your identity before submitting your request.
+        - Submit your request for review.
+        - Keep your request reference. In the app, check or refresh request status; by email, reply in the same support conversation.
+        closing: Submitting a request does not delete your account or records. Your account remains accessible
+          while review is pending. Check request status or contact support for the outcome and any records
+          that need to be retained.
+      - heading: What may need to happen first
+        bullets:
+        - Resolve pending contribution records, reversals or disputes
+        - Arrange a group-owner or administrator handover where required
+        - Keep a copy of records you need
+        - Discuss an active security investigation or legal hold with support
+      - heading: What account deletion does not do
+        bullets:
+        - Move money or reverse a payment with your MoMo provider
+        - Confirm erasure of retained contribution evidence, audit records or secured backups
+        - Delete records independently held by another service
+      - heading: Data we may retain
+        bullets:
+        - Contribution, reconciliation and audit records where a justified retention basis applies
+        - Account and security records needed for an active investigation
+        - Records needed to resolve a dispute or legal claim
+        - Records subject to an identified applicable retention obligation or legal hold
+        closing: A deletion request is not confirmation that ledger records, profiles or secured backups
+          have been erased. Ask support which records are retained and why.
+    - id: security
+      heading: 13. Security and trust
+      intro: 'We use safeguards designed to protect personal data, including:'
+      bullets:
+      - Encryption in transit
+      - Encrypted retained evidence and private objects
+      - Permission and session controls
+      - Additional authentication for sensitive Admin actions
+      - Retained audit and request records
+      - Software checks and backup controls
+      risk_statement: No technology system is completely risk-free. If a breach affects your rights or
+        legally requires notification, we will notify affected users and the appropriate authority.
+      trust_commitments:
+      - We do not sell personal data.
+      - Collect does not hold customer funds.
+      - Raw receipt and roster records are not public group-card content.
+      - A request receipt is not confirmation of deletion or provider settlement.
+    - id: cookies
+      heading: 14. Cookies and website analytics
+      intro: 'Current service technologies include:'
+      bullets:
+      - Authentication and security cookies used by the Admin workspace
+      - Browser storage needed for the available app or website functions
+      closing: For questions about cookies and website technologies described in this notice, contact
+        info@ikanisa.com.
+      link: /privacy/#cookies
+    - id: children
+      heading: 15. Children
+      body: Do not submit children’s personal information through Collect. Contact support if an account
+        or record concerns a child so the request can be reviewed under the applicable requirements. Collect
+        does not offer a youth financial product.
+    - id: marketing
+      heading: 16. Marketing
+      body: Contact info@ikanisa.com to ask about communication preferences or to object to direct marketing.
+        An optional promotional message is separate from an essential account, security or support communication.
+    - id: changes
+      heading: 17. Changes to this Policy
+      body: We may update this Policy as Collect, our partners or legal requirements change. Material
+        changes will be communicated through the app, website, email, SMS or another appropriate channel.
+        The latest version will always show its effective date.
+    - id: contact
+      heading: 18. Contact and complaints
+      details:
+        privacy_email: info@ikanisa.com
+      closing: You may also lodge a complaint with the competent data-protection authority.
+  terms:
+    id: terms
+    title: Terms of Use
+    slug: /terms
+    seo:
+      title: Terms of Use | Collect by IKANISA
+      description: Read the rules for Collect’s group-contribution records, supported MoMo handoffs, account
+        access and support.
+    effective_date: 20 June 2026
+    hero:
+      eyebrow: TERMS OF USE
+      headline: Clear rules for using Collect.
+      supporting_copy: These Terms describe Collect’s group-contribution record service, supported features,
+        account responsibilities and support routes.
+    important_summary:
+    - Collect maintains group-contribution records.
+    - Collect does not hold customer funds or accept deposits.
+    - Members approve MoMo transfers in their provider’s prompt.
+    - A receipt or ledger record alone does not verify provider settlement.
+    - Lending, insurance, collateral and credit-readiness handoffs are not available through current Collect.
+    - Protect your sign-in credentials and use accurate information.
+    - A deletion request records a request for review; it does not confirm erasure.
+    sections:
+    - id: about
+      heading: 1. About these Terms
+      details:
+        legal_entity: IKANISA
+      body:
+      - By creating an account or using Collect, you agree to these Terms and the Privacy Policy.
+      additional_terms_may_include:
+      - Applicable group rules
+      - The MoMo provider’s own payment terms
+      - A separately presented feature-specific notice or agreement
+      priority_rule: Collect does not replace your MoMo provider’s agreement or independently held third-party
+        contracts.
+    - id: eligibility
+      heading: 2. Who may use Collect
+      intro: 'You may use Collect if you:'
+      bullets:
+      - Meet the applicable minimum age
+      - Have legal capacity to enter into an agreement
+      - Provide accurate registration information
+      - Complete required identity checks
+      - Are not prohibited from using the service by law
+      - Use Collect for lawful purposes
+      availability_may_be_limited_by:
+      - Country
+      - Device and enabled capability
+      - Verified account access
+      - Group membership and role
+      - Applicable law
+    - id: what-collect-provides
+      heading: 3. What Collect provides
+      bullets:
+      - Account and group access where available
+      - Private group creation and separately eligible Android MoMo USSD handoff
+      - Member and group contribution records
+      - Receipt and roster review by authorised operators
+      - Reasoned reconciliation, correction and reversal records
+      - Available notification preferences and service channels
+      - Support and privacy-request routes
+      closing: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - id: what-collect-does-not-provide
+      heading: 4. What Collect does not provide
+      intro: 'Unless separately licensed and expressly stated, Collect is not:'
+      bullets:
+      - A bank
+      - A deposit-taking institution
+      - A lender
+      - A payment institution
+      - An insurer
+      - A broker
+      - A credit bureau
+      - A legal, tax, accounting or investment adviser
+      collect_does_not_guarantee:
+      - Credit approval
+      - Insurance approval
+      - A particular interest rate
+      - A particular loan amount
+      - Investment performance
+      - Savings returns
+      - Claim payment
+      - Product availability
+    - id: account
+      heading: 5. Your account
+      intro: 'You must:'
+      bullets:
+      - Provide complete and accurate information
+      - Keep information current
+      - Protect passwords, PINs and verification codes
+      - Prevent unauthorised device access
+      - Notify us promptly of suspected misuse
+      - Use only your own identity and authorised accounts
+      closing: You are responsible for activity conducted through your account unless the activity resulted
+        from a failure for which Collect is legally responsible. We may require additional verification
+        before processing a sensitive instruction.
+    - id: savings-and-payments
+      heading: 6. Savings and payments
+      body:
+      - Collect may prepare a supported MoMo USSD handoff and display recorded contributions.
+      - You review the receiver and amount, and authorise the payment in your provider’s prompt. Collect
+        does not ask for your MoMo PIN.
+      - Collect does not hold customer funds. A recorded contribution, parsed receipt or internal reconciliation
+        does not by itself verify provider settlement.
+      transaction_may_remain_subject_to:
+      - Provider outcome
+      - Evidence review
+      - Attribution and reconciliation
+      - Correction, reversal or dispute
+      closing: You must verify transfer references and notify us promptly if a record appears incorrect.
+        Collect ledger information does not replace the official account record held by the regulated
+        financial institution.
+    - id: group-savings
+      heading: 7. Group savings
+      member_obligations:
+      - Follow the group’s approved rules
+      - Make contributions according to the agreed schedule
+      - Respect group decisions
+      - Provide accurate payment references
+      - Review statements and report errors
+      - Avoid coercion, fraud or misuse of group funds
+      group_leader_obligations:
+      - Act within their authority
+      - Apply group rules consistently
+      - Protect member information
+      - Avoid unauthorised withdrawals or changes
+      - Maintain appropriate approvals
+      - Disclose conflicts of interest
+      - Transfer administrative control when required
+      closing: Collect may provide technology and records but does not replace the group’s governance
+        obligations.
+    - id: group-collateral
+      heading: 8. Group collateral
+      body: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - id: craas
+      heading: 9. Credit Readiness-as-a-Service
+      body: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - id: ai
+      heading: 10. AI-assisted services
+      body: AI extraction is unavailable for production without approved provider and human-review controls.
+        Current Collect does not make lending, insurance or other financial eligibility decisions.
+    - id: professional-service-providers
+      heading: 11. Professional service providers
+      body: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - id: loans
+      heading: 12. Loans
+      body: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - id: insurance
+      heading: 13. Insurance
+      body: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+        are planned directions. They are not services available through the current Collect app. Do not
+        send loan, insurance, identity-document or medical files for those services.
+    - id: fees
+      heading: 14. Fees
+      body: Collect will display applicable fees before you accept a paid service.
+      fees_may_include:
+      - Credit-readiness fees
+      - Professional-service fees
+      - Partner-product fees
+      - MoMo service fees
+      - MoMo provider charges
+      - Bank or insurer charges
+      zero_fee_clarification: A zero-fee savings statement applies only to the specific user charge described.
+        A MoMo provider may impose separate charges unless waived under the product terms.
+    - id: acceptable-use
+      heading: 15. Acceptable use
+      intro: 'You must not use Collect to:'
+      bullets:
+      - Commit fraud
+      - Impersonate another person
+      - Launder money
+      - Finance illegal activity
+      - Manipulate group records
+      - Submit false documents
+      - Misuse another person’s data
+      - Bypass security controls
+      - Introduce malicious code
+      - Harass or exploit group members
+      - Use automated tools without authorisation
+      - Infringe intellectual-property rights
+      - Violate sanctions or applicable law
+      closing: We may investigate suspected misuse and cooperate with authorised authorities.
+    - id: suspension
+      heading: 16. Suspension and restriction
+      may_apply_to:
+      - Protect your account
+      - Investigate fraud
+      - Respond to a partner or regulator
+      - Correct an operational error
+      - Enforce these Terms
+      - Address unpaid fees
+      - Prevent harm to a group
+      - Comply with law
+      closing: Where appropriate, we will explain the reason and provide a route to challenge the action.
+        Suspension of Collect does not suspend obligations owed to a bank, insurer, group or service provider.
+    - id: closing-or-deleting
+      heading: 17. Closing or deleting your account
+      request_channels:
+      - In the app under Settings → Security → Delete data
+      - Online at /account-deletion
+      - By contacting info@ikanisa.com
+      before_deletion_you_may_need_to:
+      - Resolve pending contribution records, reversals or disputes
+      - Arrange a group-owner or administrator handover where required
+      - Keep a copy of records you need
+      - Discuss an active security investigation or legal hold with support
+      deletion_does_not_cancel:
+      - Move money or reverse a payment with your MoMo provider
+      - Confirm erasure of retained contribution evidence, audit records or secured backups
+      - Delete records independently held by another service
+      closing: Submitting a request does not delete your account or records. Your account remains accessible
+        while review is pending. Check request status or contact support for the outcome and any records
+        that need to be retained. Some records may need to be retained; see the Privacy Policy.
+    - id: intellectual-property
+      heading: 18. Intellectual property
+      body:
+      - Collect, IKANISA, software, interfaces, trademarks, designs and original content are owned by
+        or licensed to IKANISA.
+      - We grant you a limited, personal, non-exclusive, revocable right to use Collect for its intended
+        purpose.
+      - You may not copy, reverse engineer, resell, modify or commercially exploit Collect without written
+        permission.
+      - You retain ownership of documents and content you provide, but grant us permission to process
+        them to deliver requested services.
+    - id: availability
+      heading: 19. Service availability
+      availability_may_be_affected_by:
+      - Mobile networks
+      - Banks
+      - Banking services
+      - Insurers
+      - App stores
+      - Internet providers
+      - Maintenance
+      - Security incidents
+      - Events outside reasonable control
+      closing: We may change or discontinue features, subject to applicable notice and contractual requirements.
+    - id: statements-and-financial-information
+      heading: 20. Statements and financial information
+      body: Balances, readiness indicators, projections and status information displayed by Collect may
+        depend on data received from partners. You should report errors promptly.
+      not_constitute:
+      - A loan offer
+      - Financial advice
+      - Investment advice
+      - Insurance advice
+      - A guaranteed return
+      - A guaranteed eligibility decision
+    - id: liability
+      heading: 21. Limitation of liability
+      non_exclusion: Nothing in these Terms excludes liability that cannot legally be excluded.
+      to_extent_permitted_collect_not_responsible_for:
+      - A partner’s independent credit decision
+      - An insurer’s underwriting or claim decision
+      - Investment losses
+      - False information supplied by a user
+      - Independent professional advice
+      - Network or partner outages outside our control
+      - Losses caused by unauthorised account access resulting from your failure to protect credentials
+      legal_review_note: Any further liability limits must be reviewed and adapted by legal counsel for
+        each operating jurisdiction.
+    - id: privacy
+      heading: 22. Privacy
+      body: Our Privacy Policy explains how we collect, use, share, retain and delete personal data.
+      links:
+        privacy_policy: /privacy
+        account_deletion: /account-deletion
+        cookie_policy: /privacy/#cookies
+    - id: complaints
+      heading: 23. Complaints
+      details:
+        email: info@ikanisa.com
+      closing: A complaint concerning a bank, loan or insurance policy may also need to be submitted to
+        the relevant regulated partner. You retain the right to contact the relevant regulator, data-protection
+        authority or court.
+    - id: changes
+      heading: 24. Changes to these Terms
+      updates_may_reflect:
+      - New features
+      - New partners
+      - Legal changes
+      - Security requirements
+      - Operational changes
+      closing: We will provide reasonable notice of material changes. Continuing to use Collect after
+        the effective date means you accept the updated Terms, except where law requires a different form
+        of consent.
+    - id: governing-law
+      heading: 25. Governing law
+      body: These Terms are governed by the laws of Rwanda. Disputes will be handled by the competent
+        Rwandan court or dispute-resolution forum, subject to mandatory legal rights.
+      must_be_finalised_for:
+      - Rwanda users
+    - id: contact
+      heading: 26. Contact
+      details:
+        brand: Collect by IKANISA
+        legal_entity: IKANISA
+        general_support: info@ikanisa.com
+        privacy: info@ikanisa.com
+        complaints: info@ikanisa.com
+        partnerships: info@ikanisa.com
+  delete_account:
+    id: delete-account
+    title: Delete Your Collect Account
+    slug: /account-deletion
+    seo:
+      title: Delete Your Collect Account | Collect by IKANISA
+      description: Request deletion of your Collect account and eligible personal data.
+    hero:
+      eyebrow: ACCOUNT AND DATA DELETION
+      headline: Delete your Collect account.
+      supporting_copy: You may request deletion of your Collect account and associated eligible personal
+        data.
+    important_notice: Collect records contributions and does not hold customer funds. A deletion request
+      does not move money, reverse a provider payment or confirm that records have been erased.
+    delete_in_app:
+      heading: Delete in the app
+      path: Settings → Security → Delete data
+      steps:
+      - Open Collect and sign in.
+      - Go to Settings.
+      - Select Security.
+      - Select Delete data.
+      - Choose a reason if you want to provide one.
+      - Select Send verification code.
+      - Enter the code sent to the phone number or confirmed email used for your Collect account and select Verify code.
+      - If verification is unavailable, select Get help.
+      - Select Submit request.
+      - Review the confirmation and select Submit request.
+      - Check or refresh request status in the app.
+    delete_without_app:
+      heading: Delete without the app
+      copy: Contact Collect support to request account deletion. You do not need to reinstall the app
+        to submit a deletion request.
+      email: info@ikanisa.com
+      recovery:
+        heading: Email help and follow-up
+        bullets:
+        - If no email app opens, copy info@ikanisa.com into your email service.
+        - Keep a copy of your email. If sending fails, check your email service before trying again.
+        - For a follow-up, reply in the same conversation and include any request reference already supplied.
+        closing: A sent email is not an acknowledgement from Collect or confirmation of deletion.
+    support_information:
+      id: account-deletion-request
+      heading: Request Account Deletion
+      copy: Start by emailing info@ikanisa.com. Support can agree a suitable identity-verification step.
+        Do not email a MoMo PIN, password, one-time code, authenticator secret or identity-document image.
+      fields:
+      - name: collect_id
+        label: Collect ID, if known
+        type: text
+        required: null
+      - name: registered_phone
+        label: Registered telephone number, if needed to locate the account
+        type: tel
+        required: null
+      - name: reason
+        label: Reason or details you choose to provide
+        type: textarea
+        required: null
+    what_happens_next:
+      heading: What happens next
+      steps:
+      - Verify your identity before submitting your request.
+      - Submit your request for review.
+      - Keep your request reference. In the app, check or refresh request status; by email, reply in the same support conversation.
+      closing: Submitting a request does not delete your account or records. Your account remains accessible
+        while review is pending. Check request status or contact support for the outcome and any records
+        that need to be retained.
+    before_we_can_complete_deletion:
+      heading: You may need to complete these steps first
+      bullets:
+      - Resolve pending contribution records, reversals or disputes
+      - Arrange a group-owner or administrator handover where required
+      - Keep a copy of records you need
+      - Discuss an active security investigation or legal hold with support
+    data_we_may_retain:
+      heading: Data we may retain
+      bullets:
+      - Contribution, reconciliation and audit records where a justified retention basis applies
+      - Account and security records needed for an active investigation
+      - Records needed to resolve a dispute or legal claim
+      - Records subject to an identified applicable retention obligation or legal hold
+      closing: A deletion request is not confirmation that ledger records, profiles or secured backups
+        have been erased. Ask support which records are retained and why.
+    partner_products:
+      heading: Products provided by partners
+      copy: Collect does not currently offer lending, insurance or credit-readiness handoffs. A request
+        to Collect does not cancel an independent contract you hold with another provider. Contact that
+        provider directly about its own records or products.
+    contact:
+      heading: Need help?
+      email: info@ikanisa.com
+      support_email: info@ikanisa.com

@@ -1,0 +1,30 @@
+{
+  "source_root": "/Volumes/T7/01 Projects/COLLECT/deploy/admin-api",
+  "dependency": {
+    "name": "@noble/hashes",
+    "version": "2.4.0",
+    "license": "MIT"
+  },
+  "sources": [
+    {
+      "path": "src/security.mjs",
+      "sha256": "6f7aac061644b250fce5f8084e1a0951ad719a07392ecdea08f7940f6470e8f0",
+      "size": 2250
+    },
+    {
+      "path": "src/emails.mjs",
+      "sha256": "d5156a17d8066117b682767fc8bd18594dbae579cd4e59f42d09088de5946e75",
+      "size": 6954
+    },
+    {
+      "path": "node_modules/@noble/hashes/package.json",
+      "sha256": "3e361734f5269de162fa362483d7f45dee7efb533ec217157945338f7591baaf",
+      "size": 2583
+    },
+    {
+      "path": "node_modules/@noble/hashes/LICENSE",
+      "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec",
+      "size": 1109
+    }
+  ]
+}

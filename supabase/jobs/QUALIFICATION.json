@@ -1,0 +1,100 @@
+{
+  "format": "collect.jobs.qualification.v1",
+  "status": "prepared_inactive_hosted_gates_pending",
+  "checked_at": "2026-10-20T14:18:35.909978+00:00",
+  "local_tests": {
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "database": "collect_jobs_test on loopback PostgreSQL17.10",
+    "native_postgresql_transactions": true,
+    "multiple_connections": true,
+    "cron_vault_pg_net": "explicit SQL interface doubles; no native provider proof",
+    "recovery_cases": [
+      "current-instance UUID echo missing/null/non-string/mismatch refused",
+      "synthetic unlogged queue/reply/owned-sequence recreation and request ID reuse",
+      "earlier native epoch rejected before response lookup",
+      "stale reply cannot acknowledge new UUID in current epoch",
+      "old reviewed-unknown rows retained and new probe recovery",
+      "prior-instance confirmed probe cannot activate or admit scheduled work"
+    ],
+    "log_file": "/Users/jeanbosco/Library/Caches/collect-supabase-implementation-20261020/jobs-native-epoch-run1.log",
+    "log_sha256": "49fea53f99f834667a31ff7435e90639b16a7a5feb990ab5585f7059aaaeefd4"
+  },
+  "rendered": {
+    "config_sha256": "b2cede1f2c0eea79f31fcb7e731ec816320f24a677954bd19ebbeba5781f5169",
+    "sql_sha256": "859ba9bf7386a9318b347cc17b4e16b787732792d28c4822343734e10a40b18b",
+    "endpoint": "https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs",
+    "active": false,
+    "monthly_scheduled_invocations_31_days": 8928
+  },
+  "native_identity": {
+    "epoch": "SHA256 of pg_postmaster_start_time epoch plus queue/response/owned-sequence OIDs",
+    "request_uniqueness": [
+      "native_epoch",
+      "net_request_id"
+    ],
+    "worker_request": "exact JSON object containing original dispatch UUID",
+    "worker_confirmation": "same native epoch and exact original dispatch UUID string echo plus reviewed maintenance response"
+  },
+  "files": [
+    {
+      "path": "supabase/jobs/COPY_INVENTORY_PROPOSAL.md",
+      "bytes": 3932,
+      "sha256": "8c9109633d73400f5a302fd72932950d5aa556805ca97cad366efe8bfb0905ea"
+    },
+    {
+      "path": "supabase/jobs/README.md",
+      "bytes": 13129,
+      "sha256": "ce1b71e3393da38b48a1313f40d80e09da3f594e2bfa2b83830896c182abe22b"
+    },
+    {
+      "path": "supabase/jobs/bootstrap.sql",
+      "bytes": 20007,
+      "sha256": "a8e8fffe0dad8a135169ec87a9b345c1ff8a0fe6c5ac1547f6b07b22b197b55a"
+    },
+    {
+      "path": "supabase/jobs/config.json",
+      "bytes": 1202,
+      "sha256": "4f22ba54fea563970e0104bb626cc04adc7f9037d18797707ea5d1784946de60"
+    },
+    {
+      "path": "supabase/jobs/readiness.example.json",
+      "bytes": 743,
+      "sha256": "188a86847f413a1dab01f8c67777ca67e77857b89aabb62deb06606ed7fa2eb6"
+    },
+    {
+      "path": "supabase/jobs/test-fixture.sql",
+      "bytes": 3386,
+      "sha256": "fb2f4630a28b3068b68150c486f7afc091b573a3d1e31182c19a1c9f55e93a60"
+    },
+    {
+      "path": "scripts/supabase/jobs_config.mjs",
+      "bytes": 5969,
+      "sha256": "18c18a6bcf0c9dfcb30e5d0548eb1a76fee20534d0f43aa0637ed13891366629"
+    },
+    {
+      "path": "scripts/supabase/jobs_operator.mjs",
+      "bytes": 9240,
+      "sha256": "1dd42b3774f81fee2af3bb2cd9c14f50638ae9baa7403fcaf1032912d6e512b4"
+    },
+    {
+      "path": "scripts/supabase/jobs_test.mjs",
+      "bytes": 19297,
+      "sha256": "43660dfd3aec4e2c3505f3cace773b9812710f1d3bbcae79dfa0c0abe1532925"
+    }
+  ],
+  "application_migrations_touched": false,
+  "private_token_file_read": false,
+  "hosted_mutations": false,
+  "managed_native_objects_altered": false,
+  "new_business_queue": false,
+  "pending": [
+    "Native hosted extensions/signatures/owned sequence/privileges and real restart behavior",
+    "Provider-supported Vault/net effective ACL restriction",
+    "Reviewed operational copy inventory integration/disposition",
+    "Exact deployed endpoint/runtime/paused environment and private credential custody",
+    "Authorized maintenance probe and account quota readback",
+    "Native Cron run/readback and external absence/health observation"
+  ]
+}

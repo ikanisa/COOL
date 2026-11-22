@@ -1,0 +1,69 @@
+{
+  "scope": "rw_receipt_successor_execution",
+  "status": "available",
+  "execution": {
+    "arm": {
+      "armed_at": "2026-10-02T03:22:28.437385Z",
+      "request_id": "86473851-ba46-40e3-b428-6b4b56bf427c",
+      "reservation_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "route": {
+      "route_kind": "receipt_successor",
+      "approval_id": "db12011c-4013-44e0-954c-fee561a6ef69",
+      "route_version": 1,
+      "dispatch_job_id": "1fc6fdd1-1819-4559-8b1c-0525bf1ac0a8",
+      "primary_receipt_id": "731f35c8-40cf-4078-b9c9-03e02381fd06"
+    },
+    "state": "armed_unknown",
+    "archive": null,
+    "attempt": {
+      "run_id": "46baea5f-af7b-440a-bcfb-7ec176f2beb8",
+      "device_id": "004ea92d-cb2e-4713-827b-afd6bf3d6a3d",
+      "issued_at": "2026-10-02T03:22:28.354993Z",
+      "attempt_id": "3bcad461-77d6-4086-b4ca-e425b2a12c87",
+      "expires_at": "2026-10-02T03:22:58.354993Z",
+      "body_sha256": "e170e91a50aa7761f82efe30cfe5ab79a25d2e10e6e4dc7c94031352979a02ca",
+      "fence_version": 1,
+      "segment_count": 1,
+      "reservation_id": "0793e8b3-bf23-47cc-a576-43dcc72af19c",
+      "grant_request_id": "ad5a00e7-96cc-49e2-bf0f-ead69e6752cd",
+      "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2"
+    },
+    "revocation": null,
+    "execution_events": [
+      {
+        "event_id": "037f874a-ee0a-435b-9b40-82236d71c8c5",
+        "event_kind": "grant",
+        "request_id": "ad5a00e7-96cc-49e2-bf0f-ead69e6752cd",
+        "recorded_at": "2026-10-02T03:22:28.354993Z",
+        "lineage_after": 4,
+        "lineage_before": 3,
+        "approved_event_id": "76a52fc5-82e2-448d-acd2-89352cbb4f0a",
+        "approval_request_id": "0236b3e3-6cd7-4120-88b7-031f643a4724"
+      },
+      {
+        "event_id": "86484d95-dd20-4ad0-9eec-c4bae2cffacb",
+        "event_kind": "arm",
+        "request_id": "86473851-ba46-40e3-b428-6b4b56bf427c",
+        "recorded_at": "2026-10-02T03:22:28.437385Z",
+        "lineage_after": 5,
+        "lineage_before": 4,
+        "approved_event_id": "76a52fc5-82e2-448d-acd2-89352cbb4f0a",
+        "approval_request_id": "0236b3e3-6cd7-4120-88b7-031f643a4724"
+      }
+    ],
+    "latest_projection": null,
+    "observation_count": null
+  },
+  "checked_at": "2026-10-02T03:24:41.857635Z",
+  "approval_id": "db12011c-4013-44e0-954c-fee561a6ef69",
+  "send_action": false,
+  "carrier_proof": false,
+  "cutoff_revision": 5,
+  "delivery_proven": false,
+  "contract_version": 4,
+  "financial_action": false,
+  "retained_primary": true,
+  "primary_receipt_id": "731f35c8-40cf-4078-b9c9-03e02381fd06",
+  "sample_valid_until": "2026-10-02T03:25:41.857635Z"
+}

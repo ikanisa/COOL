@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-22-medical-care-support",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-22-medical-care-support-v1.png",
+  "source_sha256": "2d95c4273bead2c109c047f7711fed1af3bce9ed46a39b56fb982d6ab317d32d",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "95d244bd5079cea43c19bb06893098b55e5ae9350771ee28269ff0a179d9c2eb",
+  "imported_at_utc": "2026-09-06T11:22:21.244367+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-46370b13-1b3c-4fb1-9849-5284e66cba23.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

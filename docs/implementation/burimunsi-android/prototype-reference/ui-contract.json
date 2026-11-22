@@ -1,0 +1,119 @@
+{
+  "version": "1.1.0",
+  "paymentStates": {
+    "posted": {
+      "label": "Allocated",
+      "icon": "check",
+      "tone": "good",
+      "canAllocate": false,
+      "confirmedCredit": true
+    },
+    "credited": {
+      "label": "Allocated",
+      "icon": "check",
+      "tone": "good",
+      "canAllocate": false,
+      "confirmedCredit": true
+    },
+    "unallocated": {
+      "label": "Unallocated",
+      "icon": "link",
+      "tone": "warn",
+      "canAllocate": true,
+      "confirmedCredit": false
+    },
+    "processing": {
+      "label": "Processing",
+      "icon": "clock",
+      "tone": "info",
+      "canAllocate": false,
+      "confirmedCredit": false
+    },
+    "reversed": {
+      "label": "Reversed",
+      "icon": "history",
+      "tone": "bad",
+      "canAllocate": false,
+      "confirmedCredit": false
+    },
+    "conflict": {
+      "label": "Needs review",
+      "icon": "alert",
+      "tone": "bad",
+      "canAllocate": false,
+      "confirmedCredit": false
+    },
+    "rejected": {
+      "label": "Rejected",
+      "icon": "alert",
+      "tone": "bad",
+      "canAllocate": false,
+      "confirmedCredit": false
+    },
+    "failed": {
+      "label": "Failed",
+      "icon": "alert",
+      "tone": "bad",
+      "canAllocate": false,
+      "confirmedCredit": false
+    },
+    "unknown": {
+      "label": "Status unavailable",
+      "icon": "alert",
+      "tone": "warn",
+      "canAllocate": false,
+      "confirmedCredit": false
+    }
+  },
+  "receiptStates": {
+    "synced": {
+      "label": "Synced",
+      "icon": "sync",
+      "tone": "info",
+      "meaning": "Receipt uploaded; this does not confirm a member credit."
+    },
+    "queued": {
+      "label": "Queued",
+      "icon": "clock",
+      "tone": "warn",
+      "meaning": "Awaiting upload; not a confirmed member credit."
+    },
+    "duplicate": {
+      "label": "Duplicate",
+      "icon": "history",
+      "tone": "info",
+      "meaning": "Repeated receipt observation; no additional credit is implied."
+    },
+    "rejected": {
+      "label": "Rejected",
+      "icon": "alert",
+      "tone": "bad",
+      "meaning": "Receipt rejected; review the source without retrying a financial action."
+    },
+    "unknown": {
+      "label": "Status unavailable",
+      "icon": "alert",
+      "tone": "warn",
+      "meaning": "Receipt delivery status is unavailable; no member credit is implied."
+    }
+  },
+  "fields": {
+    "nameMin": 2,
+    "nameMax": 100,
+    "allocationNoteMin": 8,
+    "allocationNoteMax": 500,
+    "newStaffEnroll": false,
+    "newStaffAllocate": false
+  },
+  "money": {
+    "currency": "RWF",
+    "maximumAbsolute": 9007199254740991,
+    "policy": "Fit display numerals down to a 16sp-equivalent floor that still respects user text scaling. Never abbreviate, ellipsize or split digits. If even that cannot fit, preserve the complete numeral in a local scroll region with an explicit hint.",
+    "minimumFontSp": 16
+  },
+  "security": {
+    "memberActivation": "Admin role AND members.enroll; revalidate inside the command transaction.",
+    "drafts": "Only ephemeral non-secret drafts. No credentials in saved state, web storage or logs.",
+    "unknownFinancialState": "Never show success or an allocation action."
+  }
+}

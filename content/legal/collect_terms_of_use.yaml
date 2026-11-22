@@ -1,0 +1,310 @@
+page:
+  id: terms
+  title: Terms of Use
+  slug: /terms
+  seo:
+    title: Terms of Use | Collect by IKANISA
+    description: Read the rules for Collect’s group-contribution records, supported MoMo handoffs, account
+      access and support.
+  effective_date: 20 June 2026
+  hero:
+    eyebrow: TERMS OF USE
+    headline: Clear rules for using Collect.
+    supporting_copy: These Terms describe Collect’s group-contribution record service, supported features,
+      account responsibilities and support routes.
+  important_summary:
+  - Collect maintains group-contribution records.
+  - Collect does not hold customer funds or accept deposits.
+  - Members approve MoMo transfers in their provider’s prompt.
+  - A receipt or ledger record alone does not verify provider settlement.
+  - Lending, insurance, collateral and credit-readiness handoffs are not available through current Collect.
+  - Protect your sign-in credentials and use accurate information.
+  - A deletion request records a request for review; it does not confirm erasure.
+  sections:
+  - id: about
+    heading: 1. About these Terms
+    details:
+      legal_entity: IKANISA
+    body:
+    - By creating an account or using Collect, you agree to these Terms and the Privacy Policy.
+    additional_terms_may_include:
+    - Applicable group rules
+    - The MoMo provider’s own payment terms
+    - A separately presented feature-specific notice or agreement
+    priority_rule: Collect does not replace your MoMo provider’s agreement or independently held third-party
+      contracts.
+  - id: eligibility
+    heading: 2. Who may use Collect
+    intro: 'You may use Collect if you:'
+    bullets:
+    - Meet the applicable minimum age
+    - Have legal capacity to enter into an agreement
+    - Provide accurate registration information
+    - Complete required identity checks
+    - Are not prohibited from using the service by law
+    - Use Collect for lawful purposes
+    availability_may_be_limited_by:
+    - Country
+    - Device and enabled capability
+    - Verified account access
+    - Group membership and role
+    - Applicable law
+  - id: what-collect-provides
+    heading: 3. What Collect provides
+    bullets:
+    - Account and group access where available
+    - Private group creation and separately eligible Android MoMo USSD handoff
+    - Member and group contribution records
+    - Receipt and roster review by authorised operators
+    - Reasoned reconciliation, correction and reversal records
+    - Available notification preferences and service channels
+    - Support and privacy-request routes
+    closing: Credit readiness, lending, insurance, collateral and related professional-service handoffs
+      are planned directions. They are not services available through the current Collect app. Do not
+      send loan, insurance, identity-document or medical files for those services.
+  - id: what-collect-does-not-provide
+    heading: 4. What Collect does not provide
+    intro: 'Unless separately licensed and expressly stated, Collect is not:'
+    bullets:
+    - A bank
+    - A deposit-taking institution
+    - A lender
+    - A payment institution
+    - An insurer
+    - A broker
+    - A credit bureau
+    - A legal, tax, accounting or investment adviser
+    collect_does_not_guarantee:
+    - Credit approval
+    - Insurance approval
+    - A particular interest rate
+    - A particular loan amount
+    - Investment performance
+    - Savings returns
+    - Claim payment
+    - Product availability
+  - id: account
+    heading: 5. Your account
+    intro: 'You must:'
+    bullets:
+    - Provide complete and accurate information
+    - Keep information current
+    - Protect passwords, PINs and verification codes
+    - Prevent unauthorised device access
+    - Notify us promptly of suspected misuse
+    - Use only your own identity and authorised accounts
+    closing: You are responsible for activity conducted through your account unless the activity resulted
+      from a failure for which Collect is legally responsible. We may require additional verification
+      before processing a sensitive instruction.
+  - id: savings-and-payments
+    heading: 6. Savings and payments
+    body:
+    - Collect may prepare a supported MoMo USSD handoff and display recorded contributions.
+    - You review the receiver and amount, and authorise the payment in your provider’s prompt. Collect
+      does not ask for your MoMo PIN.
+    - Collect does not hold customer funds. A recorded contribution, parsed receipt or internal reconciliation
+      does not by itself verify provider settlement.
+    transaction_may_remain_subject_to:
+    - Provider outcome
+    - Evidence review
+    - Attribution and reconciliation
+    - Correction, reversal or dispute
+    closing: You must verify transfer references and notify us promptly if a record appears incorrect.
+      Collect ledger information does not replace the official account record held by the regulated financial
+      institution.
+  - id: group-savings
+    heading: 7. Group savings
+    member_obligations:
+    - Follow the group’s approved rules
+    - Make contributions according to the agreed schedule
+    - Respect group decisions
+    - Provide accurate payment references
+    - Review statements and report errors
+    - Avoid coercion, fraud or misuse of group funds
+    group_leader_obligations:
+    - Act within their authority
+    - Apply group rules consistently
+    - Protect member information
+    - Avoid unauthorised withdrawals or changes
+    - Maintain appropriate approvals
+    - Disclose conflicts of interest
+    - Transfer administrative control when required
+    closing: Collect may provide technology and records but does not replace the group’s governance obligations.
+  - id: group-collateral
+    heading: 8. Group collateral
+    body: Credit readiness, lending, insurance, collateral and related professional-service handoffs are
+      planned directions. They are not services available through the current Collect app. Do not send
+      loan, insurance, identity-document or medical files for those services.
+  - id: craas
+    heading: 9. Credit Readiness-as-a-Service
+    body: Credit readiness, lending, insurance, collateral and related professional-service handoffs are
+      planned directions. They are not services available through the current Collect app. Do not send
+      loan, insurance, identity-document or medical files for those services.
+  - id: ai
+    heading: 10. AI-assisted services
+    body: AI extraction is unavailable for production without approved provider and human-review controls.
+      Current Collect does not make lending, insurance or other financial eligibility decisions.
+  - id: professional-service-providers
+    heading: 11. Professional service providers
+    body: Credit readiness, lending, insurance, collateral and related professional-service handoffs are
+      planned directions. They are not services available through the current Collect app. Do not send
+      loan, insurance, identity-document or medical files for those services.
+  - id: loans
+    heading: 12. Loans
+    body: Credit readiness, lending, insurance, collateral and related professional-service handoffs are
+      planned directions. They are not services available through the current Collect app. Do not send
+      loan, insurance, identity-document or medical files for those services.
+  - id: insurance
+    heading: 13. Insurance
+    body: Credit readiness, lending, insurance, collateral and related professional-service handoffs are
+      planned directions. They are not services available through the current Collect app. Do not send
+      loan, insurance, identity-document or medical files for those services.
+  - id: fees
+    heading: 14. Fees
+    body: Collect will display applicable fees before you accept a paid service.
+    fees_may_include:
+    - Credit-readiness fees
+    - Professional-service fees
+    - Partner-product fees
+    - MoMo service fees
+    - MoMo provider charges
+    - Bank or insurer charges
+    zero_fee_clarification: A zero-fee savings statement applies only to the specific user charge described.
+      A MoMo provider may impose separate charges unless waived under the product terms.
+  - id: acceptable-use
+    heading: 15. Acceptable use
+    intro: 'You must not use Collect to:'
+    bullets:
+    - Commit fraud
+    - Impersonate another person
+    - Launder money
+    - Finance illegal activity
+    - Manipulate group records
+    - Submit false documents
+    - Misuse another person’s data
+    - Bypass security controls
+    - Introduce malicious code
+    - Harass or exploit group members
+    - Use automated tools without authorisation
+    - Infringe intellectual-property rights
+    - Violate sanctions or applicable law
+    closing: We may investigate suspected misuse and cooperate with authorised authorities.
+  - id: suspension
+    heading: 16. Suspension and restriction
+    may_apply_to:
+    - Protect your account
+    - Investigate fraud
+    - Respond to a partner or regulator
+    - Correct an operational error
+    - Enforce these Terms
+    - Address unpaid fees
+    - Prevent harm to a group
+    - Comply with law
+    closing: Where appropriate, we will explain the reason and provide a route to challenge the action.
+      Suspension of Collect does not suspend obligations owed to a bank, insurer, group or service provider.
+  - id: closing-or-deleting
+    heading: 17. Closing or deleting your account
+    request_channels:
+    - In the app under Settings → Security → Delete data
+    - Online at /account-deletion
+    - By contacting info@ikanisa.com
+    before_deletion_you_may_need_to:
+    - Resolve pending contribution records, reversals or disputes
+    - Arrange a group-owner or administrator handover where required
+    - Keep a copy of records you need
+    - Discuss an active security investigation or legal hold with support
+    deletion_does_not_cancel:
+    - Move money or reverse a payment with your MoMo provider
+    - Confirm erasure of retained contribution evidence, audit records or secured backups
+    - Delete records independently held by another service
+    closing: Submitting a request does not delete your account or records. Your account remains accessible
+      while review is pending. Check request status or contact support for the outcome and any records
+      that need to be retained. Some records may need to be retained; see the Privacy Policy.
+  - id: intellectual-property
+    heading: 18. Intellectual property
+    body:
+    - Collect, IKANISA, software, interfaces, trademarks, designs and original content are owned by or
+      licensed to IKANISA.
+    - We grant you a limited, personal, non-exclusive, revocable right to use Collect for its intended
+      purpose.
+    - You may not copy, reverse engineer, resell, modify or commercially exploit Collect without written
+      permission.
+    - You retain ownership of documents and content you provide, but grant us permission to process them
+      to deliver requested services.
+  - id: availability
+    heading: 19. Service availability
+    availability_may_be_affected_by:
+    - Mobile networks
+    - Banks
+    - Banking services
+    - Insurers
+    - App stores
+    - Internet providers
+    - Maintenance
+    - Security incidents
+    - Events outside reasonable control
+    closing: We may change or discontinue features, subject to applicable notice and contractual requirements.
+  - id: statements-and-financial-information
+    heading: 20. Statements and financial information
+    body: Balances, readiness indicators, projections and status information displayed by Collect may
+      depend on data received from partners. You should report errors promptly.
+    not_constitute:
+    - A loan offer
+    - Financial advice
+    - Investment advice
+    - Insurance advice
+    - A guaranteed return
+    - A guaranteed eligibility decision
+  - id: liability
+    heading: 21. Limitation of liability
+    non_exclusion: Nothing in these Terms excludes liability that cannot legally be excluded.
+    to_extent_permitted_collect_not_responsible_for:
+    - A partner’s independent credit decision
+    - An insurer’s underwriting or claim decision
+    - Investment losses
+    - False information supplied by a user
+    - Independent professional advice
+    - Network or partner outages outside our control
+    - Losses caused by unauthorised account access resulting from your failure to protect credentials
+    legal_review_note: Any further liability limits must be reviewed and adapted by legal counsel for
+      each operating jurisdiction.
+  - id: privacy
+    heading: 22. Privacy
+    body: Our Privacy Policy explains how we collect, use, share, retain and delete personal data.
+    links:
+      privacy_policy: /privacy
+      account_deletion: /account-deletion
+      cookie_policy: /privacy/#cookies
+  - id: complaints
+    heading: 23. Complaints
+    details:
+      email: info@ikanisa.com
+    closing: A complaint concerning a bank, loan or insurance policy may also need to be submitted to
+      the relevant regulated partner. You retain the right to contact the relevant regulator, data-protection
+      authority or court.
+  - id: changes
+    heading: 24. Changes to these Terms
+    updates_may_reflect:
+    - New features
+    - New partners
+    - Legal changes
+    - Security requirements
+    - Operational changes
+    closing: We will provide reasonable notice of material changes. Continuing to use Collect after the
+      effective date means you accept the updated Terms, except where law requires a different form of
+      consent.
+  - id: governing-law
+    heading: 25. Governing law
+    body: These Terms are governed by the laws of Rwanda. Disputes will be handled by the competent Rwandan
+      court or dispute-resolution forum, subject to mandatory legal rights.
+    must_be_finalised_for:
+    - Rwanda users
+  - id: contact
+    heading: 26. Contact
+    details:
+      brand: Collect by IKANISA
+      legal_entity: IKANISA
+      general_support: info@ikanisa.com
+      privacy: info@ikanisa.com
+      complaints: info@ikanisa.com
+      partnerships: info@ikanisa.com

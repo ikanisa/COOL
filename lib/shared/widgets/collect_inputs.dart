@@ -1,0 +1,174 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../../app/theme/collect_colors.dart';
+import '../../app/theme/collect_component_tokens.dart';
+import '../../app/theme/collect_icons.dart';
+import '../../app/theme/collect_radius.dart';
+import '../../app/theme/collect_spacing.dart';
+import '../../app/theme/collect_typography.dart';
+import '../../app/theme/collect_runtime_tokens.dart';
+import '../../app/theme/collect_universal_tokens.dart';
+
+class OtpCodeField extends StatelessWidget {
+  const OtpCodeField({required this.controller, this.length = 6, super.key});
+
+  final TextEditingController controller;
+  final int length;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    return TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      textAlign: TextAlign.center,
+      maxLength: length,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(length),
+      ],
+      style: CollectTypography.collectIdDisplay(colors.textPrimary),
+      decoration: collectInputDecoration(
+        context,
+        label: 'Verification code',
+        helper: 'Enter the $length-digit WhatsApp code.',
+      ).copyWith(counterText: ''),
+    );
+  }
+}
+
+class CollectTextInput extends StatelessWidget {
+  const CollectTextInput({
+    required this.controller,
+    required this.label,
+    this.helper,
+    this.keyboardType,
+    this.textInputAction,
+    this.autofillHints,
+    this.maxLines = 1,
+    this.textCapitalization = TextCapitalization.none,
+    this.autocorrect = false,
+    this.onChanged,
+    this.onSubmitted,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final String? helper;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final Iterable<String>? autofillHints;
+  final int maxLines;
+  final TextCapitalization textCapitalization;
+  final bool autocorrect;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      keyboardType:
+          keyboardType ?? (maxLines > 1 ? TextInputType.multiline : null),
+      textInputAction:
+          textInputAction ??
+          (maxLines > 1 ? TextInputAction.newline : TextInputAction.next),
+      autofillHints: autofillHints,
+      maxLines: maxLines,
+      textCapitalization: textCapitalization,
+      autocorrect: autocorrect,
+      onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      decoration: collectInputDecoration(context, label: label, helper: helper),
+    );
+  }
+}
+
+class SearchWithClearField extends StatelessWidget {
+  const SearchWithClearField({
+    required this.controller,
+    required this.label,
+    required this.onChanged,
+    this.focusNode,
+    super.key,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final ValueChanged<String> onChanged;
+  final FocusNode? focusNode;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final tokens = context.collectUniversalTokens;
+    final focusBorder = OutlineInputBorder(
+      borderRadius: CollectRadius.pillBorder,
+      borderSide: BorderSide(
+        color: tokens.focusRing,
+        width: tokens.focusRingWidth,
+      ),
+    );
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: CollectRuntimeTokens.inputFill(colors),
+        borderRadius: CollectRadius.pillBorder,
+      ),
+      child: ValueListenableBuilder<TextEditingValue>(
+        valueListenable: controller,
+        builder: (context, value, _) => Semantics(
+          label: value.text.isEmpty ? null : label,
+          child: TextField(
+            controller: controller,
+            focusNode: focusNode,
+            onChanged: onChanged,
+            minLines: 1,
+            textInputAction: TextInputAction.search,
+            decoration: InputDecoration(
+              hintText: label,
+              prefixIcon: Icon(
+                CollectIcons.search,
+                color: colors.textSecondary,
+              ),
+              suffixIcon: value.text.isEmpty
+                  ? null
+                  : IconButton(
+                      tooltip: 'Clear search',
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () {
+                        controller.clear();
+                        onChanged('');
+                      },
+                    ),
+              border: InputBorder.none,
+              enabledBorder: tokens.highContrast
+                  ? focusBorder
+                  : InputBorder.none,
+              focusedBorder: focusBorder,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: CollectSpacing.x4,
+                vertical: CollectSpacing.x4,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+InputDecoration collectInputDecoration(
+  BuildContext context, {
+  required String label,
+  String? helper,
+  String? prefix,
+}) {
+  return CollectComponentTokens.inputDecoration(
+    context: context,
+    label: label,
+    helper: helper,
+    prefix: prefix,
+  );
+}

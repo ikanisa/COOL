@@ -1,0 +1,119 @@
+{
+  "format": "collect.source-cleanup-continuity.v1",
+  "owner_direction": "Keep the concurrent disk cleanup running and defer artifact qualification. Continue source work in the launcher checkout.",
+  "verified_utc": "2026-11-20T17:30:47.213489+00:00",
+  "canonical_source": {
+    "mount": "/Volumes/COLLECT-STAGING-20261109",
+    "launcher_volume": "T7",
+    "review_branch": "codex/collect-fullstack-cleanup-20261120",
+    "self_contained_git_common_dir": "/Volumes/COLLECT-STAGING-20261109/git-original/.git",
+    "prior_source_tip": "822d1b19829cd400dbb816e1f453a7c33c0d9a0f",
+    "verified_source_delta_bytes": 5120265,
+    "verified_source_delta_sha256": "e0381358ce1859eed452a13b9be2344065656c0d4b184ba0917c02fc1ee259e5",
+    "bundle_prerequisite": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4"
+  },
+  "historical_release_tree": {
+    "source": "2ab7551d62a02b396d36fbbae94924c44a6e67c2",
+    "tree": "05c03d86d81163927b5dc70334d78d2422e3382b",
+    "tracked_paths": 110302,
+    "git_blob_bytes_for_all_paths": 7637671247,
+    "distinct_blobs": 29835,
+    "regular_files": 110292,
+    "executable_files": 7,
+    "symlinks": 3,
+    "full_inventory_sha256": "cbed0d9c920b76babe347d58138154fab86a91e2b7b5bcc424b078c9b9f634a0",
+    "pack_sha256_before_cleanup": "bde69a66d9eb6462f913b14a1ab8655d61d4ce40be28bddaafa8e574f2990ef4",
+    "pack_bytes_before_cleanup": 652936503,
+    "fresh_restore_verified_before_cleanup": true,
+    "former_off_disk_packet_currently_available": false,
+    "new_full_restore": "deferred",
+    "review_reference_scan": {
+      "consumer_files": 66,
+      "references": 255,
+      "fixed_file_matches": 157,
+      "directory_or_assembled": 44,
+      "unresolved_or_historical": 54
+    },
+    "launcher_reference_scan": {
+      "consumer_files": 63,
+      "references": 242
+    },
+    "scope": "Literal or assembled references outside docs/release. Dynamic lookup and links inside archived evidence require separate inspection before retirement."
+  },
+  "intact_small_source_controls": {
+    "receipt150": {
+      "verified": true,
+      "source_commit": "2ab7551d62a02b396d36fbbae94924c44a6e67c2",
+      "tree": "bb1363e914b14da579bd95d2a3156ddf094a187f",
+      "unit": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry",
+      "paths": 10,
+      "bytes": 330330,
+      "git_modes": {
+        "100644": 10
+      },
+      "receipt_sha256": "58ca000bdc88c9bd2c600ccffa2da89b43973209aafaf449d399a9c1ca44f566"
+    },
+    "ruby_delivery": {
+      "verified": true,
+      "source_commit": "2ab7551d62a02b396d36fbbae94924c44a6e67c2",
+      "tree": "26b775561dc2cd4268fc5826a83e549196b5f9f7",
+      "unit": "docs/release/critical-implementation-2026-10-01/ruby-dependency-batch1",
+      "paths": 86,
+      "bytes": 168065,
+      "git_modes": {
+        "100644": 86
+      },
+      "receipt_sha256": "d84e3b3ce95a7abddbc7323772e6d2a5a64877bec542876a5b6374c30e4af5bb"
+    },
+    "historical_ruby_packet_external_references": {
+      "files_with_named_unit": 92,
+      "references_to_batch_json": 106,
+      "references_to_ruby_image_index_json": 1
+    }
+  },
+  "retired_browser_admin": "Flutter Admin remains retired. Both canonical hosts serve React.",
+  "public_member_merge": {
+    "pr": 85,
+    "url": "https://github.com/ikanisa/COOL/pull/85",
+    "merge": "eb35a29ea3075898204a1bf5b3f84306fb10e2ba",
+    "tree": "be4a3e758f676f69013398022b833672d3729b57",
+    "compared_changed_paths": 44,
+    "readback_sha256": "39099974a2003a87fe7ca48c7a3c6fc42e875420ba66e45869ac0eaeb0c8fda5",
+    "upstream_ci": "22 PR and 13 default-branch jobs stopped before the first step due to billing. The remaining jobs were skipped."
+  },
+  "native": {
+    "review_commit": "9de4db8ce416226d2f9d2fe11aa33d7878bab1ef",
+    "native_sources": 346,
+    "source_sha256": "7568d91e68ee4bf84077abd8e71013da730de0ed086df55a38fa1f7ed00a2f95",
+    "private_view_model_tests": 483,
+    "private_repository_tests": 399,
+    "private_cross_layer_checks": 96,
+    "interrupted_artifact_build": "Seven APKs had been written. The eight-package run did not finish. Concurrent storage cleanup removed the generated packages.",
+    "receiver_change_physical_device_qualified": false,
+    "current_testing_signer_custody_verified": false
+  },
+  "managed_recovery": {
+    "source_report": "docs/implementation/2026-11-20-managed-restored-data-rehearsal.json",
+    "retained_report_sha256": "4d1b676068d4534e03e578ebedbce6c61fe44ad80e0c793e33285e7b7d554e21",
+    "production_data_fabricated_for_receipt_verification": false
+  },
+  "source_only_continues": true,
+  "source_inventory_after_cleanup": {
+    "source_commit": "2428fe2704c1b1737f03140635b51ba525360fe3",
+    "review_tree_paths": 115983,
+    "under_docs_release": 110302,
+    "outside_docs_release": 5681,
+    "working_copy_index_head": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+    "working_copy_existing_regular_source_files": 4147,
+    "working_copy_release_evidence_files_read_in_default_scope": 0,
+    "working_copy_source_inventory_sha256": "0ea411f19c73e855eaea9982878d062a37c93ec35158adc207723b11d3d4fc5c",
+    "source_and_wiring_tests_passed": 19,
+    "explicit_scopes": [
+      "source",
+      "release-evidence",
+      "checkout"
+    ],
+    "reference": "docs/production/SECURITY_AND_OPERATIONS.md",
+    "scope_note": "The launcher has existing additions and removals. Its index and the later review tree are distinct inputs."
+  }
+}

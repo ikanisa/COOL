@@ -1,0 +1,136 @@
+import '../test/fixtures/collect_repository_fixture.dart';
+
+import 'package:collect_app/app/app.dart';
+import 'package:collect_app/app/router.dart';
+import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets(
+    'iOS background and foreground preserve the Rwanda contribution review',
+    (tester) async {
+      final lifecycle = _LifecycleRecorder();
+      WidgetsBinding.instance.addObserver(lifecycle);
+      addTearDown(() => WidgetsBinding.instance.removeObserver(lifecycle));
+
+      final router = createAppRouter(
+        initialLocation: '/groups/qa-private-group/contribute',
+      );
+      final container = ProviderContainer(
+        overrides: [
+          appRouterProvider.overrideWithValue(router),
+          collectRepositoryProvider.overrideWith(
+            (ref) => FixtureCollectRepository(),
+          ),
+          collectThemeModeProvider.overrideWith(
+            (ref) => CollectThemeModeController(
+              initialMode: ThemeMode.dark,
+              loadPersistedMode: false,
+            ),
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const CollectApp(),
+        ),
+      );
+      await _pumpFrames(tester);
+
+      expect(
+        router.routeInformationProvider.value.uri.path,
+        '/groups/qa-private-group/contribute',
+      );
+      expect(find.text('Continue to MoMo'), findsWidgets);
+      await tester.enterText(find.byType(TextField).first, '1234');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(FilledButton, 'Continue to MoMo'));
+      await _pumpFrames(tester);
+      expect(find.textContaining('RWF 1,234'), findsWidgets);
+      expect(find.text('Edit amount'), findsWidgets);
+
+      // Startup/dialog transitions must not satisfy the host-driven test.
+      lifecycle.reset();
+      _mark('ready-for-background');
+      await _pumpUntil(
+        tester,
+        lifecycle.hasBackgroundThenResume,
+        timeout: const Duration(seconds: 90),
+      );
+
+      expect(lifecycle.hasBackgroundThenResume(), isTrue);
+      _mark('ordered-transition:${lifecycle.serializedStates}');
+      expect(
+        router.routeInformationProvider.value.uri.path,
+        '/groups/qa-private-group/contribute',
+      );
+      expect(find.textContaining('RWF 1,234'), findsWidgets);
+      expect(find.text('Edit amount'), findsWidgets);
+      expect(find.text('Open MoMo USSD'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      _mark('contribution-review-preserved');
+      _mark('pass');
+    },
+    timeout: const Timeout(Duration(minutes: 5)),
+  );
+}
+
+class _LifecycleRecorder with WidgetsBindingObserver {
+  final List<AppLifecycleState> _states = <AppLifecycleState>[];
+
+  void reset() => _states.clear();
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _states.add(state);
+    _mark('state:${state.name}');
+  }
+
+  bool hasBackgroundThenResume() {
+    final backgroundIndex = _states.indexWhere(
+      (state) => state == AppLifecycleState.paused,
+    );
+    if (backgroundIndex < 0) return false;
+    return _states
+        .skip(backgroundIndex + 1)
+        .contains(AppLifecycleState.resumed);
+  }
+
+  String get serializedStates => _states.map((state) => state.name).join(',');
+}
+
+Future<void> _pumpFrames(WidgetTester tester) async {
+  for (var index = 0; index < 14; index += 1) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+}
+
+Future<void> _pumpUntil(
+  WidgetTester tester,
+  bool Function() predicate, {
+  required Duration timeout,
+}) async {
+  final deadline = DateTime.now().add(timeout);
+  while (DateTime.now().isBefore(deadline)) {
+    if (predicate()) return;
+    await Future<void>.delayed(const Duration(milliseconds: 250));
+    await tester.pump();
+  }
+  if (predicate()) return;
+  fail('Timed out waiting for an iOS background/resume transition.');
+}
+
+void _mark(String marker) {
+  // ignore: avoid_print
+  print('collect_ios_lifecycle_uat:$marker');
+}

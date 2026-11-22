@@ -1,0 +1,200 @@
+{
+  "format": "collect.burimunsi.released-observation-reconciliation.v1",
+  "observed_utc": "2026-11-20T09:46:13Z",
+  "working_tree_base_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "historical_release": {
+    "git_checkout": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-17/cloud-only-integrated-3c29f0d-001",
+    "cutover_commit": "5c63f65fcaa0b6db7961e5b981edfb9d71f1eeee",
+    "source_sha256": "6de5db23683be38a2baf8d559981156ae5123d5f30ec7320239c6f7a1824cdb7",
+    "archive_deployment_utc": "2026-11-18T10:03:17.145Z",
+    "source_graph": {
+      "source": "6de5db23683be38a2baf8d559981156ae5123d5f30ec7320239c6f7a1824cdb7",
+      "files": 207,
+      "module": {
+        "path": "functions/_shared/domain/burimunsi/postgres-observations.js",
+        "size": 52955,
+        "sha256": "fae9bc76b91b04a28c324df9206a0b52810f25791dd2034c9ebe0d0938874a86"
+      },
+      "graphs": [
+        {
+          "slug": "collect-api",
+          "files": 203,
+          "imports_observations": true
+        },
+        {
+          "slug": "admin-api",
+          "files": 200,
+          "imports_observations": true
+        },
+        {
+          "slug": "collect-jobs",
+          "files": 200,
+          "imports_observations": true
+        }
+      ]
+    },
+    "sources": {
+      "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-17/burimunsi-live-cutover-001/burimunsi-payment-receipts-v2-cutover-qualification.json": "3ea35451147a684214dd32c3f1d44d645e68fa1f82ebb7e2d4121a3aeb2a0ad4",
+      "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-17/burimunsi-live-cutover-001/revision-burimunsi-payment-receipts-v2-resume-deployment-readback.json": "54ea6bc5e7358ab1b7bc21d45f83794fc629d8b71325a71ac05a47ae2ac36c63",
+      "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-17/burimunsi-live-cutover-001/burimunsi-payment-receipts-v2-deployed.json": "79c9dff12db2ffb0f8da03c9fbc58f6930148162198919e37cc73753b17f4ee1",
+      "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-release-graph.json": "0a317f032a1d0949056dea5eadb2958befd10201abb508a8df65dce006745f12"
+    },
+    "verification": "Restored regular source files from the cutover Git objects into an isolated temporary root. Recomputed the 207-file union with the release captureRuntimeSnapshot tool and network denied. Its manifest hash matches the archived source qualification and deployment readback.",
+    "bundle_versions": [
+      {
+        "slug": "collect-api",
+        "archived_version": 86,
+        "managed_metadata_version_on_2026_11_20": 89,
+        "ezbr_sha256": "574fca994a5e8cc4a128f9f041309fafe3b6e1a47695dba1ea508f71eb21e569"
+      },
+      {
+        "slug": "admin-api",
+        "archived_version": 87,
+        "managed_metadata_version_on_2026_11_20": 90,
+        "ezbr_sha256": "2d31dbe6e3f241bc1455582e1cb499762fdb09f39bb4d561bd5c1c5cb1468a2d"
+      },
+      {
+        "slug": "collect-jobs",
+        "archived_version": 84,
+        "managed_metadata_version_on_2026_11_20": 87,
+        "ezbr_sha256": "f27779d838e6be477c94a19a6cbc1a79121ce892536725313a3da6dfa3c9fe08"
+      }
+    ],
+    "managed_evidence_scope": "20 November versions and bundle hashes came from the parent audit of managed release metadata. This package compared their values with the archived readback and ran no application traffic against the hosted project.",
+    "route_owner": "collect-api. All three bundle graphs import shared code. At the cutover commit, supabase/functions/_shared/serve.js:76 and :106 restrict native dispatch to collect-api. admin-api admits its Admin prefix and collect-jobs uses scheduledHandler."
+  },
+  "pre_integration_finding": {
+    "missing_routes": [
+      "POST /v1/burimunsi/sms/observations/reconcile",
+      "POST /v1/burimunsi/sms/observations/reconcile-batch",
+      "GET /v1/burimunsi/sms/observations/reconcile-status"
+    ],
+    "cutover_dispatch": "supabase/functions/_shared/domain/burimunsi/http.js:136",
+    "sql_callers": [
+      {
+        "function": "private.burimunsi_observation_reconcile_status",
+        "source": "supabase/functions/_shared/domain/burimunsi/postgres-observations.js:347",
+        "entry": "reconcileStatus"
+      },
+      {
+        "function": "private.burimunsi_observation_legacy_candidates",
+        "source": "supabase/functions/_shared/domain/burimunsi/postgres-observations.js:423",
+        "entry": "legacyCandidates from single and batch reconciliation and its final custody checks"
+      }
+    ],
+    "native_callers_at_cutover": [
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeRepository.kt:678",
+      "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationSyncCycle.kt:113",
+      "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ObservationRecovery.kt:598"
+    ],
+    "before_restoration": "The working Edge dispatch, native contract operation names, observation methods and active Android callers had lost this release surface. The native runtime implementation and device/receiver gates have a separate owner."
+  },
+  "working_source_sha256": {
+    "Makefile": "4a2d172ad30b95e95967a6d56a707b8097f183d6d453f5c17cc0a3b8fa07f41a",
+    "contracts/burimunsi-api/profile.json": "e7d99c32eb4e7f0ad33969e09c0e744c7e82720d5c56ba0ef4e71cd8ce44d7b0",
+    "contracts/burimunsi-api/schema.json": "1a72e64fa3516d5063a3e9e2dcc6a52e6d581c6bdf9050383f3d1c768e413758",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/BuriMunsiSchemas.kt": "2210849a2fe92cd56d7d25a72db56029f468206b61e2d9c429b999ce661767e5",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/WireContract.kt": "5d10b456c857fdd36a855376d6a9b017d458e14132d45f1720df230213c3bb98",
+    "scripts/supabase/cloud-release/burimunsi-observation-reconcile.test.mjs": "878c924e93e74bc6e4fda966e6cf4bf0aad8ded33f3fa25912098d64bf8eb18f",
+    "supabase/functions/_shared/domain/burimunsi/http.js": "44d8e52d03b1c138e188209c65d9c9990421e63b5d9208c9b2db2022e24757f7",
+    "supabase/functions/_shared/domain/burimunsi/postgres-observations.js": "349db6d0a899046bfd42195821da2e95fbcf540a96b29d01c14a8d1bb0105b0c",
+    "supabase/functions/_shared/domain/burimunsi/wire/burimunsi.generated.mjs": "d9b3eabd97784f5cce9fd0b71a6e76a2d7e6b85a856fefe0f9d7976b64783ed0",
+    "supabase/functions/_shared/domain/burimunsi/wire/native-contract.mjs": "5c7b15603034c1602db6131167043bc631a9aed5137b8f7a1318ba923fc10fb7",
+    "supabase/functions/_shared/domain/burimunsi/wire/runtime.mjs": "87cc4bf88686dd1b29b0024fee1f1fb09e712a2ee0c7987c50de7ff4beaa1982",
+    "supabase/functions/_shared/tests/burimunsi/observation-adapter.test.mjs": "6c0cbd46c59b46a01b02420614afd5fc6e0e44c65dede62327d6bafb5be3368f",
+    "supabase/functions/_shared/tests/burimunsi/observation-reconcile.test.mjs": "9c7faf1cde25173109628220cd0c9729998eea7a78f00337a5712e122f65d7af",
+    "supabase/migrations/20261117180000_burimunsi_observation_reconcile_status.sql": "72f1cb4c145eccd8dac794051c8334e370d936ef58896d458e1698322e4bd372",
+    "supabase/migrations/20261117190000_burimunsi_legacy_reconcile.sql": "c7ce86a7d55c01098a43ae78206cccf27ff9ea974ee2ced6baa813c4d95b4df6"
+  },
+  "working_scope": [
+    "Restored the single, ordered 1–20 item batch and status routes and the original session, receipt, Storage, consent and reveal checks, including post-read ownership verification.",
+    "All 13 restored JSON schema definitions exactly equal the cutover release. JS/Kotlin bindings verify the requested identities, state and ordering. Current payment-detail v1 header handling, newer native request bounds and roster inputs were preserved.",
+    "A repeatable strict native HTTP test uses the actual PIN gate, observation implementation, encrypted evidence, a synthetic SQL adapter and transport. Repeated capture and single/batch verification produce one capture and one object upload. A staff request is denied on all three routes. No allocation or gateway port was invoked.",
+    "The targeted financial tests separately execute normal SQLite-backed ledger posting, verify replay without second allocation/posting, and recover a lost payer SMS acknowledgement with a status read after one simulated send.",
+    "The dedicated PG17.11 test applies both SQL migrations in full and byte-identically to the release; predecessor actor/consent/Storage contracts and source records are synthetic. Under collect_runtime the same retained source and status survive replay. anon/authenticated/service_role/collect_importer receive SQLSTATE 42501. Disabled consent and reveal are denied."
+  ],
+  "test_runs": [
+    {
+      "command": "node --test supabase/functions/_shared/tests/burimunsi/{observation-adapter,observation-reconcile,observation-contract,observation-processing,payment-sms-delivery,shared-posting-sqlite,shared-posting-flow}.test.mjs native/burimunsi/api-tests/contract-integration.test.mjs",
+      "tests": 164,
+      "pass": 164,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-edge-payment.tap",
+      "log_sha256": "8e9ef26dc620bcad51ec2841c8e433120495bec31d42c76f801f0bc1fe5c496a"
+    },
+    {
+      "command": "node --test scripts/supabase/cloud-release/burimunsi-observation-reconcile.test.mjs",
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-real-postgres.tap",
+      "log_sha256": "7d3f300e2be81c0ed837c6bff76cabb8f2e26dd928a26dbf9e9271688dc3bfc1"
+    },
+    {
+      "command": "make burimunsi-postgres-test",
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-joint-postgres.tap",
+      "log_sha256": "0cf020bf758abd2a4fb9de674093c08e12bddd0205f29c815b3abac11a00fcbe"
+    },
+    {
+      "command": "node --test --test-concurrency=4 supabase/functions/_shared/tests/burimunsi/*.test.mjs",
+      "tests": 2664,
+      "pass": 2657,
+      "fail": 0,
+      "skipped": 7,
+      "cancelled": 0,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-full-backend.tap",
+      "log_sha256": "808681e83e5030202924b6fcd61df1cc1a2077445f85468f6fe5999657288d23"
+    },
+    {
+      "command": "node scripts/supabase/run_edge_node_tests.mjs",
+      "tests": 3829,
+      "pass": 3822,
+      "fail": 0,
+      "skipped": 7,
+      "cancelled": 0,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-all-edge-local.tap",
+      "log_sha256": "ec067efbc43c2353398b2903622647499f366f1f7392793550f26abe066cdc99"
+    }
+  ],
+  "additional_checks": {
+    "pg_contexts": {
+      "passed": 6,
+      "clusters": 3,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-owned-contexts.log",
+      "log_sha256": "6c00576a9086e1147f45a589eac05e2258beb23732d8adc5ed59ea7498e6fce8",
+      "remaining_skip": "The seventh discovery skip requires the separately admitted captured Iceberg census fixture."
+    },
+    "deno_typecheck": {
+      "command": "deno task check",
+      "entrypoints": 6,
+      "result": "passed",
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-all-edge-typecheck.log",
+      "log_sha256": "084cde36880237adb54ed6a3ad8bbac52ccb0b1acbfbb1b6324872429ff01069"
+    },
+    "generated_schemas": "python3 scripts/generate_burimunsi_wire.py --check passed",
+    "all_edge_node": "187 test files discovered. Outbound network access was restricted to loopback and local sockets.",
+    "historical_deno_suite": {
+      "command": "deno task test:deno",
+      "passed": 93,
+      "steps": 89,
+      "failed": 6,
+      "ignored": 14,
+      "log_path": "/private/tmp/collect-integrated-restore-evidence.7G6IiCXr/reconcile-deno-current-source.log",
+      "log_sha256": "4ddb546dd65ecd9b43fccfceb3199be6a7c8ecfbfec1d4b4a7af001dc07b4865",
+      "reason": "Explicit local historical PostgreSQL cohort URLs were absent for Admin password fast/stale, diagnostics, managed MFA, notifications and receipt facts. The historical suite uses an exact reviewed migration prefix. Its loader refused the active checkout with EXACT_REVIEWED_MIGRATION_CHAIN_REQUIRED."
+    }
+  },
+  "open_gates": [
+    "Exact admitted historical database cohorts and Iceberg capture for their separate integration lanes.",
+    "Review and integration of the working branch, exact signed native distribution, intended operator/device workflow and any hosted deployment of the working changes."
+  ]
+}

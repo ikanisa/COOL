@@ -1,0 +1,69 @@
+{
+  "run": {
+    "mode": "Live-limited",
+    "state": "closed",
+    "device_id": "89fb80e9-29db-481a-940a-f2d113ee9b70",
+    "expires_at": "2026-10-02T00:16:46.345008Z",
+    "request_id": "616b9695-dc61-4e36-9fcf-de24661b16ba",
+    "started_at": "2026-10-02T00:14:46.345008Z",
+    "completed_at": "2026-10-02T00:14:46.627352Z",
+    "principal_id": "8bd4425d-6516-4e8d-a203-5e3c2396b35d",
+    "fence_version": 1,
+    "collection_ids": [
+      "99780000-0000-4000-8000-000000030001"
+    ],
+    "scan_performed": true,
+    "policy_revision": 2
+  },
+  "scope": "rw_receipt_operational_history",
+  "run_id": "c0574327-4eeb-4cd4-a43a-e5ad1d918135",
+  "status": "partial",
+  "checked_at": "2026-10-02T00:14:46.689318Z",
+  "completion": {
+    "request_id": "5e26dc83-5d05-43bd-ab63-47d464ff878f",
+    "recorded_at": "2026-10-02T00:14:46.628400Z",
+    "action_count": 2,
+    "sms_segments": 0,
+    "handled_count": 2,
+    "deferred_count": 11,
+    "business_handled": false
+  },
+  "quota_usage": {
+    "scope": "immutable_reservations_through_lease_window",
+    "groups": [
+      {
+        "actions": 2,
+        "sms_segments": 0,
+        "collection_id": "99780000-0000-4000-8000-000000030001"
+      }
+    ],
+    "window_end": "2026-10-02T00:14:46.689318Z",
+    "run_actions": 2,
+    "window_start": "2026-10-02T00:00:00.000000Z",
+    "device_actions": 2,
+    "global_actions": 2,
+    "run_sms_segments": 0,
+    "device_sms_segments": 0,
+    "global_sms_segments": 0
+  },
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "historical_config": {
+    "caps": {
+      "run_actions": 10,
+      "group_actions": 100,
+      "device_actions": 100,
+      "global_actions": 100,
+      "run_sms_segments": 20,
+      "group_sms_segments": 100,
+      "device_sms_segments": 100,
+      "global_sms_segments": 100
+    },
+    "revision": 2,
+    "request_id": "423e3460-bca5-4d96-b0b9-df934a5d60c1",
+    "recorded_at": "2026-10-02T00:14:46.271038Z"
+  },
+  "sample_valid_until": "2026-10-02T00:15:46.689318Z"
+}

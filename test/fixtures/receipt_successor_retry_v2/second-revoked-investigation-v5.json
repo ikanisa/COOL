@@ -1,0 +1,58 @@
+{
+  "scope": "rw_receipt_successor_execution",
+  "status": "available",
+  "execution": {
+    "arm": null,
+    "route": {
+      "route_kind": "receipt_successor",
+      "approval_id": "caabd4cf-085f-450c-8223-005a973cfb4e",
+      "route_version": 1,
+      "dispatch_job_id": "5c6fffe6-cd9d-4f45-a2fc-e8a987cced6f",
+      "primary_receipt_id": "5b9730d8-4bcb-4ba1-8154-85891d511050"
+    },
+    "state": "unarmed_revoked",
+    "archive": null,
+    "attempt": {
+      "run_id": "a6751b27-717f-4230-b457-8c3cb6f0d611",
+      "device_id": "0229a9e1-bb5d-48f8-9e72-a14c004e9a59",
+      "issued_at": "2026-10-03T05:19:38.633886Z",
+      "attempt_id": "fb0ed8a9-eccd-4699-a722-f074c1f4d3ab",
+      "expires_at": "2026-10-03T05:20:08.633886Z",
+      "body_sha256": "f1bb6b04c8384aef7d21b56b249229355bb412007ec579c6e675c392d6b9ca39",
+      "fence_version": 1,
+      "segment_count": 1,
+      "reservation_id": "c2423eac-feef-4dab-9df2-7639368c3834",
+      "grant_request_id": "b50aa116-0716-4207-b370-2d2c1ca82fd0",
+      "destination_sha256": "b6d40956b95b9e10c2fbe438758fd29915dda5c6c3eac9f16af33d1f4b752dd2"
+    },
+    "revocation": {
+      "recorded_at": "2026-10-03T05:19:39.147991Z",
+      "approval_event_id": "eb2d1d5e-c47f-4b0d-b028-0f5f0d74655a"
+    },
+    "execution_events": [
+      {
+        "event_id": "5617e03c-3c36-4121-9a96-ddfb749a5d02",
+        "event_kind": "grant",
+        "request_id": "b50aa116-0716-4207-b370-2d2c1ca82fd0",
+        "recorded_at": "2026-10-03T05:19:38.633886Z",
+        "lineage_after": 7,
+        "lineage_before": 6,
+        "approved_event_id": "6e5e593f-0379-4233-ae0c-98f2bb1236b9",
+        "approval_request_id": "787208b4-5ec0-4201-963e-27a242671d7d"
+      }
+    ],
+    "latest_projection": null,
+    "observation_count": null
+  },
+  "checked_at": "2026-10-03T05:19:39.502332Z",
+  "approval_id": "caabd4cf-085f-450c-8223-005a973cfb4e",
+  "send_action": false,
+  "carrier_proof": false,
+  "cutoff_revision": 10,
+  "delivery_proven": false,
+  "contract_version": 5,
+  "financial_action": false,
+  "retained_primary": true,
+  "primary_receipt_id": "5b9730d8-4bcb-4ba1-8154-85891d511050",
+  "sample_valid_until": "2026-10-03T05:20:39.502332Z"
+}

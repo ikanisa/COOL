@@ -1,0 +1,422 @@
+{
+  "candidate": "0.21.0-collect.1",
+  "checks": [
+    {
+      "name": "Namespaced backend plus shared Collect route",
+      "status": "PASS",
+      "scope": "Node domain/adapter tests with declared doubles; not deployed PostgreSQL",
+      "path": ".cache/burimunsi-drive-20261109/checks/backend-final.log",
+      "sha256": "041bc7ff12311752ab694166d33185ab512289bb3ded16bc79ae2dfcb65b7257",
+      "tests": 1572
+    },
+    {
+      "name": "Native build and exact instrumentation accounting",
+      "status": "PASS",
+      "scope": "Host Python build/installation guard tests; not Android execution",
+      "tests": 87,
+      "previous_retained_run": {
+        "path": ".cache/burimunsi-drive-20261109/checks/native-pipeline-python-final.log",
+        "sha256": "222c36bc4e747cd05910eb72c8b38d12fa73170f14764a2f4b6aa2de63973414",
+        "tests": 79
+      },
+      "command": "python3 -m unittest discover -s native/burimunsi/pipeline-tests -p '*_test.py' -v",
+      "exit_code": 0,
+      "execution_note": "Assigned pipeline worker executed final87 tests in3.660s; stdout-only result, no retained transcript. Source hashes bind the tested files.",
+      "source_sha256": {
+        "native/burimunsi/scripts/native_pipeline.py": "e1760dc221a6c9af10daeecbc10e6838c3820b8565832a09cf7f28d1cb0b9819",
+        "native/burimunsi/pipeline-tests/native_execution_test.py": "4a0503f923ea422ca36db55f8684067c4135d087a1a4626f4286e763011bd298"
+      }
+    },
+    {
+      "name": "Merged runtime",
+      "status": "PASS",
+      "scope": "Actual Kotlin core/repository/controller with declared synthetic platform/storage/transport boundaries",
+      "path": ".cache/burimunsi-drive-20261109/checks/runtime-merged-local-summary.json",
+      "sha256": "ac37e12bcd1fb615ce6ee339b0068a31c040b4574589ca5e8c65830c6d3546e8"
+    },
+    {
+      "name": "Shared Edge prefix",
+      "status": "PASS",
+      "scope": "Actual ApiClient130 checks, ViewModel7groups and cross-layer64checks; no live TLS/server claim",
+      "path": ".cache/burimunsi-drive-20261109/checks/runtime-shared-prefix-summary.json",
+      "sha256": "1c37ce8398f848102b595938759d0efe1c908f4680969dbe19afd96e068f6340"
+    },
+    {
+      "name": "Supplemental SMS",
+      "status": "PASS",
+      "scope": "Source/pure host encryption and checkpoint tests; production ports not adopted",
+      "path": ".cache/burimunsi-supplemental-verification-20261109/sms-r4-canonical/verification.json",
+      "sha256": "10320b3c6c070f9948cfd3a74960f00a1193c578051889658cb4e70d91879fbd"
+    },
+    {
+      "name": "Supplemental storage",
+      "status": "PASS",
+      "scope": "Policy/migration/restart host suites; active Android writer not replaced",
+      "path": ".cache/burimunsi-supplemental-verification-20261109/storage-r3/summary.json",
+      "sha256": "aabb35e183aa96704b849eae20a692706bcaac522f1d0f0f29ab13c0296d8302"
+    },
+    {
+      "name": "Release provenance",
+      "status": "BLOCKED",
+      "scope": "75 fixtures cannot execute with system LibreSSL lacking required Ed25519 commands; no signed producer acceptance",
+      "path": ".cache/burimunsi-drive-20261109/checks/release-r4-provenance.log",
+      "sha256": "d44f96f01635974aabc69ae370dae4070070e864845c18b9bd3779e91bc3f102",
+      "exit_code": 1,
+      "blocked_tests": 75
+    },
+    {
+      "name": "Release generic guard",
+      "status": "FAIL",
+      "scope": "126/127 passed; case-collision fixture assumes case-sensitive filesystem, actual guard still denied changed inventory",
+      "path": ".cache/burimunsi-drive-20261109/checks/release-r4-guard.log",
+      "sha256": "3d9c95840442d9bb11a738e0ab7c1f2f649c17299a7678b44e6c2b3fe465938a",
+      "exit_code": 1,
+      "passed": 126,
+      "total": 127
+    },
+    {
+      "name": "Generated UI resources and native wire schema",
+      "status": "PASS",
+      "scope": "Current source generation checks only",
+      "commands": [
+        "python3 scripts/generate_ui_copy.py --check",
+        "python3 scripts/generate_burimunsi_wire.py --check"
+      ]
+    },
+    {
+      "name": "UI source contracts",
+      "status": "PASS",
+      "scope": "Host contract tests; not Android visual fidelity",
+      "command": "python3 tests/uiux_contract_test.py",
+      "tests": 22
+    },
+    {
+      "name": "Native role source boundary",
+      "status": "PASS",
+      "scope": "Source sets and source manifests; merged APK inspection separate",
+      "command": "python3 native/burimunsi/scripts/verify_native_boundary.py"
+    },
+    {
+      "name": "Sole design authority",
+      "status": "PASS",
+      "scope": "Authority hygiene only; not visual fidelity",
+      "command": "make revolut-design-authority",
+      "path": ".cache/burimunsi-drive-20261109/checks/revolut-design-authority-final.log",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a"
+    },
+    {
+      "name": "Clean native Android build and actual APK inspection",
+      "status": "PASS",
+      "scope": "8 declared debug/unsigned optimized/nativeTest/test APKs; no production signing/deployment",
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-09/burimunsi-native/build-007/build-result.json",
+      "sha256": "0c7c8d9d27b584284f3762b6ffe83cd8d504fff0056ed5b53de8ddd72cd30340",
+      "source_sha256": "2b9e8b0ccfa5c82521264aa923d1bf658e3a5bb5ca6ab0e64dd3e3ca786e3f00",
+      "artifact_count": 8
+    },
+    {
+      "name": "Supabase Edge Deno import compatibility",
+      "status": "PASS",
+      "scope": "Actual new route and existing dispatcher imported with project frozen lock and denied application permissions; no runtime request or deployment",
+      "path": ".cache/burimunsi-drive-20261109/checks/deno-import-compatibility.json",
+      "sha256": "5d4e643bf8e7f197b20b043b9734d364da7eb42083bf548557af4427c00d20d9"
+    },
+    {
+      "name": "Shared local backend commissioning",
+      "status": "BLOCKED",
+      "scope": "Fresh read-only retained PostgreSQL17.11 metadata: only account_profiles, zero Collect roles/functions; business deployment required",
+      "path": ".cache/burimunsi-drive-20261109/checks/local-schema-final.json",
+      "sha256": "36ebd44db2ececc059a8e93b719814c2b5d6c658170fe5b0182c35ef074681cd"
+    },
+    {
+      "name": "Actual Android API36 instrumentation",
+      "status": "PASS",
+      "scope": "Exact offline/testOnly nativeTest APKs on task-owned emulator; actual Android UI/storage, synthetic data. No live API/provider/SIM acceptance. All4 packages removed.",
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-09/burimunsi-native/device-api36-003/instrumentation-result.json",
+      "sha256": "1b3f795e7c764392ca545f3db5460c2dcf66746639b3c36742bf69696bc2cc70",
+      "staff_tests": 23,
+      "receiver_tests": 30,
+      "total_completed": 53
+    },
+    {
+      "name": "Settled startup visual inspection",
+      "status": "PASS",
+      "scope": "Both roles visually inspected on managed-setup screen after UI idle; headings, support action and system icons readable. Authenticated full-route visual/TalkBack/fluency acceptance remains open.",
+      "screenshots": [
+        {
+          "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-09/burimunsi-native/device-api36-003/staff-startup.png",
+          "sha256": "cb5dcc95d6afe595181aea611649a3dc1696579bf1a641f54df74e78bd4029a3"
+        },
+        {
+          "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-09/burimunsi-native/device-api36-003/internal_receiver-startup.png",
+          "sha256": "5d7cea305b50a9e6be124d7699ec28e306621fd7e4cb3ce399b920d8f97b7058"
+        }
+      ]
+    }
+  ],
+  "android_native_build": "PASS: final clean build-007,8 inspected APKs",
+  "production_acceptance": false,
+  "real_device_or_carrier_acceptance": false,
+  "android_instrumentation_history": [
+    {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-09/burimunsi-native/device-api36-001/instrumentation-result.json",
+      "sha256": "54e4d72bb9e5b30c69b565b71e43559621f5fe358107f0d8fb5294221e9a1f3a",
+      "status": "FAIL",
+      "staff_completed": 23,
+      "staff_passed": 14,
+      "staff_failed": 9,
+      "receiver_executed": false,
+      "cause": "Loaded synthetic UI fixture omitted retrieval timestamps required by merged freshness policy. Production guard correctly hid records; fixture corrected without changing production projection or assertions.",
+      "cleanup": "Both task-installed sandbox packages removed."
+    },
+    {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-09/burimunsi-native/device-api36-002/instrumentation-result.json",
+      "sha256": "62afd70ca9069e91883ab9793bdf4ceca66ef4a8a3b5ce5a8f9ee89966c58e91",
+      "status": "FAIL",
+      "staff_completed": 23,
+      "staff_passed": 23,
+      "receiver_completed": 30,
+      "receiver_passed": 23,
+      "receiver_failed_before_test_body": 7,
+      "cause": "Inherited GatewayDurabilityTest guard required .debug suffix. Corrected to exact gateway.nativeTest identity and installed offline/testOnly/debug flags before any storage access.",
+      "startup_visual": "Settled manual capture found black default headings and dark system icons on dark surface; root content-color and system chrome corrected.",
+      "cleanup": "All4 task-installed sandbox packages removed."
+    }
+  ],
+  "android_instrumentation": "PASS API36: staff23/23,receiver30/30;53completed with no failures/skips",
+  "source_inventory_sha256": "9f27ed36e22b965a95908f0692e8d0607dd3efdc35cb670f0147f9ce3a5c3a85",
+  "source_inventory_file_count": 544,
+  "api26_qualification": false,
+  "current_continuation": {
+    "date": "2026-11-10",
+    "native_build": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/build-012/build-result.json",
+    "native_source_sha256": "de69bbee9e2927f319eb89f63037b2fc221ffe605739991a6dc6a85924782885",
+    "apk_count": 8,
+    "instrumentation": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/device-api36-005/instrumentation-result.json",
+    "native_tests": 59,
+    "all_sandboxes_removed": true,
+    "emulator_stopped": true,
+    "checks": [
+      {
+        "name": "Shared native/domain route",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/burimunsi-backend-final.log",
+        "sha256": "f8f09ead887c2fce4e04115a77ddd001a8cb29665e45d268c49575a5f30277b5",
+        "scope": "Actual route/domain code with reduced DB/GoTrue/provider doubles; no live PG or provider acceptance",
+        "tests": 1597
+      },
+      {
+        "name": "Admin proxy and backend selection",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/admin-proxy-fixtures-corrected.log",
+        "sha256": "815b5b8398e19dbf73a93436dab45461c9f6d789267f9cd5e240dbd780554ab4",
+        "scope": "Actual proxy with synthetic HTTP/stream boundaries; independent review pending",
+        "tests": 115
+      },
+      {
+        "name": "Pipeline host regressions",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/pipeline-tests-complete.log",
+        "sha256": "4e76cd185f3ea23aaa0760b9354ebde5831199df718e6169a2569c855d660ab4",
+        "scope": "Synthetic build/device boundaries; current authored59-method contract",
+        "tests": 88
+      },
+      {
+        "name": "Native host aggregate",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/native-host-complete.log",
+        "sha256": "235d0270cfb96fdff7a4e2dfb4673c21d4c0c9b1ae4c9e4aeddc6015fa9042eb",
+        "scope": "Actual core/repository/controller/HTTP code with declared platform/transport doubles"
+      },
+      {
+        "name": "Current Deno imports",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/deno-current-imports.json",
+        "sha256": "4af88a183ab707a751157ddb830f3ed5c2d82bc1c21ba4dd6704e28bbb1c4ca9",
+        "scope": "Project lock/cache and denied permissions; no application route calls",
+        "tests": 2
+      }
+    ],
+    "production_accepted": false,
+    "scope_note": "Earlier checks below remain historical; this continuation qualifies only its stated current source and boundaries."
+  },
+  "current_operator_approval": {
+    "date": "2026-11-10",
+    "status": "PASS within declared local qualification scope",
+    "production_accepted": false,
+    "independent_review": false,
+    "migration": {
+      "path": "supabase/migrations/20261109234517_burimunsi_native_operator_schema.sql",
+      "sha256": "c28ec95df7296052d911219c64a8a3d3fbbd60d77cfc222bd2f5de3590dfff2f",
+      "maintained_chain_count": 26,
+      "isolated_chain_evidence": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-09/retained-native-rehearsal-003/native-extension-001/result.json",
+      "production_applied": false
+    },
+    "sql_qualification": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-006/result.json",
+      "scope": "Actual retained native PG17 schemas in a network-none disposable QA database. Auth/users/sessions/OTP proof are explicit SQL fixtures; GoTrue, provider and public TLS are not exercised. Clean 26-migration baseline remains empty/uninitialized.",
+      "sha256": "ed09e61853ea95748c0b5257b53624503cd338a624c320e73d82a96a4075e48d"
+    },
+    "web_compilation": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/web-build-001/build-result.json",
+      "source_files": 870,
+      "source_sha256": "e6e07f613676c34e30cd324e8ab27c1091911bbc1129235b5fef567d45750465",
+      "source_commit": "c1f2b366f027793c2c7ac2bbea5db702e1591662",
+      "source_dirty": true,
+      "profile_sha256": "61474756dc48ea9a5cb092e38de49f3079c66cbf8b701791c341e76710b4cf49",
+      "synthetic_public_key": true,
+      "live_routes": false,
+      "production_acceptance": false,
+      "status": "pass",
+      "scope": "Current-source Flutter release-mode web compilation with local runtime assets; isolated .example deployment profile and synthetic public key/CAPTCHA test key",
+      "main_dart_js_sha256": "4240a1bba0145cd68984cf7e0a4eb873c49ea449bbdb2ec7e2f8b4ab5baf105d",
+      "main_dart_js_bytes": 4285959,
+      "compiled_inputs_match_original_and_build_snapshot": true,
+      "full_hosting_or_pwa_acceptance": false,
+      "provider_calls": 0
+    },
+    "widget_captures": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-admin/approval-004",
+      "scope": "Synthetic Flutter widget captures; wide light and narrow dark at 2x text. Viewed final settled images. GWEB-06 historical public utility/settings reference used only as an adaptation, not authenticated browser or parity acceptance."
+    },
+    "checks": [
+      {
+        "name": "Buri backend plus schema consumers",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/backend-admin-approval-current.log",
+        "sha256": "4870ac262e6763b2ec071b42d3306049a4b0ae642eb23869a8a2ebe4a8189ae9",
+        "scope": "1631 domain/route tests with explicit DB/Auth/provider doubles plus 13 current-schema consumer tests; source/harness coverage is not normal-owner live PG acceptance.",
+        "tests": 1644
+      },
+      {
+        "name": "Admin approvals and existing account/Team/invitation consumers",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/admin-approval-and-team-current.log",
+        "sha256": "f911e7bf133edf2b5513b3fa3e4d9a9a7ba95b64538f12c4b964690afdad98d8",
+        "scope": "Controller/widget tests with explicit API fixtures, including original-request recovery, capability/scope ceilings, Team entry guard and enlarged-text layout.",
+        "tests": 34
+      },
+      {
+        "name": "Scoped Dart analysis",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/admin-approval-analyze-final.log",
+        "sha256": "2a20f865790e58d3972de9a7ac93dd627f1cc6373519f8c8cb93c67dbfac8818",
+        "scope": "Seven changed Dart files, no issues."
+      },
+      {
+        "name": "Sole design authority hygiene",
+        "status": "PASS",
+        "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/revolut-authority-admin.log",
+        "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+        "scope": "Repository authority check passes; no fidelity certification."
+      }
+    ]
+  },
+  "current_managed_email_code": {
+    "date": "2026-11-10",
+    "production_accepted": false,
+    "real_gotrue_or_smtp_exercised": false,
+    "independent_review": false,
+    "native_build": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/build-014/build-result.json",
+    "native_source_sha256": "7ae29ea796fb6fd23a870ab5c0127221a4a73cc372fc662af6c305e3c6db63e3",
+    "native_input_files": 195,
+    "artifact_count": 8,
+    "instrumentation": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/device-api36-007/instrumentation-result.json",
+    "native_tests": 61,
+    "role_tests": {
+      "staff": 27,
+      "internal_receiver": 34
+    },
+    "all_sandboxes_removed": true,
+    "emulator_shutdown": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/emulator-api36-resume-002/shutdown.json",
+    "other_devices_untouched": true,
+    "managed_sign_in": "Native existing-account Collect email-code challenge/verify endpoints, then current device-bound access and operator phone/PIN; no password form, WebView, public registration or PIN-to-managed-session conversion.",
+    "uncertainty_controls": "Process-memory-only challenge/session. Pre-IO send cooldown, exact challenge, six ASCII digits including leading zeroes, no automatic verification replay after timeout/invalid response. Backgrounding clears Compose input and fences late responses while preserving current challenge metadata for reading email.",
+    "host_evidence": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/host-email-001/native-host.log",
+      "sha256": "7851d9f8b71128faf40e286acf1989b26097b66d63822f139bf32b7275e9d006",
+      "core_checks": 129,
+      "transport_checks": 29,
+      "scope": "Actual core and transport code with explicit transport/platform doubles. Final UI-only edits were verified by build014/type checking and device007; these core/transport input hashes equal build013.",
+      "verified_unchanged_host_inputs": 24
+    },
+    "pipeline_tests": {
+      "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/email-code-pipeline-tests-001.log",
+      "tests": 88,
+      "sha256": "93ed60fc1bf578b8a211b476ff46e16053241ff38157ed8da4d83a5a69f5aeba",
+      "scope": "Synthetic build/device failure boundaries; does not replace actual APK/device results."
+    },
+    "design_authority": {
+      "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/email-code-revolut-authority-final.log",
+      "status": "PASS",
+      "sha256": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+      "scope": "Sole-authority hygiene, not fidelity acceptance."
+    },
+    "ui_captures": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-10/burimunsi-native/email-ui-api36-002/result.json",
+      "scope": "Actual offline Compose instrumentation with synthetic challenge; final initial/code forms visually inspected; corresponding role captures byte-identical. Not live Auth, provider, TalkBack, fluent Kinyarwanda or physical acceptance."
+    },
+    "build_location": "Fresh verified physical input copies and heavy Gradle output on PRO-G40. Current canonical195-input fingerprint equals build014.",
+    "remaining": "Initial shared/native Admin/PIN/MDM device provisioning; actual canonical bridge factory installation; GoTrue/SMTP/custody/TLS commissioning; physical/API26/SIM; independent review/signing/distribution."
+  },
+  "current_canonical_members": {
+    "date": "2026-11-10",
+    "production_accepted": false,
+    "real_edge_or_gotrue_exercised": false,
+    "independent_review": false,
+    "implementation": "Canonical composition installs the closed native member adapter. Existing Collect Admin and native enrollment share person/public-ID and membership statement builders. Direct beneficiaries receive no Auth/operator identity or ledger credit. Actual shared roles, fresh-email guards, current native approval, scope and version checks remain required.",
+    "backend_checks": {
+      "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/collect-members-current-complete-003.log",
+      "sha256": "73bce93f8cb350e443086d5879d28175be48b767fcc84ac72b8dfa3a7cf537a2",
+      "tests": 1675,
+      "composition": {
+        "burimunsi": 1655,
+        "schema_consumers": 13,
+        "existing_admin_person_membership": 7
+      },
+      "scope": "Actual domain/route/control flow with explicit reduced SQL/Auth/provider boundaries;22 new member command tests include rollback, infrastructure-fence meaning, authority replacement, duplicates and protected targets."
+    },
+    "native_sql": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/result.json",
+      "sha256": "8589fce036102e9f51148d2a3a890a183df758b7cb76b4c0a3528f135e9121ab",
+      "fixtures": 4,
+      "scope": "Actual retained native PG17 clone QA database, normal collect_runtime (neither super nor BYPASSRLS), real registered/held application SQL work lease, common statements/guards compiled from current JS. Auth/session/OTP are explicit SQL fixtures, not GoTrue or native HTTP/login. Native owner flags remain unchanged; normal-owner CI still unrun.",
+      "work_close": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-009/member-work-close.json",
+      "clean_baseline_unchanged": true,
+      "provider_calls": 0
+    },
+    "corrected_attempt": {
+      "path": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-007",
+      "status": "failed, preserved",
+      "reason": "Initial new member guard unnecessarily required the operator to be a financial group member. Corrected to the existing generic Collect Admin global users/manage and collections/manage guard scope; native approval/collection checks remain additional.",
+      "cleanup": "Failed admission reconciled after verified transaction rollback, absent Direct/member/ledger rows and absent other client backends; no qualification acceptance claimed."
+    },
+    "existing_test_observation": {
+      "baseline_path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/admin-membership-baseline.log",
+      "finding": "The pre-existing membership test helper did not count INSERT INTO statements. Reproduced on original8effd9ed3 bridge (4pass/1fail), then corrected the observer and added App/Direct contact-field regressions. Production SQL was not changed to accommodate the observer."
+    },
+    "remaining_ports": [
+      "gateway status/replacement",
+      "audited retained-source reader",
+      "custody/encryption/media configuration",
+      "trusted runtime factory installation in serve.js"
+    ],
+    "native_artifacts": "No native build inputs changed since milestone8effd9ed3; build014/device007 remain current.",
+    "prior_passing_native_sql": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-10/burimunsi-sql-qualification-008/result.json"
+  },
+  "current_canonical_phone_projection": {
+    "date": "2026-11-10",
+    "production_accepted": false,
+    "independent_review": false,
+    "backend_tests": 1681,
+    "composition": {
+      "burimunsi": 1661,
+      "schema_consumers": 13,
+      "existing_admin_person_membership": 7
+    },
+    "path": ".cache/burimunsi-drive-20261109/checks/managed-login-001/canonical-phone-projection-current-001.log",
+    "sha256": "e653a0a64a605e9dc40eaa3d3c2bb37d5dbf4dff32f3190f71b29ed9e18af995",
+    "change": "Normalize only canonical member MoMo references from existing07... storage to native+250... DTOs. Preserve original payer name/masked payer phone/source time, nullable unallocated references and signed ledger deltas. Reject malformed/masked member identity without using a login-phone fallback.",
+    "scope": "Actual backend code with explicit SQL/Auth/provider fixtures; includes canonical Direct enrollment followed by the real native record mapper over a reduced SQLite schema. PG009 already proves the unchanged canonical stored07... shape and consumedSQL inputs remain identical; no additional native SQL, APK or provider claim.",
+    "native_evidence_unchanged": true
+  }
+}

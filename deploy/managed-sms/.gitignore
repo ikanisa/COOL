@@ -1,0 +1,4 @@
+# Retain this deployment's dependency lock despite the repository default.
+!package-lock.json
+node_modules/
+/dist/

@@ -1,0 +1,494 @@
+part of 'collect_repository.dart';
+
+mixin _CollectGroupActions on StateNotifier<CollectState> {
+  CollectCloudflareClient? get _backend;
+  _CollectLiveReader get _liveReader;
+  bool get _allowLocalWrites;
+  int get _loadGeneration;
+  Uuid get _uuid;
+  Map<String, List<CollectMember>> get _fixtureAdditionalMembers;
+  _CollectSessionFence _captureSession();
+  bool _isCurrentSession(_CollectSessionFence session);
+  void _requireCurrentMemberSession(
+    _CollectSessionFence session,
+    String userId,
+  );
+  CollectProfile _requireProfile();
+  CollectCollection _requireActiveCollection(String collectionId);
+  CollectProfile _requireCollectionOwner(
+    CollectCollection collection, {
+    required String action,
+  });
+  Future<void> loadInitial();
+  CollectCollection collectionById(String id);
+  CollectCollection? maybeCollectionById(String id);
+  CollectCollection collectionBySlug(String slug);
+  CollectionSummary? summaryFor(String collectionId);
+
+  final Map<String, List<CollectMember>> _fixtureRosterOverrides = {};
+
+  /// Join an approved public group by its ID, not by its private invitation.
+  Future<CollectCollection> joinPublicGroup(String collectionId) async {
+    final group = _requireActiveCollection(collectionId);
+    if (!group.isPublic) throw StateError('This group is not public.');
+    final profile = _requireProfile();
+    final backend = _backend;
+    final ownerId = backend?.auth.currentUser?.id;
+    if (backend != null && ownerId != null) {
+      final session = _captureSession();
+      final generation = _loadGeneration;
+      void requireOriginalSession() {
+        _requireCurrentMemberSession(session, ownerId);
+        if (!mounted ||
+            generation != _loadGeneration ||
+            backend.auth.currentUser?.id != ownerId ||
+            state.currentProfile?.id != ownerId) {
+          throw StateError('Account changed during group join.');
+        }
+      }
+
+      requireOriginalSession();
+      final response = await backend
+          .rpc<dynamic>(
+            'join_public_group',
+            params: {
+              'p_collection_id': collectionId,
+              'p_request_id': _uuid.v4(),
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      requireOriginalSession();
+      final joinedId = exactJsonIdentifier(response, field: 'joined_group.id');
+      if (joinedId != collectionId) {
+        throw const FormatException('Joined group identity is invalid.');
+      }
+      final joined = await _liveReader.fetchCollection(
+        joinedId,
+        accessToken: session.accessToken,
+        requireActiveStatus: true,
+      );
+      requireOriginalSession();
+      if (joined.isArchived ||
+          !joined.isPublic ||
+          (!joined.isCurrentUserMember && joined.creatorUserId != ownerId)) {
+        throw const FormatException('Public group membership is invalid.');
+      }
+      final collections = [...state.collections];
+      final index = collections.indexWhere((item) => item.id == joined.id);
+      if (index == -1) {
+        collections.insert(0, joined);
+      } else {
+        collections[index] = joined;
+      }
+      state = state.copyWith(collections: collections);
+      requireOriginalSession();
+      _refreshAfterGroupJoin(session);
+      return joined;
+    }
+    if (!_allowLocalWrites) throw StateError('Sign in before joining a group.');
+    if (state.currentProfile?.id != profile.id) {
+      throw StateError('Account changed during group join.');
+    }
+    final joined = group.copyWith(isCurrentUserMember: true);
+    state = state.copyWith(
+      collections: [
+        for (final item in state.collections)
+          if (item.id == joined.id) joined else item,
+      ],
+    );
+    return joined;
+  }
+
+  Future<CollectCollection> joinGroupBySlug(String slug) async {
+    final normalizedSlug = slug.trim();
+    if (normalizedSlug.isEmpty) {
+      throw const FormatException('Group link is invalid');
+    }
+    _requireProfile();
+    final backend = _backend;
+
+    final ownerId = backend?.auth.currentUser?.id;
+    if (backend != null && ownerId != null) {
+      final session = _captureSession();
+      final generation = _loadGeneration;
+      void requireOriginalSession() {
+        _requireCurrentMemberSession(session, ownerId);
+        if (!mounted ||
+            generation != _loadGeneration ||
+            backend.auth.currentUser?.id != ownerId ||
+            state.currentProfile?.id != ownerId) {
+          throw StateError('Account changed during group join.');
+        }
+      }
+
+      requireOriginalSession();
+      final response = await backend
+          .rpc<dynamic>(
+            'join_group_by_share_code',
+            params: {'p_group_code': normalizedSlug},
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      requireOriginalSession();
+      final id = exactJsonIdentifier(response, field: 'joined_group.id');
+      final collection = await _liveReader.fetchCollection(
+        id,
+        accessToken: session.accessToken,
+      );
+      requireOriginalSession();
+      if (!collection.isCurrentUserMember &&
+          collection.creatorUserId != ownerId) {
+        throw const FormatException('Joined group membership is invalid.');
+      }
+      final existing = state.collections.indexWhere(
+        (item) => item.id == collection.id,
+      );
+      final collections = [...state.collections];
+      if (existing == -1) {
+        collections.insert(0, collection);
+      } else {
+        collections[existing] = collection;
+      }
+      state = state.copyWith(collections: collections);
+      requireOriginalSession();
+      _refreshAfterGroupJoin(session);
+      return collection;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before joining a group.');
+    }
+
+    return collectionBySlug(normalizedSlug);
+  }
+
+  void _refreshAfterGroupJoin(_CollectSessionFence session) {
+    // Starting the fresh read immediately invalidates any member-list read
+    // that began before the confirmed join. Never union its stale rows back in.
+    final refresh = loadInitial();
+    final generation = _loadGeneration;
+    unawaited(
+      refresh.catchError((Object _) {
+        if (!mounted ||
+            generation != _loadGeneration ||
+            !_isCurrentSession(session)) {
+          return;
+        }
+        state = state.copyWith(
+          isLoading: false,
+          financialObservationUncertain: true,
+          lastError:
+              'Group membership could not be refreshed. Please reconnect.',
+        );
+      }),
+    );
+  }
+
+  Future<List<CollectMember>> membersForCollection(String collectionId) async {
+    final collection = maybeCollectionById(collectionId);
+    if (collection == null) return const [];
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
+      final session = _captureSession();
+      final publicId = state.currentProfile?.publicId;
+      final rows = await backend
+          .rpc<dynamic>(
+            'list_current_member_group_roster',
+            params: {'p_collection_id': collectionId},
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}');
+      if (!_isCurrentSession(session) ||
+          state.currentProfile?.publicId != publicId ||
+          maybeCollectionById(collectionId) == null) {
+        throw StateError('Account or group access changed');
+      }
+      if (rows is! List || rows.any((row) => row is! Map)) {
+        throw const FormatException('Member roster is unavailable');
+      }
+      final ids = <String>{};
+      final members = <CollectMember>[];
+      for (final row in rows) {
+        final member = CollectMember.fromJson(
+          Map<String, dynamic>.from(row as Map),
+        );
+        if (!ids.add(member.publicId) ||
+            (member.amountScope == 'own' && member.publicId != publicId)) {
+          throw const FormatException('Invalid member roster');
+        }
+        members.add(member);
+      }
+      return List<CollectMember>.unmodifiable(members);
+    }
+    if (!_allowLocalWrites || backend != null) {
+      throw StateError('Sign in to view members.');
+    }
+    final fixtureRoster = _fixtureRosterOverrides[collectionId];
+    if (fixtureRoster != null) return List.unmodifiable(fixtureRoster);
+    final profile = state.currentProfile;
+    final summary = summaryFor(collectionId);
+    return [
+      if (profile != null &&
+          (collection.creatorUserId == profile.id ||
+              collection.isCurrentUserMember))
+        CollectMember(
+          publicId: profile.publicId,
+          role: collection.creatorUserId == profile.id ? 'owner' : 'member',
+          status: 'active',
+          joinedAt: collection.createdAt,
+          amountScope: 'own',
+          contributionTotals: {
+            for (final entry
+                in summary?.ownBalancesByCurrency.entries ??
+                    const <MapEntry<String, int>>[])
+              if (entry.value > 0) entry.key: entry.value,
+          },
+        ),
+      ...?_fixtureAdditionalMembers[collectionId],
+    ];
+  }
+
+  // Kept as a Dart compatibility name; this promotes an active member directly,
+  // not an invitation or platform Admin enrollment.
+  Future<void> inviteCollectionAdmin({
+    required String collectionId,
+    required String publicId,
+  }) async {
+    final collection = _requireActiveCollection(collectionId);
+    final profile = _requireCollectionOwner(
+      collection,
+      action: 'add a group admin',
+    );
+    if (collection.isPlatformSponsored || collection.isPublic) {
+      throw StateError('Manage this group in Admin.');
+    }
+    final cleanPublicId = publicId.trim();
+    if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
+      throw const FormatException('Enter a 6 digit Collect ID.');
+    }
+    if (cleanPublicId == profile.publicId) {
+      throw const FormatException(
+        'Enter another member’s Collect ID. You already own this group.',
+      );
+    }
+    final backend = _backend;
+    if (backend != null) {
+      final userId = backend.auth.currentUser?.id;
+      if (userId == null || userId != profile.id) {
+        throw StateError('Sign in before adding a group admin.');
+      }
+      final session = _captureSession();
+      _requireCurrentMemberSession(session, userId);
+      dynamic result;
+      try {
+        result = await backend
+            .rpc<dynamic>(
+              'add_group_admin',
+              params: {
+                'collection': collectionId,
+                'member_public_id': cleanPublicId,
+              },
+            )
+            .setHeader('Authorization', 'Bearer ${session.accessToken}')
+            .retry(enabled: false);
+      } on CollectApiException catch (error) {
+        if (error.code == '22023') {
+          throw const FormatException('Choose another active group member.');
+        }
+        if (error.code == '42501') {
+          throw StateError('Only the current owner can add a group admin.');
+        }
+        rethrow;
+      }
+      _requireCurrentMemberSession(session, userId);
+      if (result is! Map ||
+          result.length != 4 ||
+          result['collection_id'] != collectionId ||
+          result['public_id'] != cleanPublicId ||
+          result['role'] != 'admin' ||
+          result['status'] != 'active') {
+        throw const FormatException(
+          'Group admin update could not be verified.',
+        );
+      }
+    } else {
+      if (!_allowLocalWrites) {
+        throw StateError('Sign in before adding a group admin.');
+      }
+      final roster = await membersForCollection(collectionId);
+      if (!roster.any(
+        (member) =>
+            member.publicId == cleanPublicId && member.status == 'active',
+      )) {
+        throw const FormatException('Choose another active group member.');
+      }
+      _fixtureRosterOverrides[collectionId] = [
+        for (final member in roster)
+          if (member.publicId == cleanPublicId)
+            CollectMember(
+              publicId: member.publicId,
+              role: 'admin',
+              status: member.status,
+              joinedAt: member.joinedAt,
+              amountScope: member.amountScope,
+              contributionTotals: member.contributionTotals,
+            )
+          else
+            member,
+      ];
+    }
+    // Invalidate the account-scoped roster provider. A live roster is fetched
+    // from the server, never optimistically forged from the entered ID.
+    state = state.copyWith(collections: [...state.collections]);
+  }
+
+  Future<void> archiveCollection(String collectionId) async {
+    final collection = _requireActiveCollection(collectionId);
+    final profile = _requireCollectionOwner(
+      collection,
+      action: 'archive this group',
+    );
+    if (collection.isPlatformSponsored || collection.isPublic) {
+      throw StateError('Manage this group in Admin.');
+    }
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
+      final session = _captureSession();
+      _requireCurrentMemberSession(session, profile.id);
+      await backend
+          .rpc<void>('archive_group', params: {'collection': collectionId})
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      _requireCurrentMemberSession(session, profile.id);
+      await loadInitial();
+      _requireCurrentMemberSession(session, profile.id);
+      return;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before archiving a group.');
+    }
+    state = state.copyWith(
+      collections: [
+        for (final item in state.collections)
+          if (item.id == collection.id)
+            item.copyWith(moderationStatus: 'archived', isPublic: false)
+          else
+            item,
+      ],
+    );
+  }
+
+  Future<void> transferCollectionOwnership({
+    required String collectionId,
+    required String publicId,
+  }) async {
+    final collection = _requireActiveCollection(collectionId);
+    final profile = _requireCollectionOwner(
+      collection,
+      action: 'transfer group ownership',
+    );
+    if (collection.isPlatformSponsored || collection.isPublic) {
+      throw StateError('Manage this group in Admin.');
+    }
+    final cleanPublicId = publicId.trim();
+    if (!RegExp(r'^[0-9]{6}$').hasMatch(cleanPublicId)) {
+      throw const FormatException('Enter a 6 digit Collect ID.');
+    }
+    if (cleanPublicId == profile.publicId) {
+      throw const FormatException(
+        'Enter another member’s Collect ID. You already own this group.',
+      );
+    }
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
+      final session = _captureSession();
+      _requireCurrentMemberSession(session, profile.id);
+      await backend
+          .rpc<void>(
+            'transfer_group_ownership',
+            params: {
+              'collection': collectionId,
+              'new_owner_public_id': cleanPublicId,
+            },
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}')
+          .retry(enabled: false);
+      _requireCurrentMemberSession(session, profile.id);
+      await loadInitial();
+      _requireCurrentMemberSession(session, profile.id);
+      return;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Sign in before transferring ownership.');
+    }
+    final previousRoster = await membersForCollection(collectionId);
+    _fixtureRosterOverrides[collectionId] = [
+      for (final member in previousRoster)
+        if (member.publicId != cleanPublicId)
+          CollectMember(
+            publicId: member.publicId,
+            role: member.publicId == profile.publicId ? 'admin' : member.role,
+            status: member.status,
+            joinedAt: member.joinedAt,
+            amountScope: member.amountScope,
+            contributionTotals: member.contributionTotals,
+          ),
+      CollectMember(
+        publicId: cleanPublicId,
+        role: 'owner',
+        status: 'active',
+        joinedAt: DateTime.now().toUtc(),
+      ),
+    ];
+    state = state.copyWith(
+      collections: [
+        for (final item in state.collections)
+          if (item.id == collection.id)
+            item.copyWith(creatorUserId: 'collect-id-$cleanPublicId')
+          else
+            item,
+      ],
+    );
+  }
+
+  Future<OwnerGroupHealth> ownerHealthFor(String collectionId) async {
+    collectionById(collectionId);
+    final backend = _backend;
+    if (backend != null && backend.auth.currentUser != null) {
+      final session = _captureSession();
+      final row = await backend
+          .rpc<dynamic>(
+            'get_owner_group_health',
+            params: {'collection': collectionId},
+          )
+          .setHeader('Authorization', 'Bearer ${session.accessToken}');
+      if (!_isCurrentSession(session) ||
+          maybeCollectionById(collectionId) == null) {
+        throw StateError('Account or group access changed');
+      }
+      if (row is! Map || row.keys.any((key) => key is! String)) {
+        throw const FormatException('Group health is unavailable');
+      }
+      final health = OwnerGroupHealth.fromJson(Map<String, dynamic>.from(row));
+      if (health.collectionId != collectionId) {
+        throw const FormatException('Group health does not match the request');
+      }
+      return health;
+    }
+    if (!_allowLocalWrites) {
+      throw StateError('Connect to load group health');
+    }
+    return OwnerGroupHealth(
+      collectionId: collectionId,
+      smsAccessEnabled: state.smsAccessEnabled,
+      receiverConfigured: collectionById(collectionId).supportsRwandaMomo,
+      pendingPaymentIntents: state.paymentIntents
+          .where(
+            (item) =>
+                item.collectionId == collectionId && item.status == 'pending',
+          )
+          .length,
+      needsReviewEvents: 0,
+      lastSyncedAt: null,
+    );
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "kind": "collect_dated_observed_sql_test_fixtures",
+  "producer_result": {
+    "finished_at": "2026-10-01T13:03:22.811910Z",
+    "helper_sha256": "343cd3b21ac9629347b0080640891eac3bdacdea7df11752b129c5f943b6c33b",
+    "path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/result.json",
+    "private_key_created": false,
+    "runner_sha256": "c3c2bceba9918b621d5d371e37c7813768e11370dc05daa22a4f61cb2f67840a",
+    "sha256": "7803010d8c9483c02ac78c66c3225a8e46623b121f1b5b4d8634da4e881d0f13",
+    "signed_jwt_tested": false,
+    "started_at": "2026-10-01T13:02:13.052470Z",
+    "status": "pass"
+  },
+  "production_data": false,
+  "receipts": [
+    {
+      "bytes": 475,
+      "file": "observed-enroll-v3.json",
+      "sha256": "052983eb93e3540a55b26da1f8490f5a1e2f8ed0dc210878967164a6715854d3",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-v3.json"
+    },
+    {
+      "bytes": 476,
+      "file": "observed-activate-v3.json",
+      "sha256": "0742c22f174e794b21ce942ddf18351cb4628ba181b8185aa209dabb96ff9ec4",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-activate-v3.json"
+    },
+    {
+      "bytes": 562,
+      "file": "observed-revoke-v3.json",
+      "sha256": "767c3aab7ae2d6479b6a415403c3c94c812149fac844521733d2ceab7f3a247b",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-v3.json"
+    },
+    {
+      "bytes": 410,
+      "file": "observed-enroll-input-v3.json",
+      "sha256": "11b2b840a1c958e0279c0725eca7929afda1ffe61ae4c69276cb967cc6a40d57",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-enroll-input-v3.json"
+    },
+    {
+      "bytes": 466,
+      "file": "observed-revoke-input-v3.json",
+      "sha256": "0172166cafc575598dfea7bffc2b63e5b297f17f4c75e6e82d1a18d3bb6f65b2",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-input-v3.json"
+    },
+    {
+      "bytes": 887,
+      "file": "observed-revoke-lookup-v3.json",
+      "sha256": "f5c9bb3a98c5fb253cbec0df1868d1b0e4b7f603730c0d0ea97249584099e88a",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-revoke-lookup-v3.json"
+    },
+    {
+      "bytes": 547,
+      "file": "observed-identity-active-v3.json",
+      "sha256": "5df7c18332fee830551586cae0da2f8833f45b5e9c772a6519e6f817a060c40c",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-active-v3.json"
+    },
+    {
+      "bytes": 16143,
+      "file": "observed-identity-pages-v3.json",
+      "sha256": "40c09766d3cccc7b01e7e575e47a100401b70eaef6108a69625c1b0573fa8c88",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-pages-v3.json"
+    },
+    {
+      "bytes": 573,
+      "file": "observed-identity-revoked-v3.json",
+      "sha256": "270979e14c2aed676dd0fdb1d965b57571f1573fc46032da6422baac36d704e7",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-revoked-v3.json"
+    },
+    {
+      "bytes": 547,
+      "file": "observed-identity-expired-active-v3.json",
+      "sha256": "290d55a8e0e3e619d150dc6feb00cc887ed309262d9cfcd05262898196204736",
+      "source_path": "docs/release/collect-codex-goal-2026-09-30/receipt-operations-enrollment-workflow-20261001/sql/attempt3/observed-identity-expired-active-v3.json"
+    }
+  ],
+  "scope": "Byte-exact dated isolated PostgreSQL observations for local regression tests. No current backend installation, provider, delivery, hosted Auth, or release approval claim."
+}

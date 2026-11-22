@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "scope": "Byte-identical reviewed interface previews; design and release acceptance remain open.",
+  "native_capture_passed": false,
+  "runtime_sha256": "e1c15dedf4ef4b22af326d05b328952876b168e537e83e261947ba57b8cf20c6",
+  "published": {
+    "account-deletion-abd540ec627f.png": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+    "group-detail-1c2ae1b0570e.png": "1c2ae1b0570ec64cc64c865f9d70e9b31c03b08c0a55bed7c6832a8eeffe1b7c",
+    "groups-24167a6a7a85.png": "24167a6a7a85e3b936f159ea64b4d867e5885fa9f99fc811c432ddb4472b76c4",
+    "home-1eebdcbc4b49.png": "1eebdcbc4b490a86eb3e08f677a9300bd8309fbd9dc70672d03db7995c80f30e",
+    "privacy-41d08d2e2ec5.png": "41d08d2e2ec5ef4f720f762dd5bf206848778efe3c2335186d7556eceae0afb3",
+    "security-a271c1834de4.png": "a271c1834de41c9fd3992dc01d18a39c81d9e5b3f546f7b3b231d8d64f1b8480",
+    "terms-c62aaef04827.png": "c62aaef04827f6e58ec97ba750ed7f6707b2e13b5e5b406241f7a6c3f55e8a66"
+  },
+  "previous_sha256": {
+    "web/public/app-screens/account-deletion-abd540ec627f.png": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+    "web/public/app-screens/capture-provenance.json": "1cbbd0493c8c91489a375ad87957b0d1dbd5beea44d1c7a7b2e658c16858328a",
+    "web/public/app-screens/group-detail-1c2ae1b0570e.png": "1c2ae1b0570ec64cc64c865f9d70e9b31c03b08c0a55bed7c6832a8eeffe1b7c",
+    "web/public/app-screens/groups-24167a6a7a85.png": "24167a6a7a85e3b936f159ea64b4d867e5885fa9f99fc811c432ddb4472b76c4",
+    "web/public/app-screens/home-1eebdcbc4b49.png": "1eebdcbc4b490a86eb3e08f677a9300bd8309fbd9dc70672d03db7995c80f30e",
+    "web/public/app-screens/manifest.json": "62d05af0aca7fc5384110f61afd57cbfe3b5db0e817fbe533e7d3b3b9f4fe75c",
+    "web/public/app-screens/privacy-41d08d2e2ec5.png": "41d08d2e2ec5ef4f720f762dd5bf206848778efe3c2335186d7556eceae0afb3",
+    "web/public/app-screens/security-a271c1834de4.png": "a271c1834de41c9fd3992dc01d18a39c81d9e5b3f546f7b3b231d8d64f1b8480",
+    "web/public/app-screens/terms-c62aaef04827.png": "c62aaef04827f6e58ec97ba750ed7f6707b2e13b5e5b406241f7a6c3f55e8a66",
+    "assets/brand/APPROVED_PRODUCT_VISUAL_ASSETS.sha256": "6a4403bbb5d5a7523588c73a07cfd8fa800a0c121e5552de75c53e3d7329cd3c"
+  }
+}

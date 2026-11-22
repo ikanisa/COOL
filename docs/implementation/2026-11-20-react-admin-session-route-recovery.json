@@ -1,0 +1,76 @@
+{
+  "format": "collect.react-admin-session-route-recovery.v1",
+  "review_source": "e622172979c659960c59a3ccb9e3d8d11498de53",
+  "review_base": "debc4d2edf47662fafe4d85b5a8d710e54ec4d61",
+  "patch_sha256": "72479698ef9f6375716671f08c63d08a7eefafafc0fbac8026597d0eca2a9bfd",
+  "paths": [
+    "admin-web/src/app/App.tsx",
+    "admin-web/src/app/SessionRoutes.tsx",
+    "admin-web/src/session/SessionProvider.tsx",
+    "admin-web/src/session/returnLocation.ts",
+    "admin-web/tests/app/session-recovery.test.tsx",
+    "admin-web/tests/browser/smoke.mjs"
+  ],
+  "changes": [
+    "Carry a validated return path between owner and operator verification links.",
+    "Recheck session expiry when the tab becomes visible, focus returns or the browser restores a page.",
+    "Clear protected account state on expiry and preserve a recoverable session when the backend is temporarily unavailable."
+  ],
+  "qualified_review_source": {
+    "vitest_passed": 977,
+    "vitest_files": 135,
+    "typescript": "passed",
+    "eslint": "passed",
+    "compiled_chromium_checks_per_run": 10,
+    "consecutive_compiled_runs": 3,
+    "predecessor_reproduced_failures": 3
+  },
+  "candidate_from_hosted_predecessor": "5ec3fa1e0d4d601eec9ccf3674712136bc8ed053",
+  "hosted_predecessor": "61e6fb3d61e5d1e44794612333a0bb99993c0f35",
+  "evidence_sha256": {
+    "final-full-react-tests.log": "8c97cb589940a885bfdb178da940aa931cf9d1c146f0823e6b61715160f125be",
+    "final-types.log": "a4e8bf6c68a5628399aee9ba8ba8ca7909b33bf4066fe7cb5d8f0225ef923460",
+    "final-lint.log": "8b6cbea582d5f5e7d52dc9b70c35cdb7fa28e2a0e56c2a5b9ae619b2ef70f88d",
+    "route-recovery-red.log": "cf1496c99fe6762d08c930c77e8a3b5f5be310f8c0c57af6bd6b56e77f7c8a2c",
+    "session-recovery-green.log": "75fc21a94b724962c15872d3743d87399d9efa038c46aaec2d209cef6a1b2bce",
+    "review-final-browser-1.log": "e62e95066d7bb0a43e96ff0ccb9b1ed3111a6d20b789acad54e6839c02b1e309",
+    "review-final-browser-2.log": "bb7fff15bc2e6fad41a089df4fdd6ad840ca3dc6fe6feb6e27aea235aa88a289",
+    "review-final-browser-3.log": "16751eac6463813230125c013c35f5ed33778ebad6887f56b0608667f8ac2e53"
+  },
+  "restricted_log_directory": "/Volumes/PRO-G40/Development/Codex-Candidates/collect-react-session-routes-nawswi1s/evidence",
+  "authenticated_real_operator_verified": false,
+  "hosted": {
+    "qa": {
+      "version": 16,
+      "version_id": "ac300c84-70f0-4b9f-ae8d-69bf3ed07cfd",
+      "deployment_id": "6aace7f7-5f4d-4985-8f03-0972e5b2e3fa",
+      "traffic_percent": 100,
+      "pinned_resource_checks": 44,
+      "canonical_resource_checks": 44,
+      "synthetic_cases": [
+        "staff",
+        "owner",
+        "503 retry",
+        "expired tab",
+        "browser Back"
+      ],
+      "anonymous_session_http": 200
+    },
+    "production": {
+      "version": 37,
+      "version_id": "8a7fe68a-0c28-4d04-b62f-d123ad14f8d7",
+      "traffic_percent": 100,
+      "source_commit": "61e6fb3d61e5d1e44794612333a0bb99993c0f35",
+      "anonymous_session_http": 200,
+      "successor_uploaded": false
+    },
+    "last_anonymous_check_utc": "2026-11-20T17:21:00Z",
+    "both_frontends": "React",
+    "managed_project": "rrlduytparvsjfmegalh",
+    "open_tab_transition_verified": false,
+    "live_authenticated_operator_verified": false,
+    "further_artifact_qualification": "deferred by owner",
+    "qa_and_production_readback_sha256": "9dc721971cb807904758b5f84e19b748388f92056932365ce57c26e4fe2606f4",
+    "hosted_source_delta_sha256": "4925b316e05f40d7de2062d2decc2d7541a41e34664ed958b7a5eadccfe50dda"
+  }
+}

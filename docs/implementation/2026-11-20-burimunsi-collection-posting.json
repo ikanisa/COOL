@@ -1,0 +1,220 @@
+{
+  "format": "collect.burimunsi.collection-posting.v1",
+  "observed_utc": "2026-11-20T12:50:01.955025+00:00",
+  "private_source_commit": "c83bc31a1427f56e95047cca9f008b68f22bd426",
+  "input": {
+    "parent_commit": "6bd17d9013aff69c7b104ae58bce8d7c16a34ddf",
+    "parent_native_fingerprint": "7ce1231cc8a1e77779d23ec644556b0088b8a342c9e88285d7bbbf15254ede6b",
+    "candidate_native_fingerprint": "431bd2ba2290fb1d33b9e99cf36b733c8f2b75e6c4c54217cfeb4df0e8be954f",
+    "native_and_shared_files": 344,
+    "patch_sha256": "c199bdad3542bf2f23ec028a5781962d07a959e2fa11c7587c9158d078d45d3e"
+  },
+  "cases": [
+    "selection invalidated on removed, inactive or version-changed beneficiary; delayed old callback cannot dispatch or create the pending journal",
+    "verified post-commit readback retains original identity; later correct read recovers without a second POST"
+  ],
+  "host": {
+    "parent_with_new_regressions": {
+      "assertions": 78,
+      "failed": 10
+    },
+    "cross_layer": {
+      "assertions": 78,
+      "passed": 78,
+      "additional_bootstrap_witnesses": {
+        "staff": 9,
+        "internal_receiver": 9
+      }
+    },
+    "other_named_checks": {
+      "view_model": 477,
+      "repository": 399,
+      "command_recovery": 153
+    },
+    "native_pipeline_unit_tests": 152
+  },
+  "android": {
+    "build_run": "d0235078-27b8-46e9-8762-2246d8f21638",
+    "instrumentation_run": "c17b2167-86e9-437e-858e-eec6beee7393",
+    "api": 36,
+    "system_image": "system-images;android-36;google_apis;arm64-v8a",
+    "apk_outputs": [
+      {
+        "flavor": "staff",
+        "kind": "debug",
+        "is_test_runner": false,
+        "package": "rw.ikanisa.burimunsi.staff.cloud.debug",
+        "apk_sha256": "ef2b1f811a2ba16b7b4996dcf8a05371ca50d64678d158fbe6789f86f14897fa",
+        "installed": false,
+        "optimized_unsigned_qualification": false
+      },
+      {
+        "flavor": "staff",
+        "kind": "qualification",
+        "is_test_runner": false,
+        "package": "rw.ikanisa.burimunsi.staff.cloud.qualification",
+        "apk_sha256": "bd303c15a5a42e00f52a0e3ee1b235818f0bcadcac7e50ac02e54f7e4532efc5",
+        "installed": false,
+        "optimized_unsigned_qualification": true
+      },
+      {
+        "flavor": "staff",
+        "kind": "nativeTest",
+        "is_test_runner": false,
+        "package": "rw.ikanisa.burimunsi.staff.cloud.nativeTest",
+        "apk_sha256": "800927a616fff448d1f69a31cce55e33dc155d1cb05839993bda258aeaf81a83",
+        "installed": true,
+        "optimized_unsigned_qualification": false
+      },
+      {
+        "flavor": "internal_receiver",
+        "kind": "debug",
+        "is_test_runner": false,
+        "package": "rw.ikanisa.burimunsi.gateway.cloud.debug",
+        "apk_sha256": "5c6c0437fa2ff1e8329aeed898f25e7bbc199e3da6946ef6e470ef66f3e5b379",
+        "installed": false,
+        "optimized_unsigned_qualification": false
+      },
+      {
+        "flavor": "internal_receiver",
+        "kind": "qualification",
+        "is_test_runner": false,
+        "package": "rw.ikanisa.burimunsi.gateway.cloud.qualification",
+        "apk_sha256": "76ac641116297d11754bd19441e08753724929d5d99124421a991f4114377b78",
+        "installed": false,
+        "optimized_unsigned_qualification": true
+      },
+      {
+        "flavor": "internal_receiver",
+        "kind": "nativeTest",
+        "is_test_runner": false,
+        "package": "rw.ikanisa.burimunsi.gateway.cloud.nativeTest",
+        "apk_sha256": "0782c6d73064e004c4562e8c1500a9d16d3c30c4ac5dc876a0a27816570927c3",
+        "installed": true,
+        "optimized_unsigned_qualification": false
+      },
+      {
+        "flavor": "staff",
+        "kind": "nativeTest",
+        "is_test_runner": true,
+        "package": "rw.ikanisa.burimunsi.staff.cloud.nativeTest.test",
+        "apk_sha256": "909100df95686c57f855ecfc32cbe33e46b400db8b187b95c2e8baf04e19231d",
+        "installed": true,
+        "optimized_unsigned_qualification": false
+      },
+      {
+        "flavor": "internal_receiver",
+        "kind": "nativeTest",
+        "is_test_runner": true,
+        "package": "rw.ikanisa.burimunsi.gateway.cloud.nativeTest.test",
+        "apk_sha256": "3fee3a61b879f34fa2426e8076c4d0761226d76462ea71a2e21af435a02ec616",
+        "installed": true,
+        "optimized_unsigned_qualification": false
+      }
+    ],
+    "instrumentation": {
+      "staff": {
+        "executed": 69,
+        "passed": 69,
+        "failed": 0
+      },
+      "internal_receiver": {
+        "executed": 89,
+        "passed": 89,
+        "failed": 0
+      }
+    },
+    "installed_test_and_target_packages": [
+      "rw.ikanisa.burimunsi.gateway.cloud.nativeTest",
+      "rw.ikanisa.burimunsi.gateway.cloud.nativeTest.test",
+      "rw.ikanisa.burimunsi.staff.cloud.nativeTest",
+      "rw.ikanisa.burimunsi.staff.cloud.nativeTest.test"
+    ],
+    "cleaned_packages": 4,
+    "virtual_device_disposed": true
+  },
+  "first_attempt": {
+    "status": "FAIL",
+    "staff": {
+      "executed": 69,
+      "failed": 0
+    },
+    "admin_sync_started": false,
+    "capture": "Android displayed the Pixel Launcher nonresponsive dialog over the requested startup window.",
+    "cleanup": "The two packages installed during that run were removed; the dedicated emulator and adb server stopped.",
+    "launcher_preflight": "One isolated launcher-only check rejected the SDK's misspelled dump progress message. It installed no package. The final launcher check uses the parsed hierarchy and owner.",
+    "rerun": "Verified the guest home launcher hierarchy before installing. Re-executed the complete unmodified suite and startup gate on identical APKs."
+  },
+  "limits": {
+    "defect_specific_regressions": "real ViewModel, repository, decoder and protected command state with synthetic transport and storage",
+    "instrumentation": "repository-declared normal Staff and Admin Sync rosters running in two isolated nativeTest target packages",
+    "full_hosted_service": false,
+    "live_accounts_or_financial_actions": false,
+    "physical_device": true,
+    "installed_upgrade_of_an_existing_channel": false,
+    "distribution_signed": false,
+    "deployed": false
+  },
+  "public_port": {
+    "commit": "6109d17a900ce9ea884b4a9f6e93a4dcd90a254e",
+    "cross_layer_assertions": 78,
+    "view_model_assertions": 464,
+    "scope": "Public managed source has an independent verification record."
+  },
+  "physical_handset": {
+    "observed_utc": "2026-11-20T15:55:23.012210+00:00",
+    "model": "Pixel 4a",
+    "android_api": 33,
+    "input_sha256": "431bd2ba2290fb1d33b9e99cf36b733c8f2b75e6c4c54217cfeb4df0e8be954f",
+    "fixture_release_codes": [
+      48,
+      49
+    ],
+    "package_roles": [
+      "internal_receiver",
+      "staff"
+    ],
+    "predecessor_signing": "Each retained endpoint-free version 48 test APK was signed with the version 49 test key. All 179 application payload entries per role matched the original fixture. Android verified the test signatures.",
+    "successor_signing": "Both installed version 49 APKs matched the exact previously inspected candidate bytes.",
+    "upgrade_checks": "The installed UID, first-install time and encrypted installation marker survived. The Sync fixture also verified original held receipt ciphertext and the supported migration of terminal phases.",
+    "separate_full_suite": {
+      "status": "pass",
+      "started_utc": "2026-11-20T16:04:21.385692+00:00",
+      "finished_utc": "2026-11-20T16:09:08.732649+00:00",
+      "staff_passed": 69,
+      "admin_sync_passed": 89,
+      "failures": 0,
+      "hardware": "Pixel 4a",
+      "android_api": 33,
+      "installed_endpoint_free_test_packages": true,
+      "owned_packages_removed": 4,
+      "production_deployment": false,
+      "artifact_sha256": {
+        "instrumentation-result.json": "ae003e7944771c056388f4dfaa4a779f7d80d762ebb7dcabe0b67f9c4598fe1a",
+        "staff-instrumentation.json": "440b4524eeabb363ff9ad79430a184895943a08b2ddff00a30dfe3ecbec4a2b1",
+        "staff-instrumentation.txt": "d0c4522da267e956e57f8e65f1fb4ff72371338bce8b173f4f26e2f612523623",
+        "internal_receiver-instrumentation.json": "a5447f70be1281058358f004950a3be1534fd419c549aedd615c701e15429ed0",
+        "internal_receiver-instrumentation.txt": "596d55b6ac567a314b01ce6faafc413156a36f9f5fb8a5b6cee4949acafd9682"
+      },
+      "evidence_directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/native-collection-posting-431bd2ba/physical/foreground"
+    },
+    "original_package_inventory_restored": true,
+    "operator_or_carrier_traffic": false,
+    "distribution_signed": false,
+    "installation_receipt_sha256": "0b893bd29c7a1bb7970e46ae043c2bbb8d897d4690eb92b8b78a0b8d7c3a329b",
+    "device_evidence_directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/native-collection-posting-431bd2ba/physical",
+    "locked_attempt": {
+      "status": "incomplete",
+      "staff_executed": 69,
+      "staff_passed": 43,
+      "staff_failed_to_find_compose_hierarchy": 26,
+      "secure_lock_screen_showing": true,
+      "admin_sync_full_suite_started": false,
+      "owned_packages_removed": true
+    }
+  },
+  "retained_receipt_sha256": {
+    "verified-collection-posting-host.json": "e8aecbf129fd720f2aeb7d65a11860ca56c23d7f5520efd929d7f4782206dc06",
+    "verified-collection-posting-android.json": "6886389ac13e21fcf83c952e54cb7220ebc7fd2a9ac4d1dd93f0c012dd3a3130"
+  }
+}

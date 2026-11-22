@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "scope": "Local visual inspection of the seven current Flutter Chromium fixture previews.",
+  "design_reference": "revolut-design@jean-bosco-skills",
+  "reviewed_at": "2026-11-22T06:09:42+00:00",
+  "capture_report_sha256": "169afeed9a00e518294aee0a35f499cc0b9b95c7d31ab765b8df517257e3f416",
+  "runtime_sha256": "e1c15dedf4ef4b22af326d05b328952876b168e537e83e261947ba57b8cf20c6",
+  "build_manifest_sha256": "8fa2b5a09e502c369a08b7fb129670a0fd4272cc536ec008bcfe61d9509de563",
+  "native_acceptance": false,
+  "design_acceptance": false,
+  "release_acceptance": false,
+  "publication_approved": false,
+  "screens": [
+    {
+      "id": "home",
+      "sha256": "1eebdcbc4b490a86eb3e08f677a9300bd8309fbd9dc70672d03db7995c80f30e",
+      "reviewed_for_website": true,
+      "observation": "The RWF 35,000 fixture total, contribution shortcuts, and two recorded activity rows are visible. Home is selected."
+    },
+    {
+      "id": "groups",
+      "sha256": "24167a6a7a85e3b936f159ea64b4d867e5885fa9f99fc811c432ddb4472b76c4",
+      "reviewed_for_website": true,
+      "observation": "The public group confirmation notice and the private example group are visible above the selected Groups tab."
+    },
+    {
+      "id": "group-detail",
+      "sha256": "1c2ae1b0570ec64cc64c865f9d70e9b31c03b08c0a55bed7c6832a8eeffe1b7c",
+      "reviewed_for_website": true,
+      "observation": "The group total, four actions, personal recorded contribution, and provider settlement note are legible."
+    },
+    {
+      "id": "security",
+      "sha256": "a271c1834de41c9fd3992dc01d18a39c81d9e5b3f546f7b3b231d8d64f1b8480",
+      "reviewed_for_website": true,
+      "observation": "The MoMo PIN notice and the four security destinations are fully visible."
+    },
+    {
+      "id": "privacy",
+      "sha256": "41d08d2e2ec5ef4f720f762dd5bf206848778efe3c2335186d7556eceae0afb3",
+      "reviewed_for_website": true,
+      "observation": "The data collection and sign-in sections are visible. The automatic SMS detection disclosure begins at the bottom."
+    },
+    {
+      "id": "terms",
+      "sha256": "c62aaef04827f6e58ec97ba750ed7f6707b2e13b5e5b406241f7a6c3f55e8a66",
+      "reviewed_for_website": true,
+      "observation": "The viewport includes the product scope, contribution rails, and group ownership before the disputes section."
+    },
+    {
+      "id": "account-deletion",
+      "sha256": "abd540ec627f5f8e6b5ae6d646d255197e1ec325103746e24eb6e55bd9787f44",
+      "reviewed_for_website": true,
+      "observation": "The fixture shows the unavailable request service and the full Get help control."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-14-wedding-day-family",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-14-wedding-day-family-v1.png",
+  "source_sha256": "60f40dac9c130a8276d29de9593c5691afd29aefed4d6e10dac6da8ebc1f7ce4",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "a9071114b277878630a90f444751a18aef5fda34a12d527ac4de374f39036cbd",
+  "imported_at_utc": "2026-09-06T11:18:10.487045+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-92cc7c85-8292-43cb-9178-f6b6fd84b38d.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

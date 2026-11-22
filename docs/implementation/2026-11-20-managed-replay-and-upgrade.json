@@ -1,0 +1,182 @@
+{
+  "format": "collect.managed-replay-and-upgrade.v1",
+  "observed_at": "2026-11-20T10:28:51Z",
+  "engine": "PostgreSQL 17.11, private Unix sockets, freshly initialized disposable clusters",
+  "result": "Partial. A populated recovery reconstructs nine consecutive managed migrations exactly. The immutable managed history cannot be replayed from the available synthetic provider and deployment state. Six of seven pending DDL changes installed consistently.",
+  "history": {
+    "path": "supabase/managed-migration-history/cloud-history-20261120.json",
+    "managed_bodies_hashed": 82,
+    "each_history_entry_statements": 1,
+    "last_version": "20261118090305",
+    "ordered_sha256": "02304f771accf67aa95a4e960dcc247644f06c266fb68a05db948fa01034b303",
+    "retained_variants": {
+      "20261114110001": "scripts/supabase/retention-convergence/managed-branch-1100-candidate.sql",
+      "20261116163801": "supabase/managed-migration-history/retained/20261116163801_collect_storage_lifecycle_retention_managed_convergence.sql"
+    }
+  },
+  "replay": [
+    {
+      "point": "Bare PostgreSQL",
+      "exact_in_order": 0,
+      "first_refusal": "20261020134444 / 3F000 / missing auth schema"
+    },
+    {
+      "point": "Restored encrypted backup with the maintained synthetic Auth, Storage, roles and financial data",
+      "exact_in_order": 9,
+      "first_refusal": "Position 10, 20261022200028 / 55000 / member_realtime_metadata_not_reviewed. Rollback removed its intermediate SQL objects.",
+      "required_realtime_catalog_sha256": "62bf00d15d1bd950a764048c51b1c50558784c0d8f8618ec0b0ca32ea8173440",
+      "observed_realtime_catalog_sha256": "c712e616e51fbe122fd8685fc7f4bbb9b0bbb6265a32d508a89523755a78e2d2",
+      "with_reviewed_local_binding": "The previously reviewed Realtime variant replaces two catalog digest literals. The original bodies at positions 11–13 passed. Position 14 refused collect_stopped_install_precondition because this restored operator is collect_test and the immutable SQL requires the postgres login. The fixed role snapshot kept postgres NOLOGIN."
+    },
+    {
+      "point": "Separately seeded canonical ordered-chain fixture with the reviewed Realtime variant, restricted postgres owner and synthetic Iceberg interface",
+      "through_position": 56,
+      "exact_bodies": 55,
+      "last_version": "20261113130600",
+      "first_refusal": "Position 57, 20261113130800 / 55000 / native_lease_history_predecessor_changed.",
+      "mismatched_function_preimages": [
+        "private._retention_manifest_catalog_v2()",
+        "private._retention_manifest_schema_v2()",
+        "private.retention_capture_inventory_v2(uuid,text,bigint,text,integer)"
+      ]
+    },
+    {
+      "point": "Independent diagnostic with one additional local Iceberg source, outside the 82",
+      "local_addition": {
+        "name": "20261113130700_storage_iceberg_retention_inspection.sql",
+        "sha256": "c2ba8c74e06046751483e08e9f8b278006e0a663598aeb5ce02d0b214af65402",
+        "in_managed_history": false
+      },
+      "through_position": 65,
+      "exact_managed_bodies": 64,
+      "last_version": "20261115010100",
+      "first_refusal": "Position 66, 20261116163801 / 55000 / deployment_identity_mismatch.",
+      "observed": {
+        "history": {
+          "count": 66,
+          "sha256": "823ace4ce1a09f94119a8b0bc7786987674174a4e470f261ccd30bbfd24c3864"
+        },
+        "profile": {
+          "profile_sha256": "c13e1627741e7c2cfc7544c2757b209083ed75b4830982867770db9d69289df5",
+          "mode": "self_hosted",
+          "environment": "qualification"
+        },
+        "storage_has_vendor_migrations": false
+      },
+      "required_by_source": "The managed production profile and fenced deployment source, 69 application receipts with a pinned digest, and all 81 vendor Storage receipts and relation shape. The present managed list has 65 lower versions at this position. The local history records every local body actually used, including the Realtime variant and the additional Iceberg SQL."
+    }
+  ],
+  "upgrades": {
+    "method": "Each populated point was pg_dump -Fc captured and pg_restore --single-transaction --exit-on-error restored into fresh empty databases. Two targets used the position-56 point. Four used the separate position-65 point, two of which also tried the complete recorded feature-specific SQL listed below. Roles were cluster-global in these upgrade repeats. Their independent restore is covered by the encrypted prior-release exercise.",
+    "dump_artifacts": [
+      {
+        "bytes": 2723530,
+        "sha256": "03fb0c45e056cca2e977e4e45d49850b943a83cad90d972e76518067a24e1200"
+      },
+      {
+        "bytes": 2880281,
+        "sha256": "56731fc647c887d27e4ea437fc41989ff082411df3df552838a9287ef59274d2"
+      }
+    ],
+    "independent_database_targets": 6,
+    "accepted_on_each": [
+      {
+        "version": "20261119041000",
+        "sha256": "23c69a15a42c8b8e4ca03c79bf10561ce3ab2a8ecfdb1877f5feadb3337effc5"
+      },
+      {
+        "version": "20261119041100",
+        "sha256": "5da5ce98a40945230a0da8d50052c903a6efbc2a8183cb4b0ebff78026c0bee3"
+      },
+      {
+        "version": "20261119114500",
+        "sha256": "e8926c2a723ecdb24f220c70a6d8b809988d90d3c95f5b8d4e52d0cba7747873"
+      },
+      {
+        "version": "20261119114600",
+        "sha256": "91c9f9048656d5361d6afd68fe5fc6c2dbc3e8f8f3310d90798ce378f22489ce"
+      },
+      {
+        "version": "20261119114700",
+        "sha256": "6d1e4ab861909758074afba21db6ba39cb23de8497ba474e01d30c8e90b0f33c"
+      },
+      {
+        "version": "20261120075011",
+        "sha256": "975e14d20c982e8d389650b9dfdeeb93d94337189f765508af6938468792d27b"
+      }
+    ],
+    "first_failed_on_each": {
+      "version": "20261120104500",
+      "sha256": "118ad88fa6c967bdf04934c0cb8c4e63fd472a97f9a5f8165d18597bc93c4cd5",
+      "sqlstate": "55000",
+      "reason": "payment_reference_retention_predecessor_changed",
+      "dependency": "Full 20261118090305 rolled back on the absent payment-SMS retention inventory anchor. The v2 prepare function then installed, but the v1 implementation it calls was absent."
+    },
+    "feature_only_diagnostic": {
+      "scope": "Two additional fresh databases from point 65 used whole, hash-verified feature migrations outside full managed order. Earlier refusals were rolled back and no migration bodies were changed.",
+      "accepted": [
+        "20261116215300",
+        "20261117060642",
+        "20261117090952",
+        "20261117180000"
+      ],
+      "refused": {
+        "20261117071343": "import_retention_preimage_changed",
+        "20261117134954": "observation_processing_precondition",
+        "20261117190000": "burimunsi_legacy_reconcile_precondition",
+        "20261118090305": "payment_sms_retention_anchor_changed"
+      }
+    }
+  },
+  "data_and_authority": {
+    "payments": 1,
+    "payment_total_rwf": 7250,
+    "ledger_entries": 1,
+    "ledger_total_rwf": 7250,
+    "auth_users": 2,
+    "private_objects": 1,
+    "prior_release": "The original archive restored the private payload into another cluster and file store. The owner read its verified plaintext twice, the second subject made zero file reads, and the six missing/altered component cases and one foreign fence point were refused.",
+    "repeated_checks": "On every upgrade target, the two Auth identities, their link states and six scoped role profiles matched the dump source. The owner principal could read its ledger and private bytes. The other identity could not read the object. Anonymous payment/object access and a runtime financial update outside admission were denied. The later database copies used the same isolated fixture file store.",
+    "journal_update_columns": {
+      "burimunsi_audit": [],
+      "burimunsi_command_receipts": [
+        "response"
+      ],
+      "burimunsi_rate_limits": [
+        "attempts"
+      ]
+    },
+    "journal_runtime_delete_or_truncate": false,
+    "existing_payment_reference": "The seeded payment received the same 12-digit value on all six targets and the ALWAYS immutability trigger was enabled."
+  },
+  "separate_payment_proof": "The maintained payment-reference fixture passed three tests covering allocation, concurrent receipts, sequence-tail restore, search and non-reuse. That isolated fixture supplies a test operator function and a reduced retention inventory. The populated managed upgrade remains open.",
+  "required_for_full_replay": "An authorized, independently restorable recovery point for the missing historical provider/commissioning state, with matching roles, Realtime metadata, vendor Storage history and retained function preimages, is needed to rehearse all 82 plus the seven pending migrations and their runtime consumers. This exercise made no provider or application requests.",
+  "source_sha256": {
+    "supabase/managed-migration-history/cloud-history-20261120.json": "016f380fa575dc1f648c3a5733b6fe10125e393c88f570a9039eec1928ac2e4f",
+    "scripts/supabase/managed-cloud-backup/prior-release-restore.fixture.mjs": "4e8f8964151ece1702916c99879fdf4ba40fe418cb01f953793ec91f119aa6b7",
+    "scripts/supabase/retention-convergence/ordered-chain-fixture.mjs": "b0d286e6f0c41ff5abb4468add3fb35d1f06dbc3c1c7700ed4924ba715dd90da",
+    "scripts/supabase/testing/member-realtime-fixture-plan.json": "6156561ea1b893b56afcf54d64934ca042dbb3251426ea3d27e532272bf65d6f",
+    "scripts/supabase/testing/synthetic-iceberg-storage.sql": "26a5cac1cae954922f54c58bcad511a3e88ac49f8a3fa9ecf4f661587114a4da",
+    "scripts/supabase/cloud-release/burimunsi-payment-reference.test.mjs": "0ed0e757bf5c718b64b246eb31882133e1ddcf9de6b9c3f16d8b36bb078da915",
+    "docs/implementation/2026-11-20-integrated-synthetic-restore.json": "bc4833e5ee2ff6e26a68cc3050b43e197f39349615d1431d896af2f7552b3189"
+  },
+  "scratch_evidence": {
+    "directory": "/private/tmp/collect-managed82-EaiOgqL1",
+    "sha256": {
+      "restored-point.mjs": "a25000f55e5f62107c6e0f7b1fb6059abd1deef7fb7cbc860fb379d1bd48563d",
+      "managed-ordered.mjs": "6bf041e6e8169157188c03c595237b8243e2af6d9d54a5f1cff887477d525ad7",
+      "restore-checkpoint.json": "e7dd35c00878345694a757aac3f831ae9b20b9537556739777b0156b282dee73",
+      "ordered-result.json": "c37ddc7763ff9456195624dbea93473dfc08fb1a05dcfe9c5f5434ae480f01b6",
+      "bridge-result.json": "8589c3552ec87e30b0e17ef686289d8ba6be313f682e4cf77ee8deb7ca9bc186",
+      "representative.log": "4e1507a1de6d17e2fdaeb5dc0684924aebf010f04257f8d3e89b8b874d4a6f2c",
+      "payment-reference-feature.log": "89f7b374bf4eacfc497f39297819ec688a3b45c69d80e0655d67cdd9ce931d91"
+    },
+    "commands": [
+      "node --import /private/tmp/collect-managed82-EaiOgqL1/restored-point.mjs --test --test-name-pattern 'one fenced prior-release restore' scripts/supabase/managed-cloud-backup/synthetic-backup.test.mjs",
+      "node /private/tmp/collect-managed82-EaiOgqL1/managed-ordered.mjs",
+      "node /private/tmp/collect-managed82-EaiOgqL1/managed-ordered.mjs local-bridge",
+      "node --test scripts/supabase/cloud-release/burimunsi-payment-reference.test.mjs"
+    ],
+    "owned_clusters_removed": true
+  }
+}

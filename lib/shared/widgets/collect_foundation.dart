@@ -1,0 +1,597 @@
+import 'package:flutter/material.dart';
+
+import '../../app/theme/collect_colors.dart';
+import '../../app/theme/collect_component_tokens.dart';
+import '../../app/theme/collect_icons.dart';
+import '../../app/theme/collect_motion.dart';
+import '../../app/theme/collect_radius.dart';
+import '../../app/theme/collect_spacing.dart';
+import '../../app/theme/collect_runtime_tokens.dart';
+import '../../app/theme/collect_typography.dart';
+import '../../app/theme/collect_universal_tokens.dart';
+import '../models/collect_models.dart';
+import '../utils/collect_haptics.dart';
+import 'collect_chrome.dart' show CollectBackdropScope;
+
+/// Keeps a form's content and action dock scrollable as one unit when a
+/// software keyboard leaves too little height for the usual pinned layout.
+/// The scroll view stays mounted while the viewport changes, retaining focus.
+class CollectFormViewport extends StatelessWidget {
+  const CollectFormViewport({required this.child, this.controller, super.key});
+
+  final Widget child;
+  final ScrollController? controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final scale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 1.5);
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        primary: false,
+        controller: controller,
+        child: SizedBox(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight.clamp(320 * scale, double.infinity),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+class CollectButton extends StatelessWidget {
+  const CollectButton({
+    required this.label,
+    this.icon,
+    this.onPressed,
+    this.variant = CollectButtonVariant.primary,
+    this.expand = false,
+    super.key,
+  });
+
+  final String label;
+  final IconData? icon;
+  final VoidCallback? onPressed;
+  final CollectButtonVariant variant;
+  final bool expand;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final usesAccessibilityText =
+        MediaQuery.textScalerOf(context).scale(1) >= 1.3;
+    final style = switch (variant) {
+      CollectButtonVariant.primary => CollectComponentTokens.filledButton(
+        context,
+      ),
+      CollectButtonVariant.secondary => CollectComponentTokens.outlinedButton(
+        context,
+      ),
+      CollectButtonVariant.subtle => TextButton.styleFrom(
+        minimumSize: const Size(CollectSpacing.target, CollectSpacing.target),
+        foregroundColor: colors.textPrimary,
+        shape: RoundedRectangleBorder(borderRadius: CollectRadius.mdBorder),
+      ),
+      CollectButtonVariant.danger => CollectComponentTokens.dangerButton(
+        context,
+      ),
+    };
+    final child = icon == null
+        ? usesAccessibilityText
+              ? Text(label, softWrap: true, textAlign: TextAlign.center)
+              : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)
+        : Row(
+            mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon),
+              CollectSpacing.gapW8,
+              Flexible(
+                child: usesAccessibilityText
+                    ? Text(label, softWrap: true, textAlign: TextAlign.center)
+                    : Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+              ),
+            ],
+          );
+    void handlePressed() {
+      if (variant == CollectButtonVariant.danger) {
+        CollectHaptics.warning();
+      } else if (variant == CollectButtonVariant.primary) {
+        CollectHaptics.lightImpact();
+      } else {
+        CollectHaptics.selection();
+      }
+      onPressed?.call();
+    }
+
+    final button = switch (variant) {
+      CollectButtonVariant.primary ||
+      CollectButtonVariant.danger => FilledButton(
+        onPressed: onPressed == null ? null : handlePressed,
+        style: style,
+        child: child,
+      ),
+      CollectButtonVariant.secondary => OutlinedButton(
+        onPressed: onPressed == null ? null : handlePressed,
+        style: style,
+        child: child,
+      ),
+      CollectButtonVariant.subtle => TextButton(
+        onPressed: onPressed == null ? null : handlePressed,
+        style: style,
+        child: child,
+      ),
+    };
+    if (!expand) return button;
+    return SizedBox(width: double.infinity, child: button);
+  }
+}
+
+enum CollectButtonVariant { primary, secondary, subtle, danger }
+
+IconData collectionTypeIcon(CollectionType type) {
+  return switch (type) {
+    CollectionType.ikimina => CollectIcons.savings,
+    CollectionType.sport => CollectIcons.sport,
+    CollectionType.church => CollectIcons.church,
+    CollectionType.wedding => CollectIcons.wedding,
+    CollectionType.other => CollectIcons.collections,
+  };
+}
+
+class CollectionTypeBadge extends StatelessWidget {
+  const CollectionTypeBadge({
+    required this.type,
+    this.compact = false,
+    this.iconOnly = false,
+    super.key,
+  });
+
+  final CollectionType type;
+  final bool compact;
+  final bool iconOnly;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final accent = colors.actionColor;
+    final foreground = colors.textPrimary;
+    final background = CollectRuntimeTokens.badgeBackground(colors, accent);
+    return Semantics(
+      label: '${type.label} collection',
+      child: ExcludeSemantics(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: CollectRadius.pillBorder,
+            border: Border.all(
+              color: CollectRuntimeTokens.badgeBorder(colors, accent),
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: iconOnly
+                  ? CollectSpacing.x2
+                  : compact
+                  ? CollectSpacing.x2
+                  : CollectSpacing.x3,
+              vertical: compact ? CollectSpacing.x1 : CollectSpacing.x2,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  collectionTypeIcon(type),
+                  size: compact ? 15 : 17,
+                  color: foreground,
+                ),
+                if (!iconOnly) ...[
+                  CollectSpacing.gapW8,
+                  Text(
+                    type.label,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: foreground,
+                      fontWeight: CollectTypography.weightBold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CollectionTypeIconSelector extends StatelessWidget {
+  const CollectionTypeIconSelector({
+    required this.selected,
+    required this.onChanged,
+    this.options,
+    super.key,
+  });
+
+  final CollectionType selected;
+  final ValueChanged<CollectionType> onChanged;
+  final List<CollectionTypeCatalogItem>? options;
+
+  @override
+  Widget build(BuildContext context) {
+    final catalogOptions = options?.isNotEmpty == true
+        ? options!
+        : CollectionTypeCatalogConfig.defaults.types;
+    return Wrap(
+      spacing: CollectSpacing.x3,
+      runSpacing: CollectSpacing.x3,
+      children: [
+        for (final option in catalogOptions)
+          _CollectionTypeIconChoice(
+            option: option,
+            selected: selected == option.type,
+            onTap: () => onChanged(option.type),
+          ),
+      ],
+    );
+  }
+}
+
+class _CollectionTypeIconChoice extends StatelessWidget {
+  const _CollectionTypeIconChoice({
+    required this.option,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final CollectionTypeCatalogItem option;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = option.type;
+    final colors = context.collectColors;
+    final foreground = selected ? colors.onAccent : colors.textSecondary;
+    final border = selected ? colors.actionColor : colors.panelBorder;
+    final fill = selected ? colors.actionColor : colors.controlSurface;
+    return Tooltip(
+      message: option.label,
+      child: Semantics(
+        button: true,
+        selected: selected,
+        label: '${option.label} collection type',
+        onTap: onTap,
+        child: ExcludeSemantics(
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: CollectRadius.controlBorder,
+            child: AnimatedContainer(
+              duration: CollectMotion.duration(context, CollectMotion.fast),
+              curve: CollectMotion.standard,
+              width: 54,
+              height: 54,
+              decoration: BoxDecoration(
+                color: fill,
+                borderRadius: CollectRadius.controlBorder,
+                border: Border.all(color: border, width: selected ? 0 : 1),
+              ),
+              child: Icon(
+                collectionTypeIcon(type),
+                color: foreground,
+                size: 23,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CollectCard extends StatelessWidget {
+  const CollectCard({
+    required this.child,
+    this.onTap,
+    this.padding = CollectSpacing.cardPadding,
+    this.emphasis = CollectCardEmphasis.normal,
+    this.accentColor,
+    super.key,
+  });
+
+  final Widget child;
+  final VoidCallback? onTap;
+  final EdgeInsetsGeometry padding;
+  final CollectCardEmphasis emphasis;
+  final Color? accentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final brightness = Theme.of(context).brightness;
+    final highContrast =
+        MediaQuery.highContrastOf(context) ||
+        context.collectUniversalTokens.highContrast;
+    final tokenEmphasis = emphasis.runtimeToken;
+    final radius = CollectRuntimeTokens.cardRadius(tokenEmphasis);
+    final background = CollectRuntimeTokens.cardBackground(
+      colors,
+      brightness,
+      tokenEmphasis,
+      accentColor,
+      tone: CollectBackdropScope.of(context),
+      highContrast: highContrast,
+    );
+    final backgroundOpacity = CollectRuntimeTokens.cardOpacity(
+      brightness,
+      tokenEmphasis,
+    );
+    final border = CollectRuntimeTokens.cardBorder(
+      colors,
+      brightness,
+      tokenEmphasis,
+      accentColor,
+      highContrast: highContrast,
+    );
+    final shadows = CollectRuntimeTokens.cardShadows(
+      colors,
+      brightness,
+      tokenEmphasis,
+      accentColor,
+    );
+    final container = AnimatedContainer(
+      duration: CollectMotion.duration(context, CollectMotion.fast),
+      curve: CollectMotion.standard,
+      decoration: BoxDecoration(
+        color: background.withValues(alpha: backgroundOpacity),
+        borderRadius: radius,
+        border: border,
+        boxShadow: shadows,
+      ),
+      child: Material(
+        color: colors.transparent,
+        borderRadius: radius,
+        child: onTap == null
+            ? Padding(padding: padding, child: child)
+            : CollectFocusableInkWell(
+                borderRadius: radius,
+                onTap: onTap,
+                child: Padding(padding: padding, child: child),
+              ),
+      ),
+    );
+    return ClipRRect(borderRadius: radius, child: container);
+  }
+}
+
+/// Paints the shared keyboard-focus role without changing surface geometry.
+///
+/// The node replaces InkWell's implicit node, so this remains one tab stop.
+/// Only primary focus is outlined: a nested row takes the outline from its
+/// parent card. Touch focus preserves the native resting surface treatment.
+class CollectFocusableInkWell extends StatefulWidget {
+  const CollectFocusableInkWell({
+    required this.child,
+    required this.borderRadius,
+    this.onTap,
+    this.outsideFocusRing = false,
+    super.key,
+  });
+
+  final Widget child;
+  final BorderRadius borderRadius;
+  final VoidCallback? onTap;
+  final bool outsideFocusRing;
+
+  @override
+  State<CollectFocusableInkWell> createState() =>
+      _CollectFocusableInkWellState();
+}
+
+class _CollectFocusableInkWellState extends State<CollectFocusableInkWell> {
+  final _focusNode = FocusNode(debugLabel: 'Collect interactive surface');
+  bool _showFocusRing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_updateFocusRing);
+    FocusManager.instance.addHighlightModeListener(_handleHighlightMode);
+  }
+
+  @override
+  void didUpdateWidget(CollectFocusableInkWell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateFocusRing();
+  }
+
+  void _handleHighlightMode(FocusHighlightMode mode) => _updateFocusRing();
+
+  void _updateFocusRing() {
+    final visible =
+        widget.onTap != null &&
+        _focusNode.hasPrimaryFocus &&
+        FocusManager.instance.highlightMode == FocusHighlightMode.traditional;
+    if (visible != _showFocusRing) {
+      setState(() => _showFocusRing = visible);
+    }
+  }
+
+  @override
+  void dispose() {
+    FocusManager.instance.removeHighlightModeListener(_handleHighlightMode);
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.collectUniversalTokens;
+    return CustomPaint(
+      foregroundPainter: _showFocusRing
+          ? _CollectFocusRingPainter(
+              borderRadius: widget.borderRadius,
+              color: tokens.focusRing,
+              width: tokens.focusRingWidth,
+              outside: widget.outsideFocusRing,
+            )
+          : null,
+      child: InkWell(
+        focusNode: _focusNode,
+        borderRadius: widget.borderRadius,
+        onTap: widget.onTap,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+class _CollectFocusRingPainter extends CustomPainter {
+  const _CollectFocusRingPainter({
+    required this.borderRadius,
+    required this.color,
+    required this.width,
+    required this.outside,
+  });
+
+  final BorderRadius borderRadius;
+  final Color color;
+  final double width;
+  final bool outside;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Cards are clipped, so leave a gap inside their permanent contrast border.
+    // Rows have no horizontal padding; paint outside to keep text unobscured.
+    final inset = outside ? -width / 2 : width * 1.5;
+    final outline = borderRadius.toRRect(Offset.zero & size).deflate(inset);
+    canvas.drawRRect(
+      outline,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = width,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_CollectFocusRingPainter oldDelegate) =>
+      borderRadius != oldDelegate.borderRadius ||
+      color != oldDelegate.color ||
+      width != oldDelegate.width ||
+      outside != oldDelegate.outside;
+}
+
+/// A flat card whose read-only rows are built only near the viewport.
+///
+/// Use in ScreenScaffold.sliver, not inside a Column or shrink-wrapped list.
+/// The list retains the normal card's spacing, surface and corner radius.
+class CollectSliverCardList extends StatelessWidget {
+  const CollectSliverCardList({
+    required this.itemCount,
+    required this.itemBuilder,
+    this.separatorBuilder,
+    this.topSpacing = 0,
+    this.padding = CollectSpacing.cardPadding,
+    this.emphasis = CollectCardEmphasis.flat,
+    super.key,
+  });
+
+  final int itemCount;
+  final IndexedWidgetBuilder itemBuilder;
+  final IndexedWidgetBuilder? separatorBuilder;
+  final double topSpacing;
+  final EdgeInsetsGeometry padding;
+  final CollectCardEmphasis emphasis;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.collectColors;
+    final brightness = Theme.of(context).brightness;
+    final highContrast =
+        MediaQuery.highContrastOf(context) ||
+        context.collectUniversalTokens.highContrast;
+    final tokenEmphasis = emphasis.runtimeToken;
+    return SliverPadding(
+      padding: EdgeInsets.only(top: topSpacing),
+      sliver: DecoratedSliver(
+        decoration: BoxDecoration(
+          color:
+              CollectRuntimeTokens.cardBackground(
+                colors,
+                brightness,
+                tokenEmphasis,
+                null,
+                tone: CollectBackdropScope.of(context),
+                highContrast: highContrast,
+              ).withValues(
+                alpha: CollectRuntimeTokens.cardOpacity(
+                  brightness,
+                  tokenEmphasis,
+                ),
+              ),
+          borderRadius: CollectRuntimeTokens.cardRadius(tokenEmphasis),
+          // Preserve the existing flat-list decoration by default. Group lists
+          // opt into the same normal-card tokens as their prior box panel.
+          border: emphasis == CollectCardEmphasis.flat && !highContrast
+              ? null
+              : CollectRuntimeTokens.cardBorder(
+                  colors,
+                  brightness,
+                  tokenEmphasis,
+                  null,
+                  highContrast: highContrast,
+                ),
+          boxShadow: emphasis == CollectCardEmphasis.flat
+              ? null
+              : CollectRuntimeTokens.cardShadows(
+                  colors,
+                  brightness,
+                  tokenEmphasis,
+                  null,
+                ),
+        ),
+        sliver: SliverPadding(
+          padding: padding,
+          sliver: SliverList.builder(
+            itemCount: itemCount,
+            addAutomaticKeepAlives: false,
+            itemBuilder: (context, index) {
+              final item = itemBuilder(context, index);
+              return Material(
+                key: item.key,
+                type: MaterialType.transparency,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    item,
+                    if (separatorBuilder != null && index < itemCount - 1)
+                      separatorBuilder!(context, index),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+enum CollectCardEmphasis { flat, normal, hero, tonal, glow, outline, compact }
+
+extension on CollectCardEmphasis {
+  CollectRuntimeCardEmphasis get runtimeToken {
+    return switch (this) {
+      CollectCardEmphasis.flat => CollectRuntimeCardEmphasis.flat,
+      CollectCardEmphasis.normal => CollectRuntimeCardEmphasis.normal,
+      CollectCardEmphasis.hero => CollectRuntimeCardEmphasis.hero,
+      CollectCardEmphasis.tonal => CollectRuntimeCardEmphasis.tonal,
+      CollectCardEmphasis.glow => CollectRuntimeCardEmphasis.glow,
+      CollectCardEmphasis.outline => CollectRuntimeCardEmphasis.outline,
+      CollectCardEmphasis.compact => CollectRuntimeCardEmphasis.compact,
+    };
+  }
+}

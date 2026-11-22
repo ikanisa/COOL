@@ -1,0 +1,43 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Offline UI fixture only. INTERNET is solely needed by Flutter's
+         debug driver; Dart HTTP is blocked before transport by the fixture. -->
+    <uses-permission tools:node="removeAll" />
+    <uses-permission-sdk-23 tools:node="removeAll" />
+    <!-- Keep explicit storage removal markers after removeAll. The merger can
+         otherwise infer READ from a library's legacy WRITE request. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:node="remove" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:node="remove" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application>
+        <!-- Remove native SMS/jobs, Firebase/MLKit/startup providers and all
+             plugin background entrypoints, including future merged ones. -->
+        <receiver tools:node="removeAll" />
+        <service tools:node="removeAll" />
+        <provider tools:node="removeAll" />
+        <activity-alias tools:node="removeAll" />
+        <!-- Remove every lower-priority activity, including plugin WebViews;
+             keep only the fixture launcher declared below. -->
+        <activity tools:node="removeAll" />
+        <!-- The stock embedding has no Collect native service/intent channels.
+             Only this fixture launcher is exported; no links or share intents. -->
+        <activity android:name="io.flutter.embedding.android.FlutterActivity"
+            android:exported="true" android:launchMode="singleTop"
+            android:taskAffinity="" android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
+            <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <meta-data android:name="firebase_data_collection_default_enabled" android:value="false" />
+        <meta-data android:name="firebase_messaging_auto_init_enabled" android:value="false" tools:replace="android:value" />
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" tools:replace="android:value" />
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
+    </application>
+</manifest>

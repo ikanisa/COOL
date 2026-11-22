@@ -1,0 +1,23 @@
+{
+  "scope": "rw_receipt_successors",
+  "action": "approve_successor",
+  "sequence": 1,
+  "outbox_id": "f1b634a3-8f01-472a-a238-c85ddc1f03b6",
+  "expires_at": "2026-10-01T22:58:04.374948Z",
+  "request_id": "26dc08e0-5952-4c8d-969f-9dccbc666ac0",
+  "approval_id": "77038076-b214-47b7-bfbb-e7a2f48a99ac",
+  "reason_code": "definitely_not_invoked",
+  "recorded_at": "2026-10-01T22:43:04.374948Z",
+  "send_action": false,
+  "carrier_proof": false,
+  "preview_sha256": "3902a4f956a9092f8124a1db6d75a405a78a62dd67acf2ee2f612a5f8c06e05d",
+  "delivery_proven": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "lineage_revision": 3,
+  "successor_action": "retry_uninvoked",
+  "source_snapshot_id": "6db20949-f40c-4a1b-9898-dcf90ccc65f4",
+  "expected_root_revision": 2,
+  "primary_receipt_retained": true,
+  "expected_lineage_revision": 2
+}

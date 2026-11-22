@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "code": "QUOTA_EXHAUSTED",
+      "payment_id": "851d4eb3-7572-43e2-9503-3ecbcec3a2b4",
+      "receipt_id": null,
+      "request_id": "3b4f7d19-3372-4e81-a579-4a41d78943b2",
+      "evidence_id": "3b4f7d19-3372-4e81-a579-4a41d78943b2:9fc02870-6dcd-486c-a9b3-07d52d76fa9b",
+      "recorded_at": "2026-10-02T01:23:25.295239Z",
+      "snapshot_id": "9fc02870-6dcd-486c-a9b3-07d52d76fa9b",
+      "exception_ids": [],
+      "source_status": "available",
+      "business_handled": false,
+      "transaction_sms_id": "80dfa407-cb76-4f19-ba25-c858c421fcba"
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "38013e16-fcee-4ac9-9e96-893d8cc7f776",
+  "status": "partial",
+  "section": "budget_refusals",
+  "checked_at": "2026-10-02T01:23:25.536430Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T01:24:25.536430Z"
+}

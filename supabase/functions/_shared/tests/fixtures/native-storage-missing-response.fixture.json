@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-21T15:17:55.788Z",
+  "readOnly": true,
+  "keyValuesRecorded": false,
+  "results": [
+    {
+      "method": "HEAD",
+      "httpStatus": 400,
+      "contentType": "application/json; charset=utf-8",
+      "body": "",
+      "bodyBytes": 0
+    },
+    {
+      "method": "GET",
+      "httpStatus": 400,
+      "contentType": "application/json; charset=utf-8",
+      "body": "{\"statusCode\":\"404\",\"error\":\"not_found\",\"message\":\"Object not found\",\"code\":\"NoSuchKey\"}",
+      "bodyBytes": 88
+    }
+  ]
+}

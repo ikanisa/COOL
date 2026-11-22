@@ -1,0 +1,33 @@
+// Deterministic packaging of existing originals; no generative image edits.
+// Run with Node and sharp available (NODE_PATH may point at bundled packages).
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+import { writeGroupCoverCatalog } from './group_cover_catalog_source.mjs';
+const sharp = createRequire(import.meta.url)('sharp');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const bank = 'assets/group_covers/rwanda';
+const catalog = JSON.parse(await fs.readFile(path.join(root, bank, 'catalog.v1.json')));
+const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+const records = [];
+for (const a of catalog.assets) {
+  const source = await fs.readFile(path.join(root, a.planned_files.source));
+  const record = { id: a.id, version: a.version, source: a.planned_files.source, source_sha256: hash(source), derivatives: [] };
+  for (const [role, width, quality, ceiling] of [['cover', 768, 82, 179200], ['thumbnail', 192, 78, 15360]]) {
+    const bytes = await sharp(source).resize({width, withoutEnlargement: true}).webp({quality, effort: 6}).toBuffer();
+    if (bytes.length > ceiling) throw new Error(`${a.id} ${role} exceeds ${ceiling} bytes`);
+    const target = path.join(root, a.planned_files[role]);
+    await fs.mkdir(path.dirname(target), {recursive: true});
+    await fs.writeFile(target, bytes);
+    const info = await sharp(bytes).metadata();
+    record.derivatives.push({role, path: a.planned_files[role], bytes: bytes.length, sha256: hash(bytes), width: info.width, height: info.height});
+  }
+  records.push(record);
+}
+const total = records.flatMap(r=>r.derivatives).reduce((n,r)=>n+r.bytes,0);
+if (total > catalog.art_direction.budgets.max_bank_runtime_bytes) throw new Error('Runtime bank exceeds its byte budget');
+await fs.writeFile(path.join(root, bank, 'runtime-manifest.json'), JSON.stringify({schema_version:1, concepts:records.length,total_bytes:total, operation:'Sharp resize and WebP encode; original composition and source files preserved', review:'Local QA candidate; native/cultural acceptance remains separate', records},null,2)+'\n');
+await writeGroupCoverCatalog(root, catalog);
+console.log(JSON.stringify({concepts:records.length,derivatives:records.length*2,total_bytes:total}));

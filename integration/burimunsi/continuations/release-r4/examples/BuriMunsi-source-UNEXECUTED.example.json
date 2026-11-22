@@ -1,0 +1,23 @@
+{
+  "artifacts": [],
+  "created_at": "1970-01-01T00:00:00Z",
+  "dependency_inventory": {
+    "path": "missing-dependency-inventory.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "size": 0
+  },
+  "designation": "source-only",
+  "kind": "release-evidence",
+  "phase": "source",
+  "policy_sha256": "81af5eeeffbc1a17a76561ca8433d15664c26004a6553ab2f9261607ffbc43a4",
+  "product": "BuriMunsi",
+  "qualifications": [],
+  "run_id": "unexecuted-example-0001",
+  "schema_version": 1,
+  "source_manifest": {
+    "path": "missing-source-manifest.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "size": 0
+  },
+  "source_version": "REPLACE_WITH_EXACT_SOURCE_VERSION"
+}

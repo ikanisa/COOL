@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+
+class CollectIcons {
+  const CollectIcons._();
+
+  static const home = Icons.home_rounded;
+  static const homeOutline = Icons.home_outlined;
+  static const collections = Icons.inventory_2_rounded;
+  static const collectionsOutline = Icons.inventory_2_outlined;
+  static const public = Icons.public_rounded;
+  static const publicOutline = Icons.public_outlined;
+  static const settings = Icons.settings_rounded;
+  static const settingsOutline = Icons.settings_outlined;
+  static const add = Icons.add_rounded;
+  static const money = Icons.payments_rounded;
+  static const momo = Icons.phone_android_rounded;
+  static const donate = Icons.volunteer_activism_rounded;
+  static const shield = Icons.verified_user_rounded;
+  static const privacy = Icons.visibility_off_rounded;
+  static const sms = Icons.sms_rounded;
+  static const paste = Icons.content_paste_rounded;
+  static const copy = Icons.copy_rounded;
+  static const qr = Icons.qr_code_2_rounded;
+  static const ledger = Icons.receipt_long_rounded;
+  static const admin = Icons.admin_panel_settings_rounded;
+  static const people = Icons.groups_rounded;
+  static const share = Icons.ios_share_rounded;
+  static const download = Icons.download_rounded;
+  static const photo = Icons.add_photo_alternate_rounded;
+  static const check = Icons.check_circle_rounded;
+  static const warning = Icons.warning_amber_rounded;
+  static const error = Icons.error_rounded;
+  static const info = Icons.info_rounded;
+  static const pending = Icons.schedule_rounded;
+  static const search = Icons.search_rounded;
+  static const filter = Icons.tune_rounded;
+  static const chevron = Icons.chevron_right_rounded;
+  static const chevronDown = Icons.keyboard_arrow_down_rounded;
+  static const sync = Icons.sync_rounded;
+  static const profile = Icons.face_rounded;
+  static const lock = Icons.lock_rounded;
+  static const dashboard = Icons.space_dashboard_rounded;
+  static const target = Icons.flag_rounded;
+  static const activity = Icons.timeline_rounded;
+  static const tips = Icons.lightbulb_rounded;
+  static const visibility = Icons.visibility_rounded;
+  static const wallet = Icons.account_balance_wallet_rounded;
+  static const bank = Icons.account_balance_rounded;
+  static const church = Icons.church_rounded;
+  static const sport = Icons.sports_soccer_rounded;
+  static const wedding = Icons.favorite_rounded;
+  static const savings = Icons.savings_rounded;
+  static const tune = Icons.tune_rounded;
+  static const support = Icons.support_agent_rounded;
+  static const palette = Icons.palette_rounded;
+  static const back = Icons.arrow_back_rounded;
+  static const arrowForward = Icons.arrow_forward_rounded;
+}

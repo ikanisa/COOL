@@ -1,0 +1,19 @@
+Use case: photorealistic-natural
+
+Asset type: One original photographic cover for a Collect contribution group. Working concept: Learning practical skills.
+
+Scene and subjects: Three Rwandan adults in their twenties learn safe small-electronics repair with an adult instructor in a modest training workshop in eastern Rwanda. A woman learner points to an unplugged device while the others discuss the components. Keep the instructor collaborative and the learners active, with the workbench in one central cluster. The scene suggests contributions toward tools and training, without promising employment.
+
+Materials and details: Unbranded unplugged electronics, eye protection where appropriate, organised tools, no dangerous live wiring or readable certificates.
+
+Lighting and palette: Bright diffuse daylight, charcoal tools, warm timber and restrained teal.
+
+Primary focal subject: The learners examining the unplugged device.
+
+Style: Original premium editorial photography for Collect, depicting fictional contemporary Rwandan people and settings. Show everyday competence, cooperation and dignity, with natural skin texture, believable anatomy, practical objects and restrained colour. Use a 35–50 mm documentary lens feel at eye level; avoid glossy corporate-stock posing. The described location is creative setting direction, not evidence of a real event or person's origin.
+
+Composition and intended crops: Generate one image, portrait 3:4, ideally 1536 x 2048 pixels; record the actual output dimensions. Keep the story-critical faces and object cluster within the central 60% of width and the middle 45% of height. Leave the upper 15% and lower 25% visually quiet for Collect's category and title overlays. All essential content must remain understandable in the tall 358:438 card, square/circle avatar and central 3:2 preview crops. Do not bake in a UI, text, vignette or gradient.
+
+Text: None. Do not render any words, numbers or interface.
+
+Constraints: All depicted people are fictional adults, with no real customer likeness, testimonial or identifiable institution. Use contemporary everyday clothing except the occasion-specific dress explicitly requested. Keep phones and notebooks unreadable; avoid cash piles, readable currency, payment confirmations, bank cards, logos, watermarks, text, official flags and political insignia. No safari shorthand, generic pan-African costume, humiliating poverty imagery, medical distress or graphic death. No collage, multiple scenes, border or app screenshot. This is original illustrative photography, not evidence that money has been received, a loan granted, insurance activated or a partnership established.

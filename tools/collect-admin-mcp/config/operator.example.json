@@ -1,0 +1,19 @@
+{
+  "contract_version": 1,
+  "policy_revision": "direct-desktop-dry-run-v1",
+  "mode": "dry_run",
+  "live_dispatch_enabled": false,
+  "native_adapter": "unconfigured",
+  "approved_channels": ["messages_native"],
+  "approved_purposes": ["payment_receipt"],
+  "excluded_recipient_keys": [],
+  "channel_accounts": {},
+  "admin_browser": null,
+  "max_source_age_seconds": 300,
+  "lease_seconds": 60,
+  "test_gate": {
+    "enabled": false,
+    "owner_designated_recipient_keys": [],
+    "expires_at": null
+  }
+}

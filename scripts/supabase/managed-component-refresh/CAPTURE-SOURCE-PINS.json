@@ -1,0 +1,30 @@
+{
+  "format": "collect.managed-component-capture.sources.v1",
+  "files": {
+    "scripts/supabase/managed-component-refresh/capture-plan.mjs": "ea989a5eaa1f5e67b06095552bf651bd838b018517d8ab205ccdab326bcbfb4a",
+    "scripts/supabase/managed-component-refresh/capture-plan.test.mjs": "21f63d7a060493fec6093c0b43d70d8fb7490e3e00db9a88cad9f502c211dfa4",
+    "scripts/supabase/managed-component-refresh/capture-runner.mjs": "76f76d70d24eb0b93b1a4d36d255577d593c4928a9a4ef481393aa9e31aa2a6e",
+    "scripts/supabase/managed-component-refresh/capture-runner.test.mjs": "06e523d2fa08c1652af28d5c3b09891ec98900d6ac853cd5dff9fd8f470d9c82",
+    "scripts/supabase/managed-component-refresh/capture-json.mjs": "f32b1ede44363eba9ed78f380efd6709bc7b3691c47f27962a6cbd89b324d730",
+    "scripts/supabase/managed-component-refresh/capture-fixtures.mjs": "f96f803e97706e07ff0caa48cdddff9666a70603efc73e429d098599b946ed14",
+    "scripts/supabase/managed-component-refresh/CAPTURE-README.md": "4d65d7ccd1220dd781b7cee27baf88e88ab59533c3de3e8a38910bcfe1a6d88b",
+    "scripts/supabase/managed-component-refresh/preflight.mjs": "7b6959ce1c2f9d4d20265795e78bb264d7e623c36e5c0a85120c3d1fd10d0af9",
+    "scripts/supabase/managed-component-refresh/SOURCE-PINS.json": "58f63cebba51903806cc0587cf5cb6f92f0c582fbb6053ba0df16bfb6c4fd482",
+    "scripts/supabase/current-archive/bundle.mjs": "a78f686a7fda1f3fad280d290daf49b061d0695779cec0918160d83b2cfcdd73",
+    "scripts/supabase/current-archive/codec.mjs": "f3d59e4ed73df2463996ebb16a49422215fb51dcdcbd96561299ac5821d1d192",
+    "scripts/supabase/current-archive/sql.mjs": "d3995d52215b81b1284f84e1c04768c09262703f3daeb5005d5d50b5c1f4948c",
+    "scripts/supabase/current-archive/restore.mjs": "3a84cec5f6b99d53b261966438c617c13eb1201028b0ae574a78c820e8078696",
+    "scripts/supabase/managed-auth-archive/REFERENCE.json": "4f91bb9b4e70503ae7f648acb6ec19e14d0a4417d3fd65cd9533a79decec6de4",
+    "scripts/supabase/managed-auth-archive/counts.mjs": "34ec072a5996b33ddbfa36f23b10f1d76b7ff30614f2a4a26bdccd4c4529b1de",
+    "scripts/supabase/managed-auth-archive/auth.mjs": "940cdf4eb4a4bb2327cd2851c0b25dbc3091836590c504c781c8e7cab40a9816",
+    "scripts/supabase/managed-auth-archive/native-definition.mjs": "5276d689e9fad39d82d745880f01f9a92af016fcc8b49482e388084fed07601f",
+    "scripts/supabase/managed-storage-archive-v2/REFERENCE.json": "75e964a51874afdda7a7831a59116c0f0347149d202dac6ef809db21ef1e14f4",
+    "scripts/supabase/managed-storage-archive-v2/counts.mjs": "cc10c04f7d9dcbca3e9d9070aed6e793143ebd87feebbab152f5e51bfa371e04",
+    "scripts/supabase/managed-storage-archive-v2/storage.mjs": "f2f52602f27d8db1d26d3f922ab37005598087a9e47f8fdaa5c583f20c61ab97",
+    "scripts/supabase/managed-storage-archive-v2/native-definition.mjs": "56c6cfa3cf3ea1ab55bb6ae21db5989c3681078666754482dfe2aa1216b9c3b4"
+  },
+  "node": {
+    "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  }
+}

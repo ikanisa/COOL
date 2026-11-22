@@ -1,0 +1,35 @@
+{
+  "format": "collect.managed-sms-gateway.v1-preserved",
+  "original_manifest_sha256": "a04600a3be204033c7f10a1557ce323ce0f74b946aee2e37b218ad370e4b8d06",
+  "scope": "byte preservation only; relocated tests are not standalone",
+  "files": [
+    {
+      "name": "README.md",
+      "sha256": "faf8d0b2b3c175786b48c2e928772cb2ccea30b3843abc72cb9039ba1bfc960e"
+    },
+    {
+      "name": "gateway-app-integration.test.ts",
+      "sha256": "3826efc6d6481b21dffaa36b05812cecc429fc662aa19bcdedb30f9437fa252d"
+    },
+    {
+      "name": "synthetic-ingress.mjs",
+      "sha256": "8d1982dbd222a5d00c2948fd5dbe1bea3836eb733240ab29b407e3d1b73e0381"
+    },
+    {
+      "name": "synthetic-ingress.test.mjs",
+      "sha256": "62e3948b616d696935ae7870a83b299748f225b52c1496ba45cbfad813a01f45"
+    },
+    {
+      "name": "synthetic-nonce-adapter.mjs",
+      "sha256": "9081e9c461ffbe1a3eb03edd32a552cb3d1b2e89731347fcb1099e5caa1ca9b8"
+    },
+    {
+      "name": "synthetic-nonce-candidate.sql",
+      "sha256": "c33bad0a70b77b196b16e4cada410400be8e2bad560e7971cf675013a7038d44"
+    },
+    {
+      "name": "synthetic-nonce-pg.test.mjs",
+      "sha256": "f4dfdb227e2a0a9f7942914e417f9070e27f33174a66d9d898e06bd146b1ee51"
+    }
+  ]
+}

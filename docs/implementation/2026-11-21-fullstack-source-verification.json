@@ -1,0 +1,116 @@
+{
+  "date": "2026-11-21",
+  "review_branch": "codex/collect-fullstack-cleanup-20261120",
+  "member_fix": "fbe93a9d416624a4d10953231a145ba620a843d3",
+  "directory_fix": "cd95379a48d81019e8d549dd6aaf28263475f3ee",
+  "execution_scope": "Isolated source checkouts, Dart VM, Vitest, Node and local PostgreSQL. Disk cleanup and the owner’s artifact deferral continue.",
+  "member": {
+    "nonintegration_flutter_vm_passed": 2688,
+    "native_test_assets": "Existing unit test assets reused with --no-test-assets.",
+    "command": "flutter test --no-pub --no-test-assets --concurrency=1 --exclude-tags=integration --reporter=expanded",
+    "historical_sql_decoder_vm_passed": 6,
+    "historical_input_sha256": "c37ee2f7c22284722d2e1c91353d938e4f03f4e4906be1aa31e30aeeb4eb9a6a",
+    "focused_cache_and_session_tests_passed": 416,
+    "cache_wiring_source_tests_passed": 19,
+    "source_inputs": {
+      "revision": "cd95379a48d81019e8d549dd6aaf28263475f3ee",
+      "checked": {
+        ".fvmrc": 1,
+        "analysis_options.yaml": 1,
+        "assets": 198,
+        "lib": 223,
+        "pubspec.lock": 1,
+        "pubspec.yaml": 1,
+        "test": 452,
+        "third_party": 93,
+        "tool": 4
+      },
+      "missing": [],
+      "untracked_lib_or_test": [],
+      "license_notices_verified_separately_after_vm_run": 6
+    },
+    "initial_run": "Four failures came from missing checkout fixtures. The final suite used the Git-tracked inputs and its own source checkout for the inventory checks."
+  },
+  "react_admin": {
+    "vitest_files": 135,
+    "vitest_passed": 981,
+    "typecheck_exit_code": 0,
+    "lint_exit_code": 0,
+    "dependency_install": "npm ci --offline --ignore-scripts --no-audit --no-fund. The tracked lockfile matched after installation."
+  },
+  "edge_node": {
+    "command": "node scripts/supabase/run_edge_node_tests.mjs",
+    "passed": 3827,
+    "failed": 0,
+    "skipped": [
+      "a conflicting cross-source receipt prevents clean financial outcome on PostgreSQL",
+      "account SMS history preserves scope, audit, consent, grant and retained-object boundaries",
+      "historical authorization rows stay locked until a disclosure transaction ends",
+      "real PostgreSQL source reservation preserves exact replay, distinct rows and authorization",
+      "conflicting sources disappear from unallocated counts and change the page revision",
+      "Postgres suggestions preserve managed phones and native name/masked-suffix identity",
+      "captured Iceberg inventory remains unknown and cannot authorize disposition"
+    ],
+    "fixture_scope": "The seven optional PostgreSQL or captured-catalog scenarios were skipped by their test gates in this Node run. Directory measurements separately used owned PostgreSQL 17.11."
+  },
+  "reviewed_admin_and_edge_inputs": {
+    "revision": "cd95379a48d81019e8d549dd6aaf28263475f3ee",
+    "admin_and_edge_git_blobs_read_back": 864,
+    "missing": 0
+  },
+  "website": {
+    "verified_capability_inputs": 39,
+    "generated_output_sha256": {
+      "lib/features/landing/public_marketing_page_content.dart": "c09d214711155a815c56ab46c7cb0f1636cc6553db60d207551d1fc832711841",
+      "lib/features/landing/public_capability_content.dart": "9302520b77fc43aaebea740e75997215d104a5c197df5765786020e2a3d11123",
+      "fastlane/metadata/en-GB/description.txt": "bd92d3b4bbb727033dcbd28bd68aa3e79586e1c96c1eeff508fb86b2000c3f8e",
+      "fastlane/metadata/en-GB/promotional_text.txt": "3da4aeb139366627db56de695b9f1d702eaa0e4b53900bda1249047791258d93",
+      "fastlane/metadata/en-GB/keywords.txt": "649e6277310e9ac443133c5adb181254688f06355afaf88679d55283d869e0ed",
+      "fastlane/metadata/en-GB/review_notes.txt": "ff7caa4ecf80a8f8219a7291e52879befd55c05d03ee4bc8fffe97fcec316d8e",
+      "fastlane/metadata/en-GB/release_notes.txt": "b99e028630950800e2baeb3307bb61cededf66b4439c90a287cfa9b202d57c7b",
+      "fastlane/metadata/android/en-US/full_description.txt": "e11f7ea0d234fe651b8f67889655015be112abcdf5895a8cd2ffd815a1690d47",
+      "fastlane/metadata/android/en-US/short_description.txt": "5e89c3082fa6abf11bff5d29903bb9e5de7c382861c6a07c381335e87fdf26d4"
+    },
+    "historical_capture_comparison": {
+      "old": 354,
+      "current": 354,
+      "drift": [
+        "lib/app/router.dart",
+        "lib/core/cloudflare/realtime_invalidation.dart",
+        "lib/features/privacy/privacy_email_verification.dart",
+        "lib/features/privacy/privacy_request_controller.dart",
+        "lib/features/privacy/privacy_request_screen.dart",
+        "lib/features/privacy/privacy_transport.dart",
+        "lib/shared/repositories/collect_offline_cache.dart",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/shared/repositories/collect_repository_history.dart",
+        "lib/shared/repositories/collect_repository_member_history.dart"
+      ]
+    },
+    "content_contract": {
+      "inventory": 25,
+      "changed": [
+        "content/product/collect_capabilities.json",
+        "lib/features/landing/public_marketing_page_content.dart",
+        "lib/features/landing/public_capability_content.dart"
+      ],
+      "validator": "Reviewed product/content source changed"
+    },
+    "current_owner_publication_or_provider_approval": false
+  },
+  "log_sha256": {
+    "member/full-vm-reviewed.log": "e093136cbbcf0c64739b550442c801d20fd2b439e216f0f01b3d6dca73514319",
+    "member/history-vm-reviewed.log": "71271544c5a8f0a6aeff9a3f961cc8d14bb36c7af66f33ef27318f671d3b6d22",
+    "member/cache-wiring.log": "ddd50d93f73fad6b4cdbfd58b2478ee7260d6cf3fb97da0acb84c9be1e26b3b3",
+    "profile/react-reviewed.log": "3bcd5aa734337927be9034c44851fe1835f3be67cec46689d4652e617fba2eec",
+    "profile/edge-reviewed.log": "14185e6760b7b082ec36992e4cf60b84440413c008a02fb92d77ff69386b36e2",
+    "profile/react-typecheck.log": "a4e8bf6c68a5628399aee9ba8ba8ca7909b33bf4066fe7cb5d8f0225ef923460",
+    "profile/react-lint.log": "8b6cbea582d5f5e7d52dc9b70c35cdb7fa28e2a0e56c2a5b9ae619b2ef70f88d"
+  },
+  "remaining": [
+    "Recheck the hosted upgrade using an open tab and real operator roles. The last hosted observations recorded here are from 20 November.",
+    "Physical process interruption, carrier USSD/SMS and signed-device distribution remain unverified on these sources.",
+    "The new directory query plans remain local. Authenticated hosted contention and handset rendering still need checks.",
+    "The independent full archive was removed during disk cleanup. Fresh artifact, media and recovery qualification remains deferred."
+  ]
+}

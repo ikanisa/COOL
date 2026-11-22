@@ -1,0 +1,176 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+cd "$ROOT_DIR"
+
+output_format="text"
+case "${1:-}" in
+  --json) output_format="json" ;;
+  "") ;;
+  *)
+    printf 'usage: %s [--json]\n' "$0" >&2
+    exit 2
+    ;;
+esac
+
+json_escape() {
+  ruby -r json -e 'puts JSON.generate(ARGV.fetch(0))' "$1"
+}
+
+blockers=()
+blocker_keys=()
+approval_gate_json="$(mktemp)"
+mobile_gate_json="$(mktemp)"
+admin_live_gate_json="$(mktemp)"
+trap 'rm -f "$approval_gate_json" "$mobile_gate_json" "$admin_live_gate_json"' EXIT
+
+add_blocker() {
+  blocker_keys+=("$1")
+  blockers+=("$2")
+}
+
+has_blocker() {
+  local needle="$1"
+  local key
+  [[ "${#blocker_keys[@]}" -eq 0 ]] && return 1
+  for key in "${blocker_keys[@]}"; do
+    [[ "$key" == "$needle" ]] && return 0
+  done
+  return 1
+}
+
+admin_pwa_live_url="${ADMIN_PWA_LIVE_URL:-}"
+admin_build_dir="${ADMIN_PWA_BUILD_DIR:-$ROOT_DIR/build/admin-web}"
+if [[ "$admin_build_dir" != /* ]]; then
+  admin_build_dir="$ROOT_DIR/$admin_build_dir"
+fi
+if [[ -z "$admin_pwa_live_url" && -f "$admin_build_dir/version.json" ]]; then
+  admin_pwa_live_url="$(
+    ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data.fetch("admin_origin", "")) if data["frontend"] == "react-vite" && data["environment"] == "production"' \
+      "$admin_build_dir/version.json" 2>/dev/null || true
+  )"
+fi
+
+if /bin/bash "$ROOT_DIR/scripts/release/release_approval_evidence_gate.sh" --json >"$approval_gate_json"; then
+  :
+else
+  add_blocker "release_approval_evidence_gate" "Current release approval evidence is incomplete or failed validation."
+fi
+
+approval_approved() {
+  ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); puts(data.dig("approvals", ARGV.fetch(1), "approved") == true ? "1" : "0")' "$approval_gate_json" "$1" 2>/dev/null || printf '0\n'
+}
+
+product_signoff_approved="$(approval_approved product_signoff)"
+android_sms_uat_approved="$(approval_approved android_sms_access_uat)"
+release_owner_signoff_approved="$(approval_approved release_owner_signoff)"
+
+if [[ "$product_signoff_approved" != "1" ]]; then
+  add_blocker "product_signoff" "Corrected SMS-first Groups product definition is not signed off."
+fi
+
+if [[ "$android_sms_uat_approved" != "1" ]]; then
+  add_blocker "android_sms_access_uat" "Real Android MoMo SMS ingestion/parser/allocation UAT is not approved."
+fi
+
+if /bin/bash "$ROOT_DIR/scripts/flutter_mobile_release_gate.sh" --json >"$mobile_gate_json"; then
+  :
+else
+  mobile_gate_exit=$?
+  add_blocker "flutter_mobile_release_gate" "Current mobile release artifact and scope validation is incomplete or failed."
+  if [[ "$mobile_gate_exit" -eq 99 ]]; then
+    while IFS= read -r key; do
+      case "$key" in
+        android_release_artifacts)
+          add_blocker "android_release_artifacts" "Current Android release APK/AAB artifacts are missing or stale."
+          ;;
+        android_release_signing_review)
+          add_blocker "android_release_signing_review" "Android release signing / Play App Signing review is not approved."
+          ;;
+        ios_release_scope)
+          add_blocker "ios_release_scope" "iOS release scope is not signed off or explicitly marked out of scope."
+          ;;
+      esac
+    done < <(ruby -r json -e 'data = JSON.parse(File.read(ARGV.fetch(0))); Array(data["blocker_keys"]).each { |key| puts key }' "$mobile_gate_json")
+  fi
+fi
+
+admin_pwa_live_status="missing"
+if [[ -z "$admin_pwa_live_url" ]]; then
+  add_blocker "admin_pwa_live_url" "Admin PWA live deployment URL is missing."
+else
+  if ADMIN_PWA_LIVE_URL="$admin_pwa_live_url" /bin/bash "$ROOT_DIR/scripts/admin_pwa_live_gate.sh" --json >"$admin_live_gate_json"; then
+    admin_pwa_live_status="pass"
+  else
+    admin_live_gate_exit=$?
+    admin_pwa_live_status="fail"
+    if [[ "$admin_live_gate_exit" -eq 99 ]]; then
+      add_blocker "admin_pwa_live_gate" "Admin PWA live deployment gate is blocked."
+    else
+      add_blocker "admin_pwa_live_gate" "Admin PWA live deployment gate failed for the current URL."
+    fi
+  fi
+fi
+
+platform_acceptance="0"
+if python3 "$ROOT_DIR/scripts/qa/release_evidence.py" current-platform --json >/dev/null; then
+  platform_acceptance="1"
+else
+  add_blocker "current_supabase_hosted_acceptance_pending" "Current Supabase hosted authentication, authorization, financial, delivery and recovery acceptance is pending."
+fi
+
+if [[ "$release_owner_signoff_approved" != "1" ]]; then
+  add_blocker "release_owner_signoff" "Release-owner signoff for the current evidence packet is not approved."
+fi
+
+decision="NO-GO"
+status="blocked"
+if [[ "${#blocker_keys[@]}" -eq 0 ]]; then
+  decision="GO"
+  status="pass"
+fi
+
+if [[ "$output_format" == "json" ]]; then
+  {
+    printf '{\n'
+    printf '  "decision": %s,\n' "$(json_escape "$decision")"
+    printf '  "status": %s,\n' "$(json_escape "$status")"
+    printf '  "platform_strict": %s,\n' "$(json_escape "$status")"
+    printf '  "blocker_keys": ['
+    for i in "${!blocker_keys[@]}"; do
+      [[ "$i" -gt 0 ]] && printf ', '
+      printf '%s' "$(json_escape "${blocker_keys[$i]}")"
+    done
+    printf '],\n'
+    printf '  "blockers": ['
+    for i in "${!blockers[@]}"; do
+      [[ "$i" -gt 0 ]] && printf ', '
+      printf '%s' "$(json_escape "${blockers[$i]}")"
+    done
+    printf '],\n'
+    printf '  "evidence_flags": {\n'
+    printf '    "product_signoff": %s,\n' "$(json_escape "$product_signoff_approved")"
+    printf '    "android_sms_uat": %s,\n' "$(json_escape "$android_sms_uat_approved")"
+    printf '    "android_release_artifacts": %s,\n' "$(json_escape "$(has_blocker android_release_artifacts && printf stale || printf current)")"
+    printf '    "android_release_signing_review": %s,\n' "$(json_escape "$(has_blocker android_release_signing_review && printf missing || printf current)")"
+    printf '    "ios_release_scope": %s,\n' "$(json_escape "$(has_blocker ios_release_scope && printf missing || printf current)")"
+    printf '    "admin_pwa_live_url": %s,\n' "$(json_escape "${admin_pwa_live_url:+present}")"
+    printf '    "admin_pwa_live_gate": %s,\n' "$(json_escape "$admin_pwa_live_status")"
+    printf '    "platform_acceptance": %s,\n' "$(json_escape "$platform_acceptance")"
+    printf '    "release_owner_signoff": %s\n' "$(json_escape "$release_owner_signoff_approved")"
+    printf '  }\n'
+    printf '}\n'
+  }
+else
+  printf '[release-status] decision=%s\n' "$decision"
+  printf '[release-status] status=%s\n' "$status"
+  if [[ "${#blockers[@]}" -gt 0 ]]; then
+    printf '[release-status] blockers:\n'
+    for blocker in "${blockers[@]}"; do
+      printf '  - %s\n' "$blocker"
+    done
+  fi
+fi
+
+exit 0

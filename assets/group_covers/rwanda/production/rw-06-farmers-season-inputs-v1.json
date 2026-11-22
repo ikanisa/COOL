@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-06-farmers-season-inputs",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-06-farmers-season-inputs-v1.png",
+  "source_sha256": "944e8fdbc13cefa70f819353b2dc28e97d5c821b8fa44f45a37a103d89d64a19",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "e811082a5eca3b79ac017fea9c1ffed94bfc7c92b4b2654a7ebc4299debff3ea",
+  "imported_at_utc": "2026-09-06T11:19:01.590932+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-71d116e2-5cee-4a8c-88c6-77239f30ebfc.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

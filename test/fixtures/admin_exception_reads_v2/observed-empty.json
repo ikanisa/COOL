@@ -1,0 +1,13 @@
+{
+  "rows": [],
+  "limit": 50,
+  "scope": "platform_global",
+  "active": true,
+  "checked_at": "2026-09-30T23:31:21.669190Z",
+  "next_cursor": null,
+  "source_kind": null,
+  "contract_version": 2,
+  "sample_valid_until": "2026-09-30T23:32:21.669190Z",
+  "source_scan_complete": false,
+  "escalation_delivery_verified": false
+}

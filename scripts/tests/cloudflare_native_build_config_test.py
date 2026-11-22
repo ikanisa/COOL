@@ -1,0 +1,819 @@
+#!/usr/bin/env python3
+"""Exercise real release wrappers with isolated compiler/signing substitutes.
+
+These prove configuration and refusal behavior, never native/signing acceptance.
+"""
+import contextlib
+import hashlib
+import io
+import importlib.util
+import json
+import os
+import re
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parents[2]
+API = "https://platform-admin.collect.ikanisa.com"
+PROJECT = "https://rrlduytparvsjfmegalh.supabase.co"
+KEY = "sb_publishable_syntheticPublicKey1234"
+# Opaque syntax fixture only. The documented public dummy keys are rejected by
+# production native builds and tested separately; no provider is called here.
+SITE_KEY = "synthetic_public_site_key"
+PUBLIC = "https://collect.ikanisa.com"
+ADMIN = "https://platform-admin.collect.ikanisa.com"
+NATIVE_PROJECT = PROJECT
+NATIVE_API = "https://api.native.example"
+NATIVE_PUBLIC = "https://www.native.example"
+NATIVE_ADMIN = "https://admin.native.example"
+
+
+class NativeConfigurationTest(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="collect-native-config-")
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name).resolve(strict=True)
+        for relative in ("scripts/qa", "scripts/audits", "scripts/supabase", "android", "fastlane", "tmp", "lib"):
+            (self.root / relative).mkdir(parents=True)
+        for relative in ("scripts/android_play_store_build.sh", "scripts/ios_app_store_build.sh",
+                         "scripts/audits/collect_release_build.rb", "scripts/qa/native_build_config.py", "scripts/qa/client_diagnostic_identity.py", "scripts/android_release_signing_preflight.sh",
+                         "scripts/google_play_optimization_gate.sh", "scripts/supabase/deployment_profile.py", "fastlane/Fastfile"):
+            shutil.copy2(ROOT / relative, self.root / relative)
+        (self.root / "pubspec.yaml").write_text("name: synthetic_config_fixture\nversion: 1.0.8+65\n")
+        (self.root / "pubspec.lock").write_text("packages: {}\n")
+        (self.root / "lib/main.dart").write_text("void main() {}\n")
+        (self.root / "scripts/qa/native_build_provenance.rb").write_text(
+            "require 'json'\n"
+            "File.open('provenance-events.jsonl','a'){|f|f.puts(JSON.generate(ARGV))}\n"
+            "puts 'synthetic-source-observation' if ARGV.first=='begin'\n")
+        path = self.root / "android/gradlew"
+        path.write_text("#!/usr/bin/env python3\n" + r'''import json,sys
+from pathlib import Path
+root=Path(__file__).resolve().parent.parent
+with (root/'gradle-observations.jsonl').open('a') as f:f.write(json.dumps(sys.argv[1:])+'\n')
+if ':app:printReleaseSigningCertificateStatus' in sys.argv:
+ print(json.dumps({'status':'pass','message':'Synthetic signing task substitute', 'store_file_configured':True,'store_file_exists':True,'key_alias_configured':True,'store_password_configured':True,'key_password_configured':True,'matches_expected_upload_certificate':True,'configured_certificate_sha256':'A'*64,'expected_upload_signing_sha256':'A'*64}))
+''')
+        path.chmod(0o700)
+        (self.root / "scripts/android_release_signing_preflight.sh").chmod(0o700)
+        self.compiler = self.root / "compiler-substitute"
+        self.compiler.write_text("#!/usr/bin/env python3\n" + r'''
+import json,os,sys,zipfile
+from pathlib import Path
+args=sys.argv[1:];root=Path.cwd()
+config=Path(args[args.index('--dart-define-from-file')+1])
+with (root/'compiler-observations.jsonl').open('a') as record:
+ record.write(json.dumps({'args':args,'defines':json.loads(config.read_text()),
+                          'temporary_path':str(config),'mode':config.stat().st_mode&0o777})+'\n')
+kind=args[1]
+path,member={'apk':('build/app/outputs/flutter-apk/app-production-release.apk','lib/arm64-v8a/libapp.so'),
+ 'appbundle':('build/app/outputs/bundle/productionRelease/app-production-release.aab','base/lib/arm64-v8a/libapp.so'),
+ 'ipa':('build/ios/ipa/Collect.ipa','Payload/Collect.app/Frameworks/App.framework/App')}[kind]
+artifact=root/path;artifact.parent.mkdir(parents=True,exist_ok=True)
+with zipfile.ZipFile(artifact,'w',compression=zipfile.ZIP_STORED) as archive:
+ values=json.loads(config.read_text())
+ expected=[values[k] for k in ['SUPABASE_URL','SUPABASE_API_URL','SUPABASE_PUBLISHABLE_KEY','COLLECT_BUILD_VERSION','COLLECT_BUILD_SOURCE_ID'] if k in values and k!=os.environ.get('FIXTURE_OMIT_CONFIG')]
+ if os.environ.get('FIXTURE_BINARY_URL'):expected[1]=os.environ['FIXTURE_BINARY_URL']
+ archive.writestr(member,b'SYNTHETIC COMPILER SUBSTITUTE\0'+b'\0'.join(v.encode() for v in expected)+b'\0'+os.urandom(1_010_000))
+ if os.environ.get('FIXTURE_QA_MARKER')=='1':archive.writestr('assets/collect-local-unsigned-qa.json','{}')
+''')
+        self.compiler.chmod(0o700)
+        self.env = {"PATH": os.environ["PATH"], "TMPDIR": str(self.root / "tmp"),
+                    "FLUTTER_BIN": str(self.compiler), "SUPABASE_URL": PROJECT,
+                    "SUPABASE_API_URL": API, "SUPABASE_PUBLISHABLE_KEY": KEY,
+                    "AUTH_CAPTCHA_SITE_KEY": SITE_KEY,
+                    "PLAY_INTEGRITY_CLOUD_PROJECT_NUMBER": "123456789012",
+                    # Retired provider input must never enter compiled defines.
+                    "COLLECT_PRIVATE_TEST_KEY": "synthetic-private-value"}
+        self.env.update(self.managed_configuration())
+        self.env["COLLECT_SMS_AUTH_ENABLED"] = "true"
+
+    def run_wrapper(self, platform, *args, _unset=(), **extra):
+        env = self.env | extra
+        for name in _unset:
+            env.pop(name, None)
+        return subprocess.run(["bash", "scripts/" + platform + "_" +
+                               ("play_store_build.sh" if platform == "android" else "app_store_build.sh"), *args],
+                              cwd=self.root, env=env, text=True,
+                              capture_output=True, timeout=20)
+
+    def observations(self):
+        path = self.root / "compiler-observations.jsonl"
+        return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
+
+    def managed_configuration(self, environment="production"):
+        profile = {"format": "collect.deployment.v1", "id": "native-wrapper-fixture",
+                   "mode": "managed", "environment": environment,
+                   "supabase_origin": NATIVE_PROJECT, "member_api_origin": NATIVE_API,
+                   "admin_origin": NATIVE_ADMIN, "public_origin": NATIVE_PUBLIC,
+                   "google_callback_origin": NATIVE_ADMIN}
+        raw = json.dumps(profile, sort_keys=True, separators=(",", ":"))
+        return {"COLLECT_DEPLOYMENT_PROFILE": raw,
+                "COLLECT_DEPLOYMENT_PROFILE_SHA256": hashlib.sha256(raw.encode()).hexdigest(),
+                "APP_ENVIRONMENT": environment,
+                "SUPABASE_URL": profile["supabase_origin"],
+                "SUPABASE_API_URL": profile["member_api_origin"],
+                "SUPABASE_ADMIN_API_URL": profile["admin_origin"],
+                "SUPABASE_AUTH_ISSUER": profile["supabase_origin"] + "/auth/v1"}
+
+    def test_store_wrappers_use_reviewed_managed_profile_and_explicit_app_origins(self):
+        values = self.managed_configuration()
+        for platform in ("android", "ios"):
+            result = self.run_wrapper(platform, **values)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        records = self.observations()
+        self.assertEqual(len(records), 3)
+        for record in records:
+            defines = record["defines"]
+            self.assertEqual(defines["APP_PUBLIC_URL"], NATIVE_PUBLIC)
+            self.assertEqual(defines["ADMIN_APP_URL"], NATIVE_ADMIN)
+            self.assertEqual(defines["SUPABASE_API_URL"], values["SUPABASE_API_URL"])
+            self.assertEqual(defines["COLLECT_DEPLOYMENT_PROFILE"], values["COLLECT_DEPLOYMENT_PROFILE"])
+            self.assertEqual(defines["COLLECT_DEPLOYMENT_PROFILE_SHA256"], values["COLLECT_DEPLOYMENT_PROFILE_SHA256"])
+            self.assertEqual(defines["APP_ENVIRONMENT"], "production")
+            self.assertFalse(Path(record["temporary_path"]).exists())
+
+    def test_managed_store_wrappers_keep_alias_hash_captcha_and_environment_guards(self):
+        values = self.managed_configuration()
+        for platform in ("android", "ios"):
+            for changes in ({"APP_PUBLIC_URL": "https://foreign.example"}, {"ADMIN_APP_URL": ADMIN},
+                            {"COLLECT_DEPLOYMENT_PROFILE_SHA256": "0" * 64},
+                            {"AUTH_CAPTCHA_SITE_KEY": "1x00000000000000000000AA"},
+                            self.managed_configuration("qualification")):
+                with self.subTest(platform=platform, changes=changes):
+                    result = self.run_wrapper(platform, **(values | changes))
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertEqual(self.observations(), [])
+
+    def test_android_public_config_artifact_target_and_cleanup(self):
+        result = self.run_wrapper("android")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        records = self.observations()
+        self.assertEqual([r["args"][1] for r in records], ["apk", "appbundle"])
+        for record in records:
+            self.assert_configuration(record, apns=False)
+        manifest = json.loads((self.root / ".cache/android_play_store_build/1.0.8+65.json").read_text())
+        self.assertEqual(manifest["production_api_url"], NATIVE_API)
+        self.assertEqual(manifest["backend"], "supabase")
+        self.assertEqual(manifest["supabase_project_url"], NATIVE_PROJECT)
+        import base64
+        gradle_calls = [json.loads(line) for line in (self.root/"gradle-observations.jsonl").read_text().splitlines()]
+        self.assertEqual(len(gradle_calls), 2)
+        self.assertIn(":app:clean", gradle_calls[0])
+        self.assertIn(":app:printReleaseSigningCertificateStatus", gradle_calls[1])
+        for arguments in gradle_calls:
+            encoded = next(line.split("=", 1)[1] for line in arguments if line.startswith("-Pdart-defines="))
+            native = dict(base64.b64decode(value).decode().split("=", 1) for value in encoded.split(","))
+            self.assertEqual(native, records[0]["defines"])
+        expected_profile = hashlib.sha256(json.dumps(records[0]["defines"],sort_keys=True,separators=(",",":")).encode()).hexdigest()
+        self.assertEqual(manifest["public_runtime_config_sha256"],expected_profile)
+        diagnostic = json.loads((self.root / ".cache/client-diagnostics/android.json").read_text())
+        self.assertEqual(records[0]["defines"]["COLLECT_BUILD_SOURCE_ID"], diagnostic["source_revision"])
+        self.assertEqual(manifest["diagnostics_source_revision"], diagnostic["source_revision"])
+        self.assertFalse(diagnostic["signing_or_deployment_acceptance"])
+        self.assertNotIn("synthetic-private-value", json.dumps(manifest))
+        self.assertFalse((self.root / ".dart_tool/collect-android-play-store-build.lock").exists())
+        events = (self.root / "provenance-events.jsonl").read_text().splitlines()
+        self.assertEqual(json.loads(events[-1])[0:2], ["finish", "android"])
+
+    def test_ios_configuration_matches_reviewed_runtime_hash(self):
+        result = self.run_wrapper("ios")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        [record] = self.observations()
+        self.assert_configuration(record, apns=True)
+        spec = importlib.util.spec_from_file_location("native_config_ios_guard", ROOT / "scripts/qa/ios_delivery_guard.py")
+        guard = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(guard)
+        expected = hashlib.sha256(json.dumps(record["defines"], sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        from unittest.mock import patch
+        with patch.dict(os.environ, self.env, clear=True):
+            self.assertEqual(guard.runtime_configuration_sha256(self.root), expected)
+
+    def test_fastlane_and_wrapper_use_identical_public_configuration(self):
+        result = self.run_wrapper("ios")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        code = """
+module UI
+  def self.user_error!(message); raise message; end
+end
+def default_platform(_name); end
+def desc(_text); end
+def platform(_name); yield; end
+def lane(_name, &_block); end
+load ARGV.fetch(0)
+file = collect_native_public_defines
+begin
+  puts File.read(file.path)
+ensure
+  file.unlink
+end
+"""
+        result = subprocess.run(["ruby", "-e", code, str(self.root / "fastlane/Fastfile")],
+                                cwd=self.root, env=self.env, capture_output=True, text=True, timeout=20)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout), self.observations()[0]["defines"])
+        for changes in ({"SUPABASE_PUBLISHABLE_KEY": ""}, {"COLLECT_SMS_AUTH_ENABLED": "invalid"},
+                        {"COLLECT_DEPLOYMENT_PROFILE_SHA256": "0" * 64}):
+            with self.subTest(changed=sorted(changes)):
+                result = subprocess.run(["ruby", "-e", code, str(self.root / "fastlane/Fastfile")],
+                                        cwd=self.root, env=self.env | changes,
+                                        capture_output=True, text=True, timeout=20)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("Invalid public Supabase", result.stderr)
+
+    def assert_configuration(self, record, *, apns):
+        defines = record["defines"]
+        self.assertEqual(defines["COLLECT_BUILD_VERSION"], "1.0.8+65")
+        self.assertEqual(defines["COLLECT_API_URL"], NATIVE_API)
+        self.assertEqual(defines["COLLECT_BACKEND"], "supabase")
+        self.assertEqual(defines["SUPABASE_URL"], NATIVE_PROJECT)
+        self.assertEqual(defines["SUPABASE_API_URL"], NATIVE_API)
+        self.assertEqual(defines["SUPABASE_PUBLISHABLE_KEY"], KEY)
+        self.assertEqual(defines["AUTH_CAPTCHA_SITE_KEY"], SITE_KEY)
+        self.assertEqual(defines["GOOGLE_AUTH_ENABLED"], "false")
+        self.assertEqual(defines["COLLECT_GOOGLE_AUTH_ENABLED"], "false")
+        self.assertEqual(defines["ENABLE_SMS_READER"], "false" if apns else "true")
+        self.assertEqual(defines["ENABLE_ANDROID_SMS_ACCESS"], "false" if apns else "true")
+        self.assertEqual(defines["APP_PUBLIC_URL"], NATIVE_PUBLIC)
+        self.assertEqual(defines["ADMIN_APP_URL"], NATIVE_ADMIN)
+        self.assertEqual(defines["COLLECT_SMS_AUTH_ENABLED"], "true")
+        self.assertEqual(defines["AUTH_CAPTCHA_ENABLED"], "true")
+        self.assertEqual(defines["AUTH_CAPTCHA_PROVIDER"], "turnstile")
+        self.assertEqual(defines["APP_ENVIRONMENT"], "production")
+        self.assertEqual(defines["COLLECT_MOBILE_EVIDENCE_MODE"], "false")
+        self.assertEqual("APNS_ENVIRONMENT" in defines, apns)
+        if apns:
+            self.assertEqual(defines["APNS_ENVIRONMENT"], "production")
+        self.assertEqual({key for key in defines if "KEY" in key},
+                         {"SUPABASE_PUBLISHABLE_KEY", "AUTH_CAPTCHA_SITE_KEY"})
+        self.assertNotIn("synthetic-private-value", json.dumps(defines))
+        self.assertEqual(record["mode"], 0o600)
+        self.assertFalse(Path(record["temporary_path"]).exists())
+
+    def test_missing_or_wrong_public_configuration_never_invokes_compiler(self):
+        for platform in ("android", "ios"):
+            for changes in ({"SUPABASE_URL": ""}, {"SUPABASE_URL": "https://other.supabase.co"},
+                            {"SUPABASE_PUBLISHABLE_KEY": ""}, {"SUPABASE_PUBLISHABLE_KEY": "sb_secret_syntheticPrivate"},
+                            {"SUPABASE_API_URL": ""}, {"SUPABASE_API_URL": "http://platform-admin.collect.ikanisa.com"},
+                            {"SUPABASE_API_URL": "https://retired.invalid"}, {"SUPABASE_API_URL": PROJECT},
+                            {"AUTH_CAPTCHA_SITE_KEY": ""}, {"AUTH_CAPTCHA_ENABLED": "yes"},
+                            {"AUTH_CAPTCHA_ENABLED": "false"}, {"AUTH_CAPTCHA_ENABLED": "false", "SUPABASE_API_URL": PROJECT, "AUTH_CAPTCHA_SITE_KEY": ""},
+                            {"AUTH_CAPTCHA_PROVIDER": "other"}, {"GOOGLE_AUTH_ENABLED": "yes"},
+                            {"COLLECT_GOOGLE_AUTH_ENABLED": "true", "GOOGLE_AUTH_ENABLED": "false"},
+                            {"COLLECT_BACKEND": "cloudflare"}, {"COLLECT_BACKEND": ""},
+                            {"COLLECT_API_URL": "https://api.collect.ikanisa.com"}):
+                with self.subTest(platform=platform, changes=changes):
+                    result = self.run_wrapper(platform, **changes)
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertEqual(self.observations(), [])
+
+    def test_store_wrappers_refuse_missing_or_retired_candidate_before_compilation(self):
+        profile_fields = ("COLLECT_DEPLOYMENT_PROFILE", "COLLECT_DEPLOYMENT_PROFILE_SHA256")
+        retired = json.loads(self.env[profile_fields[0]])
+        retired.update(mode="self_hosted", supabase_origin="https://retired.example.invalid")
+        raw = json.dumps(retired, sort_keys=True, separators=(",", ":"))
+        cases = [((profile_fields[0],), {}), ((profile_fields[1],), {}),
+                 ((), {"COLLECT_SMS_AUTH_ENABLED": "invalid"}),
+                 (profile_fields, {"SUPABASE_URL": PROJECT, "SUPABASE_API_URL": API}),
+                 ((), {profile_fields[0]: raw, profile_fields[1]: hashlib.sha256(raw.encode()).hexdigest(),
+                       "SUPABASE_URL": PROJECT})]
+        for platform in ("android", "ios"):
+            for unset, changes in cases:
+                with self.subTest(platform=platform, unset=unset, changes=changes):
+                    result = self.run_wrapper(platform, _unset=unset, **changes)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertEqual(self.observations(), [])
+                    self.assertFalse((self.root / "gradle-observations.jsonl").exists())
+
+    def test_native_google_flags_are_forwarded_to_both_platforms(self):
+        member = (ROOT / "lib/core/cloudflare/auth_alternative_gateway.dart").read_text()
+        self.assertRegex(member, r"bool\.fromEnvironment\(\s*'COLLECT_GOOGLE_AUTH_ENABLED'")
+        for platform in ("android", "ios"):
+            result = self.run_wrapper(platform, COLLECT_GOOGLE_AUTH_ENABLED="true")
+            self.assertEqual(result.returncode, 0, result.stderr)
+        for record in self.observations():
+            self.assertEqual(record["defines"]["GOOGLE_AUTH_ENABLED"], "true")
+            self.assertEqual(record["defines"]["COLLECT_GOOGLE_AUTH_ENABLED"], "true")
+            self.assertEqual(record["defines"]["AUTH_CAPTCHA_ENABLED"], "true")
+            self.assertEqual(record["defines"]["AUTH_CAPTCHA_PROVIDER"], "turnstile")
+            self.assertEqual(record["defines"]["AUTH_CAPTCHA_SITE_KEY"], SITE_KEY)
+
+    def run_synthetic_signing_preflight(self, output_format="json"):
+        args = ["bash", "scripts/android_release_signing_preflight.sh"]
+        if output_format == "json":
+            args.append("--json")
+        return subprocess.run(args, cwd=self.root, env=self.env, capture_output=True, text=True, timeout=20)
+
+    def set_synthetic_gradle_response(self, stdout, stderr, exit_code):
+        path = self.root / "android/gradlew"
+        path.write_text("#!/usr/bin/env python3\nimport sys\n"
+                        f"sys.stdout.write({stdout!r})\n"
+                        f"sys.stderr.write({stderr!r})\n"
+                        f"sys.exit({exit_code})\n")
+        path.chmod(0o700)
+
+    @staticmethod
+    def synthetic_signing_pass():
+        return {"status": "pass", "message": "Synthetic signing task substitute",
+                "store_file_configured": True, "store_file_exists": True, "key_alias_configured": True,
+                "store_password_configured": True, "key_password_configured": True,
+                "matches_expected_upload_certificate": True,
+                "configured_certificate_sha256": "A" * 64, "expected_upload_signing_sha256": "A" * 64}
+
+    def test_signing_preflight_rejects_minimal_pass_report(self):
+        self.set_synthetic_gradle_response(json.dumps({"status": "pass"}) + "\n", "", 0)
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertEqual(result.returncode, 1)
+                if output_format == "json":
+                    self.assertEqual(json.loads(result.stdout)["status"], "blocked")
+                else:
+                    self.assertIn("status=blocked", result.stdout)
+
+    def test_signing_preflight_rejects_incomplete_false_or_mismatched_upload_evidence(self):
+        flags = ("store_file_configured", "store_file_exists", "key_alias_configured",
+                 "store_password_configured", "key_password_configured", "matches_expected_upload_certificate")
+        cases = []
+        for name in flags:
+            missing = self.synthetic_signing_pass(); missing.pop(name)
+            false = self.synthetic_signing_pass(); false[name] = False
+            cases.extend(((name + " missing", missing), (name + " false", false)))
+        for name in ("configured_certificate_sha256", "expected_upload_signing_sha256"):
+            missing = self.synthetic_signing_pass(); missing.pop(name)
+            empty = self.synthetic_signing_pass(); empty[name] = None
+            cases.extend(((name + " missing", missing), (name + " null", empty)))
+        mismatch = self.synthetic_signing_pass(); mismatch["expected_upload_signing_sha256"] = "B" * 64
+        cases.append(("mismatched fingerprints", mismatch))
+        for description, report in cases:
+            with self.subTest(case=description):
+                self.set_synthetic_gradle_response(json.dumps(report) + "\n", "", 0)
+                result = self.run_synthetic_signing_preflight()
+                self.assertEqual(result.returncode, 1)
+                observed = json.loads(result.stdout)
+                self.assertEqual(observed["status"], "blocked")
+                self.assertEqual(observed["gradle_exit_code"], 0)
+
+    def test_signing_preflight_rejects_success_json_when_gradle_fails(self):
+        marker = "SYNTHETIC_ALIAS_MUST_NOT_APPEAR"
+        body = json.dumps(self.synthetic_signing_pass()) + "\n"
+        self.set_synthetic_gradle_response(body, marker + "\n", 23)
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertNotIn(marker, result.stdout + result.stderr)
+                self.assertEqual(result.returncode, 1)
+                if output_format == "json":
+                    report = json.loads(result.stdout)
+                    self.assertEqual(report["status"], "blocked")
+                    self.assertEqual(report["gradle_exit_code"], 23)
+                else:
+                    self.assertIn("status=blocked", result.stdout)
+
+    def test_signing_preflight_never_emits_raw_failed_or_malformed_gradle_output(self):
+        marker = "SYNTHETIC_ALIAS_AND_PASSWORD_MUST_NOT_APPEAR"
+        for exit_code in (0, 23):
+            for output_format in ("json", "text"):
+                with self.subTest(exit_code=exit_code, output_format=output_format):
+                    self.set_synthetic_gradle_response("unparseable " + marker + "\n", "diagnostic " + marker + "\n", exit_code)
+                    result = self.run_synthetic_signing_preflight(output_format)
+                    self.assertEqual(result.returncode, 1)
+                    self.assertNotIn(marker, result.stdout + result.stderr)
+                    if output_format == "json":
+                        report = json.loads(result.stdout)
+                        self.assertEqual(report["status"], "blocked")
+                        self.assertEqual(report["gradle_exit_code"], exit_code)
+                        self.assertNotIn("gradle_output_tail", report)
+                    else:
+                        self.assertIn("status=blocked", result.stdout)
+
+    def test_signing_preflight_redacts_untrusted_fields_in_valid_json(self):
+        marker = "SYNTHETIC_UNTRUSTED_VALUE_MUST_NOT_APPEAR"
+        valid = self.synthetic_signing_pass()
+        valid.update({"message": marker, "unexpected_debug": marker})
+        body = json.dumps(valid) + "\n"
+        self.set_synthetic_gradle_response(body, "", 0)
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertNotIn(marker, result.stdout + result.stderr)
+                if output_format == "json":
+                    report = json.loads(result.stdout)
+                    self.assertEqual(report["configured_certificate_sha256"], "A" * 64)
+                    self.assertNotIn("unexpected_debug", report)
+
+        valid["configured_certificate_sha256"] = marker
+        bad = json.dumps(valid) + "\n"
+        self.set_synthetic_gradle_response(bad, "", 0)
+        result = self.run_synthetic_signing_preflight()
+        self.assertEqual(result.returncode, 1)
+        self.assertNotIn(marker, result.stdout + result.stderr)
+        self.assertEqual(json.loads(result.stdout)["status"], "blocked")
+
+    def test_signing_preflight_preserves_public_task_fields_for_pass_and_blocked(self):
+        note = "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users."
+        for status in ("pass", "blocked"):
+            with self.subTest(status=status):
+                expected = {"status": status,
+                            "message": ("Configured Android signing certificate matches the expected Google Play upload certificate."
+                                        if status == "pass" else "Production Android signing material is missing."),
+                            "store_file_configured": True, "store_file_exists": status == "pass",
+                            "key_alias_configured": True, "store_password_configured": True,
+                            "key_password_configured": True,
+                            "configured_certificate_sha256": "A" * 64 if status == "pass" else None,
+                            "expected_upload_signing_sha256": "A" * 64,
+                            "matches_expected_upload_certificate": status == "pass",
+                            "expected_play_signing_sha256": "B" * 64,
+                            "matches_expected_play_signing_certificate": False,
+                            "play_app_signing_certificate_note": note}
+                self.set_synthetic_gradle_response(json.dumps(expected) + "\n", "", 0)
+                result = self.run_synthetic_signing_preflight()
+                self.assertEqual(result.returncode, 0 if status == "pass" else 1)
+                observed = json.loads(result.stdout)
+                for key, value in expected.items():
+                    self.assertEqual(observed[key], value, key)
+                self.assertEqual(observed["gradle_exit_code"], 0)
+
+    def test_signing_preflight_keeps_successful_gradle_report(self):
+        for output_format in ("json", "text"):
+            with self.subTest(output_format=output_format):
+                result = self.run_synthetic_signing_preflight(output_format)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                if output_format == "json":
+                    report = json.loads(result.stdout)
+                    self.assertEqual(report["status"], "pass")
+                    self.assertEqual(report["gradle_exit_code"], 0)
+                else:
+                    self.assertIn("status=pass", result.stdout)
+
+    def test_real_signing_preflight_rejects_inconsistent_profile_before_gradle(self):
+        result = self.run_wrapper("android")
+        self.assertEqual(result.returncode,0,result.stderr)
+        profile = dict(self.observations()[0]["defines"])
+        profile["COLLECT_GOOGLE_AUTH_ENABLED"] = "true"
+        path = self.root/"inconsistent-profile.json"
+        path.write_text(json.dumps(profile))
+        prior = (self.root/"gradle-observations.jsonl").read_bytes()
+        result = subprocess.run(["bash","scripts/android_release_signing_preflight.sh","--public-defines",str(path)],
+                                cwd=self.root,env=self.env,capture_output=True,text=True,timeout=20)
+        self.assertNotEqual(result.returncode,0)
+        self.assertEqual((self.root/"gradle-observations.jsonl").read_bytes(),prior)
+
+    def runtime_gate(self, **extra):
+        text = (ROOT/"scripts/google_play_optimization_gate.sh").read_text()
+        functions = text[text.index("def run(*cmd)"):text.index("def http_probe(url)")]
+        block = text[text.index("# Derive the same reviewed public profile"):text.index('checks["sixteen_kb_alignment"]')]
+        code = "require 'json'; require 'digest'; require 'open3';\n" + functions + r'''
+def check(status,message,extra={});{'status'=>status,'message'=>message}.merge(extra);end
+root=Dir.pwd;pubspec=File.read('pubspec.yaml');checks={}
+apk={'exists'=>true,'path'=>File.join(root,'build/app/outputs/flutter-apk/app-production-release.apk')}
+aab={'exists'=>true,'path'=>File.join(root,'build/app/outputs/bundle/productionRelease/app-production-release.aab')}
+actual_apk_sha256=Digest::SHA256.file(apk['path']).hexdigest
+actual_aab_sha256=Digest::SHA256.file(aab['path']).hexdigest
+''' + block + "\nputs JSON.generate(checks.fetch('production_runtime_config'))\n"
+        result = subprocess.run(["ruby","-e",code],cwd=self.root,env=self.env|extra,capture_output=True,text=True,timeout=20)
+        self.assertEqual(result.returncode,0,result.stderr)
+        return json.loads(result.stdout)
+
+    def test_actual_play_runtime_reader_binds_same_profile_and_artifacts(self):
+        result=self.run_wrapper("android")
+        self.assertEqual(result.returncode,0,result.stderr)
+        observed=self.runtime_gate()
+        self.assertEqual(observed["status"],"pass")
+        self.assertTrue(observed["build_profile_and_artifacts_bound"])
+        changed=self.runtime_gate(SUPABASE_PUBLISHABLE_KEY="sb_publishable_differentPublicKey1234")
+        self.assertEqual(changed["status"],"fail")
+        self.assertFalse(changed["build_profile_and_artifacts_bound"])
+        artifact=self.root/"build/app/outputs/bundle/productionRelease/app-production-release.aab"
+        with artifact.open("ab") as stream:stream.write(b"changed synthetic artifact")
+        observed=self.runtime_gate()
+        self.assertEqual(observed["status"],"fail")
+        self.assertFalse(observed["build_profile_and_artifacts_bound"])
+
+    def test_diagnostic_source_is_required_in_artifact_and_runtime_gate_detects_source_drift(self):
+        omitted = self.run_wrapper("android", FIXTURE_OMIT_CONFIG="COLLECT_BUILD_SOURCE_ID")
+        self.assertNotEqual(omitted.returncode, 0)
+        self.assertIn("missing the reviewed Supabase runtime configuration", omitted.stderr)
+        self.assertFalse((self.root / ".cache/android_play_store_build/1.0.8+65.json").exists())
+        result = self.run_wrapper("android")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.runtime_gate()["status"], "pass")
+        (self.root / "lib/main.dart").write_text("void main() { print('changed'); }\n")
+        observed = self.runtime_gate()
+        self.assertEqual(observed["status"], "fail")
+        self.assertFalse(observed["build_profile_and_artifacts_bound"])
+
+    def test_actual_play_runtime_reader_rejects_missing_key_and_legacy_url(self):
+        result=self.run_wrapper("android")
+        self.assertEqual(result.returncode,0,result.stderr)
+        import zipfile
+        artifact=self.root/"build/app/outputs/bundle/productionRelease/app-production-release.aab"
+        with zipfile.ZipFile(artifact,"w") as archive:
+            archive.writestr("base/lib/arm64-v8a/libapp.so",(PROJECT+"\0"+API+"\0https://api.collect.ikanisa.com").encode())
+        manifest_path=self.root/".cache/android_play_store_build/1.0.8+65.json"
+        manifest=json.loads(manifest_path.read_text())
+        manifest["artifacts"]["aab"]["sha256"]=hashlib.sha256(artifact.read_bytes()).hexdigest()
+        manifest_path.write_text(json.dumps(manifest))
+        observed=self.runtime_gate()
+        self.assertEqual(observed["status"],"fail")
+        self.assertTrue(observed["build_profile_and_artifacts_bound"])
+        self.assertFalse(observed["aab_runtime_config"])
+
+    def test_changed_link_targets_never_invoke_compiler(self):
+        for platform in ("android", "ios"):
+            for key in ("APP_PUBLIC_URL", "ADMIN_APP_URL"):
+                with self.subTest(platform=platform, key=key):
+                    result = self.run_wrapper(platform, **{key: "https://other.invalid"})
+                    self.assertEqual(result.returncode, 2)
+                    self.assertIn("reviewed HTTPS production targets", result.stderr)
+                    self.assertEqual(self.observations(), [])
+
+    def test_extra_arguments_cannot_override_guarded_defines(self):
+        for platform in ("android", "ios"):
+            result = self.run_wrapper(platform, "--dart-define=COLLECT_MOBILE_EVIDENCE_MODE=true")
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("accepts no extra Flutter arguments", result.stderr)
+            self.assertEqual(self.observations(), [])
+
+    def test_android_qa_marker_is_not_a_store_artifact(self):
+        result = self.run_wrapper("android", FIXTURE_QA_MARKER="1")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Local unsigned QA marker is forbidden", result.stderr)
+        self.assertEqual(len(self.observations()), 1)
+        self.assertFalse((self.root / ".dart_tool/collect-android-play-store-build.lock").exists())
+
+    def test_packaged_target_mismatch_fails_closed(self):
+        for platform in ("android", "ios"):
+            result = self.run_wrapper(platform, FIXTURE_BINARY_URL="https://other.invalid")
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("reviewed Supabase runtime configuration", result.stderr)
+        self.assertTrue(all(not Path(r["temporary_path"]).exists() for r in self.observations()))
+        events = [json.loads(line) for line in (self.root / "provenance-events.jsonl").read_text().splitlines()]
+        self.assertTrue(all(event[0] != "finish" for event in events))
+
+    def test_missing_packaged_project_or_publishable_key_is_rejected(self):
+        for platform in ("android", "ios"):
+            for key in ("SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"):
+                result = self.run_wrapper(platform, FIXTURE_OMIT_CONFIG=key)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("reviewed Supabase runtime configuration", result.stderr)
+
+    def test_interactive_adapter_rejects_keys_and_unreviewed_targets(self):
+        code = ("require './scripts/audits/collect_release_build'; require 'json'; "
+                "begin; puts JSON.generate(CollectReleaseBuild.environment(JSON.parse(STDIN.read))); "
+                "rescue; exit 2; end")
+        valid = {"supabase_url": PROJECT, "supabase_api_url": API,
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY}
+        for value, accepted in [(valid, True), (valid | {"public_url": PUBLIC, "admin_url": ADMIN}, True),
+                                (valid | {"service_key": "synthetic"}, False),
+                                (valid | {"supabase_url": "https://other.invalid"}, False),
+                                (valid | {"supabase_publishable_key": "sb_secret_synthetic"}, False),
+                                ({"api_url": "https://api.collect.ikanisa.com"}, False)]:
+            result = subprocess.run(["ruby", "-e", code], cwd=self.root, input=json.dumps(value),
+                                    env=self.env, text=True, capture_output=True, timeout=10)
+            self.assertEqual(result.returncode, 0 if accepted else 2)
+            if accepted:
+                self.assertEqual(json.loads(result.stdout)["SUPABASE_API_URL"], API)
+                self.assertEqual(json.loads(result.stdout)["COLLECT_BACKEND"], "supabase")
+
+    def test_mobile_interactive_adapter_passes_exact_managed_profile_to_wrappers(self):
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true", "google_auth_enabled": "false"}
+        for platform in ("android", "ios"):
+            result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                    cwd=self.root, input=json.dumps(valid), env=self.env,
+                                    text=True, capture_output=True, timeout=20)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        for record in self.observations():
+            self.assert_configuration(record, apns=record["args"][1] == "ipa")
+            self.assertEqual(record["defines"]["COLLECT_DEPLOYMENT_PROFILE"], valid["deployment_profile"])
+            self.assertEqual(record["defines"]["COLLECT_DEPLOYMENT_PROFILE_SHA256"], valid["deployment_profile_sha256"])
+
+    def test_mobile_interactive_adapter_refuses_unsafe_or_incomplete_candidate(self):
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true"}
+        cases = [valid | {"sms_auth_enabled": "invalid"}, valid | {"deployment_profile": "{"},
+                 valid | {"deployment_profile_sha256": "0" * 64},
+                 valid | {"service_key": "synthetic-private-value"},
+                 valid | {"deployment_profile": "", "deployment_profile_sha256": ""},
+                 {key: value for key, value in valid.items() if key != "deployment_profile"}]
+        for platform in ("android", "ios"):
+            for value in cases:
+                with self.subTest(platform=platform, changed_keys=sorted(value)):
+                    result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                            cwd=self.root, input=json.dumps(value), env=self.env,
+                                            text=True, capture_output=True, timeout=20)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertNotIn("synthetic-private-value", result.stdout + result.stderr)
+                    self.assertEqual(self.observations(), [])
+                    self.assertFalse((self.root / "gradle-observations.jsonl").exists())
+
+    def test_mobile_interactive_adapter_sets_optional_auth_only_from_public_input(self):
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true"}
+        cases = [({}, "false", "false"),
+                 ({"whatsapp_auth_enabled": "true", "anonymous_auth_enabled": "false"}, "true", "false"),
+                 ({"whatsapp_auth_enabled": "false", "anonymous_auth_enabled": "true"}, "false", "true"),
+                 ({"whatsapp_auth_enabled": "true", "anonymous_auth_enabled": "true"}, "true", "true")]
+        inherited = self.env | {"COLLECT_WHATSAPP_AUTH_ENABLED": "true", "COLLECT_ANONYMOUS_AUTH_ENABLED": "true"}
+        for platform in ("android", "ios"):
+            for choices, whatsapp, anonymous in cases:
+                with self.subTest(platform=platform, choices=choices):
+                    before = len(self.observations())
+                    result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                            cwd=self.root, input=json.dumps(valid | choices), env=inherited,
+                                            text=True, capture_output=True, timeout=20)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    records = self.observations()[before:]
+                    self.assertEqual(len(records), 2 if platform == "android" else 1)
+                    for record in records:
+                        self.assertEqual(record["defines"]["COLLECT_SMS_AUTH_ENABLED"], "true")
+                        self.assertEqual(record["defines"]["COLLECT_WHATSAPP_AUTH_ENABLED"], whatsapp)
+                        self.assertEqual(record["defines"]["COLLECT_ANONYMOUS_AUTH_ENABLED"], anonymous)
+
+    def test_mobile_interactive_adapter_rejects_invalid_optional_flags_and_redacts_malformed_json(self):
+        marker = "SYNTHETIC_PRIVATE_VALUE_MUST_NOT_APPEAR"
+        valid = {"deployment_profile": self.env["COLLECT_DEPLOYMENT_PROFILE"],
+                 "deployment_profile_sha256": self.env["COLLECT_DEPLOYMENT_PROFILE_SHA256"],
+                 "supabase_publishable_key": KEY, "auth_captcha_site_key": SITE_KEY,
+                 "sms_auth_enabled": "true"}
+        invalid = [json.dumps(valid | {name: value})
+                   for name in ("sms_auth_enabled", "whatsapp_auth_enabled", "anonymous_auth_enabled")
+                   for value in (None, True, "", "TRUE")]
+        invalid += ['{"sensitive":"' + marker + '"',
+                    json.dumps(valid | {"deployment_profile": '{"sensitive":"' + marker + '"'})]
+        for platform in ("android", "ios"):
+            for payload in invalid:
+                with self.subTest(platform=platform):
+                    result = subprocess.run(["ruby", "scripts/audits/collect_release_build.rb", platform],
+                                            cwd=self.root, input=payload, env=self.env,
+                                            text=True, capture_output=True, timeout=20)
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertNotIn(marker, result.stdout + result.stderr)
+                    self.assertEqual(self.observations(), [])
+                    self.assertFalse((self.root / "gradle-observations.jsonl").exists())
+
+
+class NativeBuildVersionTest(unittest.TestCase):
+    """Pure Python source/profile tests; never invokes a compiler or child."""
+
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="collect-native-version-")
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.pubspec = self.root / "pubspec.yaml"
+        self.pubspec.write_text("name: synthetic_config_fixture\nversion: 1.0.8+65\n")
+        spec = importlib.util.spec_from_file_location("native_version_fixture", ROOT / "scripts/qa/native_build_config.py")
+        self.config = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.config)
+        self.env = {"SUPABASE_URL": PROJECT, "SUPABASE_API_URL": API,
+                    "SUPABASE_PUBLISHABLE_KEY": KEY, "AUTH_CAPTCHA_SITE_KEY": SITE_KEY}
+
+    def profile(self, platform="android", **changes):
+        return self.config.configuration(self.env | changes, platform, self.pubspec)
+
+    def test_android_and_ios_emit_same_exact_source_version(self):
+        for platform in ("android", "ios"):
+            profile = self.profile(platform)
+            self.assertEqual(profile["COLLECT_BUILD_VERSION"], "1.0.8+65")
+            self.assertEqual(profile["COLLECT_BACKEND"], "supabase")
+            self.assertEqual(profile["APP_ENVIRONMENT"], "production")
+            self.assertNotIn("COLLECT_" + platform.upper() + "_BUILD_NAME", profile)
+
+    def test_default_source_is_helper_tree_and_not_working_directory(self):
+        with patch.object(self.config, "__file__", str(self.root / "scripts/qa/native_build_config.py")), \
+                patch.object(Path, "cwd", side_effect=AssertionError("cwd must not select version")):
+            self.assertEqual(self.config.configuration(self.env, "ios")["COLLECT_BUILD_VERSION"], "1.0.8+65")
+
+    def test_source_change_changes_profile_identity(self):
+        old = json.dumps(self.profile(), sort_keys=True)
+        self.pubspec.write_text("name: synthetic\nversion: 2.1.3+66\n")
+        new = self.profile()
+        self.assertEqual(new["COLLECT_BUILD_VERSION"], "2.1.3+66")
+        self.assertNotEqual(hashlib.sha256(old.encode()).hexdigest(),
+                            hashlib.sha256(json.dumps(new, sort_keys=True).encode()).hexdigest())
+
+    def test_exact_diagnostic_and_platform_overrides_are_allowed(self):
+        for platform in ("android", "ios"):
+            self.assertEqual(self.profile(platform, **{"COLLECT_BUILD_VERSION": "1.0.8+65",
+                "COLLECT_" + platform.upper() + "_BUILD_NAME": "1.0.8",
+                "COLLECT_" + platform.upper() + "_BUILD_NUMBER": "65"}), self.profile(platform))
+
+    def test_mismatched_platform_name_is_refused(self):
+        for platform in ("android", "ios"):
+            with self.subTest(platform=platform), self.assertRaises(ValueError):
+                self.profile(platform, **{"COLLECT_" + platform.upper() + "_BUILD_NAME": "1.0.9"})
+
+    def test_mismatched_platform_number_is_refused(self):
+        for platform in ("android", "ios"):
+            with self.subTest(platform=platform), self.assertRaises(ValueError):
+                self.profile(platform, **{"COLLECT_" + platform.upper() + "_BUILD_NUMBER": "66"})
+
+    def test_mismatched_diagnostic_version_is_refused(self):
+        for platform in ("android", "ios"):
+            with self.subTest(platform=platform), self.assertRaises(ValueError):
+                self.profile(platform, COLLECT_BUILD_VERSION="1.0.8+66")
+
+    def test_invalid_or_secret_shaped_overrides_are_not_echoed(self):
+        for platform in ("android", "ios"):
+            for name in ("COLLECT_BUILD_VERSION", "COLLECT_" + platform.upper() + "_BUILD_NAME",
+                         "COLLECT_" + platform.upper() + "_BUILD_NUMBER"):
+                for value in ("", "unknown", "synthetic-private-value", "sb_secret_fixture", "1.0.8+65\n", "1.0.8+65 x", None, 65):
+                    with self.subTest(platform=platform, name=name, value_type=type(value).__name__):
+                        with self.assertRaises(ValueError) as error:
+                            self.profile(platform, **{name: value})
+                        self.assertEqual(str(error.exception), "Native release build overrides must match the source pubspec version")
+
+    def test_missing_or_ambiguous_source_version_is_refused(self):
+        for text in ("name: synthetic\n", "version: 1.0.8+65\nversion: 2.0.0+2\n", "  version: 1.0.8+65\n"):
+            with self.subTest(text=text), self.assertRaises(ValueError):
+                self.pubspec.write_text(text)
+                self.profile()
+
+    def test_invalid_source_version_cannot_become_an_unknown_diagnostic(self):
+        values = ("1.0.8", "1.0.8+0", "1.0.8+-1", "1.0.8+065", "01.0.8+65", "1.0+65", "1.0.8-beta+65",
+                  "1.0.8+2147483648", "1.0.8+1 # comment", "'1.0.8+65'", "synthetic-private-value", "١.0.8+65",
+                  "1" * 33 + ".0.8+65")
+        for value in values:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                self.pubspec.write_text("version: " + value + "\n")
+                self.profile()
+
+    def test_missing_symlink_directory_and_oversize_sources_are_refused(self):
+        self.pubspec.unlink()
+        with self.assertRaises(ValueError): self.profile()
+        target = self.root / "other.yaml"; target.write_text("version: 1.0.8+65\n")
+        self.pubspec.symlink_to(target)
+        with self.assertRaises(ValueError): self.profile()
+        self.pubspec.unlink(); self.pubspec.mkdir()
+        with self.assertRaises(ValueError): self.profile()
+        self.pubspec.rmdir(); self.pubspec.write_bytes(b"x" * (1024**2 + 1))
+        with self.assertRaises(ValueError): self.profile()
+
+    def test_existing_backend_captcha_origin_and_google_refusals_remain(self):
+        bad = ({"COLLECT_BACKEND": "cloudflare"}, {"SUPABASE_URL": "https://other.supabase.co"},
+               {"SUPABASE_URL": "http://rrlduytparvsjfmegalh.supabase.co"},
+               {"SUPABASE_API_URL": PROJECT}, {"SUPABASE_API_URL": "https://other.invalid"},
+               {"SUPABASE_PUBLISHABLE_KEY": "sb_secret_fixture"}, {"AUTH_CAPTCHA_ENABLED": "false"},
+               {"AUTH_CAPTCHA_PROVIDER": "other"}, {"AUTH_CAPTCHA_SITE_KEY": ""},
+               {"GOOGLE_AUTH_ENABLED": "invalid"}, {"GOOGLE_AUTH_ENABLED": "false", "COLLECT_GOOGLE_AUTH_ENABLED": "true"},
+               {"APP_PUBLIC_URL": "https://other.invalid"}, {"ADMIN_APP_URL": "https://other.invalid"},
+               {"COLLECT_API_URL": "https://api.collect.ikanisa.com"})
+        for platform in ("android", "ios"):
+            for changes in bad:
+                with self.subTest(platform=platform, keys=sorted(changes)), self.assertRaises(ValueError):
+                    self.profile(platform, **changes)
+
+    def cli(self, args):
+        with patch.object(self.config, "__file__", str(self.root / "scripts/qa/native_build_config.py")), \
+                patch.object(sys, "argv", ["native_build_config.py", *args]), patch.dict(os.environ, self.env, clear=True):
+            self.config.main()
+
+    def test_cli_generate_and_validate_exact_profile_without_child_process(self):
+        path = self.root / "profile.json"
+        for platform in ("android", "ios"):
+            self.cli([platform, "--defines-output", str(path)])
+            self.assertEqual(json.loads(path.read_text()), self.profile(platform))
+            self.cli([platform, "--validate-defines", str(path)])
+
+    def test_cli_rejects_missing_changed_or_secret_diagnostic_field_without_echo(self):
+        for mutation in (None, "1.0.8+66", "synthetic-private-value"):
+            profile = self.profile()
+            if mutation is None: del profile["COLLECT_BUILD_VERSION"]
+            else: profile["COLLECT_BUILD_VERSION"] = mutation
+            path = self.root / "profile.json"; path.write_text(json.dumps(profile))
+            error = io.StringIO()
+            with contextlib.redirect_stderr(error), self.assertRaises(SystemExit) as exit:
+                self.cli(["android", "--validate-defines", str(path)])
+            self.assertEqual(exit.exception.code, 2)
+            self.assertNotIn("synthetic-private-value", error.getvalue())
+
+    def test_ios_approval_profile_hash_uses_selected_candidate_version(self):
+        spec = importlib.util.spec_from_file_location("ios_version_guard_fixture", ROOT / "scripts/qa/ios_delivery_guard.py")
+        guard = importlib.util.module_from_spec(spec); spec.loader.exec_module(guard)
+        with patch.dict(os.environ, self.env, clear=True):
+            first = guard.runtime_configuration_sha256(self.root)
+            expected = hashlib.sha256(json.dumps(self.profile("ios"), sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+            self.assertEqual(first, expected)
+            self.pubspec.write_text("version: 2.1.3+66\n")
+            self.assertNotEqual(guard.runtime_configuration_sha256(self.root), first)
+            self.pubspec.write_text("version: synthetic-private-value\n")
+            with self.assertRaises(guard.GuardError) as error:
+                guard.runtime_configuration_sha256(self.root)
+            self.assertEqual(str(error.exception), "IOS_PUBLIC_BUILD_CONFIGURATION_WRONG")
+
+
+if __name__ == "__main__":
+    unittest.main()

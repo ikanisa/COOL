@@ -1,0 +1,53 @@
+{
+  "fixtures": [
+    {
+      "path": "observed-policy-default.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-policy-default.json",
+      "sha256": "bdb6bbdd10d6226134dcda93ef9aa9a2d276941ae642b0d6b85c66513fc253de",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    },
+    {
+      "path": "observed-owner-configure.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-owner-configure.json",
+      "sha256": "648746c4403e8ea6d4fe8c54761bc057269be0cab112e7c8ed4abf1475c469e6",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    },
+    {
+      "path": "observed-owner-stop.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-owner-stop.json",
+      "sha256": "91d94a0460c31dd7a11300750c1ad595ffad2ae1cb245e8bfba6035125d87dad",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    },
+    {
+      "path": "observed-owner-lookup-recorded.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-owner-lookup-recorded.json",
+      "sha256": "6e93252f41885954019b3d8f4811b921a67bb5b231e4681f102d13db692ccb84",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    },
+    {
+      "path": "observed-owner-stop-lookup.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-owner-stop-lookup.json",
+      "sha256": "b05c0941a6d545d6f71f17f74f3cdfb7fcf5811beace3400fd70ddf80ad1e6e2",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    },
+    {
+      "path": "observed-owner-lookup-progress.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-owner-lookup-progress.json",
+      "sha256": "c45b4b7e04aa008ac17ac831a19fa65ecc0ec004abb21faac70b92e8d8ab935a",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    },
+    {
+      "path": "observed-owner-expired-owner_request.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-owner-expired-owner_request.json",
+      "sha256": "b07d07eb66a09734bc85628f25f69c26f020ede0ad0b6047cc570c27a56de094",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    },
+    {
+      "path": "observed-owner-expired-global_policy.json",
+      "origin": ".cache/receipt-operational-authority-attempt7/observed-owner-expired-global_policy.json",
+      "sha256": "8da5eb290310e42cb70860f91a0d72e56077da9449e2b86d2d3b6da5daeab054",
+      "scope": "Actual private synthetic SQL attempt7 output; no hosted proof."
+    }
+  ],
+  "production_data": false
+}

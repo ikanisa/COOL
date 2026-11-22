@@ -1,0 +1,194 @@
+{
+  "sourceCommit": "a686b48f8b6f70bc0cbb2ac787f8aad57dfaf52d",
+  "gitTree": "4ac7f5537016a04154218a890b564061f2f9e0f2",
+  "base": "eb35a29ea3075898204a1bf5b3f84306fb10e2ba",
+  "pathCount": 55,
+  "changed": 50,
+  "alreadyPresent": 5,
+  "originalQualifiedPatchSha256": "555c9038c7272f3f68ebc528f79186ec2df8793d81dd25065fd82204883d6c46",
+  "rebasePatchSha256": "487ea578f87ab6d958893e448a04b917dfd5561a1a113af24abdc0c0fba68e45",
+  "bundleSha256": "663fb926ef4ef590b9a4479041fc86fd0aa83140739369ce1a4a57c3abd3c0c9",
+  "sourceAndModeAssertions": "55 approved blobs reconciled against original fully indexed binary diff; 50 changed paths in local commit",
+  "sourceGraphs": {
+    "expected": "7b6947e0e163266bb9480b14fb3273a705455a107353851b107c714e5e68f37f",
+    "derived": "7b6947e0e163266bb9480b14fb3273a705455a107353851b107c714e5e68f37f",
+    "current": "a7467ba85ecf2f6c696fe44b100a94e65461b58bbf7109d2cffa1d43f626cc5d",
+    "historicalMatch": true,
+    "previousFiles": 208,
+    "currentFiles": 208,
+    "changes": [
+      {
+        "path": "functions/deno.lock",
+        "older": "00a1c51ba2482358d519085e91990ca84485dbe546d32479c1587188ec15a8c4",
+        "current": "4e12bb01237d37dd1819e27171a97f34ad2461a65999a6479892c220815c21bd"
+      }
+    ],
+    "outsideApproved": true,
+    "graphsChanged": false
+  },
+  "checks": {
+    "edge": {
+      "tests": 3913,
+      "pass": 3906,
+      "fail": 0,
+      "skipped": 7,
+      "cancelled": 0,
+      "todo": 0
+    },
+    "edgeLog": "edge-node-second.log",
+    "edgeLogSha256": "2b4a3260c510da89fbb46a62d8b87d68ace200a7a915aff44ef05a76cb90a793",
+    "focused": {
+      "tests": 25,
+      "pass": 25,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    "focusedLog": "focused-source-contracts.log",
+    "focusedLogSha256": "d3b7f0596094c77548ae513a77cba1c7a346bf043037c882b3fbe06b61421579",
+    "fixtureHistory": "Tracked synthetic test fixtures were materialized from the default branch before the successful second full Edge source run.",
+    "synchronizedSchemas": true,
+    "syntaxFiles": 45,
+    "skipped": [
+      "6 opt-in PostgreSQL cases",
+      "1 opt-in retained Iceberg inventory case"
+    ],
+    "managedHandlerFixtures": 4,
+    "managedHandlerExternalProviderCalls": 0
+  },
+  "sourceScreenSha256": "e7de1bde7517ed6f0a1ad0ac3eb93493d3aafe76d081c42aa56685e74e3ad037",
+  "workflowEffectsSha256": "1cf91bc12ab8fcda3d98cc159d9883a9f740276c73d52d893da6dcf8b7b857e0",
+  "publicWrite": false,
+  "canonical_t7_ref": "refs/heads/codex/burimunsi-managed-runtime-contracts-20261120",
+  "canonical_reviewed_paths": [
+    "contracts/burimunsi-api/schema.json",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/BuriMunsiSchemas.kt",
+    "scripts/supabase/cloud-release/burimunsi-member-listing.test.mjs",
+    "scripts/supabase/cloud-release/burimunsi-members-profile.mjs",
+    "scripts/supabase/cloud-release/burimunsi-payment-reference.test.mjs",
+    "scripts/supabase/cloud-release/burimunsi-payment-sms.test.mjs",
+    "scripts/supabase/cloud-release/burimunsi-runtime-grants.test.mjs",
+    "scripts/supabase/cloud-release/fixtures/burimunsi-members-profile-driver.mjs",
+    "scripts/supabase/cloud-release/fixtures/burimunsi-members-profile.sql",
+    "scripts/supabase/cloud-release/fixtures/burimunsi-members.mjs",
+    "scripts/supabase/cloud-release/managed-jobs-handler-patch.mjs",
+    "scripts/supabase/cloud-release/managed-jobs-handler.test.mjs",
+    "scripts/supabase/cloud-release/test-support/staff-create-predecessor.mjs",
+    "scripts/supabase/compile-retention-manifest-catalog.mjs",
+    "supabase/functions/_shared/domain/admin_accounts.js",
+    "supabase/functions/_shared/domain/admin_accounts_legacy.js",
+    "supabase/functions/_shared/domain/admin_bridge.js",
+    "supabase/functions/_shared/domain/admin_oversight.js",
+    "supabase/functions/_shared/domain/admin_records.js",
+    "supabase/functions/_shared/domain/admin_search.js",
+    "supabase/functions/_shared/domain/burimunsi/auth-service.js",
+    "supabase/functions/_shared/domain/burimunsi/collect-runtime.js",
+    "supabase/functions/_shared/domain/burimunsi/compose.js",
+    "supabase/functions/_shared/domain/burimunsi/http.js",
+    "supabase/functions/_shared/domain/burimunsi/listing-query.js",
+    "supabase/functions/_shared/domain/burimunsi/payment-sms-delivery.mjs",
+    "supabase/functions/_shared/domain/burimunsi/postgres-auth-store.js",
+    "supabase/functions/_shared/domain/burimunsi/postgres-member-listing.js",
+    "supabase/functions/_shared/domain/burimunsi/postgres-records-store.js",
+    "supabase/functions/_shared/domain/burimunsi/records-service.js",
+    "supabase/functions/_shared/domain/burimunsi/smart-onboarding-dispatch.js",
+    "supabase/functions/_shared/domain/burimunsi/smart-onboarding-journal.js",
+    "supabase/functions/_shared/domain/burimunsi/wire/burimunsi.generated.mjs",
+    "supabase/functions/_shared/domain/burimunsi/wire/runtime.mjs",
+    "supabase/functions/_shared/domain/privacy_retention_catalog.js",
+    "supabase/functions/_shared/postgres.js",
+    "supabase/functions/_shared/private-retention.js",
+    "supabase/functions/_shared/serve.js",
+    "supabase/functions/_shared/tests/admin-membership-patch.test.mjs",
+    "supabase/functions/_shared/tests/admin-platform-sponsored-group.test.mjs",
+    "supabase/functions/_shared/tests/admin-public-receiver-format.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi-retention-inspection.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/auth-service.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/collect-runtime.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/listing-query.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/payment-sms-delivery.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/postgres-values.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/records-http.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/smart-onboarding-dispatch.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/smart-onboarding-journal-postgres.test.ts",
+    "supabase/functions/_shared/tests/burimunsi/smart-onboarding-journal.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/smart-onboarding-native-jpeg.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/strict-json-values.test.mjs",
+    "supabase/functions/_shared/tests/burimunsi/synthetic/smart-onboarding-postgres-setup.sql",
+    "supabase/functions/_shared/tests/fence-retention.test.mjs"
+  ],
+  "all_55_files_and_modes_verified_from_t7": true,
+  "release_and_ci": {
+    "main": "eb35a29ea3075898204a1bf5b3f84306fb10e2ba",
+    "assumedBranch": "codex/burimunsi-managed-runtime-contracts-20261120",
+    "sameRepo": true,
+    "changedSourcePaths": 50,
+    "workflows": {
+      ".github/workflows/android-public-cert.yml": {
+        "push": false,
+        "draftPullRequestOpened": false,
+        "draftConditionMentioned": false
+      },
+      ".github/workflows/burimunsi-native.yml": {
+        "push": true,
+        "draftPullRequestOpened": true,
+        "draftConditionMentioned": false
+      },
+      ".github/workflows/ci.yml": {
+        "push": true,
+        "draftPullRequestOpened": true,
+        "draftConditionMentioned": false
+      },
+      ".github/workflows/codeql.yml": {
+        "push": false,
+        "draftPullRequestOpened": true,
+        "draftConditionMentioned": false
+      },
+      ".github/workflows/drive-source-export.yml": {
+        "push": false,
+        "draftPullRequestOpened": false,
+        "draftConditionMentioned": false
+      },
+      ".github/workflows/ios-app-store.yml": {
+        "push": false,
+        "draftPullRequestOpened": false,
+        "draftConditionMentioned": false
+      },
+      ".github/workflows/public-website.yml": {
+        "push": false,
+        "draftPullRequestOpened": false,
+        "draftConditionMentioned": false
+      },
+      ".github/workflows/supabase.yml": {
+        "push": false,
+        "draftPullRequestOpened": true,
+        "draftConditionMentioned": false
+      }
+    },
+    "githubWorkflowState": "8 of 8 repository-defined workflows active in read-only Actions API",
+    "artifactJobs": [
+      "ci.admin-web-build compiles and retains the React Admin candidate",
+      "ci.apk-size creates a dev-flavor release APK",
+      "burimunsi-native.source-build-install-instrument builds APKs for both roles, runs API 26/36 instrumentation, uploads evidence"
+    ],
+    "draftOnlyAdditional": [
+      "codeql.analyze",
+      "supabase current-source-contracts and current-managed-native including synthetic PostgreSQL qualification"
+    ],
+    "deploymentAndSigning": "CI Admin platform submission is gated on main pushes. Android signing is gated on explicit workflow_dispatch inputs on main. iOS App Store is manual."
+  },
+  "public_default_readback": {
+    "url": "https://github.com/ikanisa/COOL/pull/85",
+    "head": "c0085b98c37e54f3f2a47bde340c5ad0d43e7f85",
+    "merge": "eb35a29ea3075898204a1bf5b3f84306fb10e2ba",
+    "merged_at": "2026-11-20T17:18:19Z",
+    "tree": "be4a3e758f676f69013398022b833672d3729b57",
+    "main_at_readback": "eb35a29ea3075898204a1bf5b3f84306fb10e2ba",
+    "merge_paths_verified": 44,
+    "differing_checked_paths": 0,
+    "pr_jobs_stopped_by_billing": 22,
+    "main_jobs_stopped_by_billing": 13
+  },
+  "canonical_delta_objects_verified": 77
+}

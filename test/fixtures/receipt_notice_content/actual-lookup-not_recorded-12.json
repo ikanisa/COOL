@@ -1,0 +1,12 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "result": null,
+  "status": "not_recorded",
+  "request_id": "5a6b8982-0cff-456f-9505-44e39ac0a4ea",
+  "send_authority": false,
+  "policy_template": null,
+  "contract_version": 1,
+  "financial_action": false,
+  "prepared_preview": null,
+  "notice_transport_available": false
+}

@@ -1,0 +1,131 @@
+{
+  "format": "collect.historical-release-unit-restore.v1",
+  "verified_utc": "2026-11-20T08:43:02+00:00",
+  "selected_unit": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry",
+  "source_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "git_tree": "bb1363e914b14da579bd95d2a3156ddf094a187f",
+  "files": 10,
+  "bytes": 330330,
+  "manifest_sha256": "5f95b0652312a06746e187fcf8f18f3413819994e709c68cf96ffc0efffec10e",
+  "manifest_digest_rule": "SHA-256 of the files_manifest array sorted by path, serialized as UTF-8 JSON with sorted keys and compact separators, followed by LF.",
+  "restore": {
+    "destination": "/Users/jeanbosco/Library/Caches/collect-receipt150-git-restore-l67n501h",
+    "input": "git archive --format=tar with tar.umask=0022 against the committed unit tree",
+    "readback": "Every restored path, regular-file type, size, permission mode and Git blob ID matched an independent git ls-tree and cat-file read. The active unit matched every restored content hash and permission mode.",
+    "source_index_sha256_before_and_after": "b65cfda12f5b6dbc93283fea384e5c48e8cadc29d30a8769d4628bce82e08e7d",
+    "objects": "/Volumes/COLLECT-STAGING-20261109/git-original/.git/objects",
+    "git_store_backing": "/Volumes/T7/01 Projects/COLLECT/_consolidated/COLLECT-Unified-20261109/consolidation.sparseimage",
+    "independent_off_device_restore": false,
+    "physical_scope": "The Git objects and live checkout share the T7-backed disk image. Materialization wrote to the Mac internal volume and used this local object store."
+  },
+  "current_consumers": [
+    {
+      "path": "test/fixtures/admin_operational_health150.json",
+      "kind": "Operational-health fixture provenance",
+      "validated_fields": {
+        "source_sql_sha256": "reviewed-source.sql",
+        "stdout_sha256": "stdout",
+        "stderr_sha256": "stderr",
+        "result_sha256": "result.json"
+      }
+    },
+    {
+      "path": "docs/release/production-remaining-tasks-2026-09-30.json",
+      "kind": "Release evidence register",
+      "validated_field": "evidence_manifest_observations[].sha256",
+      "selected_file": "result.json"
+    },
+    {
+      "path": "docs/release/local-progress-2026-09-30/attempt7-source150-staged153/refresh.py",
+      "kind": "Preserved migration-progress register builder",
+      "source_sha256": "e186a78e98ae86a0f99438c29e8dd09943d5bdabb98b3d489c0d1c27358cc296",
+      "verified_behavior": "The builder names this result in PACKETS, reads its JSON status and hashes its bytes for the release register. The restore verified those reads independently."
+    }
+  ],
+  "internal_result_hashes": {
+    "reviewed_source_sha256": "reviewed-source.sql",
+    "recorder_sha256": "recorder-sources/local_offline_verification.py",
+    "telemetry_helper_sha256": "recorder-sources/notification_upgrade_telemetry.py",
+    "stdout_sha256": "stdout",
+    "stderr_sha256": "stderr"
+  },
+  "historical_scope": {
+    "packet_status": "pass",
+    "sql_return_code": 0,
+    "unchanged": true,
+    "hosted_writes": false,
+    "external_dependency": "The historical database dump before.dump is an external dependency for database recovery. This verification covers the committed release evidence files."
+  },
+  "files_manifest": [
+    {
+      "path": "after.json",
+      "mode": "100644",
+      "blob": "e0554ae6e429540a6eeb0475b07ade3e2126ceeb",
+      "bytes": 22436,
+      "sha256": "3bd3ee9025fb850934840caa7d0dad33b8f01177248f38be2a18cee650ab0fe7"
+    },
+    {
+      "path": "backup-archive-list.txt",
+      "mode": "100644",
+      "blob": "64b8fddbce858f71228acc9731f911a155a9a1e2",
+      "bytes": 241451,
+      "sha256": "de9b3e5347a15ac63d3f65c78cf284ae409a08aeecc6c978792ca801610e12c4"
+    },
+    {
+      "path": "before.json",
+      "mode": "100644",
+      "blob": "e0554ae6e429540a6eeb0475b07ade3e2126ceeb",
+      "bytes": 22436,
+      "sha256": "3bd3ee9025fb850934840caa7d0dad33b8f01177248f38be2a18cee650ab0fe7"
+    },
+    {
+      "path": "checkpoint.json",
+      "mode": "100644",
+      "blob": "c63834cccf4e9d700e3b1d604644b71b0755758c",
+      "bytes": 1239,
+      "sha256": "07b8a2c7ce9dd4ffe196dcd811b4d34026d87d7c7a4cf09f5e7b5c56a1a48708"
+    },
+    {
+      "path": "recorder-sources/local_offline_verification.py",
+      "mode": "100644",
+      "blob": "cf62eed6616c2d39729df943efb4ebb9623597dd",
+      "bytes": 17696,
+      "sha256": "12c87d771f6e6917791399b37a697084d31afc6aad10306ba18bf12588c86c89"
+    },
+    {
+      "path": "recorder-sources/notification_upgrade_telemetry.py",
+      "mode": "100644",
+      "blob": "ddf3487cbd1d5a67de913f772a5e7aaca4cab478",
+      "bytes": 16989,
+      "sha256": "0901778905a9c993c3fe36e1e0924b9a0f81ea14186888721b8faef2895aee93"
+    },
+    {
+      "path": "result.json",
+      "mode": "100644",
+      "blob": "20b45eeb5189a4bd97aa9917cc1fc23602e24895",
+      "bytes": 1728,
+      "sha256": "95ea72adc43b0967959a8a6f7dbeb3f4822ad6577b68cbb29c8526de6349aa08"
+    },
+    {
+      "path": "reviewed-source.sql",
+      "mode": "100644",
+      "blob": "9d71b00fa8e833c265ca24d7e216d3712fc70885",
+      "bytes": 3282,
+      "sha256": "aeed4c9bea5d5205576ec7393abebf5a9f4044032b7333835dfe7ba38667c49e"
+    },
+    {
+      "path": "stderr",
+      "mode": "100644",
+      "blob": "1aaec006a38931197705cfa89bfa15184424893b",
+      "bytes": 2912,
+      "sha256": "c43c4086600f3f09d079f19544f676094b70d4b1006e29024368da610c9e3961"
+    },
+    {
+      "path": "stdout",
+      "mode": "100644",
+      "blob": "934f30a1588ed78d286680f45aa3ac40696b8ead",
+      "bytes": 161,
+      "sha256": "31d8a6ef87e522f699de0d9263bce5f53b08232676a1d39fdae890bdc0a1d127"
+    }
+  ]
+}

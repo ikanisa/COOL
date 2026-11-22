@@ -1,0 +1,268 @@
+{
+  "format": "collect-managed-recovery-qualification-v1",
+  "observed_at_utc": "2026-11-20T12:36:38.862Z",
+  "result": "All seven pending SQL bodies passed on each of two independent populated local restores after applying the exact historic payer-SMS migration. A full matched managed recovery-point restore remains open.",
+  "source": {
+    "verified_public_managed_product_commit": "62a942639986ed5d683c4d599d7b774800c16d13",
+    "managed_deployment_sha256": "fd27f0977b40542bfefc44092b4eb875674d4ea2a145d50c1de6b36b8c5fe366",
+    "public_files_matching_deployed_manifest": 207,
+    "forward_candidate_commit": "2a4d2abd60e266e041671a0695ea7e06350cd4e5",
+    "exact_recorded_history_bodies": 82,
+    "live_ordered_history": {
+      "entries": 82,
+      "latest": "20261118090305",
+      "digest": "02304f771accf67aa95a4e960dcc247644f06c266fb68a05db948fa01034b303"
+    },
+    "seven_forward_bodies": [
+      {
+        "name": "20261119041000_burimunsi_ocr_disclosure_binding.sql",
+        "sha256": "23c69a15a42c8b8e4ca03c79bf10561ce3ab2a8ecfdb1877f5feadb3337effc5"
+      },
+      {
+        "name": "20261119041100_burimunsi_payment_sms_status.sql",
+        "sha256": "5da5ce98a40945230a0da8d50052c903a6efbc2a8183cb4b0ebff78026c0bee3"
+      },
+      {
+        "name": "20261119114500_burimunsi_members_keyset.sql",
+        "sha256": "e8926c2a723ecdb24f220c70a6d8b809988d90d3c95f5b8d4e52d0cba7747873"
+      },
+      {
+        "name": "20261119114600_burimunsi_admin_sms_health.sql",
+        "sha256": "91c9f9048656d5361d6afd68fe5fc6c2dbc3e8f8f3310d90798ce378f22489ce"
+      },
+      {
+        "name": "20261119114700_collect_payment_display_reference.sql",
+        "sha256": "6d1e4ab861909758074afba21db6ba39cb23de8497ba474e01d30c8e90b0f33c"
+      },
+      {
+        "name": "20261120075011_burimunsi_native_journal_runtime_grants.sql",
+        "sha256": "975e14d20c982e8d389650b9dfdeeb93d94337189f765508af6938468792d27b"
+      },
+      {
+        "name": "20261120104500_collect_payment_reference_authority.sql",
+        "sha256": "118ad88fa6c967bdf04934c0cb8c4e63fd472a97f9a5f8165d18597bc93c4cd5"
+      }
+    ]
+  },
+  "historical_predecessors": {
+    "observation_retry_and_payer_sms": [
+      {
+        "version": "20261117134954",
+        "name": "burimunsi_observation_processing_status",
+        "sha256": "3090412cf003655ca5e0d8f20e33cfe1d848e0df1596062fbc29d7fb540550a4",
+        "statements": 1
+      },
+      {
+        "version": "20261118090305",
+        "name": "burimunsi_automatic_payment_sms",
+        "sha256": "103ca560b8915450834ad11a5553921b71c132fb845d5f0a781ca4aeebae762f",
+        "statements": 1
+      }
+    ],
+    "recovery_method": "The recorded automatic-SMS migration adds a deterministic catalog wrapper and one inventory token. Removing precisely those additions from the two read-only managed postimages recovered function source whose SHA-256, owner, ACL and security attributes match all four November 17 archived provider catalog captures. The whole original SQL was then run locally, and both resulting function bodies and the payer-SMS prepare function matched the current provider source and permissions.",
+    "nov17_catalog_checkpoints": [
+      {
+        "name": "before.json",
+        "captured_at": "2026-11-17T21:58:13.409Z",
+        "sha256": "52f836e0dd243793fc0b10e6ad0f5fe7ef9085cba15bb933a7960916844def56"
+      },
+      {
+        "name": "after.json",
+        "captured_at": "2026-11-17T21:59:34.672Z",
+        "sha256": "e91cb5b810dbc542c7bc4782a60cd360959c5e6f9a04eac59c3e4343b42675d8"
+      },
+      {
+        "name": "attempt-002/before.json",
+        "captured_at": "2026-11-17T22:01:36.829Z",
+        "sha256": "c02089b551bf7f414da76b0ceb7108275d13a10527cfd6473f3ffbe58c57b7ae"
+      },
+      {
+        "name": "attempt-002/after.json",
+        "captured_at": "2026-11-17T22:02:57.796Z",
+        "sha256": "39ff44cbcda824fabf392887ec22c65f589428bb4d31ebf93b9224f54c8297db"
+      }
+    ],
+    "recovered_functions": [
+      {
+        "signature": "private._retention_manifest_catalog_v2()",
+        "source_sha256": "b05ee1ced84adfbde6f9144039cbd062730dece8dfc060f636425fa64c90d032",
+        "post_source_sha256": "91864d41fd19b4fb3beb4a83bbb2b8feda4300e8680c178a2b292750c7b82591",
+        "body_bytes": 92271,
+        "archive_fingerprints_matched": 4,
+        "archive_ownership_acl_security_matched": true
+      },
+      {
+        "signature": "private.retention_capture_inventory_v2(uuid,text,bigint,text,integer)",
+        "source_sha256": "9fcadb280a30843d3d1d8a006e556a8532f365e3e0b30596d5336e6ab3c9c336",
+        "post_source_sha256": "5f2fb906b68f427e52c1350df44be2f38431a54b541c37c0f63f9b7afe35a995",
+        "body_bytes": 6492,
+        "archive_fingerprints_matched": 4,
+        "archive_ownership_acl_security_matched": true
+      }
+    ]
+  },
+  "independent_local_upgrades": {
+    "pg_major": 17,
+    "isolated_targets": 2,
+    "dump_format": "PostgreSQL custom",
+    "restore_mode": "single transaction, exit on error, empty template0 destinations",
+    "same_populated_dump": {
+      "bytes": 2880296,
+      "sha256": "72909c1f2023ffa772ef7556575e490611be4df8c5b56cd3bb0fdc979ceca281"
+    },
+    "exact_payer_sms_migration": {
+      "version": "20261118090305",
+      "sha256": "103ca560b8915450834ad11a5553921b71c132fb845d5f0a781ca4aeebae762f",
+      "nov_17_preimage_fingerprints_matched": 2,
+      "unmodified_migration": true,
+      "matched_live_postimage_count": 3
+    },
+    "all_seven_applied_on_each": true,
+    "representative_data": {
+      "payment_count": 1,
+      "posted_rwf": "7250",
+      "ledger_count": 1,
+      "ledger_rwf": "7250",
+      "synthetic_auth_users": 2,
+      "synthetic_private_objects": 1
+    },
+    "checks_after_each": {
+      "six_role_attribute_sets_and_scoped_read_grants_preserved": true,
+      "role_count": 6,
+      "subject_link_and_ledger_read_preserved": true,
+      "owner_recovered_private_bytes_and_other_subject_received_none": true,
+      "fenced_financial_update_denied": true,
+      "anonymous_money_and_object_reads_denied": true,
+      "runtime_payment_reference_grants": {
+        "tab_i": false,
+        "tab_u": false,
+        "ref_i": false,
+        "ref_u": false,
+        "ordinary_columns": true,
+        "seq_withheld": true
+      },
+      "runtime_journal_grants": [
+        {
+          "target": "private.burimunsi_audit",
+          "may_remove": false,
+          "update_columns": []
+        },
+        {
+          "target": "private.burimunsi_command_receipts",
+          "may_remove": false,
+          "update_columns": [
+            "response"
+          ]
+        },
+        {
+          "target": "private.burimunsi_rate_limits",
+          "may_remove": false,
+          "update_columns": [
+            "attempts"
+          ]
+        }
+      ],
+      "pre_existing_payment_has_12_digit_reference_after_all_seven": true,
+      "immutable_payment_reference_trigger": true,
+      "both_sms_prepare_wrappers_exist": true,
+      "final_retention_catalog_sha256": "9476c7ee0cd5bd1b3e0165553cbf1721c67f1dbd1188779aebab30d00bacee2d"
+    },
+    "additional_repository_payment_reference_tests_passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "owned_cluster_removed": true,
+    "qualification_fixture_scope": {
+      "recorded_managed_positions_applied_to_base": 65,
+      "synthetic_realtime_binding_version": "20261022200028",
+      "additional_fixture_only_sql": {
+        "name": "20261113130700_storage_iceberg_retention_inspection.sql",
+        "sha256": "c2ba8c74e06046751483e08e9f8b278006e0a663598aeb5ce02d0b214af65402",
+        "in_managed_history": false
+      },
+      "managed_suffix_stopped_at": "20261116163801",
+      "managed_suffix_stop_reason": "deployment_identity_mismatch",
+      "provider_roles_differ": "The local fixture gives postgres and service_role no BYPASSRLS. The managed project gives both BYPASSRLS.",
+      "local_vendor_storage_history_present": false,
+      "managed_vendor_storage_history_rows": 81
+    }
+  },
+  "november_17": {
+    "retired_self_hosted_database": {
+      "separate_archive_sha256": "49debfe5be7bb3c1a5bd5e86f1b0294e9679de8ad2b897787a6d35d807d8ea2b",
+      "encrypted_archive_bytes": 20769350,
+      "restored_table_data_entries": 262,
+      "payment_and_native_account_counts_matched": true,
+      "synthetic_cluster_roles": true,
+      "original_role_credentials_restored": false,
+      "provider_object_bytes_restored_in_that_test": false,
+      "cross_service_snapshot": false
+    },
+    "separate_fenced_source_custody": {
+      "archive_sha256": "915e91017df4b501522e03ce558a6557779410c9286cc5e790c5e7cf2c91302c",
+      "bytes": 20769779,
+      "table_data_entries": 262,
+      "readback_and_decryption_verified": true,
+      "independent_restore_test_recorded": false
+    }
+  },
+  "current_managed_readbacks": {
+    "backup_count": 7,
+    "completed_physical_backups": 7,
+    "latest_daily_backup_utc": "2026-11-19T22:40:30.513Z",
+    "earliest_daily_backup_utc": "2026-11-13T22:39:07.919Z",
+    "point_in_time_recovery_enabled": false,
+    "application_storage": {
+      "private_bucket": true,
+      "stored_objects_matched_to_application_journal": 53,
+      "stored_bytes": 28310,
+      "november_17_ciphertexts_matched_to_original_sha256": 48,
+      "november_17_bytes": 27692,
+      "confirmed_v1_application_envelopes": 51,
+      "storage_index_stable_across_download": true,
+      "objects_recovered_from_encrypted_local_copy_without_project_credentials": 53,
+      "encrypted_index_sha256": "4094f7fefcd395e289008534d1505f4f19e11ac67b19dd3e81f8b99063133f76",
+      "original_application_payloads_decrypted_in_this_check": false
+    },
+    "auth_integrity": {
+      "has_auth_users": true,
+      "has_auth_identities": true,
+      "auth_identity_users_exist": true,
+      "app_auth_links_resolve": true
+    },
+    "payment_ledger_integrity": {
+      "has_payments": true,
+      "has_ledger": true,
+      "every_ledger_entry_has_payment": true,
+      "ledger_collection_currency_matches": true,
+      "posted_contributions_match_payment_amounts": true,
+      "all_reversal_references_resolve": true
+    }
+  },
+  "limits": [
+    "The two target databases share a populated synthetic dump. They demonstrate the seven current forwards with authenticated historical preimages, not an uninterrupted clean replay of all 82 managed predecessors.",
+    "No daily managed physical backup was restored to a separate Supabase service. Live Auth and ledger checks established relationship integrity at a single read-only observation. The current Storage copy, November 17 source archive and these database checks are distinct recovery points.",
+    "SDK Auth and Realtime, original provider role credentials and Storage downloads as real customers were not exercised. Two current Storage payloads did not match the historical v1 encryption envelope. All 53 stored byte streams were verified and independently recovered from local encryption.",
+    "No pending migration was applied on the managed project, and this evidence alone does not authorize a live financial or schema cutover."
+  ],
+  "provider_documentation": [
+    "https://supabase.com/docs/reference/api/v1-list-all-backups",
+    "https://supabase.com/docs/guides/platform/backups",
+    "https://supabase.com/kb/troubleshooting/download-logical-backups"
+  ],
+  "supporting_sha256": {
+    "standalone-offline-storage.json": "146005ddf6fb6e9a8dbcc1bae87c11152650973bad20e63bab6aeb39399670f7",
+    "source-attestation.json": "a1b3e4eb5e43126d1ead6b0e4dec001b11d8467c65bfc37f0183b7e21454230c",
+    "predecessor-attestation.json": "aa3726ce3640a5ac5982ae0d0be75deb6ac9e0ea1414d1f52dd43d8c0cc642d3",
+    "managed-readback.json": "a09d51e329da1e28c2ee01d336d6747aca671c0aca2f68eb697cfb042d76432d",
+    "managed-auth-ledger-links.json": "fe735e1bd8d2d38cfc97bcbfe2ff84d0e159ae89d3f9e417db7820580b8708b7",
+    "local-restore-rehearsal.json": "c5c5dd81ca0eacb3546f104bfd72788077bb0dc9acb5ce2010dfdc0931c1e27c",
+    "storage-bytes.json": "1d86453030f723cacf93576be59446131ee725a41913d0af3a6784a62f9fa3cd",
+    "offline-storage-copy.json": "0c290db22756b71a8c3b776ad0edae005fe19317facd530137176d475f1111f9",
+    "canonical-reference-tests.log": "327fbd554e71ad6dc641824e62fdab9fd69bac2dde9172e60515e1dc78666240",
+    "nov17_isolated_source_db_restore": "5aadd395f275a8745307132eb2b34119f33d6227a6a13f13582f4b53c968ce45",
+    "nov17_separate_fenced_custody": "38ec5f38502c0c7137f052e5f2e9e8a0b945d63cdb18638d25b7ff409a90b542",
+    "nov17_separate_fenced_database_verification": "7f0b5656338042685b8993578f089425307b38f517f51c7cfa3217db4787abb2",
+    "nov17_original_storage_receipts": "783789e2877f64b7a5298b73f0cf85787c57de0071f5238a3b36595701d16bd5",
+    "nov17_graph_import": "d5672f4ed4fde7d5f982058602dbeba3c03180ec06282d8589b73affe69f23ed"
+  }
+}

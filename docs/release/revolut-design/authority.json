@@ -1,0 +1,28 @@
+{
+  "design_authority": "revolut-design",
+  "provider": "revolut-design@jean-bosco-skills",
+  "scope": [
+    "member_app",
+    "admin",
+    "public_website"
+  ],
+  "authority_sha256": "e57cec94ab98fe431c21afb6caf071eafcf1dcbea9f0b2a4362ab428c9b86119",
+  "surface_references": {
+    "member_app": [
+      "references/mobile-patterns.md",
+      "references/screen-typologies.md",
+      "references/current-native-atlas.md"
+    ],
+    "admin": [
+      "references/web-patterns.md",
+      "references/component-contracts.md",
+      "references/source-and-mac-validation.md"
+    ],
+    "public_website": [
+      "references/web-patterns.md",
+      "references/tokens.md",
+      "references/state-theme-desktop-followup.md"
+    ]
+  },
+  "meaning": "Metadata binding to the sole owner-selected maintained skill. Repository implementation and captures are product evidence; visual acceptance remains unverified."
+}

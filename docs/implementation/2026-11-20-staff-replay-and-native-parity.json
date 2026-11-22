@@ -1,0 +1,146 @@
+{
+  "format": "burimunsi.staff-replay-native-parity-evidence.v1",
+  "recorded_utc": "2026-11-20T10:11:46.680759+00:00",
+  "full_local_evidence_sha256": "e48e7b60af43174e3d8399ad039aed4f0cd4499e65b755faf6d5bc4965cc7c57",
+  "evidence_scope": "Retained historical code and APKs, a frozen integration source, and newly exercised local HTTP/PostgreSQL behavior. All new data and identities were synthetic.",
+  "native_comparison": {
+    "code44": {
+      "cutover_commit": "5c63f65fcaa0b6db7961e5b981edfb9d71f1eeee",
+      "backend_source_sha256": "6de5db23683be38a2baf8d559981156ae5123d5f30ec7320239c6f7a1824cdb7",
+      "routes": 41,
+      "schema_sha256": "6eaa1a665354add3f579170c962d303b3fea49a04e314c5beb0affddebd431ca",
+      "evidence_sha256": "3ea35451147a684214dd32c3f1d44d645e68fa1f82ebb7e2d4121a3aeb2a0ad4"
+    },
+    "signed48": {
+      "native_source_sha256": "e42bd3ba7b57a6f1eaadce62f3a60b17b39ee04d8720bc7c79b796bc34b146e3",
+      "source_files": 336,
+      "routes": 44,
+      "schema_sha256": "15749d6dbe01137160ae3f2361fcd7c0e1bc4d82b3fe388119736369313b4436",
+      "evidence_sha256": "de64c379ac5714d17f03350caa8a3cdab5371d4326a3c00ac7d0aad288ff0cbe"
+    },
+    "qualification48": {
+      "native_source_sha256": "e315312f09aecbfb0b92e4181deea49df13c5f60bc5a579968ff9afb4e95e36f",
+      "source_files": 339,
+      "routes": 45,
+      "schema_sha256": "c9e4817c9da421e6c0adf61fd2ff488f0495ab70e30b8d37930cacaf540f7817",
+      "evidence_sha256": "1199fecff46e735889dc673ba87602896206a7b969516791e2d8478f6a527838"
+    },
+    "frozen20": {
+      "native_source_sha256": "dea072f94a52f02c299632d5e473e4e3cda6f960e07690e1c60bc243599801f7",
+      "source_files": 339,
+      "routes": 41,
+      "schema_sha256": "1a72e64fa3516d5063a3e9e2dcc6a52e6d581c6bdf9050383f3d1c768e413758",
+      "evidence_sha256": "d69298559cf6d9fd777babfcabe4b7181cf63c4e87726485b761a2fe23b26ae9"
+    }
+  },
+  "historical_apk_readback": [
+    {
+      "package": "rw.ikanisa.burimunsi.gateway.cloud",
+      "version_code": 48,
+      "version_name": "0.23.0-collect.26",
+      "sha256": "63041812af5ced1d2c98bc096aa6e0eaceb0e4963fc5b7e290e296161b06d1f5",
+      "certificate_sha256": "72440baa4ce73a6686b92466b526fb72d9f959308f709d031694b1c83cc4b069",
+      "permissions": {
+        "INTERNET": true,
+        "READ_SMS": true,
+        "RECEIVE_SMS": true,
+        "SEND_SMS": false
+      }
+    },
+    {
+      "package": "rw.ikanisa.burimunsi.staff.cloud",
+      "version_code": 48,
+      "version_name": "0.23.0-collect.26",
+      "sha256": "00538016c821b4507d0bc5dd3079bd429e876daa02ab80df44a54efb6f0c2237",
+      "certificate_sha256": "72440baa4ce73a6686b92466b526fb72d9f959308f709d031694b1c83cc4b069",
+      "permissions": {
+        "INTERNET": true,
+        "READ_SMS": false,
+        "RECEIVE_SMS": false,
+        "SEND_SMS": false
+      }
+    },
+    {
+      "package": "rw.ikanisa.burimunsi.gateway.cloud.qualification",
+      "version_code": 48,
+      "version_name": "0.23.0-collect.26-qualification",
+      "sha256": "f73244d3e08f306a3b8311c760935f6dd5359e78d9caf18e676e078ab4610576",
+      "certificate_sha256": "38b18feca740733068484e7a8af64d86487920a51b367c38339a4f821075ce75",
+      "permissions": {
+        "INTERNET": false,
+        "READ_SMS": true,
+        "RECEIVE_SMS": true,
+        "SEND_SMS": false
+      }
+    },
+    {
+      "package": "rw.ikanisa.burimunsi.staff.cloud.qualification",
+      "version_code": 48,
+      "version_name": "0.23.0-collect.26-qualification",
+      "sha256": "ce8334e5bd27deb948d1a9cee19307bcbccf9dd81c8a5731e5c82a7fc6436193",
+      "certificate_sha256": "38b18feca740733068484e7a8af64d86487920a51b367c38339a4f821075ce75",
+      "permissions": {
+        "INTERNET": false,
+        "READ_SMS": false,
+        "RECEIVE_SMS": false,
+        "SEND_SMS": false
+      }
+    }
+  ],
+  "native_findings": [
+    "Frozen native code 42 cannot normally update an installed signed code 44 or 48 of the same application. Both version admission and APK signing identity need qualification. The independent qualification-48 packages use separate application IDs and a separate certificate.",
+    "Signed 48 has three held-observation routes and an independently encrypted per-source journal absent in the frozen source. It compiles held recovery off. The archived managed history lists 82 migration bodies and does not contain the three held candidate migrations.",
+    "Signed 48 expires positive Sync health within five minutes and invalidates it when observed authority changes. The frozen foreground service reads its earlier successful state without those checks.",
+    "Qualification 48 also adds a scoped GET /session/home. Current owner-bound cache fallback, pending command behavior and network/process loss each need their own proof.",
+    "The original Staff and Admin Sync SMS permission boundaries remain distinct. The retained Pixel smoke reported unconfirmed sync and did not substantiate real new-message ingestion or a distribution release."
+  ],
+  "staff_recovery": {
+    "normal_entry": "POST /v1/burimunsi/staff",
+    "result": "Exact tenant, actor, request, session, operation and keyed body return the retained ID and version. A fresh missing-PIN create performs no principal, account, audit or command write. Explicit creation and retries retain their original behavior.",
+    "historical_equivalence": "An older request omitting PIN and an older explicit request supplying exactly the configured digits, with every other field identical, produced the same HMAC and stored no presentation marker. The distinction is unknowable from historical storage. An exact scoped match returns only its original result. Current writes store a nonsecret explicit-input marker in the private receipt while preserving the HMAC and public response, so the equivalence cannot arise for new receipts. No migration rewrites historical data.",
+    "validated_inputs_sha256": {
+      "scripts/supabase/cloud-release/burimunsi-runtime-grants.test.mjs": "0ed6de05d13ce6e1acc6adc135af7ef9b84c5417b4d0891c5a59745d89983d9c",
+      "scripts/supabase/cloud-release/test-support/staff-create-predecessor.mjs": "dde17aa0a2017807f5ea6676c9f7830be804a6a8cfd1f20ab189d0599aa18eb3",
+      "supabase/functions/_shared/domain/burimunsi/auth-service.js": "15f17d6f4321ba803da2f418dd97e3699986052f88c3b0a26f703efa7f5533b9",
+      "supabase/functions/_shared/domain/burimunsi/collect-runtime.js": "672675deb88af2f7d3df2988f424e7d559b629111a0c5583cd7a98e74d03f848",
+      "supabase/functions/_shared/domain/burimunsi/compose.js": "9228b60592af81ce1ecfab3d97da2c586427a034619524ced0ffc474be43ea44",
+      "supabase/functions/_shared/domain/burimunsi/postgres-auth-store.js": "5f5926253d96eac40b19f8cc005af6aa091013c1b5038a3ef34bce96f255f4ad",
+      "supabase/functions/_shared/tests/burimunsi/auth-service.test.mjs": "0a3be45974b5dab619fba2e9cba8c0d8588cc79f88479d1c3ea2f37d57795c9e"
+    },
+    "integrated_strict_wire_sha256": "14b274c4efb87fc91e6bcf66f07f66a56e92f176a4ae7400cb67e3f0168c934b",
+    "tests": {
+      "integrated_postgresql": {
+        "tests": 7,
+        "pass": 7,
+        "fail": 0,
+        "skipped": 0,
+        "stdout_sha256": "3c1881a3f672a470cba9ae896f7f781b110de53de188bc3d53bb65f6ef9d7aa5"
+      },
+      "integrated_services": {
+        "tests": 115,
+        "pass": 114,
+        "fail": 0,
+        "skipped": 1,
+        "stdout_sha256": "d64fea3a4f5e81c5d2daf7c89b7550eedb2022f36ebb2c9ca1178f7afff1e6c4"
+      },
+      "all_backend_and_native_api_javascript": {
+        "tests": 2690,
+        "pass": 2683,
+        "fail": 0,
+        "skipped": 7,
+        "stdout_sha256": "ad07c77c69f4fd33b81471e101d991e68389fa6702b05dd527505e20434ecea3"
+      }
+    },
+    "positive_and_denied_cases": [
+      "two original responses and unchanged original receipt",
+      "another actor or tenant and wrong request, session, target or capability set",
+      "cancelled, malformed, revoked or unprovable request",
+      "fresh explicit PIN, repeat, verified stored credential and private input discriminator"
+    ]
+  },
+  "release_scope": {
+    "new_hosted_actions": false,
+    "distribution_authorized_by_testing_receipt": false,
+    "production_device_test_by_this_review": false
+  }
+}

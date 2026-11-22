@@ -1,0 +1,42 @@
+{
+  "schema": 2,
+  "version": "0.19.0-presentation.4",
+  "routes": {
+    "PAYMENTS": 4,
+    "MEMBERS": 3,
+    "MEMBER": 6,
+    "SMS": 4
+  },
+  "headerCountMeaning": "Base LazyColumn items before repository-backed records. SMS adds one item while the list or queued search notice is visible. Pagination never persists a footer cursor.",
+  "maximumAutomaticPagesIncludingFirst": 16,
+  "maximumAutomaticallyRetainedItems": 2000,
+  "stateStops": [
+    "POSITION_READY",
+    "END_REACHED",
+    "OFFLINE",
+    "STALE",
+    "BUDGET_REACHED"
+  ],
+  "checkpointCodecVersion": 2,
+  "persistentCursor": false,
+  "persistentRecords": false,
+  "replayCommand": false,
+  "evidence": {
+    "pure": "native/burimunsi/presentation-tests/PagedRestorationChecks.kt",
+    "actualViewModelWithDoubles": "native/burimunsi/viewmodel-tests/PagedRestorationChecks.kt"
+  },
+  "scope": "Same-record restoration for Members and bounded positional restoration for other supported lists.",
+  "remaining": [
+    "Installed-screen process death and scroll geometry acceptance",
+    "Android/Compose build and instrumentation",
+    "Operator localization review",
+    "Actual Collect integration"
+  ],
+  "legacyCheckpointReadVersion": 1,
+  "memberRestore": {
+    "key": "member ID",
+    "reads": "One anchored page. Legacy positions use the available first page. Only the current viewport can save its position.",
+    "missingAnchor": "Use the first page and reset the position.",
+    "filters": "Keep the saved search, sort and filters for the same owner and group."
+  }
+}

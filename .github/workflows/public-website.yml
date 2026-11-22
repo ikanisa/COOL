@@ -1,0 +1,194 @@
+name: Public Website Gates
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - '.github/workflows/public-website.yml'
+      - 'deploy/public.wrangler.jsonc'
+      - 'content/legal/**'
+      - 'content/product/**'
+      - 'content/public-website/**'
+      - 'docs/PRODUCT.md'
+      - 'scripts/public_*.sh'
+      - 'scripts/public_*.rb'
+      - 'scripts/public_site/**'
+      - 'scripts/public_*.js'
+      - 'scripts/product_capabilities.rb'
+      - 'scripts/generate_product_capability_content.rb'
+      - 'scripts/qa/asset_manifest_integrity.rb'
+      - 'scripts/qa/bounded_git_metadata.rb'
+      - 'scripts/qa/collect_diagnostic_observer.mjs'
+      - 'scripts/qa/public_*'
+      - 'scripts/qa/public_website/**'
+      - 'scripts/qa/browser/**'
+      - 'scripts/qa/serve_public_preview.py'
+      - 'scripts/assets/prepare_member_preview_fonts.py'
+      - 'scripts/assets/publish_public_app_media.py'
+      - 'scripts/tests/test_member_preview_fonts.py'
+      - 'scripts/supabase/deployment_profile.py'
+      - 'scripts/tests/public_*.rb'
+      - 'scripts/tests/public_*.mjs'
+      - 'scripts/tests/public_*.py'
+      - 'scripts/release/release_artifact_manifest.sh'
+      - 'scripts/assets/build_public_photography.mjs'
+      - 'tools/public-photography/**'
+      - 'web/**'
+      - 'lib/**'
+      - 'assets/**'
+      - 'android/app/src/**'
+      - 'ios/Runner/**'
+      - 'third_party/firebase_messaging/**'
+      - 'supabase/functions/_shared/domain/groups.js'
+      - 'supabase/functions/_shared/domain/member_groups/**'
+      - 'supabase/functions/_shared/domain/member_history.js'
+      - 'supabase/functions/_shared/domain/momo_pipeline.js'
+      - 'supabase/functions/_shared/domain/momo/**'
+      - 'supabase/functions/_shared/domain/operations.js'
+      - 'supabase/functions/_shared/domain/receipts.js'
+      - 'supabase/functions/_shared/domain/member_sms_capture.js'
+      - '.fvmrc'
+      - '.metadata'
+      - 'analysis_options.yaml'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/public-website-content-baseline.json'
+      - 'docs/release/public-website-current-content-contract.json'
+      - 'docs/release/public-content-provenance/**'
+      - 'docs/implementation/**/capture-report.json'
+      - 'docs/implementation/**/visual-review.json'
+      - 'output/public_website_evidence/**'
+  pull_request:
+    paths:
+      - '.github/workflows/public-website.yml'
+      - 'deploy/public.wrangler.jsonc'
+      - 'content/legal/**'
+      - 'content/product/**'
+      - 'content/public-website/**'
+      - 'docs/PRODUCT.md'
+      - 'scripts/public_*.sh'
+      - 'scripts/public_*.rb'
+      - 'scripts/public_site/**'
+      - 'scripts/public_*.js'
+      - 'scripts/product_capabilities.rb'
+      - 'scripts/generate_product_capability_content.rb'
+      - 'scripts/qa/asset_manifest_integrity.rb'
+      - 'scripts/qa/bounded_git_metadata.rb'
+      - 'scripts/qa/collect_diagnostic_observer.mjs'
+      - 'scripts/qa/public_*'
+      - 'scripts/qa/public_website/**'
+      - 'scripts/qa/browser/**'
+      - 'scripts/qa/serve_public_preview.py'
+      - 'scripts/assets/prepare_member_preview_fonts.py'
+      - 'scripts/assets/publish_public_app_media.py'
+      - 'scripts/tests/test_member_preview_fonts.py'
+      - 'scripts/supabase/deployment_profile.py'
+      - 'scripts/tests/public_*.rb'
+      - 'scripts/tests/public_*.mjs'
+      - 'scripts/tests/public_*.py'
+      - 'scripts/release/release_artifact_manifest.sh'
+      - 'scripts/assets/build_public_photography.mjs'
+      - 'tools/public-photography/**'
+      - 'web/**'
+      - 'lib/**'
+      - 'assets/**'
+      - 'android/app/src/**'
+      - 'ios/Runner/**'
+      - 'third_party/firebase_messaging/**'
+      - 'supabase/functions/_shared/domain/groups.js'
+      - 'supabase/functions/_shared/domain/member_groups/**'
+      - 'supabase/functions/_shared/domain/member_history.js'
+      - 'supabase/functions/_shared/domain/momo_pipeline.js'
+      - 'supabase/functions/_shared/domain/momo/**'
+      - 'supabase/functions/_shared/domain/operations.js'
+      - 'supabase/functions/_shared/domain/receipts.js'
+      - 'supabase/functions/_shared/domain/member_sms_capture.js'
+      - '.fvmrc'
+      - '.metadata'
+      - 'analysis_options.yaml'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - 'docs/release/COLLECT_PUBLIC_WEBSITE_*.md'
+      - 'docs/release/public-website-content-baseline.json'
+      - 'docs/release/public-website-current-content-contract.json'
+      - 'docs/release/public-content-provenance/**'
+      - 'docs/implementation/**/capture-report.json'
+      - 'docs/implementation/**/visual-review.json'
+      - 'output/public_website_evidence/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.sha || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  static-public-website:
+    name: Static public website
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24.19.0'
+
+      - name: Verify public photo delivery
+        run: |
+          npm ci --prefix tools/public-photography --ignore-scripts
+          make public-photography-check
+          ruby scripts/tests/public_photography_test.rb
+
+      - name: Verify Collect member preview font preparation
+        run: python3 -m unittest scripts.tests.test_member_preview_fonts
+
+      - name: Run static public gates
+        run: bash scripts/public_website_ci_gate.sh static
+
+      - name: Upload public static evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: public-static-gates
+          path: |
+            build/public_website_ci/public-quality-gate.json
+            build/public_website_ci/public-indexnow-readiness.json
+            build/public_web/sitemap.xml
+            build/public_web/robots.txt
+          retention-days: 14
+
+  production-live-public-website:
+    name: Production live public website
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Prepare the reviewed static build
+        run: bash scripts/public_landing_prepare_build.sh
+
+      - name: Run production live public gates
+        run: bash scripts/public_website_ci_gate.sh live
+
+      - name: Upload production public evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: public-production-gates
+          path: |
+            build/public_website_ci/public-live-gate.json
+            build/public_website_ci/public-live-audit-evidence.json
+            build/public_website_ci/public-completion-gate.json
+          retention-days: 14

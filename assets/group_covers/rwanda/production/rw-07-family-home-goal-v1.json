@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-07-family-home-goal",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-07-family-home-goal-v1.png",
+  "source_sha256": "df52e7bf64e88558bcfbf1e27c76c13d433e059fe65d6fea37e2e7cd7f49482d",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "17b2eecf1867048ae79e3d0696004e46fdef59008c3b078a998b1a75905381dc",
+  "imported_at_utc": "2026-09-06T11:19:01.744707+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-9ac7ab25-b334-49c3-89e5-e0d3eb823a4d.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

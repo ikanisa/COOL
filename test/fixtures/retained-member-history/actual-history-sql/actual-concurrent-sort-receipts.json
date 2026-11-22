@@ -1,0 +1,630 @@
+{
+  "highest": {
+    "exact_committed_id_order": [
+      "momo:99640000-0000-4000-8000-000000040074",
+      "momo:99640000-0000-4000-8000-000000040068",
+      "momo:99640000-0000-4000-8000-000000040067"
+    ],
+    "first": {
+      "items": [
+        {
+          "amount_minor": 11,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": true,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "You",
+          "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+        }
+      ],
+      "next_cursor": {
+        "after": "momo:99640000-0000-4000-8000-000000040068",
+        "revision": "4adbb04df915187bd2ce5ef1e3e2b031"
+      },
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "4adbb04df915187bd2ce5ef1e3e2b031",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    },
+    "fresh_windows": [
+      {
+        "items": [
+          {
+            "amount_minor": 151,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040074",
+            "posted_at": "2026-09-30T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-CONCURRENT-ALL-SORTS"
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040074",
+          "revision": "99c689316efa198a9ee712c8bb8d9947"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "99c689316efa198a9ee712c8bb8d9947",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 11,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040068",
+          "revision": "99c689316efa198a9ee712c8bb8d9947"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "99c689316efa198a9ee712c8bb8d9947",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 7,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": false,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "Anonymous supporter",
+            "transaction_id": null
+          }
+        ],
+        "next_cursor": null,
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "99c689316efa198a9ee712c8bb8d9947",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      }
+    ],
+    "stale_cursor_denial": {
+      "reason": "History changed",
+      "sqlstate": "P0001"
+    },
+    "uncommitted_next_page": {
+      "items": [
+        {
+          "amount_minor": 7,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": false,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "Anonymous supporter",
+          "transaction_id": null
+        }
+      ],
+      "next_cursor": null,
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "4adbb04df915187bd2ce5ef1e3e2b031",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    }
+  },
+  "lowest": {
+    "exact_committed_id_order": [
+      "momo:99640000-0000-4000-8000-000000040067",
+      "momo:99640000-0000-4000-8000-000000040068",
+      "momo:99640000-0000-4000-8000-000000040074"
+    ],
+    "first": {
+      "items": [
+        {
+          "amount_minor": 7,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": false,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "Anonymous supporter",
+          "transaction_id": null
+        }
+      ],
+      "next_cursor": {
+        "after": "momo:99640000-0000-4000-8000-000000040067",
+        "revision": "5e42f2bb37ae0ba2cedf6b0b9eafdff5"
+      },
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "5e42f2bb37ae0ba2cedf6b0b9eafdff5",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    },
+    "fresh_windows": [
+      {
+        "items": [
+          {
+            "amount_minor": 7,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": false,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "Anonymous supporter",
+            "transaction_id": null
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040067",
+          "revision": "a5d083b41af56e8c747ad4bc6ba0f4db"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "a5d083b41af56e8c747ad4bc6ba0f4db",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 11,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040068",
+          "revision": "a5d083b41af56e8c747ad4bc6ba0f4db"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "a5d083b41af56e8c747ad4bc6ba0f4db",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 151,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040074",
+            "posted_at": "2026-09-30T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-CONCURRENT-ALL-SORTS"
+          }
+        ],
+        "next_cursor": null,
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "a5d083b41af56e8c747ad4bc6ba0f4db",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      }
+    ],
+    "stale_cursor_denial": {
+      "reason": "History changed",
+      "sqlstate": "P0001"
+    },
+    "uncommitted_next_page": {
+      "items": [
+        {
+          "amount_minor": 11,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": true,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "You",
+          "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+        }
+      ],
+      "next_cursor": null,
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "5e42f2bb37ae0ba2cedf6b0b9eafdff5",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    }
+  },
+  "newest": {
+    "exact_committed_id_order": [
+      "momo:99640000-0000-4000-8000-000000040074",
+      "momo:99640000-0000-4000-8000-000000040067",
+      "momo:99640000-0000-4000-8000-000000040068"
+    ],
+    "first": {
+      "items": [
+        {
+          "amount_minor": 7,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": false,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "Anonymous supporter",
+          "transaction_id": null
+        }
+      ],
+      "next_cursor": {
+        "after": "momo:99640000-0000-4000-8000-000000040067",
+        "revision": "d44a8f42b655dcd327c43afcc0e1ff3a"
+      },
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "d44a8f42b655dcd327c43afcc0e1ff3a",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    },
+    "fresh_windows": [
+      {
+        "items": [
+          {
+            "amount_minor": 151,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040074",
+            "posted_at": "2026-09-30T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-CONCURRENT-ALL-SORTS"
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040074",
+          "revision": "69f352be6a75b16de30c7263c43c2073"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "69f352be6a75b16de30c7263c43c2073",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 7,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": false,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "Anonymous supporter",
+            "transaction_id": null
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040067",
+          "revision": "69f352be6a75b16de30c7263c43c2073"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "69f352be6a75b16de30c7263c43c2073",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 11,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+          }
+        ],
+        "next_cursor": null,
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "69f352be6a75b16de30c7263c43c2073",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      }
+    ],
+    "stale_cursor_denial": {
+      "reason": "History changed",
+      "sqlstate": "P0001"
+    },
+    "uncommitted_next_page": {
+      "items": [
+        {
+          "amount_minor": 11,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": true,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "You",
+          "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+        }
+      ],
+      "next_cursor": null,
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "d44a8f42b655dcd327c43afcc0e1ff3a",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    }
+  },
+  "oldest": {
+    "exact_committed_id_order": [
+      "momo:99640000-0000-4000-8000-000000040067",
+      "momo:99640000-0000-4000-8000-000000040068",
+      "momo:99640000-0000-4000-8000-000000040074"
+    ],
+    "first": {
+      "items": [
+        {
+          "amount_minor": 7,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": false,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "Anonymous supporter",
+          "transaction_id": null
+        }
+      ],
+      "next_cursor": {
+        "after": "momo:99640000-0000-4000-8000-000000040067",
+        "revision": "1f358f52a5f7e18d44ea9dce7bbda7ad"
+      },
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "1f358f52a5f7e18d44ea9dce7bbda7ad",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    },
+    "fresh_windows": [
+      {
+        "items": [
+          {
+            "amount_minor": 7,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": false,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040067",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "Anonymous supporter",
+            "transaction_id": null
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040067",
+          "revision": "5c62d31ac291bc47e263e8fc612dfc72"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "5c62d31ac291bc47e263e8fc612dfc72",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 11,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+            "posted_at": "2026-09-28T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+          }
+        ],
+        "next_cursor": {
+          "after": "momo:99640000-0000-4000-8000-000000040068",
+          "revision": "5c62d31ac291bc47e263e8fc612dfc72"
+        },
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "5c62d31ac291bc47e263e8fc612dfc72",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      },
+      {
+        "items": [
+          {
+            "amount_minor": 151,
+            "collection_id": "99640000-0000-4000-8000-000000020003",
+            "currency": "RWF",
+            "is_current_user_contribution": true,
+            "payment_id": "momo:99640000-0000-4000-8000-000000040074",
+            "posted_at": "2026-09-30T12:00:00+00:00",
+            "rail": "rwanda_momo",
+            "supporter_label": "You",
+            "transaction_id": "SYNTH-CONCURRENT-ALL-SORTS"
+          }
+        ],
+        "next_cursor": null,
+        "own_collection_ids": [
+          "99640000-0000-4000-8000-000000020003"
+        ],
+        "own_totals": {
+          "RWF": 162
+        },
+        "revision": "5c62d31ac291bc47e263e8fc612dfc72",
+        "total_count": 3,
+        "totals": {
+          "RWF": 169
+        }
+      }
+    ],
+    "stale_cursor_denial": {
+      "reason": "History changed",
+      "sqlstate": "P0001"
+    },
+    "uncommitted_next_page": {
+      "items": [
+        {
+          "amount_minor": 11,
+          "collection_id": "99640000-0000-4000-8000-000000020003",
+          "currency": "RWF",
+          "is_current_user_contribution": true,
+          "payment_id": "momo:99640000-0000-4000-8000-000000040068",
+          "posted_at": "2026-09-28T12:00:00+00:00",
+          "rail": "rwanda_momo",
+          "supporter_label": "You",
+          "transaction_id": "SYNTH-HIDDEN-PRIVATE"
+        }
+      ],
+      "next_cursor": null,
+      "own_collection_ids": [
+        "99640000-0000-4000-8000-000000020003"
+      ],
+      "own_totals": {
+        "RWF": 11
+      },
+      "revision": "1f358f52a5f7e18d44ea9dce7bbda7ad",
+      "total_count": 2,
+      "totals": {
+        "RWF": 18
+      }
+    }
+  }
+}

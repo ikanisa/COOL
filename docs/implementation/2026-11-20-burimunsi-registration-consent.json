@@ -1,0 +1,91 @@
+{
+  "task": "Native Add member consent and displayed form identity",
+  "verified_at_utc": "2026-11-20T17:38:54.380144+00:00",
+  "base_commit": "822d1b19829cd400dbb816e1f453a7c33c0d9a0f",
+  "patch": {
+    "file": "native-member-registration.patch",
+    "sha256": "ba09b4d71afcff9a160f87e35efdb9d1f08f02f98fe33b2e04b8ef646ce633b1",
+    "base_index_apply_check": "pass"
+  },
+  "changed_sources": [
+    {
+      "path": "native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/NativeUiContractTest.kt",
+      "sha256": "b6377fcc667c073f6d86174a2d152bf4cc4752388048d152c5f912332401bba2"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriApp.kt",
+      "sha256": "3b6a22f812356b1441e4fc20695f17c263f30293e6925af243d90c6e2c7ecd5c"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriController.kt",
+      "sha256": "b2ccb7fbc69b6d5426fac18eada031f8bf4d4528676884da372d10142522fdc9"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "sha256": "797a4fd3d3d08bd7c92d16d4bc5278e184b3e1df186d60bce283ff3dcd2c693c"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SmartOnboarding.kt",
+      "sha256": "923eff8b5e9bd8088a785637729a448b50d08e21b4725a6da056292560a6de55"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/RepositoryStub.kt",
+      "sha256": "1e49fe3619f92b4357d5dd2bb128a1be98dcf4e449b20d8aec1dd5c1d9c868a4"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/SmartOnboardingChecks.kt",
+      "sha256": "dbbcc587980b0b9d4c5ca3e1f587fc245043179e76391c6302d66c72fd53fdf0"
+    }
+  ],
+  "predecessor_regressions": [
+    "A stale Save callback overwrote a reviewed import row with a different number.",
+    "Changing both identity fields retained all three confirmations.",
+    "A superseded manual Save callback dispatched one import to the synthetic repository."
+  ],
+  "candidate_source_verification": {
+    "viewmodel_pass_lines": 496,
+    "smart_onboarding_checks": 43,
+    "cross_layer_pass_lines": 96,
+    "cross_layer_command_checks": 78,
+    "cross_layer_session_checks": 18,
+    "kotlin_psi_files": 75,
+    "coverage": [
+      "name and number edits clear confirmations",
+      "late consent and save callbacks rejected",
+      "batch submission denied while editing a row",
+      "cancelled edit preserves last reviewed row",
+      "confirmed displayed identity carries normalized phone, confirmations and candidate constraints"
+    ],
+    "runtime": {
+      "jdk": "17.0.20.1+1",
+      "kotlin_compiler": "2.3.21",
+      "kotlin_project_plugin": "2.4.21",
+      "coroutines": "1.10.2",
+      "stdlib": "external JVM classpath",
+      "syntax_parser": "repository PSI loop adapted in temporary runner to installed compiler APIs"
+    },
+    "source_runners": [
+      "native/burimunsi/scripts/verify_viewmodel.sh",
+      "native/burimunsi/scripts/verify_cross_layer.sh"
+    ]
+  },
+  "logs_sha256": {
+    "baseline.log": "97fce505832208a3ee075a51d726b81754ee52dc5ff4eb59e11132018b875759",
+    "baseline-manual.log": "7750d88c6d73f745c6866cee589d3bb21d4369489a7f05b1bd796d0a068fd98c",
+    "final-viewmodel.log": "edc1891e3c753bcd5dcad5192e5055aed9047473e5a7d7d1e71e1b318da14f63",
+    "final-cross-layer.log": "95d626c6c2341788f65cbddc41b99ba271ed10cee4d46f4874272474fb326693",
+    "final-parse.log": "4192d0d77f7346da7bb4771586b42ae4df75718648ee5a5e8f94d0e743ad3aa5"
+  },
+  "deferred": [
+    "pinned Gradle Android compilation and Compose type check",
+    "installed lifecycle and physical handset",
+    "signing and distribution",
+    "live enrollment"
+  ],
+  "entrypoints": [
+    "Staff Add member and member import review",
+    "SmartOnboardingPresentation",
+    "BuriViewModel.onboardingConsent and onboardingSubmit"
+  ],
+  "scope": "Local source regression and JVM checks. Android compilation, installation and live registration remain deferred."
+}

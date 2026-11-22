@@ -1,0 +1,58 @@
+{
+  "format": "collect.member.sms-intake-release-evidence.v1",
+  "observed_utc": "2026-11-20T16:20:33.387075+00:00",
+  "private_receipt_intake_commit": "e46c102cec097791d81d168f98c6e2bde4ddbfaa",
+  "verified_intake": {
+    "source_receipt_sha256": "377f8dbbc447d9cb3f248b33b0df6e22c315e97318b12abf46b9398bf8372a0f",
+    "evidence_directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/private-member-sms-intake",
+    "paths": 17,
+    "regressions_reproduced": 11,
+    "flutter_passed": {
+      "comparable_three_files": 100,
+      "focused_nine_files": 214,
+      "candidate_widget_scope_22_files": 615
+    },
+    "android_jvm_tests": 26,
+    "android_variant": "devDebug",
+    "behavior": [
+      "Owner, principal, session generation and permission decision are rechecked across platform and backend callbacks.",
+      "Synthetic original receipt, envelope ID, digest, captured timestamp and original bound token survive stale completion and same-member retry.",
+      "A newer explicit choice wins delayed prior consent or status. Only a matching durable server ACK may erase an original."
+    ]
+  },
+  "managed_member_auth": {
+    "validated_public_origins": 5,
+    "rejected_origins_or_configuration_mismatches": 5,
+    "swift_methods_sha256": "466dc36226e22856a9de390238cd2fa3b4f8fe91d63ab50f65c999579e72b5a2",
+    "source_sha256": "c0211c302e69b3a9d2dc0b3a53dfc724c1e5537f966bf400650094aa195b654f",
+    "test_environment": "macOS Foundation bundle. Extracted both routing methods verbatim from the iOS AppDelegate.",
+    "ios_simulator_or_device": false
+  },
+  "public_capabilities": {
+    "runtime_or_contract_sources": 39,
+    "registry_sha256": "3607b6084c585946467fa377589151a0c791b69450df737819742959970e446b",
+    "new_intake_bindings": [
+      "lib/shared/repositories/collect_repository_sms_intake.dart",
+      "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.kt"
+    ]
+  },
+  "website": {
+    "compiled_chromium_routes": 7,
+    "unchanged_reviewed_pngs": 7,
+    "capture_report_sha256": "59c7e120254b81be95c29eb11895f0609b27f164f22a86e7f227c35410b7da74",
+    "runtime_sha256": "6ffd44419131e24de19fcac3588cd97b5618e46a3d02d75c8aa8132184f829d8",
+    "media_publication": "docs/implementation/2026-11-20-member-sms-intake-media/publication.json",
+    "public_render_comparison": "docs/release/public-content-provenance/2026-11-20-member-sms-intake-comparison.json",
+    "identical_html": 18,
+    "identical_build_artifacts_excluding_version": 52,
+    "reviewed_copy_routes": 15,
+    "public_content_changed": false,
+    "hosted_publication_verified": false
+  },
+  "outstanding": [
+    "Member USSD handoff and return on a carrier-connected handset",
+    "Production receipt and delivery with the existing consent and payment identity",
+    "Signed iOS device validation of native challenge presentation",
+    "Public website publication and owner approval"
+  ]
+}

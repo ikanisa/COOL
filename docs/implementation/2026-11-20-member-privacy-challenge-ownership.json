@@ -1,0 +1,109 @@
+{
+  "scope": "Member account deletion through its routed form, privacy controller, CAPTCHA and session transport.",
+  "first_patch": {
+    "base": "822d1b19829cd400dbb816e1f453a7c33c0d9a0f",
+    "time_utc": "2026-11-20T17:37:43.123907+00:00",
+    "patch_sha256": "93046fec3d2c48a58a6be1e50415e0b082f00217cfe846526923affbe0684203",
+    "patch_bytes": 24952,
+    "paths": {
+      "lib/features/privacy/privacy_email_verification.dart": {
+        "before": "37f740e55248fb032db00fd4fa34bf197ec10416",
+        "after": "830b7610cb8987ada0f453a3cb61f15987f749ce"
+      },
+      "lib/features/privacy/privacy_request_controller.dart": {
+        "before": "341e6425e62bfb484be2c9629ea5674624db497e",
+        "after": "92f07da928ed7cfca3fc321c1155e9e0507019fd"
+      },
+      "lib/features/privacy/privacy_request_screen.dart": {
+        "before": "e1c95cf5a2f8098c06c69cdc9007d0f0881f2e58",
+        "after": "b79e66de525e45d77e0f4f7220a90f042f4d3d3d"
+      },
+      "lib/features/privacy/privacy_transport.dart": {
+        "before": "3d8de6808d21b43cb9e51a8eb3d01a859ee46fa3",
+        "after": "972d6f51549b22c185ea3589f48660d030d0f56b"
+      },
+      "test/features/privacy/privacy_email_request_screen_test.dart": {
+        "before": "9c54c9858b3c6bfe55af0fcb5c4521cbdc9f0a72",
+        "after": "f49f766823a72866b1a59813ffa9f7055f28dcf4"
+      },
+      "test/features/privacy/privacy_email_verification_test.dart": {
+        "before": "121a6c6199d32e21cd6e690f6bf03592a7e7161f",
+        "after": "43347915dca218f548dce59010bba54dd48f9cb2"
+      }
+    },
+    "patch_applies_and_recreates_all_six_verified_blobs": true,
+    "product_sources": 4,
+    "direct_test_sources": 2,
+    "source_qualification": {
+      "before_new_controller_regressions_failed": 4,
+      "before_new_route_binding_regression_failed": 1,
+      "privacy_and_captcha_tests_passed": 214,
+      "format": "6 files clean",
+      "analyzer": "6 files clean",
+      "dependencies": "Original pubspec.lock accepted by offline Flutter pub get --enforce-lockfile",
+      "test_only_assets": "93 already existing fixture assets compared byte-for-byte with pinned Git blobs; application, PWA and native builds were omitted.",
+      "tests": "flutter test --no-pub --no-test-assets --reporter=expanded --timeout=90s test/features/privacy test/core/privacy_captcha_fencing_test.dart"
+    },
+    "consumers": [
+      "/settings/account/delete -> DeleteAccountRequestScreen -> privacyRequestControllerProvider",
+      "privacyRequestTransportProvider -> CollectPrivacyRequestTransport -> CollectTurnstileChallenge",
+      "collectRepositoryProvider onSignOutStarted -> privacySessionAuthorityProvider.invalidate()",
+      "collectAccountDeletionReasonsProvider -> public reason catalogue"
+    ],
+    "preserved": [
+      "Session ownership by canonical member, managed user, session ID and generation. The OTP renewal adopted by this flow retains its confirmed state.",
+      "Existing challenge ID, context, verification operation, candidate cleanup and same-key intake/status/retry payloads. Each explicitly new verification has a new source-generated ID and context.",
+      "Phone send remains subject to the established countdown, signed-in identity, safe result handling, and CAPTCHA cancellation.",
+      "Screen labels, navigation, layout, permissions, backend RPC payloads, package dependencies and production services."
+    ],
+    "logs": {
+      "privacy-before.log": "dab277635211c8c59f5917ffe1e0ea71285f4388bf138900505b50415f9927dd",
+      "privacy-screen-control.log": "f6fee6b33dffa90056f2c6ba82ad96f8964d34bce1dba287281fa08aeaf4b1c8",
+      "privacy-qualified.log": "97860b774b3e03d04edd0512d22c95b96e1dbaf3f993caaa0a0c466a6c574fc8",
+      "privacy-final-analysis.log": "0dddd13f3cded2e05e8625c7085a8723b444f687f31f48f456b1554314f5477a",
+      "privacy-widget-test-inputs.json": "b1db1553cf88868cf62dd4d76f47f1afd5070ee9d5432c4273f6a995b0b22367",
+      "privacy-dependencies.log": "f019fd3e4c53e90361cdaf34a800799d43785def270442895c19b77b577e899c"
+    }
+  },
+  "late_refusal_followup": {
+    "base_private_review": "822d1b19829cd400dbb816e1f453a7c33c0d9a0f",
+    "predecessor_patch_sha256": "93046fec3d2c48a58a6be1e50415e0b082f00217cfe846526923affbe0684203",
+    "patch_sha256": "d502ed120278371ad111d678705789cccb7fce08d2a168cab4f23bd2a85a441c",
+    "paths": {
+      "lib/features/privacy/privacy_request_controller.dart": {
+        "before": "92f07da928ed7cfca3fc321c1155e9e0507019fd",
+        "after": "4dc364a81cfc297642ec1308704dfffcd398cd6f"
+      },
+      "test/features/privacy/privacy_controller_transport_test.dart": {
+        "before": "4bf457588d7d6728f1bc5c01fa74476311946334",
+        "after": "84edc9e4293c393268f60d9fc7f6f6f415003471"
+      }
+    },
+    "clean_index_applied_and_all_expected_outputs_match": true,
+    "status": "217 privacy/CAPTCHA tests passed. All three new acceptance cases failed on the six-file predecessor. Both changed files passed analysis and formatting.",
+    "fixture": "Synthetic HTTP with the actual app controller, transport, session authority, and existing Flutter VM widget test bundle.",
+    "cases": [
+      "Explicit cancellation preserves the single original request UUID for status lookup.",
+      "A same-member session replacement refuses the late callback and retains its recovery flag.",
+      "A new OTP verification after cancellation retains its fresh session despite an earlier 403."
+    ],
+    "production_change": "Apply the existing session and operation check before changing local recovery state in the typed refusal path.",
+    "preserved": "Original content, UUID, status RPC and single write per case; first patch bytes verified unchanged.",
+    "evidence_sha256": {
+      "privacy-refusal-before.log": "c8911e665ed6ec64e2ca007516e3b8f72f7acf4c5e381643d27b2c62d05646aa",
+      "privacy-refused-response-source.log": "8b2a7f86586f56ffd7d2acaa084984d2c66856bb2fee090f393a8fc01cf208f4",
+      "privacy-refusal-after.log": "90dde5a2e3410ae35568f109dc8df155ac126b7cb2d3de1020ee6578d1b8bb14",
+      "privacy-refusal-analysis.log": "cd1554ec4bb9f8e54b7dcee89794ad3d1a45a3eb220a1d12e9c07e42460e884c"
+    },
+    "time_utc": "2026-11-20T17:42:09.537859+00:00"
+  },
+  "combined_checks": {
+    "privacy_and_captcha_passed": 217,
+    "failed": 0,
+    "capability_source_pins_matched": 39,
+    "updated_privacy_pins": 4,
+    "generated_dart_sources": 2,
+    "identical_store_listing_texts": 7
+  },
+  "execution": "Unit and widget tests used synthetic HTTP. Production requests, signed-device and website rendering qualification remain deferred."
+}

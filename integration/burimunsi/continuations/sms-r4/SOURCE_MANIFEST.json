@@ -1,0 +1,673 @@
+{
+  "schema_version": 1,
+  "release": "SMS_Policies_R4",
+  "production_ready": false,
+  "input_set_sha256": "1f636b84a400a803f013640e86643faa11ccf8aab48e56945b422a1c740cdbde",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 54,
+      "sha256": "4eab7cd8922b791bd186fa9d6e56556f05a4011d3c5da4a674987f4c2e8d27fd"
+    },
+    {
+      "path": "R2_to_R3_Source.patch",
+      "bytes": 75490,
+      "sha256": "2018e4c4f39f259bd7740283640b38937cdb42a1df22d6598a036e5750056a1b"
+    },
+    {
+      "path": "R3_to_R4_Source.patch",
+      "bytes": 129878,
+      "sha256": "4e41fcc8e5f575d1dcc1104919e4ffe5c6487e0c359f27ae99248ea540bfa325"
+    },
+    {
+      "path": "README.md",
+      "bytes": 9672,
+      "sha256": "e0489a24cb48300e8b3d246d6c8850927e30cb6e29894f3fd4b2ef1f9cb7fc51"
+    },
+    {
+      "path": "TASK_STATUS.json",
+      "bytes": 5968,
+      "sha256": "4bbac3121a27f8661f20dddf71a33d3efa32a9e8d379b29115b954f6d2a7744a"
+    },
+    {
+      "path": "VERIFICATION.md",
+      "bytes": 4088,
+      "sha256": "2e2a0ba1de0ed7df8f310c97252753ff3dd785162045b78688f3566bd80e3f0b"
+    },
+    {
+      "path": "docs/INTEGRATION.md",
+      "bytes": 5500,
+      "sha256": "859c41fc68246662267355b6f7bd6422f8b107cef2260e8201ec81ebd5b01bd8"
+    },
+    {
+      "path": "docs/MERGE_DECISIONS.md",
+      "bytes": 2031,
+      "sha256": "db04ca108e7750ec552b0ff2ea23e787175c1adc73945daf8ca5af8a82385f4a"
+    },
+    {
+      "path": "docs/PERSISTENCE_FORMAT.md",
+      "bytes": 4150,
+      "sha256": "69e82f42116621d896e81f9789ad33bc5dc5940f88699434166510e2b628a418"
+    },
+    {
+      "path": "docs/POLICY_COVERAGE.md",
+      "bytes": 2111,
+      "sha256": "6e8cbdd7788da652b84f653fa69f6f7cc6264d92d275818d4194197cc4d1efa0"
+    },
+    {
+      "path": "docs/R2_INTEGRATION.md",
+      "bytes": 8691,
+      "sha256": "ee92bda8327d26fcb621e3e91c0a97b1069de15d4c0c45b01c37cb0e1f6b6986"
+    },
+    {
+      "path": "docs/R2_MERGE_DECISIONS.md",
+      "bytes": 3525,
+      "sha256": "63a372d4e5ea88e92b06eed47852139050c3ad8ddb87f2c0a44c07c34018a04c"
+    },
+    {
+      "path": "docs/R2_POLICY_COVERAGE.md",
+      "bytes": 2570,
+      "sha256": "39385126284b66b8a9da30f0462c130f777d1665a7d1a7d78d4934c7dbf0061a"
+    },
+    {
+      "path": "docs/R2_README.md",
+      "bytes": 7080,
+      "sha256": "4296400668a3efd5a961aff4c1062daa3fefc3446c35c377c144764925bb4772"
+    },
+    {
+      "path": "docs/R4_INTEGRATION.md",
+      "bytes": 5640,
+      "sha256": "1a5ce710dfb3e550e16a646bbd09d342d4f0fcacb34ce30ed8a0d86fd2fd9e5f"
+    },
+    {
+      "path": "docs/R4_MERGE_DECISIONS.md",
+      "bytes": 1686,
+      "sha256": "db19076b921612ab7251e3b92f5770d3e4faf78ba1019fa437b5c240c73ce3ae"
+    },
+    {
+      "path": "evidence/PATCH_VERIFICATION.json",
+      "bytes": 996,
+      "sha256": "5aa1d413c656c8a60f81de1d764ff2ec3d487438e6398be2d05193ff357af231"
+    },
+    {
+      "path": "evidence/RUN_NOTES.md",
+      "bytes": 996,
+      "sha256": "c4661e31f8769a83d046e2128497cbaa896f08cc3b009076c14836e554728765"
+    },
+    {
+      "path": "evidence/buri_core.compile.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_core.compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_core.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_core.stdout.log",
+      "bytes": 4175,
+      "sha256": "ac63521a613f45b319cfdca12fb9bdc301621a3fbe0ee9d8475c92c3a16934a6"
+    },
+    {
+      "path": "evidence/buri_receiver.compile.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_receiver.compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_receiver.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_receiver.stdout.log",
+      "bytes": 2293,
+      "sha256": "4063289ce23677919eef49606a8011fd0b106d67cf64b5458485894dbf7d67b6"
+    },
+    {
+      "path": "evidence/buri_reliability.compile.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_reliability.compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_reliability.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/buri_reliability.stdout.log",
+      "bytes": 2956,
+      "sha256": "4d3f436c4dc1066cbd6cdb614a8e077e8bb3139e08a2ddbc75070bbb12e06e15"
+    },
+    {
+      "path": "evidence/missing_prerequisite_verification.json",
+      "bytes": 18988,
+      "sha256": "84cab5d8d023b316c28c4f3ae89cadc0cc848667ac130b3a1b13ed4f6ef47561"
+    },
+    {
+      "path": "evidence/mmoney_sms.compile.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/mmoney_sms.compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/mmoney_sms.json",
+      "bytes": 1715,
+      "sha256": "26e25bd8643c7d8f1cd57dbfe4d61da4850c948d1e07d211efafb78c67631eb2"
+    },
+    {
+      "path": "evidence/mmoney_sms.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/mmoney_sms.stdout.log",
+      "bytes": 1474,
+      "sha256": "07eb088567726f09282b5695255432d962d15c419aa2091e3c696006f9b93c21"
+    },
+    {
+      "path": "evidence/persistence_r3.compile.stderr.log",
+      "bytes": 714,
+      "sha256": "de91a2db15720871af4c19e69bbe1f7175a63e8193898745c73abab0e968ac0b"
+    },
+    {
+      "path": "evidence/persistence_r3.compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/persistence_r3.json",
+      "bytes": 8756,
+      "sha256": "6aaa86c3db92469528893a0a171d655241ed4e5a3c42814cea19a62a9c67b62a"
+    },
+    {
+      "path": "evidence/persistence_r3.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/persistence_r3.stdout.log",
+      "bytes": 6254,
+      "sha256": "5d43e5e68049ab3e0a661d7a73d71f367d4dad5b687f1e9e270e890710881051"
+    },
+    {
+      "path": "evidence/policies_r2.compile.stderr.log",
+      "bytes": 1058,
+      "sha256": "eeb5e629c7acbedfe3b7b8369d2b2db09c0a179609032bf64162c867f98897eb"
+    },
+    {
+      "path": "evidence/policies_r2.compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/policies_r2.json",
+      "bytes": 18605,
+      "sha256": "8346b6770e5670cf613a7ec1eecc01c85501b7791914049cd56221c5707e4013"
+    },
+    {
+      "path": "evidence/policies_r2.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/policies_r2.stdout.log",
+      "bytes": 13117,
+      "sha256": "445657d61c7f924b7e58e0bb2cc56595810d9aa1c94754841c5c50145c88c341"
+    },
+    {
+      "path": "evidence/protected_r4.compile.stderr.log",
+      "bytes": 362,
+      "sha256": "3e322040280d28cbac514ac767797992b9b0247ccb98ef15895978130061473d"
+    },
+    {
+      "path": "evidence/protected_r4.compile.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/protected_r4.json",
+      "bytes": 9619,
+      "sha256": "dc7384543eaaf85a8948a12ba97038026a5e6e3b4839ece1c1dae74a76e090dc"
+    },
+    {
+      "path": "evidence/protected_r4.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/protected_r4.stdout.log",
+      "bytes": 6935,
+      "sha256": "dcc62877bd31819dc13e38c1b47708d91efae51f33560dc0671be348ce522581"
+    },
+    {
+      "path": "evidence/python.stderr.log",
+      "bytes": 3085,
+      "sha256": "2b623e607396562aa63a36e8eec7c0008d854539f1d55c10ab77a8ac873204e4"
+    },
+    {
+      "path": "evidence/python.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/tool-java.stderr.log",
+      "bytes": 187,
+      "sha256": "bf61371a588e139353579c26bedbc9693004380fe8e053aa012cb6f7d2c43f20"
+    },
+    {
+      "path": "evidence/tool-java.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/tool-kotlinc.stderr.log",
+      "bytes": 59,
+      "sha256": "65b4839e17382aaeb3b8c4d6c87ac1865d0e1b6d14c6255482af61c84d1f4004"
+    },
+    {
+      "path": "evidence/tool-kotlinc.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/verification.json",
+      "bytes": 20125,
+      "sha256": "0b017f9b0cd4d9e506e577a1e5c90917d0b14e40ed3f20516eb33bbbddd21899"
+    },
+    {
+      "path": "fixtures/classification.json",
+      "bytes": 12573,
+      "sha256": "d30e80c042e3dff77c9c0798d99a6a94980212f72fc63212c1f5665e4e9a03a1"
+    },
+    {
+      "path": "fixtures/classification.tsv",
+      "bytes": 7711,
+      "sha256": "ca35d6ccfa6c6f190231e236bcfdab406085f14c402ee4fded24687a175c02d8"
+    },
+    {
+      "path": "fixtures/mmoney-inherited.json",
+      "bytes": 3853,
+      "sha256": "a195cdcf83586e35530fda22249090334bc7e0933da464c602ec7080f1e3c205"
+    },
+    {
+      "path": "host/kotlin/rw/ikanisa/sms/host/HostFileJournal.kt",
+      "bytes": 5116,
+      "sha256": "a34897c327c125dc3acbf1a2ec4f6c51f19d09202471badedde7dfc6702eee21"
+    },
+    {
+      "path": "provenance/R2_BASELINE.json",
+      "bytes": 6578,
+      "sha256": "37a10c2fa551a3b2e0950e6c48c6873cd4c9aee129606a578bdc6eb101ecb55e"
+    },
+    {
+      "path": "provenance/R3_BASELINE.json",
+      "bytes": 12916,
+      "sha256": "4237e35f89f8a25e5999e7224f7ca1f9cadcb912dc9a44c6f8ebeb68c482a785"
+    },
+    {
+      "path": "provenance/R3_README.md",
+      "bytes": 7014,
+      "sha256": "13646211d0ae8c5a2a4bef14bc731d579613cbff8eca775039ae7001b587fc70"
+    },
+    {
+      "path": "provenance/R3_SHA256SUMS.txt",
+      "bytes": 11683,
+      "sha256": "12d2c0c3f75a358cb5e511aa8796584938bc385717bea39373a49eebb2731f93"
+    },
+    {
+      "path": "provenance/R3_SOURCE_MANIFEST.json",
+      "bytes": 19533,
+      "sha256": "806f58993608b411670deb107f407042175bdb171a2fa90e62380146db7a49cb"
+    },
+    {
+      "path": "provenance/R3_TASK_STATUS.json",
+      "bytes": 4930,
+      "sha256": "79077f869e9da078b7039dc7418e45c2b3f6176ae3545a29443e8d3a4b7e6099"
+    },
+    {
+      "path": "provenance/R3_VERIFICATION.md",
+      "bytes": 3467,
+      "sha256": "92d30a1e25e426234e5c6fc65c06826d49b7c15886c25eb8ee87121757b3ab17"
+    },
+    {
+      "path": "scripts/install_overlay.py",
+      "bytes": 4944,
+      "sha256": "a6dd7671a4bade9b26e77b01fdab9df7cfcad24cf10c4f21d01e1b6d96a0d47e"
+    },
+    {
+      "path": "scripts/verify.py",
+      "bytes": 10033,
+      "sha256": "1f3032535345354819e2a68a447c4866cdd68b54b15f826d7c57ccac90d88ec5"
+    },
+    {
+      "path": "src/adapters/burimunsi/BuriSmsClassifier.kt",
+      "bytes": 1709,
+      "sha256": "584a1638d2cb61f2612253e6bbe285e3b64487fb2ccbdf27c11bebf151c79595"
+    },
+    {
+      "path": "src/adapters/mmoney/MmoneySmsClassifier.kt",
+      "bytes": 2678,
+      "sha256": "2b924d4c89bac184927016996777306b86a30dddb028d5b3c58c76a102a85b85"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/Acknowledgements.kt",
+      "bytes": 4255,
+      "sha256": "367b0bcf01e151276f399802bcb2f8f5da68e22b67b50b5f4f17d44d025c1759"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/CommitDriver.kt",
+      "bytes": 5528,
+      "sha256": "6236cc48df9673dafff867e1c0d12132732c5ee0561db78ae36dc637201f9248"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/Duplicates.kt",
+      "bytes": 1987,
+      "sha256": "34432e5353a02cfbcf27b7ec356224cbf2d1d1c469dc57f7192105611831b787"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/EncryptedJournal.kt",
+      "bytes": 5461,
+      "sha256": "f5c7a834ebcf010883bf371b8ff066aae2281f9bb44d6290fb22d8f9018f70d7"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/Evidence.kt",
+      "bytes": 6686,
+      "sha256": "fb36d2997883d0c5ac6f23e9124784090dee6b7b307c4196a033d5726b5d1b4c"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/Identity.kt",
+      "bytes": 4752,
+      "sha256": "c22d39e89e1fe6488dcf55e2beacbf1b1308b5c3e7c9b563a0743f2b04bd7f06"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/JournalFormat.kt",
+      "bytes": 6676,
+      "sha256": "e1dd8b3b38790b4b248fc024a00cacecf9da18433444a762543ec51b922fb661"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/JournalQueueStore.kt",
+      "bytes": 4436,
+      "sha256": "ea7077f63a31999cf7794b936ef57d5057d7528bb913bdd3c590a06de4cf9808"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/ProtectedJournalPort.kt",
+      "bytes": 6388,
+      "sha256": "d71a57c4e7039b4a040802c482a48d782fd25d8706d8bb2f4346a086043e4a70"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/Queue.kt",
+      "bytes": 12230,
+      "sha256": "14469ab51eaaf79d3d1e60fe7919f99a133a2a94088768c873a7785d36b17aba"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/Retry.kt",
+      "bytes": 1771,
+      "sha256": "729b177e4bdb5fbfbbccb5fa905e5f064227e2991803a8447ec7148ae629f690"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/SnapshotCodec.kt",
+      "bytes": 10705,
+      "sha256": "55686e6f5fd6ed12a3b01687b148fe4c87aa551964f0d7897e5a02e67f00bc2d"
+    },
+    {
+      "path": "src/main/kotlin/rw/ikanisa/sms/policy/TrustedCheckpoint.kt",
+      "bytes": 2555,
+      "sha256": "6aea381e33bdad896cf23aa9079330b9977e61d1f670f537925ef121e0eea3f8"
+    },
+    {
+      "path": "tests/kotlin/PolicyChecks.kt",
+      "bytes": 34755,
+      "sha256": "4cefaf6ec28c561e519984a17aa0af8a934f41cc8893e14adef500ad313e5a78"
+    },
+    {
+      "path": "tests/persistence/PersistenceChecks.kt",
+      "bytes": 31012,
+      "sha256": "4f51f1b512f687cc9e3f2aaa024736bb6db9f5081eb88d7ae1ef8e098de01137"
+    },
+    {
+      "path": "tests/protected/ProtectedChecks.kt",
+      "bytes": 22027,
+      "sha256": "41de585b826f02d95fd671e5074378d9e9283d96d40a3b7325a0f5a0482687ce"
+    },
+    {
+      "path": "tests/python/test_delivery.py",
+      "bytes": 7901,
+      "sha256": "6f050c76cf5856a6eb86079a860fc8227d0196a2988be63f3f47ff9f1862989b"
+    },
+    {
+      "path": "tests/python/test_persistence_delivery.py",
+      "bytes": 3851,
+      "sha256": "4c2db88597b856efe97dfed7b97f4f322fc16b73c0a709a85b9174cf4905f0f0"
+    },
+    {
+      "path": "tests/python/test_protected_delivery.py",
+      "bytes": 3675,
+      "sha256": "3ddf07e19a21c7ef932f59fdd1746e6827ee8bebf59763354dfa5c094c5c63d5"
+    },
+    {
+      "path": "vendor/PROVENANCE.json",
+      "bytes": 14400,
+      "sha256": "9004ce1b535f6185392307cdff3670adefbd8959d19c06137766f5426d9ccac1"
+    },
+    {
+      "path": "vendor/buri/core/Acknowledgement.kt",
+      "bytes": 755,
+      "sha256": "b4b00d78f7693459ce7f4114f95ae46998fd747da7bd411aee23e561baa49da1"
+    },
+    {
+      "path": "vendor/buri/core/GatewayHealth.kt",
+      "bytes": 3460,
+      "sha256": "a53b6f18c98bea78d7546344948f00f35c0aeb0828c046e8e6344872008a7b1e"
+    },
+    {
+      "path": "vendor/buri/core/Models.kt",
+      "bytes": 3039,
+      "sha256": "c400de5f1ae21cffabbab57044a3085320a7e1da2ae41aa4ecb69b174876ec0b"
+    },
+    {
+      "path": "vendor/buri/core/OperationJournal.kt",
+      "bytes": 4892,
+      "sha256": "616454470bbbcdbc730795214cac0185b943f19433d3542fe22701a99b812930"
+    },
+    {
+      "path": "vendor/buri/core/PageIntegrity.kt",
+      "bytes": 954,
+      "sha256": "009afeaf91e77f7ef07b3321affa08445b3d72df03315c6a7755a33550030e45"
+    },
+    {
+      "path": "vendor/buri/core/Presentation.kt",
+      "bytes": 2354,
+      "sha256": "e37889c26506b54624f1d9a63de478d59a11c3fc8244a1b106685e5405b34c81"
+    },
+    {
+      "path": "vendor/buri/core/Receipt.kt",
+      "bytes": 2985,
+      "sha256": "8f5cf76484006305504e4b7755e9355e8479695eeeac4980925da8124cd0fcad"
+    },
+    {
+      "path": "vendor/buri/core/ScreenGate.kt",
+      "bytes": 628,
+      "sha256": "80e66c4a54a6e13e7ab02078e78d348ed528a8c4c29785e25c3cb676d45ec228"
+    },
+    {
+      "path": "vendor/buri/core/SessionAuthority.kt",
+      "bytes": 1513,
+      "sha256": "28eb9f8676269ec8c19273949b5043a6402020b3fcd2d8ce331ea536aa6ab676"
+    },
+    {
+      "path": "vendor/buri/core/SnapshotFreshness.kt",
+      "bytes": 391,
+      "sha256": "6ce9ea3048757c86688475adbe1f7e732548f8bf5d835733528b9f571c3cdab3"
+    },
+    {
+      "path": "vendor/buri/core/Values.kt",
+      "bytes": 3237,
+      "sha256": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554"
+    },
+    {
+      "path": "vendor/buri/core/ViewMemory.kt",
+      "bytes": 1249,
+      "sha256": "e269f8fb772d6742e69b255935e8cd143d83fc078f032282836a77aac08721aa"
+    },
+    {
+      "path": "vendor/buri/effective/ReceiptAckPolicy.kt",
+      "bytes": 1356,
+      "sha256": "afda9755d99c42b2a1ba9623228dcc91735ed9988aad849fa3d985d440905131"
+    },
+    {
+      "path": "vendor/buri/receiver/BuriQueueFile.kt",
+      "bytes": 3329,
+      "sha256": "d619115477b5fad485d54fe3fc86ac2d32399be9ddefc2dc6880b28f3d98ad53"
+    },
+    {
+      "path": "vendor/buri/receiver/BuriReceiverReliability.kt",
+      "bytes": 2079,
+      "sha256": "7db5d53bff8c14d6b0dd767c74014e01e2c446223d2a4c25d02b10884aeafb9d"
+    },
+    {
+      "path": "vendor/buri/receiver/MomoGatewayPolicy.kt",
+      "bytes": 4957,
+      "sha256": "d9fbfd5c50e0cc926a214328de946cf08ace5894b94c640ed285cae1934d7a98"
+    },
+    {
+      "path": "vendor/buri/receiver/MomoGatewayWakeupGate.kt",
+      "bytes": 583,
+      "sha256": "3cfd62121a29eab7fe72c67af68135e27637b696864e3e8824a7c49784d4eea6"
+    },
+    {
+      "path": "vendor/buri/receiver/MomoMultipartPolicy.kt",
+      "bytes": 15242,
+      "sha256": "e95272ffefe99ff6ba526658f0b72b7069d2aae26cee87abcb5de3cac65c629a"
+    },
+    {
+      "path": "vendor/buri/receiver/ReceiptAckPolicy.kt",
+      "bytes": 1280,
+      "sha256": "424850a1eac148a360f99d651b7c6bf661d8bf889e74533ecd4dd2074b11d045"
+    },
+    {
+      "path": "vendor/buri/receiver/ReceiptCipher.kt",
+      "bytes": 1229,
+      "sha256": "091aed61fef7890436fee094011fa15e4c9dd36be78e388938a0e3f15c30a165"
+    },
+    {
+      "path": "vendor/buri/receiver/SmsQueueEventBus.kt",
+      "bytes": 1080,
+      "sha256": "ea68c61d3a68a408845880398a50b0cd48842023dee4867e4c381f99b561db1a"
+    },
+    {
+      "path": "vendor/buri/receiver/SmsQueueOwnerPolicy.kt",
+      "bytes": 599,
+      "sha256": "c558cb1418ced6bb4dafebab4d5006991c3dac47bb5bb6f8a1db85d7d3f8cd3b"
+    },
+    {
+      "path": "vendor/buri/recipe/prepare_receiver.py",
+      "bytes": 24799,
+      "sha256": "31c46c6486df3f1ef146c6365a34a4f98ff8cbbc6e4f79d33b665a62ee9d3390"
+    },
+    {
+      "path": "vendor/buri/tests/CoreChecks.kt",
+      "bytes": 11815,
+      "sha256": "89d43849f637ca74f620463c8bdb575187b3dfb60f58717716c76dc348ccd96f"
+    },
+    {
+      "path": "vendor/buri/tests/ReceiverChecks.kt",
+      "bytes": 13756,
+      "sha256": "607876c5bb955fbc234fb9db7641608997c0a881cd867dd99fa2f2c343b82a85"
+    },
+    {
+      "path": "vendor/buri/tests/ReliabilityChecks.kt",
+      "bytes": 9958,
+      "sha256": "203874042da76efe2c66600134ea309a6cb0be635a74f463a6f295d49dcda670"
+    },
+    {
+      "path": "vendor/mmoney/core/ExportWriters.kt",
+      "bytes": 13720,
+      "sha256": "aabdd8cb78ced615878a23fcdd63fa2751a4b6500269866459eac191412e3bd1"
+    },
+    {
+      "path": "vendor/mmoney/core/LedgerRules.kt",
+      "bytes": 9856,
+      "sha256": "61d347b52b06abb7d35df9d9eb71543c2907b7088e86b36993f4520dffe5b5dc"
+    },
+    {
+      "path": "vendor/mmoney/core/Models.kt",
+      "bytes": 5062,
+      "sha256": "0f146a6b7c91a375d54cc2c76fdcbb4de97b8ad1dbcb95e9a152d0555225cd43"
+    },
+    {
+      "path": "vendor/mmoney/core/PdfPresentation.kt",
+      "bytes": 5318,
+      "sha256": "c3bd5140593eb08d4971576035ad4d6db42089d8cf6535112302c7bf6650eb13"
+    },
+    {
+      "path": "vendor/mmoney/core/ReferenceIdentity.kt",
+      "bytes": 2409,
+      "sha256": "41a56f1522146ef353b17936c5d1deaf905b69354d127e289cfca32a036362f3"
+    },
+    {
+      "path": "vendor/mmoney/data/IntakeIdentity.kt",
+      "bytes": 683,
+      "sha256": "952364d57efcc476726ac8650afc9a5f94d22e7f26d483a08fe292e49f7f8ecc"
+    },
+    {
+      "path": "vendor/mmoney/platform/IncomingSms.kt",
+      "bytes": 354,
+      "sha256": "14e4d868a50188cca16fabd2461ef7f9fa202f27d170622856f37d8be52b0da3"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsBroadcastPolicy.kt",
+      "bytes": 1773,
+      "sha256": "216a4bac606435778904ab9ffc57b58fe917d6671c39c5366ebe72dd89854ec2"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsHistoryQuery.kt",
+      "bytes": 953,
+      "sha256": "a0c883a74db45474c259e2daec348bf3eb2f86f7aff812712acee32c281d55e1"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsMultipartEnvelope.kt",
+      "bytes": 3749,
+      "sha256": "3544eb52e89ca1f1bf2ff9b038395390106f0a2f313c92cffd8bb8735fdf82ac"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsObservationFactory.kt",
+      "bytes": 664,
+      "sha256": "005ebfec83df6693da31d720c3bde47dfba44e5e920e3406fe84982f3d3e018f"
+    },
+    {
+      "path": "vendor/mmoney/platform/SmsSourceEvidence.kt",
+      "bytes": 1519,
+      "sha256": "dbce000ae15e4d04b0b56c1d974abfa51206b73709f94d1918de9839f8ab0955"
+    },
+    {
+      "path": "vendor/mmoney/tests/SmsReliabilityContractCases.kt",
+      "bytes": 8324,
+      "sha256": "9cbf04dbab7de267286b170ba6863238306a9915667f3fb1e246c3f0f02306fe"
+    },
+    {
+      "path": "vendor/mmoney/tests/SmsReliabilityProbe.kt",
+      "bytes": 320,
+      "sha256": "074402003b9d03a49557cbf761615ff8e1ed64f1bb5f79092d0a427231b55cef"
+    }
+  ]
+}

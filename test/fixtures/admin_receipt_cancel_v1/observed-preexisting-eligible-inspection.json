@@ -1,0 +1,15 @@
+{
+  "scope": "rw_receipt_manual_cancel",
+  "status": "available",
+  "receipt": {
+    "state": "queued",
+    "revision": 1,
+    "outbox_id": "19ef6b91-5ed4-4dbb-b4bf-3eee4be137cd",
+    "can_cancel": true,
+    "reason_code": "eligible"
+  },
+  "outbox_id": "19ef6b91-5ed4-4dbb-b4bf-3eee4be137cd",
+  "checked_at": "2026-10-01T00:26:21.274310Z",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-01T00:27:21.274310Z"
+}

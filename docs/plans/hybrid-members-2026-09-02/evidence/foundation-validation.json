@@ -1,0 +1,93 @@
+{
+  "schema": "collect.hybrid_foundation.validation.v1",
+  "recorded_at": "2026-09-02 12:17:09 UTC",
+  "head": "40620f10ffbde3bcbd6a53cc0f493de6e948cc73",
+  "worktree": "dirty; existing unrelated work preserved; candidate uncommitted",
+  "verdict": "LOCAL_FOUNDATION_PASS_FULL_JOURNEY_NOT_READY",
+  "owner_decision": "Assisted Mac Messages sending; imminent recipient/content confirmation required",
+  "validations": [
+    {
+      "id": "deno_unit",
+      "passed": 29,
+      "failed": 0,
+      "scope": "parser, raw input, Buri Munsi renderer"
+    },
+    {
+      "id": "postgres_uat",
+      "passed": 33,
+      "failed": 0,
+      "scope": "fresh isolated schema and synthetic rollback fixtures"
+    },
+    {
+      "id": "android_native_unit",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "internal_receiver debug; final XML readback"
+    },
+    {
+      "id": "flutter_regression",
+      "passed": 64,
+      "failed": 0,
+      "scope": "4 focused existing test files"
+    },
+    {
+      "id": "parser_diagnostic",
+      "passed": 8,
+      "failed": 0,
+      "scope": "subset characterization, not additional end-to-end UAT"
+    },
+    {
+      "id": "deno_typecheck_format_lint",
+      "result": "PASS"
+    },
+    {
+      "id": "flutter_analyze",
+      "result": "PASS"
+    },
+    {
+      "id": "supabase_security_advisors",
+      "result": "NO_WARN_OR_ERROR_FINDINGS",
+      "scope": "isolated local schema only"
+    },
+    {
+      "id": "git_diff_whitespace_and_document_links",
+      "result": "PASS"
+    }
+  ],
+  "local_database": "collect_hybrid_uat_20260902",
+  "fixtures": "synthetic only, rollback; source clone was schema-only",
+  "no_actions": [
+    "production deployment",
+    "production migrations",
+    "real SMS send",
+    "schedule activation",
+    "OpenAI roster request",
+    "Git commit or push"
+  ],
+  "remaining": [
+    "admin UI and file/AI import",
+    "receiving assignments and direct-USSD posting",
+    "balanced RWF journal and snapshots",
+    "offline reads and verified account claiming",
+    "durable SMS outbox and scoped MCP",
+    "native scheduler cutover",
+    "physical sending-line UAT",
+    "full acceptance and concurrency QA"
+  ],
+  "source_sha256": {
+    "supabase/functions/_shared/momo_sms_parser.ts": "9e97726dc1a9d605e8b68f6f4313e87be4a89094aa054fdc644ea8ede9704cc1",
+    "supabase/functions/_shared/momo_sms_hybrid_test.ts": "ec9251cadd5d9225c24676f61a37cb7befcddc8be8461b4a4c9499fdf2c030e6",
+    "supabase/functions/_shared/raw_sms_input.ts": "7cd6bd6926da81d96f4d6d4c21a7ecd6fb7bfa62eae8886fd7d4e2c4a8dd7239",
+    "supabase/functions/_shared/buri_munsi_receipt.ts": "393be3a71584c3aba27cf19211ac16a5d95b92d42cf7f928efd4cbe31a7a78eb",
+    "supabase/functions/parse-payment-sms/index.ts": "12e0aca95ba5c7666abd375051cf7f4fa792ad841e031f686abadbc4cb6a5533",
+    "supabase/functions/ingest-payment-sms/index.ts": "47cf82e144994557e12823b7cf8a462a52897824b6f74955f385d77c77900419",
+    "supabase/migrations/20260902120435_hybrid_receipt_capture_contract.sql": "31509ef05d380d039b4ce6f6e801e7149401d5e213a86ad2876d96b14d93d48e",
+    "supabase/migrations/20260902120555_hybrid_member_registry.sql": "00409e551e7f4609dc083d6187939a9e299b4c9511186646ca7ac2025a44d5de",
+    "android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt": "2b4a41c38a9c8647ffc1d207a915c45e325dd73179a7ed75564bb0ab822359d4",
+    "android/app/src/test/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiverTest.kt": "2a1f49d2f7701dc72c6b8ce7ecf885e638b97f3ae68a47316f72865c134ce84d",
+    "scripts/tests/hybrid_backend_uat.rb": "9fb1a0b6102c1b6531cf0feff393f08c46a8eb2d88e07030f880db5ac6dc2e6c",
+    "scripts/tests/hybrid_backend_uat.sql": "c2f46619a9054c6b6579b7d8a1e3bd3bde06b40c427cc00e88cff5d0a492fcc1",
+    "scripts/tests/hybrid_receipt_unit.mjs": "2fb5513ccb1bc42332da6fa170e23442844e9bd32024cb4b78161058db2f51e9"
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "format": "collect.burimunsi.managed-runtime-release.v1",
+  "project": "rrlduytparvsjfmegalh",
+  "verified_utc": "2026-11-20T16:28:22.315Z",
+  "runtime_source_sha256": "7b6947e0e163266bb9480b14fb3273a705455a107353851b107c714e5e68f37f",
+  "write_fence": "open",
+  "epoch": 48,
+  "executables": [
+    {
+      "slug": "admin-api",
+      "version": 108,
+      "ezbr_sha256": "1568dfabfd6b2933fc15ef818a4ef118879fdf5c347e8837aef01eb3be1f39e5",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "collect-api",
+      "version": 107,
+      "ezbr_sha256": "19554c6ff92d34769bbdb16622c03c2c27fb248af1d255cb5bce157216743c32",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "collect-jobs",
+      "version": 105,
+      "ezbr_sha256": "615acfb70bb864511281934d66aa6a74c089d6308f2c574e9c690077715d83cd",
+      "status": "ACTIVE"
+    },
+    {
+      "slug": "collect-sms",
+      "version": 25,
+      "ezbr_sha256": "faa1f8643eba72e6e29a7c913f286d82f7bc30db2a288a6aeb9139f8895c618e",
+      "status": "ACTIVE"
+    }
+  ],
+  "migration_history": {
+    "count": 89,
+    "capture_sha256": "6ff5c9035113c0c17085eadbccf0c9dfc1c8cf928fbeb76f1e229ca11844f11f",
+    "operator_serialization_sha256": "508542e3c84c539cdab310a61b42ff06a54d9c6cbd7e597e8572fdbad8eea3dc",
+    "operator_fields": [
+      "version",
+      "name",
+      "sha256",
+      "entries"
+    ],
+    "operator_serialization": "Ordered JSON arrays followed by a newline. Recomputed against the registry rows from epoch 44.",
+    "all_seven_contracts_verified": true
+  },
+  "earlier_maintenance_probe": {
+    "epoch": 46,
+    "returned_http": 503,
+    "reason": "The earlier runtime treated the intentional absence of payment admission as incomplete work.",
+    "preserved_original_disposition": "reviewed_unknown",
+    "unresolved_admissions_at_latest_observation": 0
+  },
+  "maintenance_probe": {
+    "state": "confirmed",
+    "http_status": 200,
+    "maintenance_only": true,
+    "source_matched": true,
+    "completed": true,
+    "ticket_hash_matched": true,
+    "native_provider_calls": 0,
+    "response_hash_matched": true,
+    "payment_sms": {
+      "status": "held",
+      "processed": 0
+    }
+  },
+  "ordinary_tickets": [
+    {
+      "kind": "probe",
+      "state": "confirmed",
+      "http_status": 200,
+      "native_provider_calls": 0,
+      "claimed": true,
+      "completed": true,
+      "hash_matched": true,
+      "source_matched": true,
+      "created_at": "2026-11-20T16:25:49.527Z"
+    },
+    {
+      "kind": "scheduled",
+      "state": "confirmed",
+      "http_status": 200,
+      "native_provider_calls": 0,
+      "claimed": true,
+      "completed": true,
+      "hash_matched": true,
+      "source_matched": true,
+      "created_at": "2026-11-20T16:27:00.501Z"
+    }
+  ],
+  "scheduled_run": {
+    "active": true,
+    "schedule": "* * * * *",
+    "activation": "2026-11-20T16:26:03.925Z",
+    "observed": "2026-11-20T16:27:00.501Z",
+    "responseMatched": true,
+    "smsStage": "complete",
+    "receiptRecordsProcessed": 0
+  },
+  "financial_references": {
+    "payments": 11,
+    "payments_with_valid_references": 11,
+    "distinct_payment_references": 11,
+    "ledger_entries": 11
+  },
+  "protected_history": 37,
+  "receipt_delivery": "The live receipt stage processed no pending work. No payer or carrier delivery was observed.",
+  "edge_qualification": {
+    "sourceSha256": "7b6947e0e163266bb9480b14fb3273a705455a107353851b107c714e5e68f37f",
+    "edgeSuiteSha256": "f05dd9945a0fbf593ad6fb7d47c0f886ad404661889e40d146e1b28ecff2e45f",
+    "discovered": 3913,
+    "passed": 3906,
+    "failed": 0,
+    "defaultFixtureSkips": 7,
+    "distinctBuriPrivatePGCasesRunSeparately": 6,
+    "heldContainerSpecificFixture": "Iceberg retention census",
+    "managedHandlerCases": 4
+  },
+  "react_hosts": {
+    "production": {
+      "time": "2026-11-20T16:24:12.970Z",
+      "origin": "https://platform-admin.collect.ikanisa.com",
+      "source": "61e6fb3d61e5d1e44794612333a0bb99993c0f35",
+      "archive_sha256": "66415bf7eebbba9fc685126cf570e1af5f402a91b37770be23ab9218f57ed69d",
+      "archive_files": 44,
+      "status_and_digest_matches": 44,
+      "document_status": 200,
+      "sign_in_code_control_visible": true,
+      "browser": {
+        "reactEntry": true,
+        "serviceWorker": "https://platform-admin.collect.ikanisa.com/custom-sw.js",
+        "scope": "https://platform-admin.collect.ikanisa.com/",
+        "sessionStatus": 200,
+        "anonymous": true,
+        "assetManifest": "b578b97ea5dd2ad7737a7fced4c86bc8c9a01876dd148da555acc2948219c6e3",
+        "project": "rrlduytparvsjfmegalh"
+      },
+      "receipt_sha256": "bd4a3aaf78eef27e5e7626898ea10eec8fa234dba615c1905b7977db761d834b"
+    },
+    "qa": {
+      "time": "2026-11-20T16:24:21.468Z",
+      "origin": "https://admin-supabase-qa.collect.ikanisa.com",
+      "source": "61e6fb3d61e5d1e44794612333a0bb99993c0f35",
+      "archive_sha256": "10980256d5eb9f9f61ad4b796c4e5fe7b056e849a3147bad06c6319d90127506",
+      "archive_files": 44,
+      "status_and_digest_matches": 44,
+      "document_status": 200,
+      "sign_in_code_control_visible": true,
+      "browser": {
+        "reactEntry": true,
+        "serviceWorker": "https://admin-supabase-qa.collect.ikanisa.com/custom-sw.js",
+        "scope": "https://admin-supabase-qa.collect.ikanisa.com/",
+        "sessionStatus": 200,
+        "anonymous": true,
+        "assetManifest": "1c4aa0c332d48191f304df01c4cdaa4385fd03c015e824588ae3a5fdea09fb5c",
+        "project": "rrlduytparvsjfmegalh"
+      },
+      "receipt_sha256": "3c78c9fd36c22fafc4872f6f151d1102b7d680b8c31e117434726a9b1f09bcae"
+    }
+  },
+  "restricted_receipt_sha256": {
+    "business-readback": "2a2d3d0db5401818539c4b731a81f941b994994732dca33b7404145553346a49",
+    "verified": "75aa12b5bfe523db32a0a90dbe5f0ef4439e29664e50da4eb69847a84ab5f3ae",
+    "scheduled-readback": "b719d752e9d1bca24d5789f33d39bee51d22967fd22ce1026d76df463d7bcd94"
+  },
+  "evidence_directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/managed-runtime-epoch48"
+}

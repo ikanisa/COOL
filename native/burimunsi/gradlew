@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# No implicit network access or unverified Collect wrapper execution.
+set -eu
+HERE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+exec python3 "$HERE/scripts/bootstrap_gradle.py" --run -- "$@"

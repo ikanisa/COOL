@@ -1,0 +1,11 @@
+{
+  "scope": "rw_receipt_notice_transport",
+  "action": "configure_notice_transport",
+  "enabled": true,
+  "audit_id": "9407aa76-6b9c-4f01-94e1-140a949460f6",
+  "request_id": "a33be234-5190-4364-b674-39f816a3ccd8",
+  "recorded_at": "2026-10-03T09:21:52.727805Z",
+  "send_authority": false,
+  "contract_version": 1,
+  "configuration_revision": 2
+}

@@ -1,0 +1,352 @@
+part of 'collect_repository.dart';
+
+// A new owner or directory revision starts with no active queries. Only a
+// current screen can subscribe its search to the replacement repository.
+final memberHistoryQueriesProvider = Provider((ref) {
+  final repository = ref.watch(memberHistoryRepositoryProvider);
+  ref.watch(
+    collectRepositoryProvider.select(
+      (state) => (
+        repository.sessionGeneration,
+        state.currentProfile?.id,
+        state.lastSuccessfulSyncAt,
+        state.usingStaleCache,
+      ),
+    ),
+  );
+  return StateNotifierProvider.autoDispose
+      .family<MemberHistoryController, MemberHistoryState, MemberHistoryQuery>(
+        (_, query) => repository.openHistory(query),
+      );
+});
+
+class MemberHistoryState {
+  // Public named parameters are kept while page storage remains private.
+  const MemberHistoryState({
+    MemberHistoryPage? page,
+    this.loading = false,
+    this.error,
+    bool Function()? pageIsCurrent,
+  }) : _page = page, // ignore: prefer_initializing_formals
+       // ignore: prefer_initializing_formals
+       _pageIsCurrent = pageIsCurrent;
+  final MemberHistoryPage? _page;
+  final bool Function()? _pageIsCurrent;
+  MemberHistoryPage? get page => _pageIsCurrent?.call() == false ? null : _page;
+  final bool loading;
+  final String? error;
+}
+
+class MemberHistoryController extends StateNotifier<MemberHistoryState> {
+  MemberHistoryController(
+    CollectRepository repository,
+    MemberHistoryQuery query,
+  ) : this._(repository, query);
+
+  MemberHistoryController._(_CollectMemberHistory authority, this.query)
+    : _authority = authority,
+      _ownerProfileId = authority.state.currentProfile?.id,
+      _ownerAuthId = authority._backend?.auth.currentUser?.id,
+      _ownerSession = authority._captureSession(),
+      super(const MemberHistoryState()) {
+    _historyInvalidationListener = _onHistoryInvalidated;
+    authority._historyInvalidationListeners.add(_historyInvalidationListener);
+    try {
+      if (!_contextCurrent()) return;
+      final initial = authority.state.historyPage;
+      if (authority._allowLocalWrites &&
+          !authority.isLive &&
+          !authority.state.usingStaleCache &&
+          initial == null) {
+        state = _pageState(authority.localHistoryPage(query));
+      } else if (query.isDefault &&
+          initial != null &&
+          !authority._historySeedInvalidated) {
+        state = _pageState(initial);
+      } else {
+        if (query.search.isNotEmpty && authority.isLive) {
+          state = const MemberHistoryState(loading: true);
+          _debounce = Timer(const Duration(milliseconds: 300), refresh);
+        } else {
+          unawaited(refresh());
+        }
+      }
+    } catch (_) {
+      authority._historyInvalidationListeners.remove(
+        _historyInvalidationListener,
+      );
+      rethrow;
+    }
+  }
+
+  final _CollectMemberHistory _authority;
+  MemberHistoryRepository get repository => _authority;
+  final MemberHistoryQuery query;
+  final String? _ownerProfileId;
+  final String? _ownerAuthId;
+  final _CollectSessionFence _ownerSession;
+  late final void Function() _historyInvalidationListener;
+  int _generation = 0;
+  Timer? _debounce;
+  bool _refreshing = false;
+  bool _refreshRequired = false;
+  int _pageEpoch = 0;
+
+  MemberHistoryState _pageState(
+    MemberHistoryPage? page, {
+    bool loading = false,
+    String? error,
+  }) {
+    final epoch = _authority._historyScopeEpoch;
+    final pageEpoch = _pageEpoch;
+    return MemberHistoryState(
+      page: page,
+      loading: loading,
+      error: error,
+      // Previously emitted states must not expose their old page during
+      // synchronous invalidation callbacks, or revive it after a later load.
+      pageIsCurrent: () =>
+          mounted &&
+          _authority.mounted &&
+          _authority._historyScopeEpoch == epoch &&
+          _pageEpoch == pageEpoch &&
+          _authority._historySignalCurrent(_ownerSession) &&
+          _authority.state.currentProfile?.id == _ownerProfileId &&
+          _authority._backend?.auth.currentUser?.id == _ownerAuthId &&
+          !_authority.state.memberScopeUncertain,
+    );
+  }
+
+  bool _contextCurrent() {
+    if (!mounted) return false;
+    if (!_authority._isCurrentSession(_ownerSession) ||
+        (_authority._signingOutIdentity != null &&
+            _authority._signingOutIdentity == _ownerSession.identity) ||
+        _authority.state.currentProfile?.id != _ownerProfileId ||
+        _authority._backend?.auth.currentUser?.id != _ownerAuthId) {
+      ++_generation;
+      ++_pageEpoch;
+      _debounce?.cancel();
+      _refreshing = false;
+      _refreshRequired = false;
+      // Never retain the old account's records in a stale controller.
+      state = const MemberHistoryState(
+        error: 'Account changed. Reload history.',
+      );
+      return false;
+    }
+    return true;
+  }
+
+  bool _canPublish(int generation) =>
+      mounted && generation == _generation && _contextCurrent();
+
+  void _onHistoryInvalidated() {
+    if (!_contextCurrent()) return;
+    ++_generation;
+    _debounce?.cancel();
+    _refreshing = false;
+    _refreshRequired = true;
+    state = const MemberHistoryState(
+      error: 'History changed. Refresh to continue.',
+    );
+  }
+
+  @override
+  void dispose() {
+    ++_generation;
+    _debounce?.cancel();
+    _authority._historyInvalidationListeners.remove(
+      _historyInvalidationListener,
+    );
+    super.dispose();
+  }
+
+  Future<void> refresh() async {
+    if (!_contextCurrent() || _refreshing) return;
+    _debounce?.cancel();
+    final previousPage = state.page;
+    _refreshing = true;
+    _refreshRequired = false;
+    final generation = ++_generation;
+    try {
+      try {
+        state = const MemberHistoryState(loading: true);
+      } catch (error, stack) {
+        if (mounted && generation == _generation) {
+          try {
+            if (_contextCurrent() && generation == _generation) {
+              state = _pageState(
+                previousPage,
+                error: 'Connect to load the complete history.',
+              );
+            }
+          } catch (_) {
+            // Preserve the original listener failure after restoring the state.
+          }
+        }
+        Error.throwWithStackTrace(error, stack);
+      }
+      if (!_canPublish(generation)) return;
+      final requestSession = _authority._captureSession();
+      late final MemberHistoryPage page;
+      try {
+        page = await repository.fetchHistoryPage(query);
+        if (!_canPublish(generation)) return;
+        if (_authority.isLive) page.validateRequest(query: query);
+      } catch (error) {
+        _handleFailure(error, generation, requestSession);
+        await _authority._cacheDenialPersisted;
+        return;
+      }
+      state = _pageState(page);
+    } finally {
+      if (mounted && generation == _generation) _refreshing = false;
+    }
+  }
+
+  Future<void> loadMore() async {
+    if (!_contextCurrent() || _refreshRequired) return;
+    final page = state.page;
+    if (state.loading || page?.nextCursor == null) return;
+    final generation = ++_generation;
+    try {
+      state = _pageState(page, loading: true);
+    } catch (error, stack) {
+      // StateNotifier updates its state before reporting listener failures.
+      // Restore a retryable page unless an observer started a newer request.
+      if (mounted && generation == _generation) {
+        try {
+          if (_contextCurrent() && generation == _generation) {
+            state = _pageState(page, error: 'Could not load more. Try again.');
+          }
+        } catch (_) {
+          // Preserve the original listener failure after restoring the state.
+        }
+      }
+      Error.throwWithStackTrace(error, stack);
+    }
+    if (!_canPublish(generation)) return;
+    final requestSession = _authority._captureSession();
+    late final MemberHistoryPage merged;
+    try {
+      final next = await repository.fetchHistoryPage(
+        query,
+        cursor: page!.nextCursor,
+      );
+      if (!_canPublish(generation)) return;
+      merged = page.append(next, query: query);
+    } catch (error) {
+      _handleFailure(error, generation, requestSession, previousPage: page);
+      await _authority._cacheDenialPersisted;
+      return;
+    }
+    state = _pageState(merged);
+  }
+
+  void _handleFailure(
+    Object error,
+    int generation,
+    _CollectSessionFence requestSession, {
+    MemberHistoryPage? previousPage,
+  }) {
+    final invalidQuery = error is _InvalidMemberHistoryQuery;
+    final (:changed, :accessChanged, :scopeChanged) = _authority
+        ._historyFailure(error);
+    if (!mounted) {
+      if ((changed || accessChanged) &&
+          _authority._isCurrentSession(requestSession)) {
+        _authority._invalidateHistorySeed(
+          scopeChanged ? _authority._captureSession() : requestSession,
+          surviveBearerChange: scopeChanged,
+        );
+      }
+      return;
+    }
+    // A later request can finish before an older denial was observed. A
+    // request generation does not establish the server's snapshot order.
+    if (generation != _generation && !changed && !accessChanged) return;
+    if (!_contextCurrent()) return;
+    if (accessChanged &&
+        !scopeChanged &&
+        (!_authority._isCurrentSession(requestSession) ||
+            _authority._backend?.auth.currentSession?.accessToken !=
+                requestSession.accessToken)) {
+      // A denial for a replaced bearer cannot invalidate a newer response.
+      // If no newer request exists, require a read with the current bearer.
+      if (generation != _generation) return;
+      ++_pageEpoch;
+      _authority._markHistorySeedInvalidated(_authority._captureSession());
+      _refreshRequired = true;
+      state = const MemberHistoryState(
+        error: 'History changed. Refresh to continue.',
+      );
+      return;
+    }
+    if (generation != _generation) {
+      ++_generation;
+      _refreshing = false;
+    }
+    final shouldInvalidate = changed || accessChanged;
+    final invalidationSession = scopeChanged
+        ? _authority._captureSession()
+        : requestSession;
+    _refreshRequired = shouldInvalidate;
+    Object? firstError;
+    StackTrace? firstStack;
+    if (shouldInvalidate) {
+      // Fence in-flight reads and mask the repository before notifying this
+      // controller's observers. The setter installs state before it notifies,
+      // so the mask remains in place even if a repository listener throws.
+      if (!_authority._fenceHistoryScope(
+        invalidationSession,
+        surviveBearerChange: scopeChanged,
+      )) {
+        return;
+      }
+      try {
+        _authority._maskHistoryScope();
+      } catch (error, stack) {
+        firstError = error;
+        firstStack = stack;
+      }
+    }
+    try {
+      // A repository listener may synchronously dispose this controller or
+      // replace the signed-in session while receiving the mask.
+      if (mounted && _contextCurrent()) {
+        state = _pageState(
+          // A revision change can reflect revoked membership. Do not leave rows
+          // or totals from the earlier authority snapshot on screen or seed them.
+          shouldInvalidate ? null : previousPage,
+          error: invalidQuery
+              ? 'Check your history search or filter.'
+              : changed
+              ? 'History changed. Refresh to continue.'
+              : accessChanged
+              ? 'History access changed. Refresh to continue.'
+              : previousPage == null
+              ? 'Connect to load the complete history.'
+              : 'Could not load more. Try again.',
+        );
+      }
+    } catch (error, stack) {
+      firstError ??= error;
+      firstStack ??= stack;
+    } finally {
+      if (shouldInvalidate) {
+        try {
+          _authority._invalidateHistorySeed(
+            invalidationSession,
+            except: _historyInvalidationListener,
+            surviveBearerChange: scopeChanged,
+          );
+        } catch (error, stack) {
+          firstError ??= error;
+          firstStack ??= stack;
+        }
+      }
+    }
+    if (firstError != null) Error.throwWithStackTrace(firstError, firstStack!);
+  }
+}

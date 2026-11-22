@@ -1,0 +1,42 @@
+{
+  "build": [
+    "admin-web/src", "admin-web/src/main.tsx", "admin-web/scripts", "admin-web/public",
+    "admin-web/index.html", "admin-web/package.json", "admin-web/package-lock.json",
+    "admin-web/vite.config.ts", "admin-web/tsconfig.json",
+    "scripts/admin_pwa_release_build.sh", "scripts/admin_pwa_manifest_gate.sh",
+    "scripts/admin_pwa_hosting_gate.sh", "scripts/supabase/admin_build_config.py",
+    "scripts/supabase/deployment_profile.py", "scripts/templates/admin_pwa_service_worker.js",
+    "deploy/platform-admin/src", "deploy/platform-admin/src/index.js", "deploy/platform-admin/src/supabase-transport.js",
+    "deploy/platform-admin/src/static-recovery.js", "deploy/platform-admin/src/local-challenge.mjs",
+    "deploy/platform-admin/supabase-transport.provenance.json",
+    "deploy/platform-admin/package.json", "deploy/platform-admin/package-lock.json",
+    "deploy/platform-admin/wrangler.supabase.jsonc", "deploy/platform-admin/wrangler.supabase-qa.jsonc",
+    "supabase/functions/_shared/deployment-profile.js",
+    "supabase/functions/_shared/domain/burimunsi/operator-access.mjs", "supabase/functions/_shared/domain/burimunsi/operator-access.d.mts",
+    "supabase/functions/_shared/domain/burimunsi/wire/operator-capabilities.generated.mjs",
+    "contracts/burimunsi-api/schema.json", "contracts/burimunsi-api/operator-access.json", "scripts/generate_burimunsi_wire.py",
+    "supabase/migrations", "web/.well-known/assetlinks.json", "web/.well-known/apple-app-site-association",
+    ".github/workflows/ci.yml"
+  ],
+  "qualification": [
+    ".gitignore", "admin-web", "deploy/platform-admin/test",
+    "deploy/admin-api/src", "deploy/admin-api/test", "deploy/admin-api/migrations",
+    "deploy/admin-api/package.json", "deploy/admin-api/package-lock.json",
+    "supabase/functions/_shared/application-fence.js", "supabase/functions/_shared/auth-http.js",
+    "supabase/functions/_shared/domain/admin_email_code_policy.js", "supabase/functions/_shared/domain/anonymous_auth.js",
+    "supabase/functions/_shared/domain/auth.js", "supabase/functions/_shared/domain/core.js",
+    "supabase/functions/_shared/domain/challenge.js", "supabase/functions/_shared/domain/encryption.js",
+    "supabase/functions/_shared/domain/google_auth.js", "supabase/functions/_shared/domain/privacy_portal.js",
+    "supabase/functions/_shared/domain/privacy_portal_assets.js",
+    "supabase/functions/_shared/domain/burimunsi/admin-provisioning.js", "supabase/functions/_shared/domain/burimunsi/errors.js",
+    "supabase/functions/_shared/domain/burimunsi/managed-email-otp.js", "supabase/functions/_shared/domain/burimunsi/native-secrets.js",
+    "supabase/functions/_shared/domain/burimunsi/phone-pin-request.js", "supabase/functions/_shared/domain/burimunsi/pin.js",
+    "supabase/functions/_shared/domain/burimunsi/policy.js", "supabase/functions/_shared/domain/burimunsi/postgres-authority.js",
+    "supabase/functions/_shared/domain/burimunsi/postgres-values.js", "supabase/functions/_shared/domain/burimunsi/values.js",
+    "supabase/functions/_shared/domain/burimunsi/wire",
+    "scripts/supabase/current-pg-transfer/test-support/owned-pg17.mjs",
+    "scripts/supabase/package.json", "scripts/supabase/package-lock.json",
+    "test/fixtures/local-challenge-parent-harness.mjs", "scripts/qa/public_browser_local_network.cjs",
+    "scripts/qa/collect_release_candidate.py", "scripts/qa/admin_source_candidate.py", "scripts/tests/test_admin_source_candidate.py"
+  ]
+}

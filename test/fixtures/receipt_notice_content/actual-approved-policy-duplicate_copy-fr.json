@@ -1,0 +1,19 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "action": "policy",
+  "enabled": true,
+  "audit_id": "4e481f0e-8031-443a-9a96-04c21a6fb189",
+  "language": "fr",
+  "request_id": "fb534855-768f-481f-9036-2b10b2a88c21",
+  "recorded_at": "2026-10-03T06:52:23.247088Z",
+  "collection_id": "99780000-0000-4000-8000-000000030001",
+  "notice_family": "duplicate_copy",
+  "approval_basis": "actual_current_owner_policy_action",
+  "send_authority": false,
+  "policy_revision": 3,
+  "template_sha256": "6432045b7b3f2384e9612323ba41dfdd8fa84017172b2cf42f39e62f140157ab",
+  "contract_version": 1,
+  "financial_action": false,
+  "semantic_version": 1,
+  "notice_transport_available": false
+}

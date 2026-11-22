@@ -1,0 +1,13 @@
+# Native SMS extraction and credit-proof evidence
+
+Comparison base: commit `10c0510f9a6949a36e4583f578baa9498b9a9ba6`. All examples below are invented fixtures; no live messages or database records were inspected. General source-grounded extraction and automatic-credit authorization are separate operations.
+
+The original, unmodified `native-auto-parser.test.mjs` and `native-auto-format-regression.test.mjs` contain 58 tests. All 58 pass against the restored generic parser. An incoming receipt with amount and balance but no payer remains parsed; it does not pass the separate automatic-credit proof.
+
+The proof is intentionally narrower. It requires the supported source direction grammar and complete, unambiguous source spans for the payer name and identifier, and is checked before financial writes and again within the final native ledger transaction. The future native financial custody port also requires it. No parser output, model claim or local proof establishes actual provider settlement.
+
+Synthetic English `You have received ... from`, Kinyarwanda `Wakiriye ... uhawe na`, French `Votre portefeuille est crédité de ... par`, and Swahili `Umepokea ... kutoka` examples pass parser and mocked-ledger tests with a complete `*****456` masked token and unique matching name. These are four tested examples, not coverage of those languages generally. Unrecognized source syntax, extra statements and incomplete or ambiguous identities remain parsed where generic extraction permits, but cannot satisfy this proof. In particular, the currently strict proof does not qualify the synthetic `Receiver code: 48271` metadata used by an existing future-custody fixture; that provider-confirmation path remains on hold for that syntax.
+
+There is no persisted `credit_proven`/`unverified` status for a completed but unqualified parse. The existing observation status can report `parsed` or `historical`; its `needs_review` state is driven by particular retry/failure or posting-error conditions, not by failure of this pure proof. The unmatched posting path uses its existing defer schedule, and native sources are excluded from the existing unallocated payment filters. A reliable visible review queue requires separately reviewed status/schema and UI work.
+
+The owner-approved masked-name/last-three rule can still collide with another payer; an exact source quotation cannot prove the hidden digits or actual ownership. A tested `Received ... from ...` cue is an inference about the addressed wallet, not independent settlement verification. These changes do not modify existing payment, financial-link or ledger history. Database concurrency, real carrier behavior and production latency have not been verified by synthetic tests.

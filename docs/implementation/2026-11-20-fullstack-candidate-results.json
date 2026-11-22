@@ -1,0 +1,271 @@
+{
+  "format": "collect.fullstack-candidate-results.v1",
+  "verified_utc": "2026-11-20T11:06:51+00:00",
+  "local_branch": "codex/collect-fullstack-cleanup-20261120",
+  "base": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+  "tested_commit": "0ab4b9ffb2b0c94c47c1a601e07765f884a7afef",
+  "tree": "cc43bf1f49616aa48982564ded24e6dc907364a3",
+  "commit_series": [
+    {
+      "commit": "243d5860e70ee6e1617e690fa997168eeba2c8e1",
+      "subject": "Consolidate the Collect web admin in React and retire the Flutter panel"
+    },
+    {
+      "commit": "6478dd32c12ab3a94df324deb768a795d2612f1d",
+      "subject": "Integrate BuriMunsi app, payment, database and restore changes"
+    },
+    {
+      "commit": "ef753ffe65ecf79d670c734e922536d741c7ed92",
+      "subject": "Refactor Collect member payments and rebuild the public site inputs"
+    },
+    {
+      "commit": "0a0ef6f5356ddcde60a9b538a60c6e6fc181e501",
+      "subject": "Bind full-stack source, CI checks and audit evidence"
+    },
+    {
+      "commit": "1fa8bf26c449e5d8d51e0894847148f8b2e939ea",
+      "subject": "Verify retained SQL history, installed web recovery and complete release inputs"
+    },
+    {
+      "commit": "73cb52551afdb4fcfc1f3fd190a3911135a1d4b0",
+      "subject": "Preserve signed client recovery and exact predecessor Staff command replay"
+    },
+    {
+      "commit": "e802ae28c86e0045a8a5170aa66447aab5e6be51",
+      "subject": "Recover encrypted receiver state and verify upgrades against signed predecessors"
+    },
+    {
+      "commit": "f3e234a21a7d1b38b7ec7d0b0540392c4fe2a8f8",
+      "subject": "Preserve foreground Sync authority and verify managed recovery and Admin custody"
+    },
+    {
+      "commit": "0ab4b9ffb2b0c94c47c1a601e07765f884a7afef",
+      "subject": "Record the verified Android in-place upgrades and remaining release gates"
+    }
+  ],
+  "original_working_branch": "codex/burimunsi-android-integration-20261109",
+  "original_working_head_preserved": true,
+  "original_staged_paths": 0,
+  "unchanged_out_of_scope": [
+    "deploy/managed-sms/ROOT_GITIGNORE_OVERWRITE.backup",
+    "docs/implementation/burimunsi-android/production-goal.json"
+  ],
+  "changed_paths": 1404,
+  "tracked_files": 115866,
+  "react_admin": {
+    "source_path": "admin-web/",
+    "tracked_files": 334,
+    "frontend": "React/Vite",
+    "profile": "production",
+    "origin": "https://platform-admin.collect.ikanisa.com",
+    "supabase_project": "rrlduytparvsjfmegalh",
+    "production_artifact_files": 44,
+    "manifest_sha256": "4bcf25eb55ad4e92a54f023bca7a6ed85e313a5bdb3dc3dca5e95b54df05bec9",
+    "artifact_bundle": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/0ab4b9ffb2b0/react-admin-production.tar.gz",
+    "artifact_archive_sha256": "e668d8b812626fbbde878c0d44901490847a481588ab267fba46aa923e042aad",
+    "artifact_archive_bytes": 1072047,
+    "all_archived_file_hashes_match_manifest": true,
+    "production_build_and_gate": true,
+    "hosted_React_published": false,
+    "compiled_loopback_browser_checks": 7,
+    "browser_entry": "admin-web/index.html -> admin-web/src/main.tsx",
+    "scope": "The production-mode build uses the current GitHub CI public variables for the managed project. An independent readback found the active production host uses Collect’s self-hosted profile, with a different public key. The managed artifact is reserved for its verified target.",
+    "current_host_predecessor_proof": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/admin-precutover/canonical-before.json",
+    "current_production_backend": "https://supabase.collect.ikanisa.com",
+    "current_qa_backend": "https://rrlduytparvsjfmegalh.supabase.co",
+    "verified_predecessor_assets": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/admin-precutover/independent-static-custody.json"
+  },
+  "source_export": {
+    "schema": 2,
+    "files": 4244,
+    "bytes": 186655270,
+    "source_sha256": "9a3a4eb3cb926ff9ec93be81f463756457d583475e92bfb19b4d431437bd9936",
+    "manifest_sha256": "fdf55c711325a56d087f5c32424bd1d80d283013e238d49d8175c5c829e2319a",
+    "explicit_expected_digest_and_source_comparison": true
+  },
+  "test_results": {
+    "flutter_unit_widget": 2649,
+    "flutter_unit_widget_skipped": 0,
+    "flutter_analysis": "passed",
+    "member_chrome_sync": 1,
+    "retained_sql_vm": 6,
+    "retained_sql_chrome": 6,
+    "react_vitest": 960,
+    "react_test_files": 133,
+    "pwa_packaging": 4,
+    "postgres17_joint_checks": 20,
+    "native_tested_source_files": 343,
+    "native_source_sha256": "7ce1231cc8a1e77779d23ec644556b0088b8a342c9e88285d7bbbf15254ede6b",
+    "native_build_device_and_install_report": "2026-11-20-burimunsi-installed-upgrade-verification.json",
+    "backend_Node": {
+      "passed": 3824,
+      "skipped": 7,
+      "underlying_receipt_log_sha256": "1871a87e86f50ca514fd2bf69d3e4f8589524b95a56b6876b32f77e968aec773"
+    },
+    "deno_current_edge_entrypoints": 6,
+    "native_android_api36": {
+      "staff": {
+        "expected": 69,
+        "passed": 69,
+        "failed": 0
+      },
+      "admin_sync": {
+        "expected": 89,
+        "passed": 89,
+        "failed": 0
+      }
+    },
+    "android_replacement": {
+      "from_version_code": 48,
+      "to_version_code": 49,
+      "environment": "API 36 emulator, endpoint-free packages",
+      "package_ids": [
+        "rw.ikanisa.burimunsi.staff.cloud.nativeTest",
+        "rw.ikanisa.burimunsi.gateway.cloud.nativeTest"
+      ],
+      "packet_manifest": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/android-upgrade-7ce1231cc8a1/android-upgrade-packet.json",
+      "packet_manifest_sha256": "a22370baa7b5f26155bc90e0a1b7a3f5e0d82b5c1e7a9f938c28606394cbf440"
+    },
+    "release_secret_scan_scope": "The source-integrity target executed the tracked-source fallback successfully. The redundant standalone invocation was stopped after the aggregate recorded success."
+  },
+  "original_qualification_receipts_sha256": {
+    "2026-11-20-react-admin-source-qualification.json": "aafdf40e2d44587971f727c25cb6d0e3ae89666d3f67f8247e8b05c558aa0ea5",
+    "2026-11-20-public-admin-hosts.json": "f81b7eee248eaf76bebb64f8e061e031171a98b13f25fbaaea55cf95ee3892a8",
+    "2026-11-20-admin-provider-deployments.json": "02a0afc6dac13bd1fc2d889315736180ec9248ff10179dbded4adf6e9673208b",
+    "2026-11-20-admin-retirement-independent-restore.json": "61235db1528d432c99b1aead3a5ba154fb5e6f0228b0e84c8e53b41c66302e04",
+    "2026-11-20-independent-release-unit-restore.json": "7b0ed08a70c5fe75885a4cf6ebd378f5bfc2b66e98d90717a8f3e030fe761c82",
+    "2026-11-20-managed-replay-and-upgrade.json": "8a7bd41663489da518fe78aa30550bd5669553387e36dc74888037f308df4ca8",
+    "2026-11-20-burimunsi-observation-reconciliation.json": "33c6823881d79e7ca72a7662814f33295033718cd88bd2f871eb24a7c8ac4495",
+    "2026-11-20-burimunsi-held-sms-compatibility.json": "74e07cf034b361621414e049a7601cef738432dcb131973cdf4b3b6bb92280b9",
+    "2026-11-20-staff-replay-and-native-parity.json": "819cbb806b2b3981cb8ee34f9e1dfa1f8299857ea9d2ab3659e43dd6a1410a71",
+    "2026-11-20-burimunsi-installed-upgrade-verification.json": "8fbd6d98d77dfa87171d1b81d11da009d61be056317abe4aaad03664ae553930"
+  },
+  "commands_on_clean_commit": {
+    "react-production": {
+      "check": "react-production",
+      "exit": 0,
+      "seconds": 3.55,
+      "log_sha256": "de9c106a6cbf3cda4e5f5886d9a64f1b285d029198348ada47a00fd7e42a582c"
+    },
+    "react-ci": {
+      "check": "react-ci",
+      "exit": 0,
+      "seconds": 0.2,
+      "log_sha256": "f30daae8005ec41f73e0c46d84825a6c92846555174ce7cbc056e3ebbe31367b"
+    },
+    "react-hosting": {
+      "check": "react-hosting",
+      "exit": 0,
+      "seconds": 0.18,
+      "log_sha256": "f30daae8005ec41f73e0c46d84825a6c92846555174ce7cbc056e3ebbe31367b"
+    },
+    "react-loopback-build": {
+      "check": "react-loopback-build",
+      "exit": 0,
+      "seconds": 1.05,
+      "log_sha256": "41862084a89987a06f670b08da6a5f412a2fcb9688825dc92c8e4d8dc3ce3d66"
+    },
+    "react-loopback-browser": {
+      "check": "react-loopback-browser",
+      "exit": 0,
+      "seconds": 15.8,
+      "log_sha256": "9950518c90d7fdea134d430c91076891127ce68755b47e962c7613ff454c3b83"
+    },
+    "integrated": {
+      "check": "integrated",
+      "exit": 0,
+      "seconds": 633.22,
+      "log_sha256": "3f6b1a6a5eb562d6bf4f1f3f4c19b6b7f304923ddcdc84ad39379a60a0cfecda"
+    },
+    "source-export": {
+      "check": "source-export",
+      "exit": 0,
+      "seconds": 126.45,
+      "log_sha256": "3d8417873d52025de22ab5f2936fcb7cd0f0f0fee1d06e484cd44bb88cac83a2"
+    },
+    "source-verify": {
+      "check": "source-verify",
+      "exit": 0,
+      "seconds": 78.37,
+      "log_sha256": "e3411c7d7a55b68180e66c40439e64114bc22ccc6e1a119f011f35b0eca48bc2"
+    },
+    "qa-tooling": {
+      "check": "qa-tooling",
+      "exit": 0,
+      "seconds": 126.42,
+      "log_sha256": "956d6e9cf6e7f72765e1cdb9fd975894bfc2cbc6968db0e16cade89e3c1d216b"
+    },
+    "pgsql": {
+      "check": "pgsql",
+      "exit": 0,
+      "seconds": 23.66,
+      "log_sha256": "d55aa27527d49e322a6ac09726be9cc417c67259cba5c3b03a2bf801929d7bf2"
+    },
+    "ci-policy": {
+      "check": "ci-policy",
+      "exit": 0,
+      "seconds": 0.63,
+      "log_sha256": "6ca5931ba98df9c559cf0ff7e2a7343c8f8bebd23fe9639252c32e1aa0e611fd"
+    },
+    "source-integrity": {
+      "check": "source-integrity",
+      "exit": 0,
+      "seconds": 671.36,
+      "log_sha256": "30810c7d98221315549b2dbed0d84ad3555bf73226c148b426ec2d24b33df559"
+    },
+    "release-secret-scan": {
+      "check": "release-secret-scan",
+      "status": "passed inside make source-integrity",
+      "evidence": "30810c7d98221315549b2dbed0d84ad3555bf73226c148b426ec2d24b33df559",
+      "redundant_second_invocation_stopped": {
+        "check": "release-secret-scan",
+        "exit": -15,
+        "seconds": 107.6,
+        "log_sha256": "d9fa1fb4ca7440de34206cbb5af8b84147128b9b6e5944dcdcdd8b6b6c03d79c"
+      }
+    }
+  },
+  "offline_incremental_git_restore": {
+    "bundle": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/0ab4b9ffb2b0/collect-fullstack-cleanup.bundle",
+    "bundle_sha256": "537421c62955aefe59f3fed8508afcb2a36d7e90400478484201784120d3dc00",
+    "bundle_bytes": 4875980,
+    "requires_base_commit": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+    "recovery_disk": "PRO-G40",
+    "available_distinct_blobs": 34042,
+    "changed_and_added_distinct_blobs_rehashed": 706
+  },
+  "external_and_remaining": [
+    "Public production and QA Admin plus a separate preview served Flutter; actual sign-in, role and installed-client recovery and provider rollback on the intended hosts are pending.",
+    "The seven database migrations await managed upgrade and an independently restorable current database, Auth and Storage recovery point.",
+    "Production-signed Staff and Admin Sync in-place upgrades, physical SIM and carrier evidence and Managed Google Play organizational distribution remain open.",
+    "The cleanup plan records the remaining feature extractions in BuriMunsi and the member app."
+  ],
+  "source_and_artifact_custody": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/0ab4b9ffb2b0",
+  "readiness": {
+    "Admin": {
+      "source": "One React/Vite browser Admin implementation. The CI production build and seven browser fixture cases use the same package.",
+      "hosting": "Public production and QA still serve Flutter 1.2.4+23. A separate preview serves a third Flutter artifact. Current and previous provider version records were verified for all four Workers."
+    },
+    "BuriMunsi": {
+      "Android": "Sender and receiver variants retain their package boundaries. In-place update, encrypted queue recovery and foreground status were exercised on the endpoint-free emulator packages.",
+      "backend": "Exact predecessor command replay preserves Staff identity and original receipt. New Staff creation requires an explicit PIN. Ordinary observation acknowledgement requires zero financial effects. Managed raw SMS recovery stays closed.",
+      "database": "All 82 managed migration bodies matched their recorded hashes. In the populated synthetic restore, nine replayed exactly in sequence. Six of seven pending migrations applied to each of six restored databases. Both Auth identities, the private object, and a payment and ledger total of 7,250 RWF survived."
+    },
+    "Collect member and public site": {
+      "member": "Payment and history interfaces now bind a payment to its group and require a recorded ledger effect before showing credit or reversal. Recovered SQL history cases run on Dart VM and Chrome.",
+      "website": "The local verification covered the legal renderer and capability source for 15 routes. The existing dated audit records the media comparison and outstanding publication and native verification."
+    }
+  },
+  "ci_environment_fixture": {
+    "local_qa_tooling": "passed on the clean commit in the normal local environment",
+    "ambient_ci_sha_variant": "An additional run on this commit exposed a synthetic iOS fixture inheriting the outer GitHub SHA. The fixture incorrectly expected the external SHA to equal a newly generated temporary commit.",
+    "failing_log_sha256": "d37975e1fba6b871db1cb798e815dcbebf25a55ff377e0ed41ed7805dbe04ef4",
+    "correction": "The follow-up fixture explicitly binds and isolates the synthetic GitHub identity and tests both approval and outer identity mismatches. All 35 iOS guard cases passed with an unrelated outer SHA and repository.",
+    "passing_followup_log_sha256": "0282c67049ac76dd8770012aede58ae3d8c30d74645e20f9e74c2e160d957dec"
+  },
+  "remaining_local_work": [
+    "Extract the remaining collection-posting and receiver-state responsibilities from BuriViewModel while preserving installed queue identities.",
+    "Continue the typed account, group, receipt and privacy interfaces for the Collect member app.",
+    "Continue reducing shared database write locks per domain after proving authorization, concurrency and retry behavior."
+  ]
+}

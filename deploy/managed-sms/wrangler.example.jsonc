@@ -1,0 +1,13 @@
+{
+  // Example only: no route, account, Hyperdrive ID or secret is configured.
+  "name": "collect-managed-sms-review-only",
+  "main": "./dist/worker.js",
+  "compatibility_date": "2026-10-19",
+  "workers_dev": false,
+  "vars": {
+    "COLLECT_SMS_MANAGED_ENABLED": "false"
+  }
+  // A separately provisioned cache-disabled Hyperdrive binding named
+  // SMS_HYPERDRIVE is required. Binding configuration alone cannot attest
+  // provider cache settings, target privileges, or project-wide isolation.
+}

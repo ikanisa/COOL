@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-15-church-community-offering",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-15-church-community-offering-v1.png",
+  "source_sha256": "359023dd4521f2916d3b8f4b6c161e18def03fe370c643eb91c344258d06d348",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "b38a7a07d0a597a81f81444b00397249fcf3818548b02ec9fe4f5e9c051ba1e5",
+  "imported_at_utc": "2026-09-06T11:01:23.679031+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-fb5f6f28-4efd-40c9-8ebd-8c977aa7b4fe.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

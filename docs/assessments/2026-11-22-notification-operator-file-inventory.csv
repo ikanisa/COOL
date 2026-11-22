@@ -1,0 +1,38 @@
+path,area,change_from_1077d30da,current_bytes
+tools/collect-admin-mcp/src/stdio-frames.mjs,Shared frame reader,Added,1706
+tools/notification-operator/README.md,Documentation or package input,Modified,16052
+tools/notification-operator/bin/broker.mjs,Private operator code,Modified,4586
+tools/notification-operator/bin/mcp.mjs,Private operator code,Modified,862
+tools/notification-operator/config.example.json,Documentation or package input,Retained,133
+tools/notification-operator/package.json,Documentation or package input,Retained,495
+tools/notification-operator/src/admin_http_transport.mjs,Private operator code,Added,5155
+tools/notification-operator/src/admin_session_state.mjs,Private operator code,Added,4471
+tools/notification-operator/src/authority_contract.mjs,Private operator code,Added,2781
+tools/notification-operator/src/broker-connector.mjs,Private operator code,Added,5128
+tools/notification-operator/src/broker-custody.mjs,Private operator code,Added,3233
+tools/notification-operator/src/broker-ipc.mjs,Private operator code,Added,2181
+tools/notification-operator/src/broker-server.mjs,Private operator code,Added,7443
+tools/notification-operator/src/broker-terminal.mjs,Private operator code,Added,1983
+tools/notification-operator/src/broker.mjs,Private operator code,Modified,161
+tools/notification-operator/src/contract.mjs,Private operator code,Modified,646
+tools/notification-operator/src/http_client.mjs,Private operator code,Modified,13475
+tools/notification-operator/src/human_login.mjs,Private operator code,Modified,2141
+tools/notification-operator/src/mcp.mjs,Private operator code,Modified,8322
+tools/notification-operator/src/mcp_catalogue.mjs,Private operator code,Added,2803
+tools/notification-operator/src/operator_client.mjs,Private operator code,Modified,7741
+tools/notification-operator/src/operator_custody.mjs,Private operator code,Added,5787
+tools/notification-operator/src/operator_receipts.mjs,Private operator code,Added,1583
+tools/notification-operator/src/private_files.mjs,Private operator code,Added,2653
+tools/notification-operator/src/private_state.mjs,Private operator code,Modified,4147
+tools/notification-operator/src/receipt_contract.mjs,Private operator code,Added,5350
+tools/notification-operator/src/request_contract.mjs,Private operator code,Added,3442
+tools/notification-operator/src/wire_values.mjs,Private operator code,Added,2246
+tools/notification-operator/test/auth.test.mjs,Fixtures and tests,Modified,18475
+tools/notification-operator/test/broker_fixture_child.mjs,Fixtures and tests,Modified,4251
+tools/notification-operator/test/email_contract.test.mjs,Fixtures and tests,Retained,3508
+tools/notification-operator/test/http_fixture.mjs,Fixtures and tests,Retained,14830
+tools/notification-operator/test/human_fixture.mjs,Fixtures and tests,Retained,3119
+tools/notification-operator/test/mcp.test.mjs,Fixtures and tests,Modified,24484
+tools/notification-operator/test/operator.test.mjs,Fixtures and tests,Modified,21939
+tools/notification-operator/test/private_test_root.mjs,Fixtures and tests,Retained,427
+tools/notification-operator/test/transport.test.mjs,Fixtures and tests,Modified,9307

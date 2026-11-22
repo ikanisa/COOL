@@ -1,0 +1,20 @@
+# Deployment settings for the linked Collect Supabase Cloud project.
+project_id = "rrlduytparvsjfmegalh"
+
+[db]
+major_version = 17
+
+[functions.collect-api]
+verify_jwt = false
+[functions.admin-api]
+verify_jwt = false
+[functions.collect-jobs]
+verify_jwt = false
+[functions.collect-sms]
+verify_jwt = false
+[functions.send-sms-hook]
+verify_jwt = false
+[functions.collect-email-jobs]
+verify_jwt = false
+[functions.collect-sms]
+verify_jwt = false

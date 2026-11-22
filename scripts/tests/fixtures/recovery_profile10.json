@@ -1,0 +1,459 @@
+{
+  "format": "collect.synthetic.recovery-profile10.v1",
+  "synthetic_only": true,
+  "no_live_archive_or_private_credential_input": true,
+  "generated_at": "2026-10-16T04:40:55.948Z",
+  "producer": {
+    "qualified_source_id": "0dd4f494a76ebb6268808c2a7da9f1713c7fd350d7e367ccde4f12ac18cc262a",
+    "fixture_runtime_source_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "generator_sha256": "3f0ff536d1958ef74823bc25a5192c3f538cfd9755765cbde297b098f252cd17",
+    "frozen_repository": "/Users/jeanbosco/Library/Caches/COLLECT-cloudflare-integration-2026-10-14/remaining-implementation-20261016/api13-qualification/full1/repository",
+    "behavior": "Existing actual Worker/D1/MFA/retention83 synthetic fixture; only import/root retargeted to frozen qualified13 source. No schema downcast or0011 constraint removal."
+  },
+  "sql_sha256": "b1bb040b375ec8a0674d5bd2fa472b302fbdc24c806e6773acb0a1a53df49e1e",
+  "sql_bytes": 259909,
+  "schema_sha256": "078ef0d8f7cfcc69e58faa2d81767a7c46969f86a5904143082b10717b8c5b52",
+  "application_table_count": 73,
+  "counts": {
+    "privacy_retention_plans": 1,
+    "privacy_retention_tasks": 83,
+    "privacy_retention_claims": 2,
+    "privacy_retention_outcomes": 1,
+    "privacy_retention_effects": 1,
+    "privacy_retention_guards": 1,
+    "privacy_retention_barriers": 1
+  },
+  "actor": {
+    "userId": "c3d3d662-bf6d-4ab6-8a08-41da2dcbc090",
+    "sessionId": "ddf875c8-330e-4fa5-96d2-cf64bbc986ef",
+    "authAt": 1792125655,
+    "assuranceLevel": 2,
+    "aal": "aal2",
+    "mfaAt": 1792125655,
+    "mfaFactorId": "90e585e6-ac93-4211-81d3-edb0a173c58a",
+    "surface": "admin",
+    "user": {
+      "id": "c3d3d662-bf6d-4ab6-8a08-41da2dcbc090",
+      "aud": "authenticated",
+      "role": "authenticated",
+      "phone": "",
+      "email": "operator@example.com",
+      "created_at": "2026-10-16T04:40:55.488Z",
+      "updated_at": "2026-10-16T04:40:55.488Z",
+      "app_metadata": {
+        "provider": "email",
+        "providers": [
+          "email"
+        ],
+        "roles": [
+          "admin"
+        ],
+        "permissions": [
+          "auth.mfa.enroll",
+          "payments.reconcile",
+          "privacy.review"
+        ]
+      },
+      "user_metadata": {
+        "full_name": "",
+        "public_id": "100001",
+        "country_code": "RW",
+        "currency_code": "RWF",
+        "momo_provider": "",
+        "momo_number": "",
+        "momo_pay_code": ""
+      },
+      "identities": []
+    },
+    "permissions": [
+      "auth.mfa.enroll",
+      "payments.reconcile",
+      "privacy.review"
+    ]
+  },
+  "subject": "d608b14c-048c-4a2d-bb40-b42175f9f1a2",
+  "object_claim": {
+    "contract_version": 1,
+    "claim_id": "953022f3-5765-4bb7-abd3-c92a1c61b861",
+    "task_id": "dccdce11-96cc-403e-b446-540649849c8b",
+    "operation_id": "3fc62361-0633-4f64-a701-5c4cbf8cf445",
+    "fence": 1,
+    "claimed_seconds": 1792125655,
+    "expires_seconds": 1792125775,
+    "erasure_completed": false
+  },
+  "captured_at": "2026-10-16T04:40:55.938Z",
+  "recovery_at": "2026-10-16T04:40:56.000Z",
+  "financial_rows": 2,
+  "financial_net": 0,
+  "migrations": {
+    "migrations/0001_core.sql": "299b0358d2545a6bbc3f6dc004eadb19168ba9d72131368d0e814165ab6b6455",
+    "migrations/0002_auth.sql": "2106f1db68d8bd21a540c747079da4df032842ae42f38979be7f687e8af0b2a7",
+    "migrations/0003_mutation_guards.sql": "c1a4aa837663235af26b41977a531db33e9c61b18006ca167cb7eca486562744",
+    "migrations/0004_privacy.sql": "e7ba2d670e3620e7c4042f6291fa62c83407df7270987d8df5ac6431e8766ef3",
+    "migrations/0005_ingestion.sql": "b8974163e228cbc776ae88378c7fb3aece26b560841e2f7f76b7a53f254c75f7",
+    "migrations/0006_admin_accounts.sql": "ed56c5d5da367cccbc877848ffa0cbdb418a5cb6ef58a443318d2b6b7d794ba0",
+    "migrations/0007_admin_bridge.sql": "9668f1394a24dc18c75eed61d98f24c598dc8b763103c3144fef25988e0ef3b2",
+    "migrations/0008_receipt_capture.sql": "247771ccb826bb48e894dc1de703ce1cb0706c18ece1620557447faa673449fd",
+    "migrations/0009_operator_notes.sql": "e7ee374a172bb818c0a382e1e94fdc467f776f05bc31789d1215484d4fbce970",
+    "migrations/0010_privacy_retention.sql": "94d7ec5146a4ef3e4721cb185a4700edea76c3e72e1cf992dd9fcb2d2e1571d2"
+  },
+  "qualified_inputs": {
+    "deploy/platform-api/migrations/0001_core.sql": {
+      "sha256": "299b0358d2545a6bbc3f6dc004eadb19168ba9d72131368d0e814165ab6b6455",
+      "bytes": 11966
+    },
+    "deploy/platform-api/migrations/0002_auth.sql": {
+      "sha256": "2106f1db68d8bd21a540c747079da4df032842ae42f38979be7f687e8af0b2a7",
+      "bytes": 9376
+    },
+    "deploy/platform-api/migrations/0003_mutation_guards.sql": {
+      "sha256": "c1a4aa837663235af26b41977a531db33e9c61b18006ca167cb7eca486562744",
+      "bytes": 3488
+    },
+    "deploy/platform-api/migrations/0004_privacy.sql": {
+      "sha256": "e7ba2d670e3620e7c4042f6291fa62c83407df7270987d8df5ac6431e8766ef3",
+      "bytes": 6893
+    },
+    "deploy/platform-api/migrations/0005_ingestion.sql": {
+      "sha256": "b8974163e228cbc776ae88378c7fb3aece26b560841e2f7f76b7a53f254c75f7",
+      "bytes": 19166
+    },
+    "deploy/platform-api/migrations/0006_admin_accounts.sql": {
+      "sha256": "ed56c5d5da367cccbc877848ffa0cbdb418a5cb6ef58a443318d2b6b7d794ba0",
+      "bytes": 3465
+    },
+    "deploy/platform-api/migrations/0007_admin_bridge.sql": {
+      "sha256": "9668f1394a24dc18c75eed61d98f24c598dc8b763103c3144fef25988e0ef3b2",
+      "bytes": 11505
+    },
+    "deploy/platform-api/migrations/0008_receipt_capture.sql": {
+      "sha256": "247771ccb826bb48e894dc1de703ce1cb0706c18ece1620557447faa673449fd",
+      "bytes": 2167
+    },
+    "deploy/platform-api/migrations/0009_operator_notes.sql": {
+      "sha256": "e7ee374a172bb818c0a382e1e94fdc467f776f05bc31789d1215484d4fbce970",
+      "bytes": 849
+    },
+    "deploy/platform-api/migrations/0010_privacy_retention.sql": {
+      "sha256": "94d7ec5146a4ef3e4721cb185a4700edea76c3e72e1cf992dd9fcb2d2e1571d2",
+      "bytes": 14609
+    },
+    "deploy/platform-api/operations-manifest.json": {
+      "sha256": "c2ad59ecb9532e1e6edb1ebcbafd688650f43a6e46842a69cdd13d5949c5e199",
+      "bytes": 26445
+    },
+    "deploy/platform-api/package-lock.json": {
+      "sha256": "ac952e6c528c621591e62babb357501431fa030ac4e094596916a9ed4bc909b4",
+      "bytes": 49639
+    },
+    "deploy/platform-api/package.json": {
+      "sha256": "37741f73056188a507a3ef800f5c21d3fcf59fbf47386c5222c1caf2e10fc49c",
+      "bytes": 683
+    },
+    "deploy/platform-api/scripts/operation_inventory.mjs": {
+      "sha256": "40da0d926aa70b3cea7e787e8c3ffb32fc7776d0f740bc84665481d2e8f6559c",
+      "bytes": 3262
+    },
+    "deploy/platform-api/src/admin.js": {
+      "sha256": "06c68d478e61e7d42edfee2750ae5c08834a1076831979df6b1045e22ec99612",
+      "bytes": 7049
+    },
+    "deploy/platform-api/src/admin_account_support/NOBLE-LICENSE.txt": {
+      "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec",
+      "bytes": 1109
+    },
+    "deploy/platform-api/src/admin_account_support/bootstrap-owner.mjs": {
+      "sha256": "84e4a302f653284bbd909dfe81aa0cface4ef88e84bbcec9b17f134e742fb359",
+      "bytes": 1980
+    },
+    "deploy/platform-api/src/admin_account_support/emails.js": {
+      "sha256": "3aed69fcff0e26ae7032bd373ed488bac90e1cf5dffb0fd14556d332c62e1c1d",
+      "bytes": 5696
+    },
+    "deploy/platform-api/src/admin_account_support/provenance.json": {
+      "sha256": "5c8ed7d0d1cb32c4ea56ee3e4acd7828f1c93040d659dbbe06277c23d8131fa7",
+      "bytes": 827
+    },
+    "deploy/platform-api/src/admin_account_support/security.js": {
+      "sha256": "1c69619b364fca9eb58022aed6ecb945a053abc342ffeb0bc13647a162be8ede",
+      "bytes": 18581
+    },
+    "deploy/platform-api/src/admin_accounts.js": {
+      "sha256": "ff0a23d006725c67aaa3b59d41af1f571c77658cbf2951933aa096624cee1c13",
+      "bytes": 28744
+    },
+    "deploy/platform-api/src/admin_bridge.js": {
+      "sha256": "b2139658923f35d13142433ac1741d5d53b21b1b35cd900c519c42688b42d1f4",
+      "bytes": 39621
+    },
+    "deploy/platform-api/src/admin_privacy.js": {
+      "sha256": "21c947bc4ce7d37644a9bd429cc71ffddafc222355c8da6737352756d8ccd12a",
+      "bytes": 1203
+    },
+    "deploy/platform-api/src/admin_reconciliation_reads.js": {
+      "sha256": "8a8c7a0b00fc55386df80f8cebef6d9bf74fdce5848873705d27086009a5c287",
+      "bytes": 6405
+    },
+    "deploy/platform-api/src/admin_records.js": {
+      "sha256": "19f882ab8705ad6d3628b42533354ac86d0813d4056f11c13ba045a119a5cdab",
+      "bytes": 20719
+    },
+    "deploy/platform-api/src/admin_search.js": {
+      "sha256": "2b5ac37b96554245f047b5a982d4fcd0d18aee57bee6795495d7b5f9d8f14bd2",
+      "bytes": 4295
+    },
+    "deploy/platform-api/src/admin_sync.js": {
+      "sha256": "8462a154d95ada34833086c3d944c92e7a0166937be477b0b3de7619e9f045d5",
+      "bytes": 3839
+    },
+    "deploy/platform-api/src/auth.js": {
+      "sha256": "71745648b9b433e07e3f8b0d3f06e980c1ef3658a9c03793acf36285401e0a88",
+      "bytes": 50761
+    },
+    "deploy/platform-api/src/challenge.js": {
+      "sha256": "4e8325c1a01718dde06e5062097a37a216682392afde5b6c2db35dd29ea3a11d",
+      "bytes": 4999
+    },
+    "deploy/platform-api/src/core.js": {
+      "sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e",
+      "bytes": 4838
+    },
+    "deploy/platform-api/src/encryption.js": {
+      "sha256": "ee5935065cd86b486b268a5da7026bcfaf123068e866f0ff56347f8582326e1c",
+      "bytes": 4126
+    },
+    "deploy/platform-api/src/evidence.js": {
+      "sha256": "fb6888e03cea10b1276557a3443d60544515f40b322bcc7f650b00fb65fffe60",
+      "bytes": 6854
+    },
+    "deploy/platform-api/src/groups.js": {
+      "sha256": "b1c854c85570031cbf47cde479cab6a57b323961f0e1fba108f6b15b4465ab24",
+      "bytes": 14926
+    },
+    "deploy/platform-api/src/index.js": {
+      "sha256": "944cfcf03b3007f657c88aabcbf72cf046b27c581c7106db2c2aea408d02ab64",
+      "bytes": 4428
+    },
+    "deploy/platform-api/src/member_history.js": {
+      "sha256": "69d7c02ccac051daa6660cc0ab1e27893f2f8429b1d865c8b4ad089542d96eb3",
+      "bytes": 5522
+    },
+    "deploy/platform-api/src/mutations.js": {
+      "sha256": "dc8fe28438b79121c771ab0cdd0b516b2b94adfc46d10a0cc99eb2e3ae714e72",
+      "bytes": 4692
+    },
+    "deploy/platform-api/src/native_integrity.js": {
+      "sha256": "1de17e70e6df5deff0b9b440e7972890e4d99923c782ffab13766c47d5b2f7ae",
+      "bytes": 20781
+    },
+    "deploy/platform-api/src/notifications.js": {
+      "sha256": "fb5752d17d7bc0272548c147dd823c0a01d95fb491d2a12ac5ca8efc4cb941e4",
+      "bytes": 9827
+    },
+    "deploy/platform-api/src/operations.js": {
+      "sha256": "0fee799d2039a24b56e6d1a36ea0908bcb6c39f8fc078222ced6e3308b67e83d",
+      "bytes": 4967
+    },
+    "deploy/platform-api/src/operator_notes.js": {
+      "sha256": "9fb388bd916cc7bc1ad0ed294591bf01b77fe0f493f3575ae91dcbfafb9920a3",
+      "bytes": 4151
+    },
+    "deploy/platform-api/src/payments.js": {
+      "sha256": "a7c3ba963522194ebe9d0b5afea38fde687dba95b4db688b62c38fca276de3be",
+      "bytes": 13852
+    },
+    "deploy/platform-api/src/privacy.js": {
+      "sha256": "a9388a581eddf82d46f34f7b94c7ce4ee8d915b1d8085f8b1611e81943cb2f7a",
+      "bytes": 19217
+    },
+    "deploy/platform-api/src/privacy_portal.js": {
+      "sha256": "b3854f2528e4516826576acee9e264808bcc67453dfbcf00284d282b983b8313",
+      "bytes": 6876
+    },
+    "deploy/platform-api/src/privacy_portal_assets.js": {
+      "sha256": "01fd23b0449d13c0959d21c54ef46d0a1cb973d898c68e92a6861051c3574100",
+      "bytes": 25371
+    },
+    "deploy/platform-api/src/privacy_retention.js": {
+      "sha256": "1959909ec5ee14f852552e8652e4570c6b7ca1032fafb0b2787cffaf5bc11bb4",
+      "bytes": 16545
+    },
+    "deploy/platform-api/src/privacy_retention_catalog.js": {
+      "sha256": "5e08cd2a4db99067a979380b6b2283e012fb52b5d13274c72fec3de94ed6eab1",
+      "bytes": 22041
+    },
+    "deploy/platform-api/src/privacy_retention_policy.js": {
+      "sha256": "5e2fb4169f2c7d181b7b89eca2ff7895af1e73d271c6c3ac49c6e846eb367283",
+      "bytes": 6424
+    },
+    "deploy/platform-api/src/privacy_retention_rpc.js": {
+      "sha256": "119ae908fc9fcc1473a0d28c0eb584b6805e722fa5058874f1ba227721f8ac7e",
+      "bytes": 2121
+    },
+    "deploy/platform-api/src/privacy_retention_tasks.js": {
+      "sha256": "cf96ccd87260a65958cadb3c44b659d1cdf699b388e378ff1ab007a55f125e34",
+      "bytes": 19441
+    },
+    "deploy/platform-api/src/receipts.js": {
+      "sha256": "99ff272c663b1cd812a46d146418f0875dc7ac7e080592afbde09e89e6349557",
+      "bytes": 4296
+    },
+    "deploy/platform-api/src/roster.js": {
+      "sha256": "6033502dc040947b1a635b6ad5ba7d01a0caa0c5c095f6bf8c8d33c8bbaca0e8",
+      "bytes": 33527
+    },
+    "deploy/platform-api/src/sync.js": {
+      "sha256": "436f820c6795a77fd25b8450c937bd6396d934207dc7879d136d1a1bdb499f54",
+      "bytes": 2333
+    },
+    "deploy/platform-api/wrangler.jsonc": {
+      "sha256": "89158796248089bfdf064be4e86be46192d0c3743b65a80365acc7c120f2141c",
+      "bytes": 1536
+    },
+    "deploy/platform-api/test/admin-dto-examples.json": {
+      "sha256": "b0b8a81a0b58cf6b834bc3dc21db432293105e3c19aa8933e16edda92ec351cd",
+      "bytes": 19176
+    },
+    "deploy/platform-api/test/admin_accounts.test.mjs": {
+      "sha256": "c9631092f114ccae84f1d5344af7d7100f4f92940d88c6fbbed7d96ba07b89f5",
+      "bytes": 15211
+    },
+    "deploy/platform-api/test/admin_bridge.test.mjs": {
+      "sha256": "76b529f2143106d4961057c02e62274113df71a3191c097e7a77885f2355d31a",
+      "bytes": 15866
+    },
+    "deploy/platform-api/test/admin_canonical_reconciliation.test.mjs": {
+      "sha256": "8ddae37c0f4090554cc359b4ed933a8dbeeb4deeeffb06de7fed2ecda69f2e76",
+      "bytes": 7704
+    },
+    "deploy/platform-api/test/admin_operating_reads.test.mjs": {
+      "sha256": "9da8403207fb3fd8fff5f3d9407cf95f8a3e7ff891091d746ba88e867842492e",
+      "bytes": 6655
+    },
+    "deploy/platform-api/test/admin_proxy.test.mjs": {
+      "sha256": "211323c660b2459171c81e31dde85f060b67f50a3dd23441a23a7bcc964292d9",
+      "bytes": 2282
+    },
+    "deploy/platform-api/test/admin_request_cancellation.test.mjs": {
+      "sha256": "a3db838c85e585ab5f4650c56ea174b48c71285954b948add69e7dbd384ee369",
+      "bytes": 5535
+    },
+    "deploy/platform-api/test/admin_search.test.mjs": {
+      "sha256": "535a805430df81583496db19123445569d501a328a7caf1c959fa1b6278e5363",
+      "bytes": 4944
+    },
+    "deploy/platform-api/test/admin_support/fixture.mjs": {
+      "sha256": "855d5797f05730a4e9389a0fe3ff40d51fbb20a335a801fd1a75f42defd8bbe3",
+      "bytes": 10973
+    },
+    "deploy/platform-api/test/admin_sync.test.mjs": {
+      "sha256": "0bb4e9fc2cbf3b5f9761f67caf16da15e6eb5ba33d388f82802a466209fd777d",
+      "bytes": 5367
+    },
+    "deploy/platform-api/test/auth.test.mjs": {
+      "sha256": "f9f4ffeacd20cc40d1f517a1a46915124e9e5d4c85e65cd2859d3819ad93055d",
+      "bytes": 19520
+    },
+    "deploy/platform-api/test/auth_mfa_recovery.test.mjs": {
+      "sha256": "88b54c4bbc860f7c923d33da647c12504e88c92042015026ff582ed5ca0ea4f3",
+      "bytes": 5442
+    },
+    "deploy/platform-api/test/auth_no_registration.test.mjs": {
+      "sha256": "a00cd1d0bfc0f8e6860933ed7085c27f0110a7f5ab2ae8ca44bf413e5c963add",
+      "bytes": 4401
+    },
+    "deploy/platform-api/test/backend.test.mjs": {
+      "sha256": "452b9756e1cafc6718d152778d3a0316688555e0c650d6b469c22f2a11e32816",
+      "bytes": 8972
+    },
+    "deploy/platform-api/test/challenge.test.mjs": {
+      "sha256": "438dbb60129a2f722a1916c249130c0b66214da828e975e1e1993d213c75503b",
+      "bytes": 2199
+    },
+    "deploy/platform-api/test/dto_export.test.mjs": {
+      "sha256": "7d58fcff9a800fea218a5bd7e12034f3c8613c169152e297cb6db689a0acd045",
+      "bytes": 1228
+    },
+    "deploy/platform-api/test/encryption_keyring.test.mjs": {
+      "sha256": "3111e12ea4fc46bb4815517788d660188ffe1a6b254ccd5bb961b4f0a1d62a41",
+      "bytes": 12366
+    },
+    "deploy/platform-api/test/ingestion.test.mjs": {
+      "sha256": "906d15ded6dabcd1c945619f8d433717e95c406d9139f383cbd0e7021a14d138",
+      "bytes": 23322
+    },
+    "deploy/platform-api/test/member_history.test.mjs": {
+      "sha256": "e533c2152416d99186fe7dd8f8d18465f5e8c15e419f999b3ab91301fccfc546",
+      "bytes": 10594
+    },
+    "deploy/platform-api/test/native_admission_observability.test.mjs": {
+      "sha256": "2ca6357d2cb428c013500c4a8fd7ad66a689922c58b226067808cc25aa7cce1f",
+      "bytes": 9756
+    },
+    "deploy/platform-api/test/notification_registration.test.mjs": {
+      "sha256": "6b2fb8c208e80752d290285a0aebe41447e8eed9bbc3ccbc36beb66c31628a7a",
+      "bytes": 16640
+    },
+    "deploy/platform-api/test/operation_inventory.test.mjs": {
+      "sha256": "43161420ac6974610de321f2f8b971aac91ce2bf779507037bd477d2fd2511b3",
+      "bytes": 2752
+    },
+    "deploy/platform-api/test/operator_notes.test.mjs": {
+      "sha256": "50f41bb23e32c037c6067629647a6d7fdf9abb33c2e4229f2e83142a6e32cc65",
+      "bytes": 9133
+    },
+    "deploy/platform-api/test/privacy.test.mjs": {
+      "sha256": "eadcc67c71f5022d4f058d5986b9cfefa9d4cc04d2f70337a26e3c64c35f2715",
+      "bytes": 15779
+    },
+    "deploy/platform-api/test/privacy_portal.test.mjs": {
+      "sha256": "aa50fdef8640d3d6298567c78e241bec2bb34bfe749f2d7a05016452a4184c8a",
+      "bytes": 17823
+    },
+    "deploy/platform-api/test/privacy_retention.test.mjs": {
+      "sha256": "9d5da37d4d30371629413e915900906a1d9838c8404f7e605988dd7703b5f1fc",
+      "bytes": 26084
+    },
+    "deploy/platform-api/test/privacy_retention_routes.test.mjs": {
+      "sha256": "84d19d21803fe2f37cef8c4c14886639257b5d214f01b6ca745505772c626fba",
+      "bytes": 5945
+    },
+    "deploy/platform-api/test/receipt_security.test.mjs": {
+      "sha256": "75831b3a565199c8b36a5ee436ce80bab4a826c442f0b13bf079471aa5f66387",
+      "bytes": 14089
+    },
+    "deploy/platform-api/test/recovery_quarantine.test.mjs": {
+      "sha256": "32714660d49a4d0f317cd17b26584921e9b3f385f0ea3854c099cb35b2046eb2",
+      "bytes": 14368
+    },
+    "deploy/platform-api/test/security.test.mjs": {
+      "sha256": "2708de3b019903854907b8c4b8131152ad99b8f25364811f29701067a4b798d2",
+      "bytes": 22595
+    },
+    "deploy/platform-api/test/support/auth_fixture.mjs": {
+      "sha256": "27d6bbff758b8406236bbe5f5c572c27f0f937d1d398cf4fee77091eeee54cef",
+      "bytes": 8989
+    },
+    "deploy/platform-api/test/support/dto_export.mjs": {
+      "sha256": "2fa54c68d8d0af6342bf430a53f22ab738bc6151a405adb52c07108ed6ac6883",
+      "bytes": 1091
+    },
+    "deploy/platform-api/test/support/retention_fixture.mjs": {
+      "sha256": "6dc948055705f8ac56abe8c3d5d9daeb36f54f9216e1438e609cc6d4d1f98ac0",
+      "bytes": 10702
+    },
+    "deploy/platform-api/test/sync.test.mjs": {
+      "sha256": "a56a161a1c3f07d4f7bdd364a8f32c86f980ec0d64137de16b54eca9bd578cc6",
+      "bytes": 4327
+    },
+    "scripts/cloudflare/recovery_quarantine.mjs": {
+      "sha256": "a7864197194ff2a0483c954a87aefe3a808254e4ec940429644c7687132ec9be",
+      "bytes": 8148
+    },
+    "deploy/platform-admin/src/index.js": {
+      "sha256": "f629d3c4e1c858e9b8a8ad736c3093042b75d43331c96249a5db78fb462a0b12",
+      "bytes": 1467
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "review_commit": "a45f210e706761e9f10739b31f3a39976b48935a",
+  "project": "rrlduytparvsjfmegalh",
+  "capture_sources_verified": 354,
+  "screens_reverified_byte_for_byte": 7,
+  "runtime_sha256": "56eb58fe4b7e66391c505269c651a2151cb52f30a2fa75f8d47b56c54669c362",
+  "media_publication_receipt": "docs/implementation/2026-11-20-member-managed-project-media/publication.json",
+  "hosted_calls": 0,
+  "provider_calls": 0,
+  "database_calls": 0,
+  "public_build_before_storage_cleanup": {
+    "artifacts": 53,
+    "identical_between_review_and_launcher_except_version_metadata": 52,
+    "identical_html": 18,
+    "quality_checks_passed": 55
+  },
+  "current_source_migration_fixture": {
+    "passed": 13,
+    "failed": 0,
+    "log_sha256": "d65852c496b0531616c25d3a346ab99dfee56feadc89792c2fa44c61267c1483"
+  },
+  "android_before_storage_cleanup": {
+    "foreign_project_refused": true,
+    "configured_project_compile_and_jvm_test_exit": 0,
+    "gradle_binding_sha256": "11e81022277c7c2da401b07e92c82f7fa2c2fedb7992b83ca51eeb48525bc350",
+    "configuration_refusal_log_sha256": "96d4b4cb04bbea5c595cd745bd045bb94dcefcbc7e77e93578be7bb8063b4247",
+    "configured_compile_and_test_log_sha256": "ec76fa1fc15178f50ea747b7bacb73b1c961ca9038c804d3b45e6137c6df110a",
+    "raw_logs_still_available": false
+  },
+  "flutter_before_storage_cleanup": {
+    "initial_normal_passed": 2665,
+    "initial_normal_failed": 2,
+    "both_failures": "Tests still looked for JavaScript and stylesheet assembly in the old renderer file.",
+    "corrected_targeted_passed": 50,
+    "fresh_complete_run": "interrupted by host cleanup"
+  },
+  "device_and_distribution_qualification": "deferred by owner",
+  "after_privacy_source_commit": {
+    "source_commit": "0fc4d0bcb1dd2a5f18f4c383f4d7aad18d5ee8d7",
+    "historical_sources": 354,
+    "current_sources": 354,
+    "changed_runtime_inputs": [
+      "lib/features/privacy/privacy_email_verification.dart",
+      "lib/features/privacy/privacy_request_controller.dart",
+      "lib/features/privacy/privacy_request_screen.dart",
+      "lib/features/privacy/privacy_transport.dart"
+    ],
+    "earlier_capture": "56eb58fe4b7e66391c505269c651a2151cb52f30a2fa75f8d47b56c54669c362",
+    "current_runtime_sha256": "0781438d8cbefdb315a3a1e4061674c765d83eb4ed643d61f45c21c1c33ae451",
+    "changed_content_source_inputs": [
+      "content/product/collect_capabilities.json",
+      "lib/features/landing/public_marketing_page_content.dart",
+      "lib/features/landing/public_capability_content.dart"
+    ],
+    "media_check": "App screenshots need recapturing: runtime changed",
+    "rendered_content_check": "Reviewed product/content source changed",
+    "capability_check": {
+      "status": "pass",
+      "check": true,
+      "registry_sha256": "adfaee144835abf9c3d471c0aa990205a7cf4a0bfd0635108f1edf3ff65c97f9",
+      "outputs": {
+        "lib/features/landing/public_marketing_page_content.dart": "eb8b4c28236026e323cae19bd0e52a6f95d7653b73cc562f902e48445f6c898a",
+        "lib/features/landing/public_capability_content.dart": "314c13a11bb7b48ed0cb6d7a48ba94aae6f39505cafb32c22992be450ae460bc",
+        "fastlane/metadata/en-GB/description.txt": "bd92d3b4bbb727033dcbd28bd68aa3e79586e1c96c1eeff508fb86b2000c3f8e",
+        "fastlane/metadata/en-GB/promotional_text.txt": "3da4aeb139366627db56de695b9f1d702eaa0e4b53900bda1249047791258d93",
+        "fastlane/metadata/en-GB/keywords.txt": "649e6277310e9ac443133c5adb181254688f06355afaf88679d55283d869e0ed",
+        "fastlane/metadata/en-GB/review_notes.txt": "ff7caa4ecf80a8f8219a7291e52879befd55c05d03ee4bc8fffe97fcec316d8e",
+        "fastlane/metadata/en-GB/release_notes.txt": "b99e028630950800e2baeb3307bb61cededf66b4439c90a287cfa9b202d57c7b",
+        "fastlane/metadata/android/en-US/full_description.txt": "e11f7ea0d234fe651b8f67889655015be112abcdf5895a8cd2ffd815a1690d47",
+        "fastlane/metadata/android/en-US/short_description.txt": "5e89c3082fa6abf11bff5d29903bb9e5de7c382861c6a07c381335e87fdf26d4"
+      },
+      "owner_approved": false,
+      "publication_approved": false,
+      "provider_approved": false
+    },
+    "capability_unit_tests": {
+      "tests": 18,
+      "assertions": 78,
+      "failures": 0,
+      "skips": 0
+    },
+    "capture_and_rendered_comparison": "Owner deferred artifact qualification. The previous capture and rendered contract retain their original hashes."
+  }
+}

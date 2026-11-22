@@ -1,0 +1,205 @@
+{
+  "purpose": "Reviewed current domain port; Auth/Admin authority and runtime adapters replaced separately",
+  "files": [
+    {
+      "source": "deploy/platform-api/src/mutations.js",
+      "sha256": "7415b73eff96e0e96468039262d278e161f7753b31ff7ef59ff789a2761c6dc3"
+    },
+    {
+      "source": "deploy/platform-api/src/groups.js",
+      "sha256": "cc59f090e0e7cbe26d68af17e83feb37eb05fa3adccc00881134e3ab24dfafa7"
+    },
+    {
+      "source": "deploy/platform-api/src/core.js",
+      "sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e"
+    },
+    {
+      "source": "deploy/platform-api/src/auth.js",
+      "sha256": "4738350027bb080d59f87d96a078bcd7041b4278d8f52fe4691bcbeb4f1d20f7"
+    },
+    {
+      "source": "deploy/platform-api/src/index.js",
+      "sha256": "cce6e539a9f103b2528f7dc9724c19e5301f4953b2826ac5706dbb18d0c54ec4"
+    },
+    {
+      "source": "deploy/platform-api/src/receipts.js",
+      "sha256": "ac6e718aaf96ca2515d63088a4b05a58ee2c1357423287ae9273c561fe3d71c0"
+    },
+    {
+      "source": "deploy/platform-api/src/payments.js",
+      "sha256": "61518365f2597d051bc8a9bd771ffc3ef59a45b59a43841f1e5da9c7f19424ca"
+    },
+    {
+      "source": "deploy/platform-api/src/encryption.js",
+      "sha256": "ee5935065cd86b486b268a5da7026bcfaf123068e866f0ff56347f8582326e1c"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy.js",
+      "sha256": "a9388a581eddf82d46f34f7b94c7ce4ee8d915b1d8085f8b1611e81943cb2f7a"
+    },
+    {
+      "source": "deploy/platform-api/src/roster.js",
+      "sha256": "6033502dc040947b1a635b6ad5ba7d01a0caa0c5c095f6bf8c8d33c8bbaca0e8"
+    },
+    {
+      "source": "deploy/platform-api/src/evidence.js",
+      "sha256": "a471a6a0f57d2645d5e3aefb0c36ed4b8dae284138ddac04e1a398c7658d3f5f"
+    },
+    {
+      "source": "deploy/platform-api/src/challenge.js",
+      "sha256": "4e8325c1a01718dde06e5062097a37a216682392afde5b6c2db35dd29ea3a11d"
+    },
+    {
+      "source": "deploy/platform-api/src/admin.js",
+      "sha256": "6205e836e6f6dbdb0bb431466f3a3af4592245deca2745d8adff6b3736a10235"
+    },
+    {
+      "source": "deploy/platform-api/src/native_integrity.js",
+      "sha256": "6a87742a78be16765e51a3bc5a7ca9132ba0d6c72eb9195a95e84e7649ae52a4"
+    },
+    {
+      "source": "deploy/platform-api/src/notifications.js",
+      "sha256": "6e901ce25913075dc89f4dcd26419a371bdb82025c07f9804dc8737bbf7b9131"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_accounts.js",
+      "sha256": "5e269168be2276ed25554c85547ecbd4aea53b56a5977a797214c4193462e2ec"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_bridge.js",
+      "sha256": "6e14c60a1ca195b73e8822c7850dc4e2c49106255b2a35a58991acfc894cbabd"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_search.js",
+      "sha256": "00473c46f0b06aaf77d1d6cb6ee484199c76f757f1722aa82421e996f940aff4"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_reconciliation_reads.js",
+      "sha256": "8a8c7a0b00fc55386df80f8cebef6d9bf74fdce5848873705d27086009a5c287"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_records.js",
+      "sha256": "f3e30d8c6c21cdc297abd60b6cacf82e8c604e44909efa44f8e52a71269ac1cd"
+    },
+    {
+      "source": "deploy/platform-api/src/sync.js",
+      "sha256": "436f820c6795a77fd25b8450c937bd6396d934207dc7879d136d1a1bdb499f54"
+    },
+    {
+      "source": "deploy/platform-api/src/operations.js",
+      "sha256": "17549b736c0e731c9f9dd36bfa9d9f7614c47edabe9501c2083a721a3f0e7be9"
+    },
+    {
+      "source": "deploy/platform-api/src/operator_notes.js",
+      "sha256": "9fb388bd916cc7bc1ad0ed294591bf01b77fe0f493f3575ae91dcbfafb9920a3"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_sync.js",
+      "sha256": "f698744d0713d701ae732114d5c1e8047c4971144c844420f0105f45bb1a10dc"
+    },
+    {
+      "source": "deploy/platform-api/src/member_history.js",
+      "sha256": "69d7c02ccac051daa6660cc0ab1e27893f2f8429b1d865c8b4ad089542d96eb3"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_portal_assets.js",
+      "sha256": "01fd23b0449d13c0959d21c54ef46d0a1cb973d898c68e92a6861051c3574100"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_portal.js",
+      "sha256": "b3854f2528e4516826576acee9e264808bcc67453dfbcf00284d282b983b8313"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_retention_catalog.js",
+      "sha256": "d08d64d7efd2b9389f2d2a2c12c28fc0c3f125024a61e654dd1cb57b44af4d5d"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_retention_policy.js",
+      "sha256": "7a1d0a7fa0b136a876b2b45b8decc5e82f0b6a386a9aeeb08d3987ae5f824410"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_retention.js",
+      "sha256": "09742d7379274c6681ca89808186132f3dbf0e9bea34651522dd5cdd8b7e8bac"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_retention_tasks.js",
+      "sha256": "8e9caf7f8bc398bbc078197be0f6baafc597553500e69ff3448e51bb35f3ff8f"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_retention_rpc.js",
+      "sha256": "41ca1fb58b4440f5ff744f678978d8af901348dfd1c366be66f83732415e29f3"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_privacy.js",
+      "sha256": "21c947bc4ce7d37644a9bd429cc71ffddafc222355c8da6737352756d8ccd12a"
+    },
+    {
+      "source": "deploy/platform-api/src/identity_keys.js",
+      "sha256": "c0c9fbfb48b44c72c7192acd3853644349a000ba3e7fbf62fdc11037d5f6d4f7"
+    },
+    {
+      "source": "deploy/platform-api/src/observability.js",
+      "sha256": "46aae2218b24c3b110ab9817db6990504a3f0bd3ce03ed6cfa0ab2dce448297f"
+    },
+    {
+      "source": "deploy/platform-api/src/privacy_retention_chunks.js",
+      "sha256": "b6c3d9cab1d5fac8e026e36c251e12731a26fc364536c11543640c3c83c34066"
+    },
+    {
+      "source": "deploy/platform-api/src/user_access.js",
+      "sha256": "76abb6576d7dddd1dcb710a925e337182a6e429680283b518e0e4de0a20c118b"
+    },
+    {
+      "source": "deploy/platform-api/src/momo_gateway.js",
+      "sha256": "ba78b06bfdd394ba639981d4753a55b990b67a476decc36dba5368a5ef908bdf"
+    },
+    {
+      "source": "deploy/platform-api/src/notification_operator.js",
+      "sha256": "ab0eb97ecb5aadb31865d4d7698d293d6d83cea90d86c06cd554f54819d7d14a"
+    },
+    {
+      "source": "deploy/platform-api/src/notification_operator_consent.js",
+      "sha256": "85ef56454c325532b64b7c49193e021d2fde8e016d8601d3d8648dbcb6ab76db"
+    },
+    {
+      "source": "deploy/platform-api/src/notification_operator_management.js",
+      "sha256": "1535538c18ced81cfdc38b28ae9cb0eb0984d5dcf0449b7cc49d11fd0649b72e"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_sms_receipts.js",
+      "sha256": "ca190dd5c3af2bf50504a0bfa5c861b663cedf72321b350813996975da81e734"
+    },
+    {
+      "source": "deploy/platform-api/src/momo_pipeline.js",
+      "sha256": "b99baf0e5c0a735a14fb54b2d5e09acae1e236ad0739733d62a8b75aad75a413"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_member_receipts.js",
+      "sha256": "3e1a5795ba3e91c186a1925cfb4641cc013435b2afebb75008a40bfe1c924f22"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_momo.js",
+      "sha256": "9b645e58ae049a1c236211e0d7d841f937a427a07074d37797d11c36596b8a50"
+    },
+    {
+      "source": "deploy/platform-api/src/google_auth.js",
+      "sha256": "8ce95c45e665fadaa05da42b2618abdae7fe3ead17978e4a0f58d72d2edf1418"
+    },
+    {
+      "source": "deploy/platform-api/src/email_delivery.js",
+      "sha256": "9406281fe5fab56ef5ed3082b0ab8a6ef4f5506f6bde50c8146a959ea87446cf"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_account_support/security.js",
+      "sha256": "1c69619b364fca9eb58022aed6ecb945a053abc342ffeb0bc13647a162be8ede"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_account_support/emails.js",
+      "sha256": "94a0b2ccbb367106ad0f4db83520906e77a9a04add06a33915c857e9d9b06509"
+    },
+    {
+      "source": "deploy/platform-api/src/admin_account_support/NOBLE-LICENSE.txt",
+      "sha256": "4f221aee6e072336700c408c68ab3b96a3fc09f6aebe6f48f1bd99e5ef13faec"
+    }
+  ]
+}

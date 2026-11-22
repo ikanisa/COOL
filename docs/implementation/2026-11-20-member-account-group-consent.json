@@ -1,0 +1,42 @@
+{
+  "format": "collect.member.group-account-receipts.v1",
+  "observed_utc": "2026-11-20T13:14:42+00:00",
+  "source_commit": "092ac65e5bf81ac302ce9f3485ddfd7510def74f",
+  "active_consumers": [
+    "Authentication, profile editing and account settings",
+    "Group browser, group detail and collection entry",
+    "Account deletion session cleanup and native permission state",
+    "Per-group receipt SMS controls and durable request recovery"
+  ],
+  "financial_authority": "Recheck the session, group membership, freshness and connectivity after a durable claim and before a receipt consent write. A pending operation keeps its request ID. A response from a departed group cannot restore private consent state.",
+  "flutter": {
+    "full_passed": 2653,
+    "full_failed": 0,
+    "targeted_passed": 71,
+    "analysis": "No issues found",
+    "first_full_run": "A debounce test expected an elapsed wall-clock timer to fire during co-scheduled execution. Four debounce assertions now use the controlled Flutter test clock."
+  },
+  "capabilities": {
+    "tests": 22,
+    "assertions": 191,
+    "failures": 0
+  },
+  "public_site": {
+    "checked_routes": 15,
+    "identical_html_files": 18,
+    "identical_product_files": 52,
+    "byte_identical_chrome_screenshots": 7,
+    "comparison": "docs/release/public-content-provenance/2026-11-20-member-account-group-receipts-comparison.json",
+    "capture": "docs/implementation/2026-11-20-member-group-account-receipts-media/capture-report.json"
+  },
+  "logs_sha256": {
+    "unchanged_source_with_new_cases": "6464bee80ecf1ae4a7fc6010f654717d69c69a68802e9fa51e199f6fc80fed34",
+    "targeted_final": "02f45317c6e384a294087aabcb2901ae0129c895eebf88006370fdbfe8a66b67",
+    "full_first_run": "9334a6b0a2e1227ebf24361ea749b99451ada6c775d32287153c00528c7af70d",
+    "full_final": "f235e8f680e1d2491d94be2dd6495eabb9d15799c80997721a85ac6444b1fe4d",
+    "analysis": "4628f0d2d8c897549cb2336d55e9710fc1ca2c8c9b8d1c982fcb1b381a34a847",
+    "capabilities": "d75a9cdda7b4f8a8fce06886770a4dd67d32532fa2d91cb94e861f829d841109",
+    "real_browser_capture": "7d5a55477bb07378fb31721b49991a2f89dfeef4c15417c5d5b0b32e931360b7"
+  },
+  "external_checks": "An actual carrier receipt, a signed store build and a physical USSD handoff require separate evidence."
+}

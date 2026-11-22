@@ -1,0 +1,26 @@
+{
+  "rows": [
+    {
+      "actions": 1,
+      "device_id": "389d5dd2-7c07-4542-a10a-ad6dabc78acc",
+      "evidence_id": "16b0abd8-0990-47d3-ac0a-097dd3267012",
+      "recorded_at": "2026-10-02T01:23:00.854935Z",
+      "snapshot_id": "16b0abd8-0990-47d3-ac0a-097dd3267012",
+      "sms_segments": 0,
+      "collection_id": "99780000-0000-4000-8000-000000030001",
+      "fence_version": 1
+    }
+  ],
+  "limit": 20,
+  "scope": "rw_receipt_operational_history",
+  "run_id": "94bd4e8c-5587-4790-b977-067ae7fc6d48",
+  "status": "partial",
+  "section": "reservations",
+  "checked_at": "2026-10-02T01:23:08.484071Z",
+  "next_cursor": null,
+  "send_action": false,
+  "contract_version": 1,
+  "financial_action": false,
+  "history_complete": false,
+  "sample_valid_until": "2026-10-02T01:24:08.484071Z"
+}

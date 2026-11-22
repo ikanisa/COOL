@@ -1,0 +1,111 @@
+{
+  "format": "collect.burimunsi.managed-migration-release.v1",
+  "project": "rrlduytparvsjfmegalh",
+  "verified_utc": "2026-11-20T15:42:46.717Z",
+  "migration_history_before": {
+    "count": 82,
+    "ordered_sha256": "02304f771accf67aa95a4e960dcc247644f06c266fb68a05db948fa01034b303"
+  },
+  "migration_history_after": {
+    "count": 89,
+    "ordered_sha256": "6ff5c9035113c0c17085eadbccf0c9dfc1c8cf928fbeb76f1e229ca11844f11f"
+  },
+  "migrations": [
+    {
+      "file": "20261119041000_burimunsi_ocr_disclosure_binding.sql",
+      "sha256": "23c69a15a42c8b8e4ca03c79bf10561ce3ab2a8ecfdb1877f5feadb3337effc5"
+    },
+    {
+      "file": "20261119041100_burimunsi_payment_sms_status.sql",
+      "sha256": "5da5ce98a40945230a0da8d50052c903a6efbc2a8183cb4b0ebff78026c0bee3"
+    },
+    {
+      "file": "20261119114500_burimunsi_members_keyset.sql",
+      "sha256": "e8926c2a723ecdb24f220c70a6d8b809988d90d3c95f5b8d4e52d0cba7747873"
+    },
+    {
+      "file": "20261119114600_burimunsi_admin_sms_health.sql",
+      "sha256": "91c9f9048656d5361d6afd68fe5fc6c2dbc3e8f8f3310d90798ce378f22489ce"
+    },
+    {
+      "file": "20261119114700_collect_payment_display_reference.sql",
+      "sha256": "6d1e4ab861909758074afba21db6ba39cb23de8497ba474e01d30c8e90b0f33c"
+    },
+    {
+      "file": "20261120075011_burimunsi_native_journal_runtime_grants.sql",
+      "sha256": "975e14d20c982e8d389650b9dfdeeb93d94337189f765508af6938468792d27b"
+    },
+    {
+      "file": "20261120104500_collect_payment_reference_authority.sql",
+      "sha256": "118ad88fa6c967bdf04934c0cb8c4e63fd472a97f9a5f8165d18597bc93c4cd5"
+    }
+  ],
+  "catalog_and_history_verified_by_independent_connection": true,
+  "financial_and_recovery_witness": "2026-11-20-managed-restored-data-rehearsal.json",
+  "financial_and_recovery_witness_sha256": "4d1b676068d4534e03e578ebedbce6c61fe44ad80e0c793e33285e7b7d554e21",
+  "writable_epoch": 44,
+  "writes_reopened_utc": "2026-11-20T15:37:34.891Z",
+  "cron": "* * * * *",
+  "ordinary_scheduled_run_utc": "2026-11-20T15:41:00.631Z",
+  "scheduled_result": {
+    "state": "confirmed",
+    "http_status": 200,
+    "response_sha256": "0a578aaf2b20f7e68eec85c49078c0bd6c6a169c61d5bfb34afc53a0bb746195",
+    "bound_source": "fd27f0977b40542bfefc44092b4eb875674d4ea2a145d50c1de6b36b8c5fe366",
+    "source_sha256": "fd27f0977b40542bfefc44092b4eb875674d4ea2a145d50c1de6b36b8c5fe366",
+    "claimed": true,
+    "completed": true,
+    "matched": true,
+    "native_provider_calls": 0,
+    "maintenance_purged": 0
+  },
+  "retained": {
+    "authUsers": 1,
+    "storageObjects": 61,
+    "protectedImportedObservations": 37,
+    "previouslyReviewedUnknownDispatches": 3
+  },
+  "hosted_auth_storage_crypto_fixture_passed": true,
+  "react_admin_after_reopen": {
+    "production": {
+      "checked_at_utc": "2026-11-20T15:43:59.229Z",
+      "origin": "https://platform-admin.collect.ikanisa.com",
+      "frontend_commit": "61e6fb3d61e5d1e44794612333a0bb99993c0f35",
+      "static_responses_verified": 44,
+      "session_http": 200,
+      "anonymous": true,
+      "react_entry_loaded": true,
+      "service_worker": "https://platform-admin.collect.ikanisa.com/custom-sw.js",
+      "asset_manifest": "b578b97ea5dd2ad7737a7fced4c86bc8c9a01876dd148da555acc2948219c6e3",
+      "uncaught_errors": 0,
+      "application_writes": 0,
+      "receipt_sha256": "9f08a07e4f221ff9a388810fad95e00411d377ae18bbfee836262e25f5147cae"
+    },
+    "qa": {
+      "checked_at_utc": "2026-11-20T15:44:05.040Z",
+      "origin": "https://admin-supabase-qa.collect.ikanisa.com",
+      "frontend_commit": "61e6fb3d61e5d1e44794612333a0bb99993c0f35",
+      "static_responses_verified": 44,
+      "session_http": 200,
+      "anonymous": true,
+      "react_entry_loaded": true,
+      "service_worker": "https://admin-supabase-qa.collect.ikanisa.com/custom-sw.js",
+      "asset_manifest": "1c4aa0c332d48191f304df01c4cdaa4385fd03c015e824588ae3a5fdea09fb5c",
+      "uncaught_errors": 0,
+      "application_writes": 0,
+      "receipt_sha256": "b89c4a2dc59df8e74f64b2e7b0c9571124e84fb83c2a27cd9e81e1eaafc2298d"
+    }
+  },
+  "edge_runtime_source_sha256": "fd27f0977b40542bfefc44092b4eb875674d4ea2a145d50c1de6b36b8c5fe366",
+  "operator_source_receipts": {
+    "release_result_sha256": "df9fa45ac3206096ff57ee0c8c55799b254b199d224a2a85458dc792b4854109",
+    "seven_body_plan_sha256": "1d2395d517c896721c34284c46bbd6eecf965f43a0da97368105979f0fc843ab",
+    "independent_sql_readback_sha256": "5ee872b378a88c4eed17ef6ceacd5a7c1eaacba965c48901e04087566c4ee211",
+    "writes_reopened_sha256": "ee4b8eda3f713e0ad17710e3274c8afa907ac155ecf10c27c303776f04b6add1"
+  },
+  "remaining_evidence": [
+    "Deploy and verify the Edge consumers of the new SQL contracts.",
+    "Follow an eligible original payment through receipt, ledger, carrier dispatch and provider reconciliation.",
+    "Complete the hosted owner sign-in and relevant role and revocation journeys."
+  ]
+}

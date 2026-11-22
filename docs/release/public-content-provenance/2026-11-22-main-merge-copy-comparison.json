@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "reviewed_at": "2026-11-22T06:10:56Z",
+  "scope": "Comparison of the rendered public website with both parent content contracts.",
+  "sole_design_authority": "revolut-design@jean-bosco-skills",
+  "previous_contract_git": {
+    "commit": "bc2a48eb3b09a185f55ca7f27417e1355cef0836",
+    "path": "docs/release/public-website-current-content-contract.json",
+    "blob": "e77221b7b0e272c0e3299f7902da1aecddfce051",
+    "sha256": "b3da897f5761ef3a92a8501a05811ec7d9c0c9984f10e9766d8f91cccc28eab1"
+  },
+  "main_parent": "6c66fdb186e7c7d84b5528939a617888348bda14",
+  "source_comparison": {
+    "changed_sources": [
+      {
+        "path": "content/product/collect_capabilities.json",
+        "previous_sha256": "c4c918c044b6930a0f0db7909fac411f51e79608c9a5223ac479db749c76a86c",
+        "current_sha256": "851bcbb4d4a2142b033e6c45eb3b197ab8934b1c0faeabfe796ef777581fff91",
+        "bytes": 60122,
+        "review_context": "The capability source evidence and generated source digests follow the merged implementation. Rendered wording matches both parent contracts."
+      },
+      {
+        "path": "lib/features/landing/public_marketing_page_content.dart",
+        "previous_sha256": "5963a30d6e500c9436ea81c87eaa65690bdfada46e5b512e5fb55a1df697f33c",
+        "current_sha256": "febeee8ff1940d0113cfa56769fe5ae079446c1a3ac73d1e1e66abce74397c8e",
+        "bytes": 6335,
+        "review_context": "The capability source evidence and generated source digests follow the merged implementation. Rendered wording matches both parent contracts."
+      },
+      {
+        "path": "lib/features/landing/public_capability_content.dart",
+        "previous_sha256": "4552fc36266c83c3780e601232f71363307b4ff966263bb33cab4d1205f02b89",
+        "current_sha256": "0f5582a857ed1c14aba72600b61ade1e6e81f2d26b94f032b7df06413d4fc5c4",
+        "bytes": 7434,
+        "review_context": "The capability source evidence and generated source digests follow the merged implementation. Rendered wording matches both parent contracts."
+      }
+    ],
+    "current_reviewed_input_count": 41
+  },
+  "routes": [
+    {
+      "route": "/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "a0b19e5bd9838068cc6b4dddcc3db7cf169e05702268b77f69a43900c827b56b",
+      "current_sha256": "acb2860d5bdb83ce2bcf612e248f9dd44cf481d0f4d45941a0a8fe5bf8ff2653"
+    },
+    {
+      "route": "/account-deletion/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "ef6f3bb7302829b8660e08dba1670ef128c2af2139574ef0a0cfa90e6e6fe4fa",
+      "current_sha256": "38de1d8e4cbde4bba1aab93b79476ece69bbb8c44e64a8251fbbea5dedacc212"
+    },
+    {
+      "route": "/community-groups/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "995ac5664e120c477e6c40df6571b697a46f1f0c1552af2868a5e11f2af2153c",
+      "current_sha256": "046204a7322e3a7cd88f4af9138c5ae3b5ede16f7dba4887d9269ba05773b271"
+    },
+    {
+      "route": "/craas/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "87614fa5aa2d7bbe6aedc2f81b9884cef453fe3b5f04403f5ead6899a1369f3d",
+      "current_sha256": "d435fcbac1e262b7b1c968cc7e2575fb585de6e03a923096576377b0136e14f4"
+    },
+    {
+      "route": "/credit-readiness/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "4e02a5f56ae1bdfb72d427b223f99d26b208fad33a58d9223ad891cecf22887a",
+      "current_sha256": "7cec9564269808614d7face035c968852ee71198c74ad65ad61df9fdc6c1e0c6"
+    },
+    {
+      "route": "/data-deletion/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e6886abc6bdad6758d6e5a186f8a44b0c7fb87a26e7fc73c279f813bc65953cf",
+      "current_sha256": "e0fa71f42b4b29b6a22a40f6d923ea47e96f228c7e7ddd667f66ec933d4ac6ed"
+    },
+    {
+      "route": "/group-savings/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "72d1d165fd951eeb40a97fc9116b30c6004e03d26d3ae81415c6e12d9e878bce",
+      "current_sha256": "4644913a5f347dc72a5691c1af464fa09a7199f1188aa2316c69eda2cb73071a"
+    },
+    {
+      "route": "/insurance/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e2f7043c6c6c0781fc8fd1cfa43b0bfd81993430ec13dc0ba6f7bc501c8cc564",
+      "current_sha256": "b03689d819453ae2463c4db7b13adecfe964f64c80055f5823cc43b3c72aec0c"
+    },
+    {
+      "route": "/our-partners/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "a2a40140ddbf62dd2e3a41c6452be583cc376e02466a3a262c39c9b1dc396ae5",
+      "current_sha256": "3f7c08b6d1a09a56595c3009cf33c074ed7684ef8ce302fddfba9335f0c7609b"
+    },
+    {
+      "route": "/partners/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "f04cf90a38d0a6f49ddd64dae879bc2dde52ce4d6af411897a8bb415487877cf",
+      "current_sha256": "082d44a8368f1294e209cb4cf0873059c30c1ddd8d3440308463381c01c14a6a"
+    },
+    {
+      "route": "/privacy/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "e2262fd575e34b7605185f508ec54dabdbe5e12db5307ed4fb786f4b9b167a2d",
+      "current_sha256": "1fb27bc27a767fdc97b7cb40e089be6321b99c13d539a70de7416512b4fdf3c7"
+    },
+    {
+      "route": "/protection/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "76d64d2361fadee80aac081af5946049195ca789d22e6274b9677fe8469e5457",
+      "current_sha256": "8f2585367871fdb8f1efd40b98640003aeb54bb08031c9e367fcf6d940cf63d5"
+    },
+    {
+      "route": "/security/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "1bf5211c20994191a6f14270bd462e2e117c3e8ec60cc5d8e4b2026ebe3a4498",
+      "current_sha256": "2efe6d3f3753f978877c4c4a1584e92c8a0a22816655744eb7ea0a61f03bff01"
+    },
+    {
+      "route": "/terms/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "5c780ab940cb0cc963232ebfa0b5b0144e6fcc2b58b6060b657f53495f3eff5c",
+      "current_sha256": "92b30c27a0013e76a2c5fb01fcc76d19919a69717ef0def0d457241831f50510"
+    },
+    {
+      "route": "/trust/",
+      "historical_matches_baseline": true,
+      "historical_sha256": "81c31ac0a356dfa8bbc9bd7a157b12be935c3900bd17df409836666d1e75689b",
+      "current_sha256": "8a82c83e1773cdc52ab9353c25e8f8c6d0aaa71ef7aab67bd0624cc95c4e0dfe"
+    }
+  ],
+  "legal_release_approved": false,
+  "publication_approved": false
+}

@@ -1,0 +1,67 @@
+path,area,change_from_1077d30da,current_bytes
+tools/collect-admin-mcp/DIRECT_DESKTOP.md,Package configuration or documentation,Retained,8890
+tools/collect-admin-mcp/OPERATOR_WORKFLOWS.md,Package configuration or documentation,Retained,13780
+tools/collect-admin-mcp/README.md,Package configuration or documentation,Modified,22968
+tools/collect-admin-mcp/config/operator.example.json,Package configuration or documentation,Retained,507
+tools/collect-admin-mcp/package.json,Package configuration or documentation,Modified,673
+tools/collect-admin-mcp/scripts/check-source.mjs,Package configuration or documentation,Added,896
+tools/collect-admin-mcp/src/admin_http.mjs,Read transport and account,Added,3718
+tools/collect-admin-mcp/src/admin_reads/contracts.mjs,Read transport and account,Added,5088
+tools/collect-admin-mcp/src/admin_reads/history.mjs,Read transport and account,Added,3970
+tools/collect-admin-mcp/src/admin_reads/reconciliation.mjs,Read transport and account,Added,4455
+tools/collect-admin-mcp/src/admin_reads/records.mjs,Read transport and account,Added,5375
+tools/collect-admin-mcp/src/admin_reads/sms_capture.mjs,Read transport and account,Added,10008
+tools/collect-admin-mcp/src/api.mjs,Read transport and account,Modified,4292
+tools/collect-admin-mcp/src/config.mjs,Read transport and account,Modified,6252
+tools/collect-admin-mcp/src/direct-desktop/admin-writeback.mjs,Desktop and local journal,Added,6427
+tools/collect-admin-mcp/src/direct-desktop/contract.mjs,Desktop and local journal,Modified,6978
+tools/collect-admin-mcp/src/direct-desktop/core.mjs,Desktop and local journal,Modified,7055
+tools/collect-admin-mcp/src/direct-desktop/execution-state.mjs,Desktop and local journal,Added,1867
+tools/collect-admin-mcp/src/direct-desktop/journal-data.mjs,Desktop and local journal,Added,5055
+tools/collect-admin-mcp/src/direct-desktop/journal-path.mjs,Desktop and local journal,Added,5082
+tools/collect-admin-mcp/src/direct-desktop/journal.mjs,Desktop and local journal,Modified,7059
+tools/collect-admin-mcp/src/direct-desktop/lease.mjs,Desktop and local journal,Added,3149
+tools/collect-admin-mcp/src/direct-desktop/native-evidence.mjs,Desktop and local journal,Added,5204
+tools/collect-admin-mcp/src/direct-desktop/notification-operations.mjs,Desktop and local journal,Added,8745
+tools/collect-admin-mcp/src/direct-desktop/receipt-records.mjs,Desktop and local journal,Added,1293
+tools/collect-admin-mcp/src/direct-desktop/runtime.mjs,Desktop and local journal,Modified,3415
+tools/collect-admin-mcp/src/direct-desktop/server.mjs,Desktop and local journal,Modified,1950
+tools/collect-admin-mcp/src/direct-desktop/tools.mjs,Desktop and local journal,Modified,3498
+tools/collect-admin-mcp/src/human_challenge.mjs,Read transport and account,Modified,10918
+tools/collect-admin-mcp/src/human_challenge_protocol.mjs,Read transport and account,Added,4770
+tools/collect-admin-mcp/src/login.mjs,Read transport and account,Modified,4518
+tools/collect-admin-mcp/src/login_otp.mjs,Read transport and account,Modified,6082
+tools/collect-admin-mcp/src/login_session.mjs,Read transport and account,Added,2301
+tools/collect-admin-mcp/src/operator_terminal.mjs,Read transport and account,Added,1398
+tools/collect-admin-mcp/src/oversight.mjs,Retention and oversight,Modified,3720
+tools/collect-admin-mcp/src/oversight_contract.mjs,Retention and oversight,Added,9888
+tools/collect-admin-mcp/src/retention_api.mjs,Retention and oversight,Modified,5610
+tools/collect-admin-mcp/src/retention_cli.mjs,Retention and oversight,Modified,5260
+tools/collect-admin-mcp/src/retention_contract.mjs,Retention and oversight,Modified,11862
+tools/collect-admin-mcp/src/retention_journal.mjs,Retention and oversight,Modified,5905
+tools/collect-admin-mcp/src/retention_operator.mjs,Retention and oversight,Modified,8030
+tools/collect-admin-mcp/src/retention_previews.mjs,Retention and oversight,Added,7625
+tools/collect-admin-mcp/src/retention_receipts.mjs,Retention and oversight,Added,2770
+tools/collect-admin-mcp/src/server.mjs,Read transport and account,Retained,1437
+tools/collect-admin-mcp/src/stdio-frames.mjs,Read transport and account,Added,1706
+tools/collect-admin-mcp/src/stdio.mjs,Read transport and account,Modified,7153
+tools/collect-admin-mcp/src/tools.mjs,Read transport and account,Modified,2615
+tools/collect-admin-mcp/src/verify_email.mjs,Read transport and account,Modified,4297
+tools/collect-admin-mcp/test/capabilities.test.mjs,Test or fixture,Retained,6332
+tools/collect-admin-mcp/test/contracts.test.mjs,Test or fixture,Retained,2404
+tools/collect-admin-mcp/test/direct-desktop-core.test.mjs,Test or fixture,Modified,29739
+tools/collect-admin-mcp/test/direct-desktop-fixtures.mjs,Test or fixture,Retained,4248
+tools/collect-admin-mcp/test/direct-desktop-journal.test.mjs,Test or fixture,Retained,26397
+tools/collect-admin-mcp/test/direct-desktop-mcp.test.mjs,Test or fixture,Modified,26792
+tools/collect-admin-mcp/test/direct-desktop-runtime.test.mjs,Test or fixture,Retained,3645
+tools/collect-admin-mcp/test/fixture-preload.mjs,Test or fixture,Retained,790
+tools/collect-admin-mcp/test/fixtures/admin-sms-capture-dto-examples.json,Test or fixture,Retained,23771
+tools/collect-admin-mcp/test/human_challenge.test.mjs,Test or fixture,Retained,14627
+tools/collect-admin-mcp/test/login_otp.test.mjs,Test or fixture,Retained,27489
+tools/collect-admin-mcp/test/membership-receipts.test.mjs,Test or fixture,Retained,4686
+tools/collect-admin-mcp/test/oversight-fixture.mjs,Test or fixture,Retained,2263
+tools/collect-admin-mcp/test/oversight.test.mjs,Test or fixture,Modified,5737
+tools/collect-admin-mcp/test/retention-api.test.mjs,Test or fixture,Modified,9732
+tools/collect-admin-mcp/test/retention-operator.test.mjs,Test or fixture,Modified,19859
+tools/collect-admin-mcp/test/server.test.mjs,Test or fixture,Modified,53153
+tools/collect-admin-mcp/test/stdio.test.mjs,Test or fixture,Modified,6578

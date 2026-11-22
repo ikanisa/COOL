@@ -1,0 +1,49 @@
+{
+  "flutter_additional_license": {
+    "bytes": 187854,
+    "path": "assets/licenses/ios-native-NOTICES.txt",
+    "sha256": "dc6c974d18aa802f45ea1557c600ccaccc8ff84cadb1b4e96082862d333a7b4e"
+  },
+  "format": "collect.native-notice-source.v1",
+  "purpose": "Exact upstream native dependency attributions included by the existing open-source licenses page. Upstream aggregate names do not establish shipped component membership.",
+  "sources": [
+    {
+      "bytes": 12543,
+      "component": "GoogleUtilities",
+      "file": "third_party/native_licenses/googleutilities-8.1.3.LICENSE",
+      "revision": "92c8f6dc3ac375d6febdfcb3db68bc3d10633db3",
+      "sha256": "ad6d036b9a78f0e1700d68039c06058033fea063172ce2dc68e382a24b4d1928",
+      "upstream": "https://github.com/google/GoogleUtilities.git",
+      "version": "8.1.3"
+    },
+    {
+      "bytes": 898,
+      "component": "nanopb",
+      "file": "third_party/native_licenses/nanopb-2.30910.1.LICENSE",
+      "revision": "3851d94a41890dea16dc3db34caf60e585cb4163",
+      "sha256": "e2f2fc8fe3faa7dcb09dbe995db48c6ec5c1f72705db915101e4a83fed44f66d",
+      "upstream": "https://github.com/firebase/nanopb.git",
+      "version": "2.30910.1"
+    },
+    {
+      "bytes": 1484,
+      "component": "LevelDB",
+      "file": "third_party/native_licenses/leveldb-1.22.5.LICENSE",
+      "revision": "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+      "sha256": "ccc19f1da0798ed666609b65a5b44dd8b3abe6fc08b9c0592eb76e82e174db19",
+      "upstream": "https://github.com/firebase/leveldb.git",
+      "version": "1.22.5"
+    },
+    {
+      "bytes": 168782,
+      "component": "Firebase iOS SDK upstream CoreOnly notices",
+      "file": "third_party/native_licenses/firebase-ios-sdk-12.19.3.NOTICES",
+      "revision": "42cf1417c51c5e3bfbae5d3ab89b778f8fdc4bb8",
+      "sha256": "c94c2b4fb4bf2cd587568fd21b229afa8a9c7b8b8529a7811447949a4f3e0d89",
+      "upstream": "https://github.com/firebase/firebase-ios-sdk",
+      "upstream_path": "CoreOnly/NOTICES",
+      "version": "12.19.3"
+    }
+  ],
+  "update_rule": "Compare the native resolver and artifact membership on every dependency change; retain complete upstream copyright and license text."
+}

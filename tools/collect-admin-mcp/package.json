@@ -1,0 +1,20 @@
+{
+  "name": "@collect/admin-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only local MCP adapter for Collect's origin-bound privileged Admin API",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "desktop:start": "node src/direct-desktop/server.mjs",
+    "desktop:test": "node --test --test-concurrency=1 test/direct-desktop-*.test.mjs",
+    "login": "node src/login.mjs",
+    "test": "node --test --test-concurrency=1 test/*.test.mjs",
+    "check": "node scripts/check-source.mjs",
+    "retention": "node src/retention_cli.mjs",
+    "verify-email": "node src/verify_email.mjs"
+  }
+}

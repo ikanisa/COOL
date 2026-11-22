@@ -1,0 +1,68 @@
+{
+  "format": "collect.auth.current-managed-metadata-readback.v1",
+  "observed_at": "2026-10-26T07:51:22.261202+00:00",
+  "project_ref": "rrlduytparvsjfmegalh",
+  "organization_id": "ghnjnepwvwknswrwzepn",
+  "read_only": true,
+  "managed_auth": {
+    "disable_signup": false,
+    "external_google_enabled": false,
+    "security_captcha_enabled": true,
+    "security_captcha_provider": "turnstile",
+    "external_email_enabled": true,
+    "mfa_totp_enroll_enabled": false,
+    "mfa_totp_verify_enabled": true,
+    "mailer_secure_email_change_enabled": true,
+    "mailer_autoconfirm": false,
+    "mailer_allow_unverified_email_sign_ins": false,
+    "mailer_otp_exp": 300,
+    "mailer_otp_length": 6,
+    "jwt_exp": 900,
+    "site_url": "https://admin-supabase-qa.collect.ikanisa.com"
+  },
+  "custom_SMTP": {
+    "configured": true,
+    "host": "smtp.gmail.com",
+    "port": "465",
+    "sender_email": "info@ikanisa.com",
+    "sender_name": "Collect"
+  },
+  "application_member_registration_enabled": false,
+  "application_registration_pause_verified": true,
+  "managed_signup_enabled": true,
+  "prior_admitted_managed_signup_change": {
+    "receipt_sha256": "e68daa88694c747f2be39894d8a249b4a3b98e52dbd8e392cedd2151f082cd26",
+    "result": "managed_signup_enabled_read_back",
+    "application_registration_changed": false
+  },
+  "functions": [
+    {
+      "slug": "collect-api",
+      "name": "collect-api",
+      "version": 28,
+      "status": "ACTIVE",
+      "verify_jwt": false,
+      "updated_at": 1792797046848
+    },
+    {
+      "slug": "admin-api",
+      "name": "admin-api",
+      "version": 29,
+      "status": "ACTIVE",
+      "verify_jwt": false,
+      "updated_at": 1792798354423
+    },
+    {
+      "slug": "collect-jobs",
+      "name": "collect-jobs",
+      "version": 26,
+      "status": "ACTIVE",
+      "verify_jwt": false,
+      "updated_at": 1792798423941
+    }
+  ],
+  "private_values_published": false,
+  "provider_or_Auth_or_application_settings_changed": false,
+  "current_delivery_actor_or_cutover_acceptance_established": false,
+  "production_acceptance": false
+}

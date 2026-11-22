@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-20-community-giving-parcels",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-20-community-giving-parcels-v1.png",
+  "source_sha256": "3850d6c40dbd823834967913d1c8add363cefb40ab48b370fbed8677e544f83e",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "2d163ae3cf3d27a376dd856606751d37fa37c80e879e90129b4c3347743c8ec5",
+  "imported_at_utc": "2026-09-06T11:18:10.959183+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-53ea25f0-4c31-424a-94cf-71f782d04417.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

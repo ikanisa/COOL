@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "validator_version": "4.0.0",
+  "workstream": "release-evidence-and-packaging-safeguards",
+  "actions": [
+    {
+      "id": "R4-01",
+      "task": "Pinned Ed25519 producer verification and public application gate",
+      "source_completion": "implemented",
+      "local_verification": "passed_75_provenance_tests",
+      "external_acceptance": "blocked_real_trust_roots_identity_onboarding_and_independent_review"
+    },
+    {
+      "id": "R4-02",
+      "task": "Unsigned request export and external signature intake",
+      "source_completion": "implemented",
+      "local_verification": "passed_18_exchange_tests",
+      "external_acceptance": "blocked_real_signing_service_and_producer_integration"
+    },
+    {
+      "id": "R4-03",
+      "task": "Retained source, evidence and packaging checks",
+      "source_completion": "implemented",
+      "local_verification": "passed_307_total_toolkit_tests",
+      "external_acceptance": "not_independent_security_certification"
+    },
+    {
+      "id": "R4-04",
+      "task": "Original/r2/r3 application overlay paths",
+      "source_completion": "implemented_13_changed_paths",
+      "local_verification": "passed_56_retained_tests_6_patch_checks_4_upgrade_equivalence_checks",
+      "external_acceptance": "blocked_final_A03_A04_merge_and_native_hosted_enforcement"
+    },
+    {
+      "id": "R4-05",
+      "task": "Missing-evidence fail-closed CLI contracts",
+      "source_completion": "implemented",
+      "local_verification": "six_correct_blocks",
+      "external_acceptance": "blocked_real_qualification_results_missing"
+    },
+    {
+      "id": "R4-06",
+      "task": "Credential finding triage and historical evidence preservation",
+      "source_completion": "implemented_read_only",
+      "local_verification": "33_files_located_no_values_reported",
+      "external_acceptance": "blocked_owner_disposition_and_traceable_remediation"
+    },
+    {
+      "id": "R4-07",
+      "task": "Source/dependency and runtime inventories",
+      "source_completion": "implemented",
+      "local_verification": "1857_product_files_and_observed_runtime_hashes",
+      "external_acceptance": "blocked_resolved_product_and_system_dependency_closure"
+    },
+    {
+      "id": "R4-08",
+      "task": "Legacy source-archive consumer migration",
+      "source_completion": "documented_format_change",
+      "local_verification": "not_executed_on_external_consumers",
+      "external_acceptance": "blocked_external_consumer_updates"
+    },
+    {
+      "id": "R4-09",
+      "task": "Native/carrier/database/canonical/hosted qualification",
+      "source_completion": "external_required",
+      "local_verification": "not_executed",
+      "external_acceptance": "blocked"
+    },
+    {
+      "id": "R4-10",
+      "task": "Signing distribution, independent security and owner authorization",
+      "source_completion": "external_required",
+      "local_verification": "not_executed",
+      "external_acceptance": "blocked"
+    }
+  ],
+  "production_authorized": false
+}

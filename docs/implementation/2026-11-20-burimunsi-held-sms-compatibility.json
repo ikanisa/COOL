@@ -1,0 +1,181 @@
+{
+  "format": "collect.burimunsi.held-observation-compatibility.v1",
+  "observed_utc": "2026-11-20T10:08:47+00:00",
+  "isolated_base": "0a0ef6f5356ddcde60a9b538a60c6e6fc181e501",
+  "normal_managed_behavior": {
+    "POST /v1/burimunsi/sms/observations/recover-held": "Native 404 before either managed ingress reads or forwards raw SMS.",
+    "POST /v1/burimunsi/sms/observations/recover-held-ack": "Native 404 before reading a body, provider access or replay.",
+    "GET /v1/burimunsi/sms/observations/reconcile-verified-status": "Native 404 until a scoped verified-status catalog and configuration are independently commissioned. The normal managed composition has no activation flag for this operation.",
+    "current_reconciliation": "The three previously released metadata-only operations continue to use their established scopes. Ordinary status keeps its actual pending flag.",
+    "ordinary_financial_behavior": "A captured synthetic ordinary observation followed by retries and all three held path calls retained one object and one source commit. The read-only SQL fixture retained one observation and zero canonical receipts.",
+    "qualified_status_only": "A local server-side handler can explicitly use the historical read-only verified status. It calls its own SQL function under an active Admin internal-receiver session and current consent, returns scope verified_collection, and reads no SMS body."
+  },
+  "evidence_roles": {
+    "managed_cutover": {
+      "receipt": "docs/implementation/2026-11-20-burimunsi-observation-reconciliation.json",
+      "receipt_sha256": "33c6823881d79e7ca72a7662814f33295033718cd88bd2f871eb24a7c8ac4495",
+      "commit": "5c63f65fcaa0b6db7961e5b981edfb9d71f1eeee",
+      "source_sha256": "6de5db23683be38a2baf8d559981156ae5123d5f30ec7320239c6f7a1824cdb7",
+      "held_routes_in_cutover": 0,
+      "held_definitions_in_cutover": 0,
+      "managed_migration_capture": "supabase/managed-migration-history/cloud-history-20261120.json",
+      "capture_sha256": "016f380fa575dc1f648c3a5733b6fe10125e393c88f570a9039eec1928ac2e4f",
+      "entries": 82,
+      "latest": "20261118090305",
+      "ordered_sha256": "02304f771accf67aa95a4e960dcc247644f06c266fb68a05db948fa01034b303"
+    },
+    "signed_test_pair": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-17/sms-sync-v48-build-001",
+      "source_sha256": "e42bd3ba7b57a6f1eaadce62f3a60b17b39ee04d8720bc7c79b796bc34b146e3",
+      "native_files_rehashed": 336,
+      "inspection_sha256": "bf4b4cc72f6e2ad448d292890a2be2798a3c3a5425e31ea7f7603b991d90d7a5",
+      "verified_apks": {
+        "Admin": {
+          "version_code": 48,
+          "sha256": "63041812af5ced1d2c98bc096aa6e0eaceb0e4963fc5b7e290e296161b06d1f5"
+        },
+        "Staff": {
+          "version_code": 48,
+          "sha256": "00538016c821b4507d0bc5dd3079bd429e876daa02ab80df44a54efb6f0c2237"
+        }
+      },
+      "original_consent_on_legacy_raw_requests": false,
+      "recovery_enabled": false,
+      "production_ready": false,
+      "signed_source_contains_bundled_session_home_route": false
+    },
+    "consent_bound_draft": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-17/sms-held-recovery-server-001",
+      "commit": "f8d7cfb588192d64d92353e26fe0d85e4c04d36e",
+      "design": "scripts/supabase/cloud-release/draft-held-consent-admission.md",
+      "design_sha256": "e5b4c36f1843a928fbc54e33f341db69d15fa903980b33e0e3ce6cf7e03cb6d9",
+      "requirement": "The nine-argument raw write wrapper was explicitly unordered. Old protected journals cannot substitute current consent for an absent original generation."
+    },
+    "pinned_successor": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Production/2026-11-18/sms-held-v2-server-001",
+      "commit": "c454140adf21e8c07de5754ac5c0aaba5e18f2f8",
+      "design": "scripts/supabase/cloud-release/held-v2-candidate.md",
+      "design_sha256": "03e9ff1f2e6cf3fa48ac557574030509acc0a2e732d0197080f6108d017a9bc1",
+      "qualified_wire_definitions_matched": 12,
+      "acl": "The candidate removes PUBLIC, anon, authenticated, service_role, collect_importer and collect_runtime execute rights at installation, then grants its public runtime functions only to collect_runtime. Normal function ownership still applies. Private triggers are separate.",
+      "held_sql": {
+        "20261117205959_burimunsi_sms_source_index.sql": "7a03e8d4e35b7be99c9bf072b4f835654809e582aa8e3247f45582dd686f225c",
+        "20261117210000_burimunsi_held_recovery.sql": "1decb00238e969e2ad58b7283741bae10a968e7affbddbaf21dc196667a29651",
+        "20261117220000_burimunsi_held_resume_guard.sql": "870284f6146cf4c1a5ee428e5883c378cd30036333a5da5f062e97d00deefd46",
+        "20261117220639_burimunsi_held_consent_v2.sql": "5a290aba0da81db64946c22e8fb11bab6ffc22ffd9e5bf05814cabc301e38206"
+      },
+      "status_fixture_sha256": "2b0de380b376b15d6a4f82ea57bdbbcf7248e57615aab70a95e6f9abac3230a4",
+      "status_test_limit": "Only the original verified-status function plus its ACL were installed on disposable PG17 with synthetic predecessor tables. The full candidate migration was not installed.",
+      "decision": "The qualified successor uses a separately pinned release and an eleven-argument consent-bound prepare function. It did not compose the older raw routes. None of these four candidate SQL versions appears in the managed 82."
+    }
+  },
+  "related_changes": {
+    "staff_create": "The historical request may omit its PIN. Present PINs retain the four-digit constraint. The separate Staff journal test covers exact historical retrieval and fresh no-PIN denial.",
+    "session_home": "The combined startup path appears in the separately retained QA startup branch. It is absent from the signed source profile and managed cutover, so the ordinary session and home routes continue independently."
+  },
+  "working_source_sha256": {
+    "contracts/burimunsi-api/profile.json": "c76a3cac662dc68160341fdbce06a1c2f48107b1a6086173a56d62179d2b6754",
+    "contracts/burimunsi-api/schema.json": "14b274c4efb87fc91e6bcf66f07f66a56e92f176a4ae7400cb67e3f0168c934b",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/BuriMunsiSchemas.kt": "cf0e19d1c1a120473c1ce1a69f2509192c49553843bbf630a66250acc4ca8206",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/wire/WireContract.kt": "355b7b88aea2ff3d13d5497db81f5ce66e78917dc8011efc147c72e6ac0b2e06",
+    "scripts/supabase/cloud-release/burimunsi-observation-reconcile.test.mjs": "33766597f4176508af43b558153820ce35eb26b42dfa5ee0dcf39675856adad1",
+    "scripts/supabase/cloud-release/fixtures/burimunsi-held-verified-status.sql": "2b0de380b376b15d6a4f82ea57bdbbcf7248e57615aab70a95e6f9abac3230a4",
+    "supabase/functions/_shared/domain/burimunsi/collect-route.js": "f686db29b687e14d6dfc76895e9fd2408340957512ff062c427edbe282cc89f0",
+    "supabase/functions/_shared/domain/burimunsi/http.js": "5a289b04f350b847da2aadbbdb42bf0d283a7c5f8c220de637aa11b1fc3293ea",
+    "supabase/functions/_shared/domain/burimunsi/postgres-observations.js": "3108029421e4ed402edbe7cadaf7216ea7e0504fdc74e536e44e1096054ba76e",
+    "supabase/functions/_shared/domain/burimunsi/wire/burimunsi.generated.mjs": "0e4975559471fdd7ef775b23f0148ccbf7f9232b02ef5c3a70ae795e73ceeadb",
+    "supabase/functions/_shared/domain/burimunsi/wire/native-contract.mjs": "343edee7c466b931548a0c4f54dd809c588b3ff406b200f0ba51f05d3c18e95a",
+    "supabase/functions/_shared/domain/burimunsi/wire/runtime.mjs": "14894fff984fe3e7ad1503c548a3185f569cdfe0aa1266a1d64914c7ba546490",
+    "supabase/functions/_shared/serve.js": "193cf7293aa05d74cafd0d3c8a0ffe993ae139cb7a07b9a52e0bc680cd8aab99",
+    "supabase/functions/_shared/tests/burimunsi/held-observation-compatibility.test.mjs": "59e05cafa477e32ee50de9c981a79a3ec988d02296916571cbc3ddb7020b2f38",
+    "supabase/functions/_shared/tests/burimunsi/observation-adapter.test.mjs": "b615cfc068af799183b892c5a818145d134578cfc64cd5749576b4d21444f6c1",
+    "supabase/functions/_shared/tests/native-direct-supabase-handler.test.mjs": "2163347a7a7e49076f6c541cfe52e77a245d114314d4a135abbcc3066d7e22e1"
+  },
+  "working_verification": {
+    "android_http_semantics": {
+      "command": "bash native/burimunsi/scripts/verify_http.sh",
+      "test_source": "native/burimunsi/http-tests/HttpChecks.kt",
+      "test_source_sha256": "2dd429f45a15e34ef299b6ec054bc227fbdc4d0251e5ec09567222bbc0546305",
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/kotlin-http-final.log",
+      "log_sha256": "3bdab5d73aec2653c8b81bf4af02b414681d2af601ae6ce081b13d81c89f506b",
+      "assertions_passed": 280,
+      "scope": "Real Kotlin ApiClient on the JVM with a simulated HttpURLConnection. Twenty-four direct assertions cover integer zero and invalid financial-effect fields on the ordinary ACK, held result and both held-ACK states. The handwritten semantics and generated wire contract both require integer zero."
+    },
+    "staging_node": {
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/edge-node-final.log",
+      "log_sha256": "1871a87e86f50ca514fd2bf69d3e4f8589524b95a56b6876b32f77e968aec773",
+      "tests": 3831,
+      "pass": 3824,
+      "fail": 0,
+      "skipped": 7
+    },
+    "staging_related_native_handlers": {
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/edge-targeted.log",
+      "log_sha256": "62e75640d2c101a5d6aee9fa44ceae1507d44918da1143f49feeda330ce4ab18",
+      "tests": 142,
+      "pass": 142,
+      "fail": 0,
+      "skipped": 0
+    },
+    "native_wire_integration": {
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/native-api-contract.log",
+      "log_sha256": "623aed39f7135248def53e3ceecee532bc5f797a868a778112dd02d081da86c7",
+      "tests": 24,
+      "pass": 24,
+      "fail": 0,
+      "skipped": 0
+    },
+    "joint_postgres": {
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/joint-pg.log",
+      "log_sha256": "c048038d4dc83cf57572d41d80d46561b2a20eb78d4d295a93af40fd37ad17f9",
+      "tests": 20,
+      "pass": 20,
+      "fail": 0,
+      "skipped": 0
+    },
+    "isolated_postgres": {
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/held-pg.log",
+      "log_sha256": "31299f5b1f1d7921602508d0705818b34125e1b995ffb3dd38018244baa24a2c",
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0
+    },
+    "deno_entrypoints": {
+      "count": 6,
+      "outcome": "passed",
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/deno-check.log",
+      "log_sha256": "084cde36880237adb54ed6a3ad8bbac52ccb0b1acbfbb1b6324872429ff01069"
+    },
+    "generated_wire": "python3 scripts/generate_burimunsi_wire.py --check passed. All 16 checked source paths matched the isolated tree byte for byte.",
+    "existing_skips": "The broad Node discovery skips seven fixture-specific cases. All targeted compatibility cases ran."
+  },
+  "historical_verification": {
+    "source_manifest": "/private/tmp/collect-held-work-HYfnqW4a/qualified-archive-inputs.json",
+    "source_manifest_sha256": "af79100f6b34a6aa94f1b777823c05b3f68b608e9adfba2211cf37f65fc53457",
+    "candidate_adapter_replay": {
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/archive-held-behavior.log",
+      "log_sha256": "2aa7ddb7e7b05a45dc60e1372952ed4eac87c45c9ed1aee664d5742e2d6845f2",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    "candidate_sql_financial_holds": {
+      "log": "/private/tmp/collect-held-work-HYfnqW4a/archive-financial-pg.log",
+      "log_sha256": "6e08e0b00424e15d26e0998aa9a869b16c6a0a408eea78708e728c5d1d37b7ca",
+      "mode": "private PostgreSQL Unix socket",
+      "postgres": "PostgreSQL 17.11",
+      "generated_fixture_sha256": "f10cf72e8e630cd8234094ad289fefe185be60f5aa82a7a6cf394b0d1fe6c53d",
+      "scope": "exact immutable historical test slice through financial effects, with original rollback",
+      "checks": [
+        "synthetic scoped recovery and financial guards passed"
+      ]
+    },
+    "scope": "For the archived c454140a candidate only, five local tests showed one encrypted object on exact retry, bound v2 consent, read-only ACK and denied Staff access. Its temp-relation financial regression ran inside a separately owned PostgreSQL 17 Unix-socket cluster and rolled back. These archived successes do not enable raw paths in the maintained runtime."
+  },
+  "open_release_gates": [
+    "No managed SQL or Edge rollout for either held protocol is evidenced. A future v2 release needs the candidate source/migration pins, verified live catalog and role graph, an admitted fence, and original protected consent for each submitted request.",
+    "Both held raw paths stay unavailable for the predecessor, including pending entries without original consent. Device upgrade, service activation and real SMS ingest remain independent gates."
+  ]
+}

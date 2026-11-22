@@ -1,0 +1,58 @@
+{
+  "name": "collect-platform-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-14",
+  "account_id": "2209b915a85b1c11cee79b7806c6e73b",
+  "workers_dev": false,
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "APP_ENVIRONMENT": "production",
+    "AUTH_ISSUER": "collect-platform-api",
+    "AUTH_AUDIENCE": "collect",
+    "ALLOWED_ORIGINS": "https://collect.ikanisa.com,https://admin.collect.ikanisa.com,https://platform-admin.collect.ikanisa.com,https://api.collect.ikanisa.com",
+    "TURNSTILE_REQUIRED": "true",
+    "TURNSTILE_ACTION": "collect-login",
+    "AUTH_MEMBER_REGISTRATION_ENABLED": "true",
+    "DATA_KEY_ID": "collect-platform-key-20261014-v1",
+    "ENVIRONMENT": "production",
+    "ADMIN_ORIGIN": "https://platform-admin.collect.ikanisa.com",
+    "ADMIN_ORIGINS": "https://platform-admin.collect.ikanisa.com,https://admin.collect.ikanisa.com",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFX2RCgS7xTgdBT4",
+    "TURNSTILE_HOSTNAME": "api.collect.ikanisa.com",
+    "AUTH_EMAIL_DELIVERY": "cloudflare",
+    "AUTH_EMAIL_FROM": "info@ikanisa.com",
+    "MOMO_PROCESSING_PAUSED": "true",
+    "GOOGLE_AUTH_ENABLED": "false"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "collect-platform",
+      "database_id": "a6a0d284-c445-4fe3-8e64-af5fd42491ae",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "PRIVATE_MEDIA",
+      "bucket_name": "collect-platform-private"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "api.collect.ikanisa.com",
+      "custom_domain": true
+    }
+  ],
+  "preview_urls": false,
+  "send_email": [
+    {
+      "name": "AUTH_EMAIL",
+      "allowed_sender_addresses": [
+        "info@ikanisa.com"
+      ]
+    }
+  ]
+}

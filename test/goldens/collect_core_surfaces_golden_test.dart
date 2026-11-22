@@ -1,0 +1,285 @@
+import '../fixtures/collect_repository_fixture.dart';
+import '../fixtures/contribution_layout_repository_fixture.dart';
+
+import 'dart:io';
+
+import 'package:collect_app/app/app.dart';
+import 'package:collect_app/app/router.dart';
+import 'package:collect_app/app/theme/collect_runtime_assets.dart';
+import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
+import 'package:collect_app/main_public.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  late GoldenFileComparator previousGoldenFileComparator;
+
+  setUpAll(() async {
+    previousGoldenFileComparator = goldenFileComparator;
+    goldenFileComparator = _CollectGoldenFileComparator(
+      Uri.parse('test/goldens/collect_core_surfaces_golden_test.dart'),
+      precisionTolerance: 0.0005,
+    );
+    final inter = FontLoader('Inter')
+      ..addFont(rootBundle.load('assets/typefaces/Inter-Variable.ttf'));
+    final materialIcons = FontLoader('MaterialIcons')
+      ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
+    await Future.wait([inter.load(), materialIcons.load()]);
+  });
+
+  tearDownAll(() {
+    goldenFileComparator = previousGoldenFileComparator;
+  });
+
+  const memberSurfaces = <String, String>{
+    'auth': '/auth',
+    'home': '/home',
+    'groups': '/groups',
+    'contribute_entry': '/contribute',
+    'activity': '/activity',
+    'profile': '/settings',
+    'group_detail': '/groups/qa-private-group',
+    'contribution_review': '/groups/qa-private-group/contribute',
+    'ledger': '/groups/qa-private-group/ledger',
+    'offline': '/offline',
+    'appearance': '/settings/appearance',
+  };
+
+  test('historical golden manifest covers every baseline exactly', () {
+    final files =
+        Directory('test/goldens/baselines')
+            .listSync()
+            .whereType<File>()
+            .where((file) => file.path.endsWith('.png'))
+            .toList()
+          ..sort((left, right) => left.path.compareTo(right.path));
+    final manifest = <String, String>{};
+    for (final line in File(
+      'test/goldens/GOLDEN_MANIFEST.sha256',
+    ).readAsLinesSync()) {
+      if (line.trim().isEmpty) continue;
+      final separator = line.indexOf('  ');
+      expect(separator, greaterThan(0), reason: line);
+      manifest[line.substring(separator + 2)] = line.substring(0, separator);
+    }
+
+    expect(files, hasLength(12));
+    expect(manifest, hasLength(files.length));
+    for (final file in files) {
+      expect(
+        manifest[file.path],
+        sha256.convert(file.readAsBytesSync()).toString(),
+      );
+    }
+  });
+
+  for (final surface in memberSurfaces.entries) {
+    testWidgets(
+      'member ${surface.key} compares the current implementation regression baseline',
+      (tester) async {
+        await _setViewport(tester, const Size(390, 844));
+        final goldenKey = ValueKey<String>('golden-member-${surface.key}');
+        final router = createAppRouter(initialLocation: surface.value);
+        final fixtureNow = DateTime(2026, 7, 24, 23);
+        final messenger =
+            TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+        const smsEvents = EventChannel('collect/sms_access/events');
+        // The Android golden host exposes an empty native invalidation stream.
+        messenger.setMockStreamHandler(
+          smsEvents,
+          MockStreamHandler.inline(
+            onListen: (arguments, _) {
+              expect(arguments, isNull);
+            },
+            onCancel: (arguments) {
+              expect(arguments, isNull);
+            },
+          ),
+        );
+        addTearDown(() async {
+          await tester.pumpWidget(const SizedBox.shrink());
+          await tester.pump();
+          router.dispose();
+          messenger.setMockStreamHandler(smsEvents, null);
+        });
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              collectBackendClientProvider.overrideWithValue(null),
+              appRouterProvider.overrideWithValue(router),
+              collectRepositoryProvider.overrideWith(
+                (ref) => surface.key == 'contribution_review'
+                    ? ContributionLayoutRepository(fixtureNow: fixtureNow)
+                    : FixtureCollectRepository(
+                        fixtureNow: fixtureNow,
+                        lastSuccessfulSyncAt: surface.key == 'groups'
+                            ? fixtureNow.toUtc()
+                            : null,
+                      ),
+              ),
+              collectThemeModeProvider.overrideWith(
+                (ref) => CollectThemeModeController(
+                  initialMode: ThemeMode.dark,
+                  loadPersistedMode: false,
+                ),
+              ),
+            ],
+            child: RepaintBoundary(
+              key: goldenKey,
+              child: MediaQuery(
+                data: MediaQueryData.fromView(
+                  tester.view,
+                ).copyWith(accessibleNavigation: true, disableAnimations: true),
+                child: const CollectApp(),
+              ),
+            ),
+          ),
+        );
+        await _precacheOfficialLogo(tester);
+        await _pumpStableFrames(tester);
+        await _precacheVisibleImages(tester, goldenKey);
+        if (surface.key == 'contribution_review') {
+          await tester.enterText(find.byType(TextField).first, '10000');
+          await tester.pump();
+          await tester.tap(
+            find.widgetWithText(FilledButton, 'Continue to MoMo'),
+          );
+          await _pumpStableFrames(tester);
+        }
+
+        expect(tester.takeException(), isNull, reason: surface.value);
+        await expectLater(
+          find.byKey(goldenKey),
+          matchesGoldenFile('current/member_${surface.key}_dark.png'),
+        );
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.android),
+    );
+  }
+
+  testWidgets(
+    'public website compares reviewed current desktop regression baseline',
+    (tester) async {
+      await _setViewport(tester, const Size(1440, 900));
+      const goldenKey = ValueKey<String>('golden-public-home');
+
+      await tester.pumpWidget(
+        const RepaintBoundary(
+          key: goldenKey,
+          child: ProviderScope(child: CollectPublicWebsiteApp()),
+        ),
+      );
+      await _precacheOfficialLogo(tester);
+      await tester.runAsync(() async {
+        final context = tester.element(find.byKey(goldenKey));
+        for (final asset in [
+          CollectRuntimeAssets.marketingSky,
+          CollectRuntimeAssets.marketingEditorial,
+        ]) {
+          await precacheImage(AssetImage(asset), context);
+        }
+      });
+      await _pumpStableFrames(tester);
+
+      expect(tester.takeException(), isNull);
+      await expectLater(
+        find.byKey(goldenKey),
+        matchesGoldenFile('current/public_home_desktop.png'),
+      );
+    },
+    variant: TargetPlatformVariant.only(TargetPlatform.android),
+  );
+}
+
+/// Allows only sub-pixel rasterization drift while preserving geometry and
+/// layout regression detection across the supported Flutter build hosts.
+class _CollectGoldenFileComparator extends LocalFileComparator {
+  _CollectGoldenFileComparator(
+    super.testFile, {
+    required double precisionTolerance,
+  }) : assert(
+         0 <= precisionTolerance && precisionTolerance <= 1,
+         'precisionTolerance must be between 0 and 1',
+       ),
+       _precisionTolerance = precisionTolerance;
+
+  final double _precisionTolerance;
+
+  @override
+  Future<bool> compare(Uint8List imageBytes, Uri golden) async {
+    final candidateRoot = Platform.environment['COLLECT_GOLDEN_CANDIDATE_DIR'];
+    if (candidateRoot != null) {
+      final directory = Directory(candidateRoot)..createSync(recursive: true);
+      File(
+        '${directory.path}/${golden.pathSegments.last}',
+      ).writeAsBytesSync(imageBytes);
+    }
+    final result = await GoldenFileComparator.compareLists(
+      imageBytes,
+      await getGoldenBytes(golden),
+    );
+    final passed = result.passed || result.diffPercent <= _precisionTolerance;
+    if (passed) {
+      result.dispose();
+      return true;
+    }
+
+    final error = await generateFailureOutput(result, golden, basedir);
+    result.dispose();
+    throw FlutterError(error);
+  }
+}
+
+Future<void> _setViewport(WidgetTester tester, Size size) async {
+  tester.view.physicalSize = size;
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      const FakeAccessibilityFeatures(
+        accessibleNavigation: true,
+        disableAnimations: true,
+      );
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+}
+
+Future<void> _pumpStableFrames(WidgetTester tester) async {
+  for (var frame = 0; frame < 16; frame += 1) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+  await tester.pumpAndSettle();
+}
+
+Future<void> _precacheOfficialLogo(WidgetTester tester) async {
+  final context = tester.element(find.byType(MaterialApp).first);
+  await tester.runAsync(
+    () => precacheImage(
+      const AssetImage(CollectRuntimeAssets.officialLogo),
+      context,
+    ),
+  );
+  await tester.pump();
+}
+
+Future<void> _precacheVisibleImages(
+  WidgetTester tester,
+  Key boundaryKey,
+) async {
+  final context = tester.element(find.byKey(boundaryKey));
+  final providers = tester
+      .widgetList<Image>(find.byType(Image))
+      .map((image) => image.image)
+      .toSet();
+  await tester.runAsync(() async {
+    for (final provider in providers) {
+      await precacheImage(provider, context);
+    }
+  });
+  await _pumpStableFrames(tester);
+}

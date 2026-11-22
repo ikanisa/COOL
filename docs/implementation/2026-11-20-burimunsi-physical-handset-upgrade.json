@@ -1,0 +1,49 @@
+{
+  "format": "collect.burimunsi.physical-upgrade-result.v1",
+  "hardware": "Pixel 4a",
+  "android_api": 33,
+  "completed_utc": "2026-11-20T12:02:51+00:00",
+  "native_source_sha256": "7ce1231cc8a1e77779d23ec644556b0088b8a342c9e88285d7bbbf15254ede6b",
+  "sealed_apk_packet_sha256": "a22370baa7b5f26155bc90e0a1b7a3f5e0d82b5c1e7a9f938c28606394cbf440",
+  "roles": {
+    "staff": {
+      "test_package": "rw.ikanisa.burimunsi.staff.cloud.nativeTest",
+      "installed_predecessor_sha256": "5e82ba0947bb49d1341b70b3a7a4da72c8527ba6feb760591fd1853fdce97081",
+      "installed_candidate_sha256": "5d285c37d40a76ab427bcde033fc7b7e629cdce856d4f4a6904c4a18bae6c1c4",
+      "test_certificate_sha256": "8e555467621b22c5d5ef536d57471ca82ff8ec8a66de9fe697040eb675fc1be8",
+      "seed_check_sha256": "3d9676a9781b56fffc82db51055efcad5d3adcb9e56c48676264a06b38d17543",
+      "upgrade_check_sha256": "51edb75acde25a0d599b26252d13c96c81d02c7ba0d0152090b40c919e8fc901",
+      "instrumentation_method": "rw.ikanisa.burimunsi.InstalledUpgradeTest#protectedDataSurvivesPackageReplacement",
+      "versions": [
+        48,
+        49
+      ]
+    },
+    "internal_receiver": {
+      "test_package": "rw.ikanisa.burimunsi.gateway.cloud.nativeTest",
+      "installed_predecessor_sha256": "bdc49ea276e03a91104396bb25f79cc15ec6e9c47a050e691fdedf74c0c0acba",
+      "installed_candidate_sha256": "1a2138500e34cd4dbdefdf287b25047ec7189ded153dcc2a2be1c7fe620e95f2",
+      "test_certificate_sha256": "8e555467621b22c5d5ef536d57471ca82ff8ec8a66de9fe697040eb675fc1be8",
+      "seed_check_sha256": "599a6465c7aeefd6ba9b25bb92f3737394aef846317380eae8d2d24fa4cbc3d9",
+      "upgrade_check_sha256": "63f37f8cb980409cb2a371fe7387b4dd8a50bd17efc24804e315d42ac78e4317",
+      "instrumentation_method": "rw.ikanisa.burimunsi.InstalledUpgradeTest#protectedDataSurvivesPackageReplacement",
+      "versions": [
+        48,
+        49
+      ]
+    }
+  },
+  "verified": {
+    "staff": "The app retained its Android UID, original install time, installation identity and encrypted marker after the APK replacement.",
+    "admin_sync": "The two uncertain receipt requests retained their original encrypted bytes and request identities. Both terminal receipts compacted to the checked identity and source digest.",
+    "permissions": "Both test processes ran with Internet and SMS inbox access denied. The four dedicated test packages were removed and the original BuriMunsi package inventory matched."
+  },
+  "scope": "Physical test-channel rehearsal with synthetic records. The normal BuriMunsi packages were absent on this handset. Production signing, existing operator state, carrier delivery and Managed Play distribution require independent evidence.",
+  "evidence_sha256": {
+    "internal_receiver-seed.txt": "599a6465c7aeefd6ba9b25bb92f3737394aef846317380eae8d2d24fa4cbc3d9",
+    "internal_receiver-verify.txt": "63f37f8cb980409cb2a371fe7387b4dd8a50bd17efc24804e315d42ac78e4317",
+    "result.json": "8703a886684d69dfd0bb6e5d65fe5425598a9f981d2de218e984bdc5ec499b64",
+    "staff-seed.txt": "3d9676a9781b56fffc82db51055efcad5d3adcb9e56c48676264a06b38d17543",
+    "staff-verify.txt": "51edb75acde25a0d599b26252d13c96c81d02c7ba0d0152090b40c919e8fc901"
+  }
+}

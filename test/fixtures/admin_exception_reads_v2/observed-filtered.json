@@ -1,0 +1,28 @@
+{
+  "rows": [
+    {
+      "id": "0e764468-8150-4507-bc60-1570be2fe336",
+      "active": true,
+      "revision": 1,
+      "source_id": "99770000-0000-4000-8000-000000070001",
+      "reason_code": "ALLOCATION_REVIEW",
+      "source_kind": "allocation",
+      "acknowledged": false,
+      "source_sha256": "13299028d2ffe46ed3217eefd24f3bdbc75ca50122b100bbf0dfc8efccf99843",
+      "last_changed_at": "2026-09-30T23:31:43.802594Z",
+      "first_observed_at": "2026-09-30T23:31:43.802594Z",
+      "transaction_sms_id": "99770000-0000-4000-8000-000000060001",
+      "escalation_requested": false
+    }
+  ],
+  "limit": 1,
+  "scope": "platform_global",
+  "active": true,
+  "checked_at": "2026-09-30T23:32:02.548343Z",
+  "next_cursor": null,
+  "source_kind": "allocation",
+  "contract_version": 2,
+  "sample_valid_until": "2026-09-30T23:33:02.548343Z",
+  "source_scan_complete": false,
+  "escalation_delivery_verified": false
+}

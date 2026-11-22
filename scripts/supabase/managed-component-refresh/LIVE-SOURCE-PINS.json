@@ -1,0 +1,14 @@
+{
+  "format": "collect.managed-component-live-capture.sources.v1",
+  "files": {
+    "scripts/supabase/managed-component-refresh/capture-live.mjs": "834b892e7ffb4c1c6d260d45b9553d9104dcc056cc2b57c62125b2b2873b3c5f",
+    "scripts/supabase/managed-component-refresh/capture-live.test.mjs": "9a392e6fbe1d322da99a4396e2db43dbcf4018ad21c26ebb972b56abc5792e80",
+    "scripts/supabase/managed-component-refresh/capture-live-open-gate-fixture.mjs": "a032f99b94d21a45db63f51accba4b888493dd03720ceb0da9d19595adaecf9b",
+    "scripts/supabase/managed-component-refresh/LIVE-CAPTURE-README.md": "3fbd46f79f2d5ed1d4a15c6b1b6c707ec22f7437010c6617044924a73217f0e0",
+    "scripts/supabase/managed-component-refresh/CAPTURE-SOURCE-PINS.json": "00cd926d3f524334fef028458d49f6de70755f837bfb156ab17d7f5467e259b4"
+  },
+  "node": {
+    "path": "/Volumes/PRO-G40/Development/Node/bin/node",
+    "sha256": "c3ec5c451750ec57acabfbc05c26de2fcad6dda84ab1b117a5c1eefaae28cbef"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "format":"collect.jobs.readiness.v1",
+  "project_ref":"rrlduytparvsjfmegalh",
+  "endpoint":"https://rrlduytparvsjfmegalh.supabase.co/functions/v1/collect-jobs",
+  "deployment_sha256":"REPLACE_WITH_REVIEWED_DEPLOYED_FUNCTION_BUNDLE_SHA256",
+  "runtime_evidence_sha256":"REPLACE_WITH_ENVIRONMENT_AND_RUNTIME_READBACK_EVIDENCE_SHA256",
+  "token_custody_evidence_sha256":"REPLACE_WITH_PRIVATE_VAULT_AND_EDGE_CUSTODY_EVIDENCE_SHA256",
+  "copy_inventory_evidence_sha256":"REPLACE_WITH_ACCEPTED_OPERATIONAL_COPY_INVENTORY_EVIDENCE_SHA256",
+  "quota_evidence_sha256":"REPLACE_WITH_CURRENT_ORGANIZATION_USAGE_EVIDENCE_SHA256",
+  "verified_at":"REPLACE_WITH_CURRENT_UTC_TIMESTAMP",
+  "momo_processing_paused":true,
+  "remaining_invocations":10000
+}

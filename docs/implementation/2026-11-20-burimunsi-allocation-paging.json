@@ -1,0 +1,95 @@
+{
+  "work": "Native allocation beneficiary paging and displayed-payment identity",
+  "verified_utc": "2026-11-20T17:49:59.825919+00:00",
+  "baseline_commit": "842fdca1a3382089f13869c6e5376dcfbbb5d517",
+  "patch": {
+    "path": "native-collection-posting.patch",
+    "sha256": "12ee64adc8ac349cb3c25545cef7872806084e4b436c7bca682ae620611e8cb0",
+    "validated_against_isolated_base_index": true
+  },
+  "source_files": [
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "base_sha256": "797a4fd3d3d08bd7c92d16d4bc5278e184b3e1df186d60bce283ff3dcd2c693c",
+      "candidate_sha256": "37ae399878ff2975ccf6957fc632460e5a12447db11f5a0eb45d7f57e0d18126"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeCollectionPosting.kt",
+      "base_sha256": "6bf7650a45846ffd28834742520448bfee6410d62d14ad997852a5ddedc40aff",
+      "candidate_sha256": "6e74d68b84fcca4be634adad18012791b250f085483f9cd97fd3baeec5547938"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/ViewModelChecks.kt",
+      "base_sha256": "3f2aeeaad3ceaabdfce7f678ff8d1466d98955f5cbf22273b76ebd216e052470",
+      "candidate_sha256": "3b7ff645bd19637a2a4f7c2ab5925666b6cb05a996dc3408514f2d34a547b498"
+    }
+  ],
+  "direct_consumers": {
+    "android_allocation_panel": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriApp.kt",
+      "line": 1005
+    },
+    "panel_first_page_and_revalidation": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "line": 1211
+    },
+    "panel_next_page": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "line": 1405
+    },
+    "beneficiary_search": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "line": 1528
+    },
+    "beneficiary_selection": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "line": 1524
+    },
+    "collection_submission": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "line": 1563
+    },
+    "repository_member_query": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeRepository.kt",
+      "line": 656
+    },
+    "repository_financial_command": {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeRepository.kt",
+      "line": 807
+    },
+    "cursor_and_snapshot_checks": {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PageIntegrity.kt",
+      "line": 6
+    }
+  },
+  "verification": {
+    "predecessor_focused_controller": {
+      "runner_log": "preceding-controller.log",
+      "sha256": "c0e91b31b1e5404be68639806da5cb5798ab00663a1c5785e4b8bdf21d15dde5",
+      "pass_lines": 79
+    },
+    "candidate_viewmodel": {
+      "runner_log": "viewmodel.log",
+      "sha256": "c8808abaea3b0a8dc47af818770a2c21f032558711cdd8d39d4b0ae4dc19151a",
+      "pass_lines": 499
+    },
+    "candidate_cross_layer": {
+      "runner_log": "cross-layer.log",
+      "sha256": "95d626c6c2341788f65cbddc41b99ba271ed10cee4d46f4874272474fb326693",
+      "pass_lines": 96
+    }
+  },
+  "matching_predecessor_and_successor_cases": [
+    "appending beneficiaries preserves the selected member and pending note",
+    "a cached beneficiary continuation retains the earlier page's freshness",
+    "an exhausted beneficiary cursor makes no further request"
+  ],
+  "candidate_verifier_runtime": {
+    "jdk": "17.0.20.1+1",
+    "kotlin": "2.3.21",
+    "kotlin_project_plugin": "2.4.21",
+    "kotlinx_coroutines": "1.10.2",
+    "classpath": "JVM stdlib supplied externally"
+  },
+  "qualification_scope": "JVM sources with synthetic Android/storage/HTTP boundaries. The full APK build, physical device, signing and hosted checks are deferred."
+}

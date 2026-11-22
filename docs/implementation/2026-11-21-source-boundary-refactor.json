@@ -1,0 +1,3755 @@
+{
+  "date": "2026-11-21",
+  "review_ref": "refs/heads/codex/collect-fullstack-cleanup-20261120",
+  "source_base_before_followup": "fbc5f45ad35baa79027201a34f3a7c22bac8286a",
+  "source_verified": "b539587835e7798b64209a44bb63a2c42adb3a67",
+  "commits": [
+    "fa7866ab86961faf956241a8aaa4441dee82699d Separate React Admin email verification from session rendering and fence concurrent refresh",
+    "9bbd8a5c1a837e41c1a29f0016b67be009a8bc72 Separate compatibility SQL and keep managed Admin projections inside their originating guard",
+    "3f2340180ba828e93107f6e89207de9541ca200a Separate BuriMunsi member paging and fence receiver commands to the current device authority",
+    "085a1f3e11785b46a1ac4d6b868db96415b18857 Route managed Admin projections through scoped reads and reconcile blocked retention catalogs",
+    "6a20690ff88cb0373707a637f4d3b7bc6032c329 Move BuriMunsi member registration wire decoding into its feature boundary",
+    "907917ad1d536ec9d7e93cb3b6435cdf2c25c7dc Separate React Admin workspace routes from session and root router composition",
+    "2a9f7e1234c182adba63418d5fc6dab9707d0918 Split contribution authority refresh from notifications and restrict public scripts to known origins",
+    "d478ba20a3e7ee0ee6e47187e62105b0f280c90e Record current source refactoring results and the acceptance work still open",
+    "ec60daf60a95fcdfb4885fe4ae2e0109c9e91b2e Run guarded Admin snapshots without acquiring mutation authority",
+    "8cbae460150347ad29978d5c5a82d34e006173ee Isolate standalone native attempt counters from the financial lock",
+    "b539587835e7798b64209a44bb63a2c42adb3a67 Move receiver foreground startup and held journal scheduling off the lifecycle caller"
+  ],
+  "changed_file_sha256": {
+    "admin-web/src/app/App.tsx": "eddb90f326ffd52fdc793155ef92eadbabcf23f857696d08e8fb85d6606a0cb3",
+    "admin-web/src/app/WorkspaceRoutes.tsx": "7984aa82e2b984faea1edb84f3e33355bba5dfbe6c617b5b6c82714a4ed72ae7",
+    "admin-web/src/session/AdminSessionController.ts": "0b36ebc61341b753e41dd44984bde40a83ea3752a37d498a89f94ef39fffb247",
+    "admin-web/src/session/SessionProvider.tsx": "29b92d8dce13cf86f7308cc3bae8cc1869bd49d1035e690d8b7e371eb4a8da43",
+    "admin-web/src/session/sensitiveEmailVerification.ts": "484dcbaa08cda52f3f656ac502737c4e8ea2cc93668a0182f953f6de26320fd5",
+    "admin-web/tests/session/session.test.ts": "60974ef30996a7e5b669ace863bec63aa7349e4046e7967ef9f14a1d87a4f3cd",
+    "content/product/collect_capabilities.json": "3dc149eaf270ce47e5d448d5fa5e05764b480bb696255230c0f655ee359c8cbb",
+    "lib/features/landing/public_capability_content.dart": "22bf2060921de9f7b69fc5dc9ec55344c3344135ac4389e9d79a6686c0caa94f",
+    "lib/features/landing/public_marketing_page_content.dart": "1f6c9d6079eff3238a4713398f8b25662fc39c5e2d3da191c092298548dcba03",
+    "lib/shared/repositories/collect_repository.dart": "31ef756ae4939e64818708191d2f55f95cbdb30ad7db7f17c3dd4efe8412c1c4",
+    "lib/shared/repositories/collect_repository_contribution_commands.dart": "156d25351c8408024d38e4f73cb55c2fa1111cdabd3ebd77ffc775f9086e2258",
+    "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriContinuousSyncService.kt": "11e329a7410965e0441d04370699175e24893334169a62cc40041452375edf39",
+    "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/ContinuousSyncWork.kt": "61920c1241226a22d51b00ca57f0b748d485c753012bfeb8512b79883fa4878a",
+    "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/HeldRecoveryJournal.kt": "e163bc6328c9a6dbd46c7159c13c9fbe76e659df7e291ceba25f7a170cd40213",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt": "5df2ca597a4dff0ba9691f1b9115e4ebbef3051cc622b1cd741379738a90d6e0",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeMemberDirectory.kt": "053c1eba91bc872eb6efa9126650cc8ffd59881d60bf6ae6f525f20aa4bcbc94",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeMemberRegistration.kt": "93d4841af76a1a971445381f90341844d79c2cffa3e704b5008e756a2b34787e",
+    "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeReceiverStatus.kt": "43030d1f535eaac082c907a1e2f8d9381b49df9307b961863223ded43c9ca263",
+    "native/burimunsi/observation-adapter-tests/AdapterChecks.kt": "088b1465e33ea8f2ddef6afd8bcade7c4355a0b268d8cc53f9b812172b818327",
+    "native/burimunsi/observation-adapter-tests/SecureStoreStub.kt": "5988d66650fb9783feb4e567bb220341ece1f06150d319f1f1f9b58132c3d421",
+    "native/burimunsi/scripts/verify_cross_layer.sh": "d548d6392064ace0196e53ea081e6a553873474f827ead952d29e7a05a8620d1",
+    "native/burimunsi/scripts/verify_viewmodel.sh": "2ff9b3ebb0851c15b7f9b5651e69f7388ed4068b1fc556670beb11a138830083",
+    "native/burimunsi/viewmodel-tests/ViewModelChecks.kt": "3308e5f5d058a3a67f29ca164444227c2e22e81a63ab66e755a67f15e3c2d1ff",
+    "scripts/public_site_publication.rb": "8b9d587e3cd7b84f60216cd864834ada16b330677b7d916536ed02097bb950d5",
+    "scripts/supabase/cloud-release/burimunsi-runtime-grants.test.mjs": "250d7474f856fb07f00b4711abbc6abbc38645fc1b3fd8c00a395e3dd5cef305",
+    "scripts/tests/public_static_routes_test.rb": "8db53987e6f3149854f14c14a7dffff88b820c1caa514d14a87583d35e1085ff",
+    "supabase/functions/_shared/burimunsi-retention-inspection.js": "aa41340ad471644ae0d91ae4ce8c35346a11c53adcfc800abc43fe7354631fcd",
+    "supabase/functions/_shared/domain/admin_accounts_legacy.js": "87803edaa6e943fbccef20ce2e1b125f637129f1b1a27cf6e057b6048eed8476",
+    "supabase/functions/_shared/domain/admin_bridge.js": "6f4b1f3f06a12693bf46044f04b89e7d2641e219d200c508241c6f78ec2a5cc1",
+    "supabase/functions/_shared/domain/admin_read_database.js": "2f8f6ab986b13713bb8fb378673a4b97eb5511cb0563084058684b24ca324adf",
+    "supabase/functions/_shared/domain/burimunsi/postgres-auth-store.js": "c2ab148fcc6573db5fc1b1006da76ad8dc0469d1162d503adbbe0db325ab8628",
+    "supabase/functions/_shared/domain/burimunsi/postgres-authority.js": "12819555b51416b3b6bc03f3d69324c1a6c82d4838dcb6b06c4ad8cea4a3eb12",
+    "supabase/functions/_shared/postgres-compatibility-sql.js": "a2d08e88cbf065349e5e46183b8faff5c7645d893a1a87051287c8818eff8ac0",
+    "supabase/functions/_shared/postgres.js": "5b256bfba3a9c860d4ae5c014d9d881157d39eb30ffb78cf94ebd64c0f500564",
+    "supabase/functions/_shared/private-retention.js": "529d208f54b9b7f2e368ebd1371026696fe5a31677310859360709573bf4b0b2",
+    "supabase/functions/_shared/tests/admin-members-directory.test.mjs": "3714d0eff5d8a89fb756f00baebd6ace8d44ded48376403881fcfc267813c3db",
+    "supabase/functions/_shared/tests/burimunsi-retention-inspection.test.mjs": "0968b6a88f4d9d05da7e0281ab19e64d37d0ba4cdcdf159848262961ea81497c",
+    "supabase/functions/_shared/tests/postgres-context-pg.test.ts": "37bb40d7c21fb632d46823d1f1b7f780b3db6a4f0b0d0b3487e175ae3b81b10e",
+    "test/shared/contribution_command_repository_test.dart": "13907cc9932fb5ead568dbcfb5f9972bfaa9e9ee26fb2b4f0cc31773fbc2d542",
+    "test/shared/contribution_intent_binding_test.dart": "de4cbad1cae111b39055b7e642ebf7a8727b8299c5169f01f195b2e081d95e20",
+    "test/shared/member_balance_read_integrity_test.dart": "22d78e31e24b2f2253e7d4828e671059c3e4b1fa4f10478914ed29243726745d"
+  },
+  "source_checks": {
+    "react_admin": {
+      "files": 135,
+      "tests": 982,
+      "results": {
+        "sha256": "914d65502e68ea7014eca837cb6313e744dbb02358780972f217238f8722c278"
+      },
+      "typecheck": "passed",
+      "lint": "passed",
+      "regression_before": {
+        "sha256": "4bbac9c7e9845fe9eeef65acfb78b9bcad3be593f0f08a2179be660f9acd1afd"
+      }
+    },
+    "native": {
+      "controller_cases": 500,
+      "controller": {
+        "sha256": "d56d2269aa1019d463073db354c7560700596b35dda1534e660c6af3c858c3fe"
+      },
+      "cross_layer_cases": 96,
+      "cross_layer": {
+        "sha256": "5e4aaae07ec188d54133ad62cbef40868f17e53804e52f8cf0034f9008198785"
+      },
+      "toolchain": {
+        "jvm": "17.0.20.1+1",
+        "kotlin_jvm_source_compiler": "2.3.21",
+        "project_gradle_kotlin_plugin": "2.4.21"
+      },
+      "scope": "Kotlin JVM harness with platform doubles and real source. Receiver and Staff flavor entrypoints are exercised by the source checks.",
+      "receiver_foreground": {
+        "adapter_cases": 128,
+        "adapter": {
+          "sha256": "85a646e25ce9a9693c98d5a97efae905b85f8f755049973a50f6ed1dedb766a1"
+        },
+        "gateway_cases": 106,
+        "gateway": {
+          "sha256": "297d61c6a7b767c29b132b2005ae06379cb9bd7f294decaa7340f79ea9da9c9d"
+        },
+        "previous_resume_failure": {
+          "sha256": "9bc7b78b91618bba1bcd30c1434b7c3a8e4308d609a670f609dabb40a20eec2c"
+        },
+        "android_api36_service_source_check": {
+          "sha256": "85a95d0e49601e011ce79b4f161bc88e2932102d7c1dfa642dde16a537cf795c"
+        },
+        "scope": "JVM harnesses use synthetic doubles. The exact receiver service and its foreground worker also type-check against Android API 36 using source-signature fixtures for app dependencies."
+      }
+    },
+    "edge": {
+      "passed": 3829,
+      "fixture_gated_skips": 7,
+      "node": {
+        "sha256": "5b3c4414bfae4f6b023c1bc1413ee311981139a9e876503abbab885dddf79895"
+      },
+      "frozen_deno_entrypoints_checked": 6,
+      "deno_version": "2.9.6",
+      "directory_fixture": {
+        "sha256": "8755311db1f97ccbf5afa0c455b2270c7dd621b8a88a872e18038b0ce4cb025d"
+      },
+      "directory_fixture_sizes": [
+        1000,
+        10000,
+        100000
+      ],
+      "postgres_17_passed": 22,
+      "postgres": {
+        "sha256": "51a0d6c19b3b09df67f81c7b5b32970135e01b0f3176eed31f3308c0c14628d5"
+      },
+      "retention_catalog_comparisons": {
+        "matched": 512,
+        "accepted": 14,
+        "refused": 498
+      },
+      "retention_generator": {
+        "sha256": "e09807abe50e2bf1e03c903d91fadc6745be1e3461986a33977bac0cc2b5a6d7"
+      },
+      "admin_projection_isolation": {
+        "previous_refusal": {
+          "sha256": "8762fa1d74882add2ee20af4612dd85e6d1418f83abc5de11dd22c78ab0ad3f8"
+        },
+        "current": {
+          "sha256": "4582002bc7f4968aa9f3d776454d680cfd388b99d80e5edbf1c42d0b76598ec4"
+        },
+        "checks": [
+          "Exact migration isolation rule and statement fence",
+          "No mutation admission installed in the projection",
+          "Rollback after successful reads",
+          "Another transaction holds the financial lock",
+          "Concurrent and completed grant revocation deny the projection"
+        ]
+      },
+      "standalone_native_attempts": {
+        "previous_lock_timeout": {
+          "sha256": "f6f8813f9b589b70c5949c2257c82d31f854daa47ee46c7530044bdb1955b355"
+        },
+        "current": {
+          "sha256": "51a0d6c19b3b09df67f81c7b5b32970135e01b0f3176eed31f3308c0c14628d5"
+        },
+        "concurrent_requests": 8,
+        "admissions": 1,
+        "retained_attempts_per_bucket": 8,
+        "scope": "The write fence and collection policy stay active. Requests with current phone-PIN proof use the existing shared mutation lock."
+      },
+      "deno_source_passed": 86,
+      "deno_source_steps": 89,
+      "deno_source_ignored": 2,
+      "deno_source": {
+        "sha256": "ddcc6138b93a9c6907c025f9bb5bbf915b8cd88bacd9df42d7569506d2b8eef6"
+      },
+      "full_deno_suite_prerequisites": {
+        "fixture_prerequisite_failures": 7,
+        "scope": "The all-files command also selects historical database fixtures. Their isolated database and source inputs were unavailable in this checkout.",
+        "attempt": {
+          "sha256": "b8927274d18976ea5cd5d224ded18ad3acd215edfe5151ae02a4e48fedf5b134"
+        }
+      }
+    },
+    "member": {
+      "vm_nonintegration": 2689,
+      "suite_concurrency": 3,
+      "flutter": {
+        "sha256": "0935f8374de6e01553d25b796c01d463827fd47552107068dc49036f5e439ce5"
+      },
+      "historical_decoder_vm_passed": 6,
+      "historical_sql_fixture_sha256": "c37ee2f7c22284722d2e1c91353d938e4f03f4e4906be1aa31e30aeeb4eb9a6a",
+      "focused_payment_and_notification": {
+        "sha256": "304f7e46267664639cc188e2647831d7978e47a2bcf0d350ec5c0de3d8957b87"
+      },
+      "focused_ack_binding": {
+        "sha256": "330ffdd0f47f82feeef9a7c2f09e89739eedfbb8f43f1e2168a7e58b38d02dc4"
+      },
+      "analyzer_issues": 0
+    },
+    "public_website": {
+      "source_renderer_tests": 17,
+      "assertions": 194,
+      "renderer": {
+        "sha256": "8888a4fd51c38e92e9400b3f7ddb2bf24692ee68788e933290d5d9b19cba997a"
+      },
+      "capability_pins": 39,
+      "capability_output_sha256": {
+        "lib/features/landing/public_marketing_page_content.dart": "1f6c9d6079eff3238a4713398f8b25662fc39c5e2d3da191c092298548dcba03",
+        "lib/features/landing/public_capability_content.dart": "22bf2060921de9f7b69fc5dc9ec55344c3344135ac4389e9d79a6686c0caa94f",
+        "fastlane/metadata/en-GB/description.txt": "bd92d3b4bbb727033dcbd28bd68aa3e79586e1c96c1eeff508fb86b2000c3f8e",
+        "fastlane/metadata/en-GB/promotional_text.txt": "3da4aeb139366627db56de695b9f1d702eaa0e4b53900bda1249047791258d93",
+        "fastlane/metadata/en-GB/keywords.txt": "649e6277310e9ac443133c5adb181254688f06355afaf88679d55283d869e0ed",
+        "fastlane/metadata/en-GB/review_notes.txt": "ff7caa4ecf80a8f8219a7291e52879befd55c05d03ee4bc8fffe97fcec316d8e",
+        "fastlane/metadata/en-GB/release_notes.txt": "b99e028630950800e2baeb3307bb61cededf66b4439c90a287cfa9b202d57c7b",
+        "fastlane/metadata/android/en-US/full_description.txt": "e11f7ea0d234fe651b8f67889655015be112abcdf5895a8cd2ffd815a1690d47",
+        "fastlane/metadata/android/en-US/short_description.txt": "5e89c3082fa6abf11bff5d29903bb9e5de7c382861c6a07c381335e87fdf26d4"
+      },
+      "capture_evidence": {
+        "capture_inputs": 354,
+        "historical_capture_inputs": 354,
+        "capture_changed": [
+          "lib/app/router.dart",
+          "lib/core/cloudflare/realtime_invalidation.dart",
+          "lib/features/privacy/privacy_email_verification.dart",
+          "lib/features/privacy/privacy_request_controller.dart",
+          "lib/features/privacy/privacy_request_screen.dart",
+          "lib/features/privacy/privacy_transport.dart",
+          "lib/shared/repositories/collect_offline_cache.dart",
+          "lib/shared/repositories/collect_repository.dart",
+          "lib/shared/repositories/collect_repository_contribution_commands.dart",
+          "lib/shared/repositories/collect_repository_history.dart",
+          "lib/shared/repositories/collect_repository_member_history.dart"
+        ],
+        "content_inputs": 25,
+        "content_changed": [
+          "scripts/public_site_publication.rb",
+          "content/product/collect_capabilities.json",
+          "lib/features/landing/public_marketing_page_content.dart",
+          "lib/features/landing/public_capability_content.dart"
+        ]
+      }
+    }
+  },
+  "managed_shared_write_lock_direct_call_sites": {
+    "supabase/functions/_shared/adapters.js": [
+      25
+    ],
+    "supabase/functions/_shared/domain/admin_accounts.js": [
+      39,
+      56
+    ],
+    "supabase/functions/_shared/domain/admin_mfa_bff.js": [
+      249,
+      282
+    ],
+    "supabase/functions/_shared/domain/burimunsi/phone-pin-request.js": [
+      74
+    ],
+    "supabase/functions/_shared/domain/burimunsi/postgres-authority.js": [
+      36
+    ],
+    "supabase/functions/_shared/domain/burimunsi/postgres-native-auto-worker.js": [
+      175
+    ],
+    "supabase/functions/_shared/postgres.js": [
+      155
+    ],
+    "supabase/functions/_shared/scheduled-native-financial-work.js": [
+      16
+    ]
+  },
+  "remaining_source_and_evidence": [
+    "Local Admin-session and Storage writes preserve the shared compatibility barrier. Financial posting, revocation and policy operations retain their required atomic transactions.",
+    "The two retention journals expose bounded positive ownership through authorized V2 inventory. Unknown parties remain unresolved and erasure stays blocked.",
+    "Four additive migrations require managed installation and readback. Signed-device, browser upgrade, carrier, public media and provider-equivalent recovery evidence remain deferred."
+  ],
+  "source_integrity": {
+    "sha256": "30810c7d98221315549b2dbed0d84ad3555bf73226c148b426ec2d24b33df559"
+  },
+  "historical_momo15_lookup": {
+    "scope": "Wrangler configurations in all local Git refs",
+    "checked_unique_blobs": 20,
+    "required_sha256": "5db2b2c14b7b3e4fe48f1b56c863b1a7557e20d917732aef1ff631e232a80224",
+    "matches": []
+  },
+  "backend_retention_and_momo15_followup": {
+    "source_base": "f63d810adff1ccd8f6a3a5fe870f2da57864de14",
+    "source_verified": "02bfac161c5762ab59de7ba13ac2620e6cf6feec",
+    "supabase": {
+      "commit": "19e091a7ee208091e3c85ce9a2c67d844c0c012a",
+      "changed_file_sha256": {
+        "scripts/supabase/cloud-release/chain.test.mjs": "84cc6daeb26e88f77286aabf5ddbff7e96e33a979e84844c3b3c4e31a466a308",
+        "scripts/supabase/cloud-release/writer-journal-source.mjs": "d0a7089d777b9e5ad9cf6ec59de69c46ec3073c1b589251c42781cf1ae4de36f",
+        "supabase/functions/_shared/adapters.js": "c06d2d0f33276c9b6ffa04e8a695ea7a7982af4e9c18fc7b6d3d88c5caafeaf7",
+        "supabase/functions/_shared/domain/admin_accounts.js": "cd040ee418d008ddcf78b8641bbc34a876eed89400f4ca2ccb9d14a145bbeaf9",
+        "supabase/functions/_shared/domain/admin_mfa_bff.js": "86e09fa3f48e0bce432fdc6c4f8475630f1d0fd8d6aa54dc60b8404a01768628",
+        "supabase/functions/_shared/domain/burimunsi/phone-pin-request.js": "aa357f01e547a85b6a1778328295dce8c1f0516693d3579f6fdf89d9b29de741",
+        "supabase/functions/_shared/domain/burimunsi/postgres-authority.js": "dad1db04effecfaa66deac11cdfaf84bd658f82031fd31718cd7999c9c619c2c",
+        "supabase/functions/_shared/domain/burimunsi/postgres-native-auto-worker.js": "400a8fd9e771a9fb597f45d5a67f6ece722fc024a35a2127076017e81b2792aa",
+        "supabase/functions/_shared/postgres.js": "57c5fe6af5c74525e4bcf00c725bd3c71fbc389a8b2506a7b49fe21b94b0b901",
+        "supabase/functions/_shared/postgres-mutation-lock.js": "d740e0da4d4f37b3cb1520cc97ae0f3c7693d7914ad47ba2c5358be8b5000f8b",
+        "supabase/functions/_shared/scheduled-native-financial-work.js": "908a7bc5e0d2bd527b9606f05560680843227d2f9abc9c75a746d6f5a47d1128",
+        "supabase/functions/_shared/storage/postgres-journal.js": "801332ded18b22cab23e4614cda7e526c862d220b715419d002b411c87879cfc",
+        "supabase/functions/_shared/tests/admin-persistent-refresh.test.mjs": "fccb9a121dc76c6321b8dd4c0d00c4159d4eb2826c5f80109e386b2b27736ad2",
+        "supabase/functions/_shared/tests/postgres-context-pg.test.ts": "42352c85711c2a8a8fd8f5c75ef68d9c6fa7f7c72d216ea0ccc32e034c174943",
+        "supabase/migrations/20261121111000_collect_scoped_writer_grants.sql": "b3efd73ed854a8d954af3e6c4d449377cfb36d1278de8a80335eea8d050602b4",
+        "supabase/migrations/20261121111100_burimunsi_journal_subject_links.sql": "22e46ebe970d793038e904a2070da1562d7ac5e9161bdd76dd17dbd66b020368"
+      },
+      "scoped_locks": [
+        "Local Admin logout and invalid-refresh revocation serialize by session cookie.",
+        "Protected Storage journal operations serialize by object and keep the existing owner ordering.",
+        "The shared compatibility barrier interlocks with the existing exclusive financial, MFA and erasure-policy transactions."
+      ],
+      "migration_role": "collect_runtime",
+      "column_scoped_private_tables": 7,
+      "retention_subject_links": {
+        "private.burimunsi_observation_retry_commands": "retry_operator via native account and collection",
+        "private.burimunsi_payment_sms_deliveries": "receipt_recipient via immutable recipient user ID"
+      },
+      "retention_coverage": "Positive links only, up to 100 hashed identifiers per journal. Full subject counts remain unknown and erasure is blocked.",
+      "synthetic_managed_postgres": {
+        "status": "synthetic_managed_chain_complete",
+        "history_rows_in_fixture": 69,
+        "forward_migrations_in_fixture": 3,
+        "checks": [
+          "scoped_writer_lock_compatibility",
+          "writer_column_acl_and_atomicity",
+          "journal_subject_inventory_and_acl"
+        ],
+        "provider_dispatch": false
+      },
+      "existing_checkout_edits_preserved_sha256": {
+        "supabase/functions/_shared/adapters.js": "fa86364fd3dfa4658542a94022d603f1904d5b575145545f4a57ec494a8dc4ea"
+      }
+    },
+    "momo15": {
+      "commit": "02bfac161c5762ab59de7ba13ac2620e6cf6feec",
+      "changed_file_sha256": {
+        "deploy/platform-api/README.md": "b6aa5241d80111d2862cf6ddee788eef68fdbe4bdb1369ea3ff76ee56ce2db9e",
+        "deploy/platform-api/history/momo15-source.json.gz": "cfa8a29f5f239f75275640d126b19154c851e6d7e202cc79ee61d017f48a40d8",
+        "deploy/platform-api/package.json": "be722c263131ed4c7adc4014bb91e8387a9263ba932d7a36affcc7f79b44a513",
+        "deploy/platform-api/wrangler.momo15-source.jsonc": "5db2b2c14b7b3e4fe48f1b56c863b1a7557e20d917732aef1ff631e232a80224",
+        "scripts/cloudflare/momo15_source.mjs": "602eaaf170194f1de901770eb21ad4e39b377c1d8db430b7855720f6a7fff9d5",
+        "scripts/tests/momo_release_candidate_test.mjs": "e70e415988239ccd8aeaa4479692049cd392ef562b28ce99072646a76e6f8a8e"
+      },
+      "git_blobs_scanned_including_unreachable": 65760,
+      "recovered_differing_source_blobs": {
+        "src/admin.js": {
+          "blob": "59fbfefcdc93cc03dbfdebaa3655196a7f0f8f83",
+          "sha256": "6205e836e6f6dbdb0bb431466f3a3af4592245deca2745d8adff6b3736a10235",
+          "bytes": 7430
+        },
+        "src/core.js": {
+          "blob": "0274d4e269a8cfc6a1e0865cbf54dfde353b89f2",
+          "sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e",
+          "bytes": 4838
+        },
+        "src/index.js": {
+          "blob": "0f9274ff91371169e753dbf19762f4aab64d16ab",
+          "sha256": "cce6e539a9f103b2528f7dc9724c19e5301f4953b2826ac5706dbb18d0c54ec4",
+          "bytes": 5416
+        },
+        "scripts/operation_inventory.mjs": {
+          "blob": "a655b2bceea11e612d8b60ea98329fc4ed971deb",
+          "sha256": "813974f3debc867c7e8cc1d188feadae2f99fecc7426a8ff1f55de3d90dc2cdd",
+          "bytes": 73199
+        },
+        "src/admin_account_support/emails.js": {
+          "blob": "54ff32210ae5cdd3a3f29f75795a93cd98d134b2",
+          "sha256": "3aed69fcff0e26ae7032bd373ed488bac90e1cf5dffb0fd14556d332c62e1c1d",
+          "bytes": 5696
+        },
+        "src/admin_accounts.js": {
+          "blob": "02fe816a7cb4cdd8cac83193fed0e7a4d35f41ab",
+          "sha256": "9faa3e2b072c9cf336aea5d7566c962c15df5cde13cd249f4b7ad73699d66a99",
+          "bytes": 28940
+        },
+        "src/auth.js": {
+          "blob": "311ad17e591f6899522e866856eec99b495262db",
+          "sha256": "17c345092b6318b141077256f83cb41a837046504bec9c66e9783def3aafcab9",
+          "bytes": 52666
+        },
+        "src/native_integrity.js": {
+          "blob": "d297738064c003b348d00b107fb6d2ca66b91410",
+          "sha256": "1de17e70e6df5deff0b9b440e7972890e4d99923c782ffab13766c47d5b2f7ae",
+          "bytes": 20781
+        },
+        "src/privacy_retention_catalog.js": {
+          "blob": "26aa770be9a18580072d7baa7c0f7d8a4d7c5ee9",
+          "sha256": "68bf86b3b83967dfd5c819060ef359464b950b6dfb7f49ff800367e3ab01e55e",
+          "bytes": 35207
+        },
+        "src/receipts.js": {
+          "blob": "3209ddaf53ac122e783bccc8f3a08629aae81b13",
+          "sha256": "7fbc82a3c2266514e37597f7fb4cb58f5e30f24947582bd072f94eb95b36a210",
+          "bytes": 5348
+        },
+        "wrangler.jsonc": {
+          "blob": "f8bfd377d2c769c6789ab3cadf628a160fca70b4",
+          "sha256": "5db2b2c14b7b3e4fe48f1b56c863b1a7557e20d917732aef1ff631e232a80224",
+          "bytes": 1607
+        }
+      },
+      "source_archive_entries": 67,
+      "source_inventory": {
+        "status": "pass",
+        "profile": "momo15_candidate",
+        "configuration_sha256": "5db2b2c14b7b3e4fe48f1b56c863b1a7557e20d917732aef1ff631e232a80224",
+        "inventory_sha256": "ad11e18f723b8f0bf9bf6c98aa9b59fb71b55629cedc45ac42502112730dc258",
+        "source_roles": 69
+      },
+      "active_wrangler_config_sha256": "1d93593991abdd93d3369d00396ddff895a8d08ca86928ff7c565b7c81244678",
+      "artifact_test": "deferred"
+    },
+    "auth17_independent_source_check": {
+      "status": "fails on the three pre-existing sealed-source differences",
+      "differences": {
+        "deploy/platform-api/src/admin.js": {
+          "sealed_sha256": "6205e836e6f6dbdb0bb431466f3a3af4592245deca2745d8adff6b3736a10235",
+          "base_and_current_sha256": "cd1a6225058f5affa0a58f545559aace0bc1efa6bcd85e42a5b4d55ed2ea7dbf"
+        },
+        "deploy/platform-api/src/core.js": {
+          "sealed_sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e",
+          "base_and_current_sha256": "c064331c9cd8e4c1b2408494bc3725fd4dcb8a6ea45daafac435e9e0cecf3b8a"
+        },
+        "deploy/platform-api/src/index.js": {
+          "sealed_sha256": "cce6e539a9f103b2528f7dc9724c19e5301f4953b2826ac5706dbb18d0c54ec4",
+          "base_and_current_sha256": "1ce8d968e68eecb9aae45d6814046fde120abca3f92dbf40193d7b5cc010ee0f"
+        }
+      }
+    },
+    "source_checks": {
+      "node_edge": {
+        "passed": 3829,
+        "failed": 0,
+        "fixture_gated_skips": 7
+      },
+      "frozen_edge_typechecks": {
+        "passed": 6,
+        "failed": 0
+      },
+      "burimunsi_postgres": {
+        "passed": 22,
+        "failed": 0
+      },
+      "real_postgres_storage_context": {
+        "passed": 1,
+        "failed": 0,
+        "postgres_major": 17
+      },
+      "deno_retention_unit": {
+        "passed": 2,
+        "steps_passed": 8,
+        "failed": 0,
+        "fixture_gated_skips": 1
+      },
+      "momo15_node": {
+        "passed": 8,
+        "failed": 0,
+        "deferred_artifact_skip": 1
+      },
+      "source_integrity": {
+        "status": "pass"
+      }
+    }
+  },
+  "auth17_source_followup": {
+    "source_base": "8f080dea1b3094f94acae7232057d0683a692d51",
+    "reconciled_source": {
+      "admin.js": {
+        "previous_sealed_git_blob": "59fbfefcdc93cc03dbfdebaa3655196a7f0f8f83",
+        "previous_sealed_sha256": "6205e836e6f6dbdb0bb431466f3a3af4592245deca2745d8adff6b3736a10235",
+        "reviewed_sha256": "cd1a6225058f5affa0a58f545559aace0bc1efa6bcd85e42a5b4d55ed2ea7dbf",
+        "reviewed_behavior": "Payment evidence uses recorded authenticity. Unavailable queue SLA returns an explicit failure."
+      },
+      "core.js": {
+        "previous_sealed_git_blob": "0274d4e269a8cfc6a1e0865cbf54dfde353b89f2",
+        "previous_sealed_sha256": "18ce95c133a4895d13475338089fb00c9ba4c9283ee72c7d4d6f88ae8ea8723e",
+        "reviewed_sha256": "c064331c9cd8e4c1b2408494bc3725fd4dcb8a6ea45daafac435e9e0cecf3b8a",
+        "reviewed_behavior": "An oversized request returns HTTP 413 even when stream cancellation rejects or stalls."
+      },
+      "index.js": {
+        "previous_sealed_git_blob": "0f9274ff91371169e753dbf19762f4aab64d16ab",
+        "previous_sealed_sha256": "cce6e539a9f103b2528f7dc9724c19e5301f4953b2826ac5706dbb18d0c54ec4",
+        "reviewed_sha256": "1ce8d968e68eecb9aae45d6814046fde120abca3f92dbf40193d7b5cc010ee0f",
+        "reviewed_behavior": "The operator source freeze blocks new fetch and scheduled work with the existing configuration contract."
+      }
+    },
+    "inventory_check": {
+      "command": "node deploy/platform-api/scripts/operation_inventory.mjs --check-auth17",
+      "status": "pass",
+      "rpc": 85,
+      "functions": 7,
+      "route_families": 39,
+      "source_files": 52,
+      "migrations": 17,
+      "previous_manifest_sha256": "5ea964cb0c6bf00d5c2c0c62f374265953a1d51c6e2ded2c24a08de0a0fb1c45",
+      "current_manifest_sha256": "ff070c8a663690e384803f0ba6e2bfbe38e131f0af2be08ef587306b14069464",
+      "current_producer_sha256": "a138a4507b393fe5800f328680397997e974d0476a703cef5850dc07b7d54cae"
+    },
+    "source_checks": {
+      "previous_sealed_tuple_check": "pass",
+      "stale_file_refusals": {
+        "admin.js": "stale fingerprint refused",
+        "core.js": "stale fingerprint refused",
+        "index.js": "stale fingerprint refused"
+      },
+      "operation_inventory_tests": {
+        "passed": 15,
+        "failed": 0
+      },
+      "payment_evidence_queue_and_request_tests": {
+        "passed": 25,
+        "failed": 0
+      },
+      "source_freeze_vm_tests": {
+        "passed": 91,
+        "failed": 0
+      },
+      "historical_momo15_inventory": "pass"
+    },
+    "artifact_qualification": "deferred"
+  },
+  "t7_source_recheck": {
+    "source_base": "d66a89113b10313a6cba8ef191dacf36e0f0f897",
+    "changed_source_sha256": {
+      "scripts/supabase/cloud-release/chain.test.mjs": "5c60772b4bf8cff2c45da49af1b884097d80567be4ba9f59619256b3c92ea7a0",
+      "scripts/supabase/cloud-release/writer-journal-source.mjs": "3d0d34f0220818ca44391f8058a45e7cfdbf5a81658533a1240e49916aa8cec8",
+      "supabase/migrations/20261121142500_collect_storage_journal_insert_grants.sql": "4b00ed338ecf807f9a84d19001a9f4eeb68780d4e192ae453efd8f533e12b1c5",
+      "contracts/paged-restoration.json": "1eb4fff47717e94d5c14e7e23412d034f588960f70e53852dd6c97ba1bcdee7e",
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriApp.kt": "00b8f56cc5dab1e3a04b59f662c16a36c2190ee654415ea0f4908b45fe3d48da",
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriController.kt": "cfcb7d64941e44572c745deee2e46837e8504bbf4164e52fd4206206cc96296c",
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt": "28f06f13794bc9ef02cada6631cc7009a65f4710d679d0952be60f13821eb86d",
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeCollectionPosting.kt": "aefc4b5ac58c257242606e8ed2cb8ccf0d6edf5caa2ab9af97638788933b106d",
+      "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PagedRestoration.kt": "e122178627ac1603311cf727c76adc6dd5ebde63f515f9de87d402ceb11f3a28",
+      "native/burimunsi/cross-layer-tests/CommandViewChecks.kt": "294a5cfe6c78ce9234602190d61e50cfc54a6c75a4ccabfb9b30cc96bbc0bdb1",
+      "native/burimunsi/pipeline-tests/native_execution_test.py": "e592bfe9fa4ca9fd1ea5fedf16b819f25bd0fb6c72176f02b4ce9e965a691be7",
+      "native/burimunsi/presentation-tests/PagedRestorationChecks.kt": "77eeeeaf4c1f4a09325d06a4689ff0589cf765345356f49d1bd10423032fa1ed",
+      "native/burimunsi/viewmodel-tests/PagedRestorationChecks.kt": "678ec4c7d24cca78e60106f32d11c1bc023b3a0316bb931e3447330d0b52bd7e",
+      "native/burimunsi/viewmodel-tests/RepositoryStub.kt": "45d76728c267dd163278c0d03587ce874b1cad3ff878e250b1f890b7c7aed92f",
+      "admin-web/src/features/burimunsi/BuriMunsiPage.tsx": "50af63f8a5ba9e40a62e3df642b550c0662c6e75e9f5e418a7b1ba311a4f75ff",
+      "admin-web/src/features/operations/MomoReceiptsPage.tsx": "238e2d8cea5516982257e8f755db194d91c6f25e02fc8a9aea2c305239a150b9",
+      "admin-web/tests/burimunsi/page.test.tsx": "e3abbf7510efbcafa756cb2ded1014e8d6d0a5198ec0dbc598ba2d02b7d153d0",
+      "admin-web/tests/operations/momo.test.tsx": "31466c586f216e0474fced1e22a5a9dbf0940d1d7dec476902e451d80a5227c7",
+      "content/product/collect_capabilities.json": "9b088c4f5ac564caf04f435e7bd05d63395fee99e6c44a96abd68cdc43058c18",
+      "lib/core/cloudflare/collect_cloudflare_client.dart": "67c0c06023330b5198c8a3ee3a97f519109725a63f7a95971b960f946979f38c",
+      "lib/features/landing/public_capability_content.dart": "86d59798b0c1a5c6a130c5d1daff71ab2f6c433cbad38ff79621e93aa21d687c",
+      "lib/features/landing/public_marketing_page_content.dart": "477653f98982342ffe89bf69a9492bef286e50e76d6f69a944d0c1e4cd2822a5",
+      "lib/shared/repositories/collect_repository.dart": "12b704eaa2478de6c0960dc77f3e32d399f52abc787eca182a4f9a292a9fb40a",
+      "test/shared/member_balance_read_integrity_test.dart": "4b06be636ba60ceda6362ae2bdd20150a784b0f858eec711bf4700a816579c75",
+      "test/shared/notification_preference_runtime_test.dart": "71a80bf3d3c99db8b253e54ea2aa29db31d5f0b3e9ca77ea3555ee1775055b14",
+      ".github/workflows/codeql.yml": "80729167cc58167ae4265c58abfa07d7c17fd2d01ffd5846d0d346136dd1568c",
+      "scripts/qa/collect_ci_policy.py": "7ff7d6ad733a29ce64a1177c84a012d1ae15cde90d245e6be04d6c714de67915",
+      "scripts/tests/test_collect_ci_policy.py": "c10d246080efa7f51735b14873a82893406163882ed102c58072530ef1f293b1"
+    },
+    "supabase": {
+      "storage_tables": 6,
+      "allowed_insert_columns": 34,
+      "protected_insert_columns": 20,
+      "synthetic_predecessor_history_rows": 69,
+      "forward_migrations_exercised": 4,
+      "synthetic_chain_checks": [
+        "scoped_writer_lock_compatibility",
+        "writer_column_acl_and_atomicity",
+        "journal_subject_inventory_and_acl",
+        "storage_insert_column_acl_and_atomicity",
+        "storage_journal_creation_and_replay"
+      ],
+      "storage_tests": {
+        "passed": 84,
+        "fixture_gated_skips": 0
+      },
+      "retention_and_history_tests": {
+        "passed": 15,
+        "fixture_gated_skips": 0
+      },
+      "edge_tests": {
+        "passed": 3829,
+        "fixture_gated_skips": 7
+      },
+      "managed_activation": "pending a source-bound fenced successor release"
+    },
+    "burimunsi": {
+      "source_checks": {
+        "controller": {
+          "name": "burimunsi-controller-final.log",
+          "sha256": "8c3ff5970e55f6a29b4a8fc47c37d0b7b7a41e00db0002f51bd17d93a15d410a",
+          "passCases": 504,
+          "pagedRestoration": 73
+        },
+        "crossLayer": {
+          "name": "burimunsi-cross-layer-final.log",
+          "sha256": "85276631b7564e0d537e29728c02c6ef5362102d918db1612cf6965d8655fc9b",
+          "passCases": 100,
+          "commandControllerRepositoryChecks": 82,
+          "otherStaffAndAdminSyncSessionCases": 18
+        },
+        "presentation": {
+          "name": "burimunsi-presentation-final.log",
+          "sha256": "bea022edb81b4b3c15cdc23e179e9145819b160e0b5f5157868addd1deb3bfa2",
+          "passCases": 235,
+          "pagedRestorationCases": 33,
+          "combinations": 1024
+        },
+        "gateway": {
+          "name": "burimunsi-gateway-final.log",
+          "sha256": "5916b365e36c16658bd7bd78b6efcf7678c17be6214df4c0ac229b81da79b80d",
+          "passCases": 106
+        },
+        "observationAdapter": {
+          "name": "burimunsi-observation-final.log",
+          "sha256": "7967f6dff425ea8e11264a6f348b8ae6392f3f9c1dbffc836dcde855c7704a61",
+          "passCases": 128
+        },
+        "hostPipeline": {
+          "name": "burimunsi-native-pipeline-final.log",
+          "sha256": "c974d8b29ecb8e37365a657ef94759a2eaa2be983ab97f3cc3a7efc4b66b7809",
+          "passCases": 108
+        },
+        "kotlinSyntax": {
+          "name": "burimunsi-psi-compatibility.log",
+          "sha256": "c0d775d3163e3e50162814fecdc56ce38bc60164025a7fcbc061998fd8f842da",
+          "files": 77,
+          "compiler": "2.1.20",
+          "method": "Kotlin PSI with the installed compiler configuration. The tracked parser imports extensionsStorage from the project Kotlin 2.4.21 API, which is unavailable in the local 2.1.20 compiler."
+        },
+        "diffCheck": "passed"
+      },
+      "proof_boundaries": [
+        "Source and host fixtures only. Compose rendering, signed builds, installed upgrades, emulator, physical receiver and carrier settlement were not exercised.",
+        "The accepted allocation version stays with the in-memory route, including an explicit refresh or restored route context. Cold-start financial authority continues to come from the server.",
+        "Legacy numeric navigation checkpoints continue to decode. Old member anchors use their original row ID. The footer now saves the last measured member with zero offset. The SMS search notice adds one row; clearing the search restores the ordinary count.",
+        "Existing held-owner, unreadable journal, late observer, and foreground/retirement protections passed their original adapter/gateway suites. No receiver wire format, SQL or provider operation changed."
+      ]
+    },
+    "react_admin": {
+      "vitest_files": 135,
+      "vitest_passed": 989,
+      "typescript_no_emit": "pass",
+      "eslint_no_warnings": "pass"
+    },
+    "collect_member": {
+      "focused_vm_tests_passed": 207,
+      "ordinary_vm_tests_passed": 2694,
+      "analyzer": "pass",
+      "format": "pass",
+      "source_coverage": "Private balance refusals with an unlisted code and unreadable body, notification outages and timeouts, preference revision races, and unchanged ambiguous write outcomes."
+    },
+    "public_and_tooling": {
+      "public_source_tests": {
+        "public_capability_contract": {
+          "passed": 10,
+          "assertions": 150
+        },
+        "public_legal_rendering": {
+          "passed": 16,
+          "assertions": 399
+        },
+        "public_browser_graph": {
+          "passed": 11,
+          "assertions": 22
+        },
+        "public_website_ci_gate": {
+          "passed": 3,
+          "assertions": 3
+        },
+        "public_static_routes": {
+          "passed": 17,
+          "assertions": 194
+        },
+        "public_content_contract": {
+          "passed": 29,
+          "assertions": 37
+        }
+      },
+      "capability_inputs_verified": 39,
+      "capability_outputs_verified": 9,
+      "retained_evidence_comparison": {
+        "browser_source_inputs": 354,
+        "browser_evidence_inputs": 354,
+        "browser_differences": [
+          "lib/app/router.dart",
+          "lib/core/cloudflare/collect_cloudflare_client.dart",
+          "lib/core/cloudflare/realtime_invalidation.dart",
+          "lib/features/privacy/privacy_email_verification.dart",
+          "lib/features/privacy/privacy_request_controller.dart",
+          "lib/features/privacy/privacy_request_screen.dart",
+          "lib/features/privacy/privacy_transport.dart",
+          "lib/shared/repositories/collect_offline_cache.dart",
+          "lib/shared/repositories/collect_repository.dart",
+          "lib/shared/repositories/collect_repository_contribution_commands.dart",
+          "lib/shared/repositories/collect_repository_history.dart",
+          "lib/shared/repositories/collect_repository_member_history.dart"
+        ],
+        "reviewed_content_inputs": 25,
+        "content_differences": [
+          "content/product/collect_capabilities.json",
+          "lib/features/landing/public_capability_content.dart",
+          "lib/features/landing/public_marketing_page_content.dart",
+          "scripts/public_site_publication.rb"
+        ]
+      },
+      "auth17_inventory": "pass",
+      "momo15_inventory": "pass",
+      "relative_document_links_verified": {
+        "docs/plans/2026-11-18-collect-cleanup-refactoring.md": 71,
+        "docs/assessments/2026-11-18-full-stack-code-audit.md": 159
+      },
+      "ci_policy_tests_passed": 62,
+      "source_integrity": "pass",
+      "design_authority_hygiene": "pass",
+      "existing_integration_edits_preserved_sha256": {
+        ".github/workflows/codeql.yml": "09da81b21f9d2eb968c2920a55d5432daf24c444b4063bdd9b796c469fd80a52",
+        "scripts/qa/collect_ci_policy.py": "e7f8968910202d66367aa681679ce3c14edb2c946c238fc189143f2f3fd530cb",
+        "scripts/tests/test_collect_ci_policy.py": "8f919cd328e9c182533196b2255937df74c8a43c835eff7382437a2904a8e9df"
+      }
+    },
+    "artifact_qualification": "deferred"
+  },
+  "t7_goal_continuation": {
+    "source_base": "6526315b9f65fb39789a402eb5242fdf01737723",
+    "source_verified": "6df2250c54d456a1414032ab398472f21c0c6b83",
+    "commits": {
+      "Plan the fenced managed writer migration cohort offline": "962e3c5332d86b366e2b5d5c201307d36fa90565",
+      "Move Admin Sync queue publication into the receiver feature": "0f3e65f9ca4ba6254aa8487488017d6c32e3edbf",
+      "Verify retained evidence and private offline restoration": "9c3e2a87b65edb2ace5e9366fb3cb2138c3b8d5e",
+      "Bind cutover evidence and exports to their active source inputs": "c598a8e517db247955eed18050b1c85a918dc0d4",
+      "Verify current managed and React source from standalone checkouts": "223f1f272135f616f0ac3faebf113162baf17ec2",
+      "Remove the unapproved Netlify Admin hosting proposal": "6df2250c54d456a1414032ab398472f21c0c6b83"
+    },
+    "changed_file_sha256": {
+      "scripts/supabase/cloud-release/chain.test.mjs": "93d1c3c37bc9c42ee09819cf9e08bb03cfaa7dc39cdb152b1aea179376c075bd",
+      "scripts/supabase/cloud-release/recorded-history.mjs": "c6032d3018283a3d1ba31bd6530476f446654b722807882fba90365894c9e521",
+      "scripts/supabase/cloud-release/recorded-history.test.mjs": "812acef03971de6ea942e15bc0efe5a26a08786bc033e1e22d379c9b81906fe3",
+      "scripts/supabase/cloud-release/retained-source.test.mjs": "e06f4598bf28e6fe38d42d1be55fc5e4418e93c2a7df52fbfee763d6bd0b2450",
+      "scripts/supabase/cloud-release/writer-journal-plan.mjs": "aa3838b69ec05b21e62c3cb993d2f0fafeaa1491e0a034bb7359accb77897296",
+      "scripts/supabase/cloud-release/writer-journal-plan.test.mjs": "fef068d2abee63a6eb781bb03dc35b882822be2797606d747ce981fa4256cc65",
+      "scripts/supabase/cloud-release/writer-journal-source.mjs": "d0554e07e87a66e33ef4dae65d1f88a831bf490160a81c8198f4d817798a2cfd",
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt": "4e0850ce6137ccedb41cb45ca0d528efc9cb043ef2483af2485252733451717e",
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeReceiverQueuePreview.kt": "48699fe32a0246bbf5f04564c90055885ac088c9c1b29841b8ca4da656d82c9a",
+      "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeReceiverStatus.kt": "25dcf0f4a60aadac3bebc2a5c633fb3768e9aaaffc6bf6f176742b86001ea2f4",
+      "native/burimunsi/scripts/verify_cross_layer.sh": "ed30507d03932de8bb4153972e508a495d9adeffee0412402ebe62bca5bc14ff",
+      "native/burimunsi/scripts/verify_viewmodel.sh": "06435b472cabd6b9d2b93eebd6cf8445c6d66e847bb6a64365c66267ed7f1c22",
+      "native/burimunsi/viewmodel-tests/GatewayStub.kt": "8be3cb52954f62c956c34afc62171770fa509f3df3798319a94727b8c00b3b45",
+      "native/burimunsi/viewmodel-tests/ObservationUiChecks.kt": "164572585458ca0919f61fcd3ddb47ec3bf913f1704d693551ceedfde90091ae",
+      "native/burimunsi/viewmodel-tests/SnapshotStub.kt": "026c053908b97b55424b5c48ee762152c30fd577f9ec38ce37118260a47ba2ad",
+      "scripts/qa/release_tree_custody.py": "2ea8311e96f2ac22c1dab81b48026ab802069f4683784f4bd085c5eea562bd71",
+      "scripts/qa/release_tree_custody_test.py": "5b9742de8676d2b4d315af581ca72279fe4bfd45e306096d676f8783f4bc1d08",
+      "scripts/qa/retained_member_history.py": "298f080e2154eaef4da665fd656dfc97064633de818956ecd257d3d344bb0714",
+      "scripts/tests/integrated_candidate_runner_test.py": "6a5d54774c4f2a7bf5d348b2f98843b971252a26d734e57de895c66686170777",
+      "Makefile": "dc60b51140c626a3c3eede87a3a5c68e97b46594c4afc787cbc861c0260f2ead",
+      "scripts/qa/collect_release_candidate.py": "cf80862849c0c0ffbb6d5a03d3f1f8e3477a81889146b35ecc2b80591a2b5bad",
+      "scripts/supabase/cutover_gate.py": "b53334d8e2b9c543e08a73d98b8a148147f6c1a0f680782e5fc1055d988928df",
+      "scripts/supabase/test_cutover_gate.py": "64a26c69e932333baf5366c0a89d47ad3cb082831cc1d079fb26db508055976d",
+      "scripts/tests/test_collect_release_candidate.py": "eff308d638214a16b12670a7728bffb51a11676d9e726a0579bbc7266e64a960",
+      "deploy/managed-native-ingress/handler-integration/README.md": "1237315cd18b47f26b27ceab3ec379ea1150e0c24be50a07265a9972391438e8",
+      "deploy/managed-native-ingress/handler-integration/current-inputs.json": "994043d1f01f317067db383b4f9d7b48bb8bbf386901ec85570adbdab183f9ff",
+      "deploy/managed-native-ingress/handler-integration/handler-integration.test.mjs": "5a31be50a0eda2c45ee34ed2a9ccfb6f6b8ebe6c8f37b63a456d321688e5a13f",
+      "deploy/managed-native-ingress/handler-integration/synthetic-postgres.mjs": "ec63d6ba95cf0b5c7e56219d71303bf5eeb3d73b38d9f5b3ff65b97a3fad58d7",
+      "deploy/managed-native-ingress/handler-integration/verify-inputs.mjs": "270c567404a371e76359c98144fc60cd4606a97fe5b5620403b40c6780fc09a9",
+      "scripts/supabase/managed-storage-archive-v2/storage.test.mjs": "00fc6b7bf8203df17be91e3b20459766df9245a5a6b6e34205581342211dc174",
+      "scripts/supabase/run_edge_node_tests.test.mjs": "6dc890b16cbe8c17213c6c296f1ca894df55bbb76e5c54071af1967f12947eb0",
+      "scripts/supabase/testing/admit-self-hosted-history.test.mjs": "c43d9df5e2a5cc2b2ab40abd9a43a4dafaabca7404882089cc0f5c00805868af",
+      "scripts/supabase/testing/current16-integration.test.mjs": "a3ce604d804789ff68963ac36ba6b604f53997cd7c5b45e82f6c912c4e91400f",
+      ".github/workflows/codeql.yml": "56f8bbfa308ed7c993725ab7c7525e9ca92381de489c2c6e63e0f0e892b00b99",
+      ".github/workflows/supabase.yml": "bd6eaffce9a2e6ed41d70bc9cd0207667d4b78ef4e45b9865ee2144f31233058",
+      "admin-web/scripts/source-inputs.json": "8f389f7e00aacc447b314ca9cda3cafa3f53c34124a3702664697c91c517f644",
+      "deploy/platform-admin/src/index.js": "715a10f6fe041708f46e642e3423af0098c2fb09446c53f24aca73943b057669",
+      "deploy/platform-admin/src/local-challenge.mjs": "7e961f9e3bfb37bebc9f2c07786186fefc0c665a459c4bcabb1f9402f4d373d0",
+      "deploy/platform-admin/test/human-parent-bundle.test.mjs": "bdf4e34e3a060372d259a42004853b3fb0bee2c1605ae23c1bd180eabb13eef8",
+      "deploy/platform-admin/test/human-parent.test.mjs": "6e80357dcadc8d57dcea2505a9bbec38cc50e539a7a06744cb5842683f353439",
+      "deploy/platform-admin/test/supabase-transport-bounded.test.mjs": "6ef19e3fe04cd956d55e4d231093d8c3c7b09d02e255a5d9f8329940fe0138cd",
+      "deploy/platform-admin/test/supabase-transport.test.mjs": "cf5702dcc9edcada79baebd1900e0ad57ff3251535680147335f45e43b876719",
+      "deploy/self-hosted/web-server.mjs": "bb29d9f14928448234e936d79d6dc0e451d480c50803149d031898ee15d19203",
+      "scripts/qa/collect_ci_policy.py": "8606c50de79a79d627b7b97d00de9a8c39bfffdbf1a6e2c9bea9245eabcab728",
+      "scripts/self_hosted/prepare.py": "2f67f707028612b036ec4ee6ee31a9ae4d499e26a18779545655da3e9e5c48f3",
+      "scripts/tests/test_collect_ci_policy.py": "d269c35c6ec1a67c281e50a32e14880c5d48da0201266ca8126432884383d857",
+      "test/fixtures/local-challenge-parent-harness.mjs": "a3067822c252da57d35d139e54c9429c2149363101eab5085b2a3962f89dd7e3",
+      "test/local-challenge-parent.test.mjs": "b70b55c8a8a3d23db587102d4ac45a04b302477c4341525e2218ba056eb610b1",
+      "tools/collect-admin-mcp/test/contracts.test.mjs": "ad0c56ba5c1ca6055724f101fcb33c1ea2581a4689dfea8609a1a623312477e9"
+    },
+    "removed_unapproved_hosting_source_sha256": {
+      "deploy/platform-supabase-free/PROVENANCE.json": "745bfb157ff38e7c0f52fae3dc36824552d69f0cff6f1eb95f33b3d96bd1b23a",
+      "deploy/platform-supabase-free/README.md": "2d25e9eaac200fd4c5228a8265bd2281979788a358a9638b8023b90e7a2b3258",
+      "deploy/platform-supabase-free/SHA256SUMS": "f2a5c395c3cc3919e98d5d5621ed5678be4932147df8ca66ba1650c5944ee991",
+      "deploy/platform-supabase-free/VERIFICATION.json": "1dae3be4385efdf8087d5e7890cfe14e8a2a3a869127d59334d8652e93f0660b",
+      "deploy/platform-supabase-free/local-challenge.mjs": "e243875b4e9fdc409f561b4081f92ada443fcdce509c959f90d878c33d6432ad",
+      "deploy/platform-supabase-free/netlify.toml": "187aeb44cac9f6fa7a796c33b88c7a7a31497fc274d17b4272a77874a770dc6b",
+      "deploy/platform-supabase-free/netlify/edge-functions/collect-transport.js": "627954bc05bac5776d98123705c3e7d54f4a1fb8aba70ba62109d9c364274036",
+      "deploy/platform-supabase-free/package.json": "cee0bec27093ac0dec6020cc75c74997b640ba34e7ea7a7d41343f8ec2054d5e",
+      "deploy/platform-supabase-free/public-config.mjs": "832156e78c102fd8cd4e45279ed5e548a63b74b1c0b55fff80c980215c5ad362",
+      "deploy/platform-supabase-free/transport.mjs": "91823da3fd376c2145a80060faa8cd3d54a18d6526442bc95b54032324d2be8f",
+      "test/supabase-free-transport.test.mjs": "c0e00a74cf304add14baa685d739e1928bc3c98ad5ba9143cf55f79f005a09aa"
+    },
+    "private_evidence": {
+      "location": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-6526315b-sdotiksf",
+      "source_checks_path": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-6526315b-sdotiksf/source-checks",
+      "release_restore": {
+        "verified_at_utc": "2026-11-21T14:59:06.115745+00:00",
+        "packet": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-6526315b-sdotiksf/release-object-packet",
+        "custody_volume": "PRO-G40",
+        "original_volume": "T7",
+        "capture": {
+          "format": "collect.release-tree-custody.v1",
+          "source_commit": "6526315b9f65fb39789a402eb5242fdf01737723",
+          "unit": "docs/release",
+          "tree": "05c03d86d81163927b5dc70334d78d2422e3382b",
+          "paths": 110302,
+          "bytes": 7637671247,
+          "distinct_blobs": 29835,
+          "git_modes": {
+            "100644": 110292,
+            "100755": 7,
+            "120000": 3
+          },
+          "inventory_sha256": "cbed0d9c920b76babe347d58138154fab86a91e2b7b5bcc424b078c9b9f634a0",
+          "pack_sha256": "bde69a66d9eb6462f913b14a1ab8655d61d4ce40be28bddaafa8e574f2990ef4",
+          "pack_bytes": 652936503,
+          "receipt_sha256": "028595d078476c56749ff7137a37a43caef7c815dffbcaa062a7a457f81414a7"
+        },
+        "fresh_offline_restore": {
+          "verified": true,
+          "source_commit": "6526315b9f65fb39789a402eb5242fdf01737723",
+          "tree": "05c03d86d81163927b5dc70334d78d2422e3382b",
+          "unit": "docs/release",
+          "paths": 110302,
+          "bytes": 7637671247,
+          "git_modes": {
+            "100644": 110292,
+            "100755": 7,
+            "120000": 3
+          },
+          "receipt_sha256": "028595d078476c56749ff7137a37a43caef7c815dffbcaa062a7a457f81414a7"
+        },
+        "restorer_sha256": "2ea8311e96f2ac22c1dab81b48026ab802069f4683784f4bd085c5eea562bd71",
+        "private_destination_mode": "0700",
+        "representative_restored_consumers": {
+          "Flutter release documentation and permissions tests": {
+            "path": "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json",
+            "sha256": "4cdf75d8555c0edb36448afac586b96f50d2417b79f0b9bfbc384fcbfef70532"
+          },
+          "design authority hygiene": {
+            "path": "docs/release/revolut-design/authority.json",
+            "sha256": "6be1895e65c4d370bf5496e909cf2710c01e495db16c2ddc550a62cb9c854e90"
+          },
+          "public static route tests": {
+            "path": "docs/release/public-website-content-baseline.json",
+            "sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf"
+          }
+        }
+      },
+      "release_verification_sha256": "64c23f196c3ed670cec18e26cc996fbc480a2b071b3e0beefa7156ff9612fe44",
+      "source_export_verification_sha256": "038d237b20aab2b6328c5835df86422b71f14b0acf4a77319234d3c46377e4fe",
+      "source_check_receipts": {
+        "cutover-final.json": "22d11505e34542a9bf3a9a00d9d6a701eb75660e418ad30c00152cfa2c154674",
+        "managed-writer-plan-review.json": "4d0ad558ad2884bfbb7b0bfafed69037cecdde80d3ce8e99d370ffb29525c4ab",
+        "retained-inputs-goal.json": "adbc7684261f39c3e75a555fa95af44795d6fa82b3c9ab70561d17ad22baf3a9",
+        "source-integrity-goal.log": "9a5f78bcf1225da146defb9b23de3cde8e3da63aeef859c03c5d4630d755b7a0",
+        "source-gates-final.log": "210fb5c7e618bd731708ab4f1da09df5615d8c09fc1b8459f429fbd8faa22774",
+        "qa-tooling-goal-final.log": "07b276beab54945bae37a6a13ee1f983bdebe10ab1a86bca73460df400a2f578",
+        "supabase-source-final.log": "48f41521537fa473e0c89038612b6d0a52a86904988d38d40c7b79f1baa1beb0",
+        "supabase-dependencies-goal.log": "5df9d4395c92dc813782cb59d9ca6f0f324c61bd7ff2a9e9f2581ca48d54b5cb",
+        "source-verification-exit.json": "fcfbbcc6c88b07b91aca578c2d0ea7ff4106715861c65365c97335de689064e8",
+        "writer-journal-plan-evidence.json": "b426456253765e08c8a119a36793692187c0c40d44001f874f86b2b5497fc6fe",
+        "writer-journal-plan-pg.json": "6ee94fc8c7686b52f7666dd94b84c6895b6dcbdd5da907156d28902dcffd3172",
+        "writer-journal-plan-unit.log": "6f3c302e3f3bc43a6aba8a39cadbcecf56d26a766ec0f2b78d9b67ba23377802",
+        "managed-handler-source-review.json": "d1c0ff0fcc9fa246ad36d04a68cd4161d812f2a2bae62cd2bab2e419f79a27e9",
+        "managed-handler-current-node.log": "6d3afa30107b4fa2eb392053121e7e6946f0ea6af9d3f1723c6088fb9eae4735",
+        "active-admin-source-goal.log": "cd826073eaa6bea2a1c2f3c28362d77df5d9a8c48d080edc6e517c048a56ec23",
+        "cloudflare-worker-goal.log": "6d53aea6e269263583395256837f94dfdbf55ed1769ef329235e8903526dd58b",
+        "admin-source-admission-goal.log": "3f71d18b9912c0d555f1e84905072ec379476105180b7428bc96a8e576c6dfbc",
+        "burimunsi-receiver-queue.json": "c6174d0b39e37dab5399f28bb0a2a2feaf0898f0b0c05bed13aa4be883eb4ca2",
+        "receiver-queue-before2.log": "dd40d8a12f5126131e9a4b0d01551b4a17268884aa019b9a80905850071ba69d",
+        "receiver-queue-controller-readback.log": "a15b6667607f1b1fcdae2c2751b6abfb0e6a5f6be9f67dbfd405b61eddc9b6c8",
+        "receiver-queue-cross-layer-accepted.log": "5b76a31062a95d525736a285e8d853c62a0e93d8097375bc11b70d585361dc83",
+        "receiver-queue-gateway-final.log": "5916b365e36c16658bd7bd78b6efcf7678c17be6214df4c0ac229b81da79b80d",
+        "receiver-queue-adapter-final.log": "02a8617de3d2ecf10002d477ce79ddd339b3a05f42e6d308b5935f5650077d9a",
+        "receiver-queue-pipeline-final.log": "244e4d63391b5dfb1816729ecc82cbc6376547e87b5c19499b3e5e17514b6507",
+        "receiver-queue-postconflict.log": "57a080a966b572f51b9d83c5e249033ef44cbb702021983b91ae0b9f019cfa98",
+        "receiver-queue-psi.log": "26133e09efbf3362ed8d4ece21c3de01800f457d1083d8bbfc981c2d05ae0a64"
+      }
+    },
+    "standalone_product_source_export": {
+      "status": "pass",
+      "source_tip": "6df2250c54d456a1414032ab398472f21c0c6b83",
+      "destination": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-6526315b-sdotiksf/full-product-source",
+      "file_count": 4279,
+      "total_bytes": 187187147,
+      "manifest_sha256": "ddc840d81871dc4ac4c88ef1e49dafa3f92c6e2145c46816fa199b75caa10e6c",
+      "source_manifest_sha256": "0b13d4cc22c27dd13ffa493de224be1d889706f1a865e6e82b1cac1e3e79dd9a",
+      "changed_sources_readback": 49,
+      "momo15": {
+        "status": "pass",
+        "profile": "momo15_candidate",
+        "configuration_sha256": "5db2b2c14b7b3e4fe48f1b56c863b1a7557e20d917732aef1ff631e232a80224",
+        "inventory_sha256": "ad11e18f723b8f0bf9bf6c98aa9b59fb71b55629cedc45ac42502112730dc258",
+        "source_roles": 69
+      },
+      "auth17": {
+        "status": "pass",
+        "profile": "auth17_candidate",
+        "rpc": 85,
+        "functions": 7
+      },
+      "managed_handler_source_tests": 19,
+      "cloudflare_admin_source_tests": 104,
+      "removed_unapproved_hosting_source_paths": 11,
+      "managed_predecessor": {
+        "file": "cloud-history-20261120-epoch44.json",
+        "receipt_sha256": "32b54a36d3469d735c8b4b20016591813b66242e6dcdb9db981b4c46bd7fe7d5",
+        "observed_at": "2026-11-20T15:47:21.376Z",
+        "migration_count": 89,
+        "ordered_sha256": "6ff5c9035113c0c17085eadbccf0c9dfc1c8cf928fbeb76f1e229ca11844f11f"
+      },
+      "managed_source_migrations": [
+        {
+          "file": "20261121111000_collect_scoped_writer_grants.sql",
+          "version": "20261121111000",
+          "sha256": "b3efd73ed854a8d954af3e6c4d449377cfb36d1278de8a80335eea8d050602b4",
+          "expected_history": {
+            "migration_count": 90,
+            "ordered_sha256": "08c5f41cfaa401ba23d4840c1607fc31d37031f408076b6533fd112cd8b3a812"
+          }
+        },
+        {
+          "file": "20261121111100_burimunsi_journal_subject_links.sql",
+          "version": "20261121111100",
+          "sha256": "22e46ebe970d793038e904a2070da1562d7ac5e9161bdd76dd17dbd66b020368",
+          "expected_history": {
+            "migration_count": 91,
+            "ordered_sha256": "de570e4a3082918e86f9428b682554c80f4ef0142dc9350b31b68f0b372e7357"
+          }
+        },
+        {
+          "file": "20261121142500_collect_storage_journal_insert_grants.sql",
+          "version": "20261121142500",
+          "sha256": "4b00ed338ecf807f9a84d19001a9f4eeb68780d4e192ae453efd8f533e12b1c5",
+          "expected_history": {
+            "migration_count": 92,
+            "ordered_sha256": "99a0bf87620c448ef2f1f2ecab3d2df699c95fd34fbaedbb5aaead1ba56db3f8"
+          }
+        }
+      ]
+    },
+    "tracked_cutover_source_identity": {
+      "source_sha256": "1af4126db8b4a5b4bae4b957b8a900cf245387d663d70653369d01cc5c576c3b"
+    },
+    "source_suites": {
+      "qa_tooling": {
+        "status": "pass",
+        "python": 403,
+        "ruby": 138,
+        "explicit_node_test_count": 4
+      },
+      "supabase_source": {
+        "status": "pass",
+        "node_reported_tests_passed": 4240,
+        "node_reported_tests_skipped": 8,
+        "deno_frozen_checks": "pass"
+      },
+      "source_integrity_and_design": "pass",
+      "diff_check": "pass"
+    },
+    "managed_writer_cohort": {
+      "checked_receipt": {
+        "scope": "supplied_history_file",
+        "matching_migrations": 0,
+        "remaining_versions": [
+          "20261121111000",
+          "20261121111100",
+          "20261121142500"
+        ]
+      },
+      "node_tests": {
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "raw_sha256": "6f3c302e3f3bc43a6aba8a39cadbcecf56d26a766ec0f2b78d9b67ba23377802"
+      },
+      "owned_pg17_fixture": {
+        "status": "synthetic_managed_chain_complete",
+        "total": 69,
+        "applied": 53,
+        "forwardMigrations": 4,
+        "skipped": [],
+        "writerJournalChecks": [
+          "scoped_writer_lock_compatibility",
+          "writer_column_acl_and_atomicity",
+          "journal_subject_inventory_and_acl",
+          "storage_insert_column_acl_and_atomicity",
+          "storage_journal_creation_and_replay",
+          "atomic_cohort_history_and_independent_readback"
+        ],
+        "fixtureCohortHistory": {
+          "before": 71,
+          "after": 74
+        },
+        "plannedManagedHistory": {
+          "migration_count": 92,
+          "ordered_sha256": "99a0bf87620c448ef2f1f2ecab3d2df699c95fd34fbaedbb5aaead1ba56db3f8"
+        },
+        "productionDispatch": false,
+        "raw_sha256": "6ee94fc8c7686b52f7666dd94b84c6895b6dcbdd5da907156d28902dcffd3172"
+      },
+      "installed_status": "unverified; local source and socket-only synthetic evidence"
+    },
+    "receiver_queue": {
+      "patchSHA256": "5b826caf982cdb8796c12513746968eb96b9b13fe91640597a84f5515734088e",
+      "checks": {
+        "controller": {
+          "log": "receiver-queue-controller-readback.log",
+          "sha256": "a15b6667607f1b1fcdae2c2751b6abfb0e6a5f6be9f67dbfd405b61eddc9b6c8",
+          "exitCode": 0,
+          "cases": 507
+        },
+        "crossLayer": {
+          "log": "receiver-queue-cross-layer-accepted.log",
+          "sha256": "5b76a31062a95d525736a285e8d853c62a0e93d8097375bc11b70d585361dc83",
+          "exitCode": 0,
+          "cases": 100
+        },
+        "gateway": {
+          "log": "receiver-queue-gateway-final.log",
+          "sha256": "5916b365e36c16658bd7bd78b6efcf7678c17be6214df4c0ac229b81da79b80d",
+          "exitCode": 0,
+          "cases": 106
+        },
+        "observationAdapter": {
+          "log": "receiver-queue-adapter-final.log",
+          "sha256": "02a8617de3d2ecf10002d477ce79ddd339b3a05f42e6d308b5935f5650077d9a",
+          "exitCode": 0,
+          "cases": 128
+        },
+        "pipeline": {
+          "log": "receiver-queue-pipeline-final.log",
+          "sha256": "244e4d63391b5dfb1816729ecc82cbc6376547e87b5c19499b3e5e17514b6507",
+          "exitCode": 0,
+          "cases": 108
+        },
+        "focusedQueueAfter": {
+          "log": "receiver-queue-postconflict.log",
+          "sha256": "57a080a966b572f51b9d83c5e249033ef44cbb702021983b91ae0b9f019cfa98",
+          "exitCode": 0,
+          "cases": 11
+        },
+        "kotlinSyntax": {
+          "log": "receiver-queue-psi.log",
+          "sha256": "26133e09efbf3362ed8d4ece21c3de01800f457d1083d8bbfc981c2d05ae0a64",
+          "exitCode": 0,
+          "files": 78,
+          "compiler": "Kotlin 2.1.20 PSI"
+        },
+        "gitDiffCheck": "passed",
+        "reverseApplyCheck": "passed"
+      },
+      "failureBefore": {
+        "log": "receiver-queue-before2.log",
+        "sha256": "dd40d8a12f5126131e9a4b0d01551b4a17268884aa019b9a80905850071ba69d",
+        "observation": "Holding the final protected session and journal publication prevented the ViewModel UI dispatcher from running a queued pulse."
+      },
+      "behavior": [
+        "Both local gateway reads and date/sort preparation run on IO. The UI read verifies the originating operator, installation session, managed collection, SMS permission, filter, query, current request, and journal revision before applying. The mutable UI snapshot commits while the existing native permission, session and journal checks still hold.",
+        "A prior revision refusal cannot replace a newer preview. Editing the queued-only search clears the old rows until the new read completes. Conflicting UI state is retained for the next ordinary refresh.",
+        "The Staff flavor has no observable queue and continues to deny SMS navigation under the same receiver binary. Held journals, receipt commands, provider calls and installed routes were unchanged."
+      ],
+      "limits": [
+        "Host scheduling tests use an isolated single-thread UI dispatcher. The fixture injects a Compose snapshot conflict using a synthetic implementation. Android runtime rendering, AndroidX integration and physical queue/storage contention were not qualified.",
+        "The Kotlin PSI check uses the installed Kotlin 2.1.20 compatible initializer; the project Gradle source declares Kotlin 2.4.21. No package was built."
+      ]
+    },
+    "retained_decoder": {
+      "mode": "verified exact Git inputs and original defines without Flutter execution",
+      "source": {
+        "commit": "6df2250c54d456a1414032ab398472f21c0c6b83",
+        "kind": "git",
+        "tree": "783164c61197dd00e9d55e86b635d28e45555fe9"
+      },
+      "paths": 9,
+      "bytes": 811747,
+      "defines_sha256": "c37ee2f7c22284722d2e1c91353d938e4f03f4e4906be1aa31e30aeeb4eb9a6a"
+    },
+    "remaining": [
+      "Current managed fence, installed migration history and runtime role catalog require independent readback.",
+      "The historical Receipt 150 database rollback requires independently supplied before.dump matching the original digest.",
+      "Complete dynamic historical consumer review before any further source-evidence retirement."
+    ],
+    "production_changes": 0,
+    "artifact_qualification": "deferred"
+  },
+  "github_main_admin_host_cleanup": {
+    "github_parent": "6af2bc389b5b09cd27020adc1140dcdbf7ef3fca",
+    "github_commit": "6c66fdb186e7c7d84b5528939a617888348bda14",
+    "github_tree": "eede56e66d664e92c5baa833b3754373c13a107a",
+    "review_source_commit": "6df2250c54d456a1414032ab398472f21c0c6b83",
+    "default_branch_checked": "refs/heads/main",
+    "selected_profiles": {
+      "production": "https://platform-admin.collect.ikanisa.com",
+      "qa": "https://admin-supabase-qa.collect.ikanisa.com",
+      "managed_supabase_url": "https://rrlduytparvsjfmegalh.supabase.co",
+      "entrypoint": "deploy/platform-admin/src/index.js"
+    },
+    "source_verification": {
+      "tracked_paths_checked_by_name": 114871,
+      "retired_deployment_paths_in_tree": 0,
+      "active_hosting_proposal_references_outside_release_archive": 0,
+      "archived_vendor_attribution_or_upstream_runtime_mentions": 7,
+      "react_manifest_roots": 30,
+      "react_manifest_files": 286,
+      "worker_origin_guard": "Only the sign-in helper import changed in the default-branch Worker entrypoint.",
+      "local_checks": {
+        "worker_package": {
+          "passed": 112,
+          "skipped": 0
+        },
+        "local_sign_in_challenge": {
+          "passed": 18,
+          "skipped": 0
+        },
+        "admin_mcp": {
+          "passed": 372,
+          "skipped": 0,
+          "environment": "Node 24.19.0 with a physical private TMPDIR on macOS"
+        },
+        "workflow_policy": {
+          "passed": 56,
+          "workflows_checked": 8,
+          "findings": 0
+        },
+        "makefile_transport_selection": {
+          "passed": 104,
+          "skipped": 0,
+          "overlaps_worker_and_challenge_suites": true
+        },
+        "admin_entry_and_retirement_workers": {
+          "passed": 22,
+          "skipped": 0
+        },
+        "legacy_asset_source_fixtures": {
+          "passed": 20,
+          "skipped": 1,
+          "skip_reason": "Existing local Admin output was unavailable."
+        },
+        "source_integrity": "passed"
+      }
+    },
+    "hosted_checks": {
+      "codeql_run": "https://github.com/ikanisa/COOL/actions/runs/44919661100",
+      "job_id": 136892741599,
+      "analyzed_steps": 0,
+      "result": "GitHub account billing lock prevented the job from starting."
+    },
+    "artifact_qualification": "deferred",
+    "source_change": "https://github.com/ikanisa/COOL/commit/6c66fdb186e7c7d84b5528939a617888348bda14"
+  },
+  "t7_final_source_checks_20261121": {
+    "review_base": "30b47bf294bfa0907bf6aed51212d6c33538ffdf",
+    "verified_source_tip": "5242978acf33d7b1c276317ebcc20c01b2564d7e",
+    "packages": {
+      "preview-fonts": {
+        "commit": "b04d8b79ae7e1815ffd8b0a44bff44604e2b0ab8",
+        "files": {
+          ".github/workflows/ci.yml": "84eb35a2dd6a33b66934d74eae0f6ea2a4c2c73a19fb53a7598122cc3a725f7f",
+          ".github/workflows/public-website.yml": "43f1f72ca85b8e66cc180b3ea7ff216efb9ec6bdcd8e959f150fd542e900f982",
+          "Makefile": "20a227740efe44a0381c75c85f3adf98a69ef258721dbec90f2b3655ba8bd3c7",
+          "deploy/admin-api/README.md": "69f22e440b919afbac63cb909aff3a46e988514faa259f1a04a1fde25af912b6",
+          "scripts/admin_cloudflare_assets.py": null,
+          "scripts/assets/prepare_member_preview_fonts.py": "86defd07da2b05d0c4d365289f0f566e9d52af638a5b45e4b5d1b7acacf4ddf5",
+          "scripts/assets/publish_public_app_media.py": "dc4c643b0c1dc857a138db7673bcb137177ec732b5c93d70bdac3b3d1c030d25",
+          "scripts/public_app_media.rb": "7d6d57e59d7f33ec4df3b7688d9c4d8ed3651bcd1a6e35b9347f495ea2f28513",
+          "scripts/qa/collect_ci_policy.py": "72f9707688deac2f7571b03436449b7801e03404dcf70bf0f47e6b9562664836",
+          "scripts/qa/public_cua_capture_contract.json": "e037980622756c677297bfb2204f97149f982268e6b7125e9f023a9f4cf967bd",
+          "scripts/tests/test_admin_cloudflare_assets.py": null,
+          "scripts/tests/test_member_preview_fonts.py": "93e3ce6164da7b715472a59eb4aecdae36c29b6d0b436d7d24608840aeac75cd"
+        }
+      },
+      "admin-approval": {
+        "commit": "54b02f1736a2957ec9a368f27c246437c5259de1",
+        "files": {
+          "admin-web/src/features/burimunsi/operatorApproval.ts": "cfe8e7e2260bcf7d760d9c24e6a84e8c64366b9abd4c8d5ea28bca0cb56e680a",
+          "admin-web/tests/burimunsi/page.test.tsx": "f71c4a851490b3872913dff2f92354c064cce9a1a9253a6fedf609d3406f41c4"
+        }
+      },
+      "native-posting": {
+        "commit": "48511dcc216a57978e88d42763ddcecbbfe4b512",
+        "files": {
+          "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeRepository.kt": "c1894d078895bfdaf830e080a75e3ad033f66f6daec048ffa8ecfb460f65147b",
+          "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt": "0e0eb534cde6c623a69ce07e9034b22052907f25c58c6a9e249cea1f54d0c110",
+          "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/NativeCollectionPosting.kt": "ce238524e3a941c1d71efdd393c0d90187416f4632124ab3ac254c44ee0327bf",
+          "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Models.kt": "f30fec75870b1d2a5fb2c46a498eb593fdc34135693e5bc847dd9a8ddf06da34",
+          "native/burimunsi/cross-layer-tests/CommandViewChecks.kt": "83267bd74664e04add1842fce3fb7613553b6d7bbaa88704e4257ff62761b63c",
+          "native/burimunsi/scripts/verify_cross_layer.sh": "55947f54c341314ba8e5557ee5a907aac0c81bdbc891c33a5cd85512b16c2399",
+          "native/burimunsi/viewmodel-tests/RepositoryStub.kt": "77be5cdacf95db08a58861e3178ddc175201f9c795c69ca0a416c5a14da2b4aa"
+        }
+      },
+      "journal-subjects": {
+        "commit": "63e2c45961dfb9e65a29d8f20b36ffa09e801ff3",
+        "files": {
+          "supabase/migrations/20261121182000_burimunsi_journal_posting_subjects.sql": "035031f6796e0a39f5b57f3f1a8ab24f3f425303603b586ca306e28aec331b30",
+          "scripts/supabase/cloud-release/chain.test.mjs": "62f262814a3843c491167a4897dc4cbc4f8405ec74929ebc12465aea25580120",
+          "scripts/supabase/cloud-release/writer-journal-plan.mjs": "c3ae0afce19535c697c8ab444d85bcb6245ca1982a18ac5efbc8e0319c301475",
+          "scripts/supabase/cloud-release/writer-journal-plan.test.mjs": "79b81e90230a058c2e6f60c098ea52fac305b7e915fd5ea20df38e31e2a3e1a4",
+          "scripts/supabase/cloud-release/writer-journal-source.mjs": "825ba15750c534bab909bf02a1b21aa20f15eb44974d06cd88b650032c868980",
+          "scripts/supabase/cloud-release/journal-posting-subjects.mjs": "1a69c2eac052b1491151ba79a7bb62f3d7d6607f7decdd281fb6b96feabb57f6",
+          "scripts/supabase/cloud-release/fixtures/journal-posting-subjects.sql": "5006c156cd9afb49587d28cfb4d51487f39fc3549d404efe1e20e02a58ca0184"
+        }
+      },
+      "member-history": {
+        "commit": "d537328389bafe71eb61659dc90fda0e79136cc7",
+        "files": {
+          "content/product/collect_capabilities.json": "fa6d405112a3c548b9d1329adca66570d3a9168e4ad952226da2e944ca62f453",
+          "lib/features/activity/activity_screen.dart": "8842beeb6d098ef3b169ddbf22b99aba9a05c7d673ef03d3d6456553b2c7cc1e",
+          "lib/features/collections/collection_detail_screen.dart": "f1972ec15de0bf7065febc35b7f7cd89f0314b2fdb217f412006268bc8d08389",
+          "lib/features/landing/public_capability_content.dart": "bee13d7fde524d414d1fe564a39924196129fac432ff222ef40558d16ec20d1b",
+          "lib/features/landing/public_marketing_page_content.dart": "0dc21398c8159a4121564989a7eedef40e80c75f5bc928840871675664b61896",
+          "lib/features/ledger/ledger_screen.dart": "3a5410d1c76d13cccb628be6038d131991da5fe47bc12384f1c1ff4f330ebd87",
+          "lib/shared/repositories/collect_repository_history.dart": "264b0aaeaa633a89bf78356b5c688a86433f3ade425520afc6eea6651f154970",
+          "lib/shared/repositories/collect_repository_providers.dart": "6fdb4871aa80f979e01a73058b883ad9d17159877f883bd15b2fd6e2d5b4e61f",
+          "lib/shared/repositories/collect_repository_state.dart": "d75cfcfc6a94c3028b59ee9138a402bcd980f473833e0776d789b095097396cd",
+          "lib/shared/repositories/member_group_repository.dart": "89fd59dbea706ae524743b5c2e773ccb1dda6ff33cd6de9e39e3e4b0504742fc",
+          "test/features/ledger_history_session_test.dart": "4fad863d2e0720e260881e2a448c71b541d9244f79c681c171ee6a06e02dbc72",
+          "test/features/member_data_unknown_states_test.dart": "fb9e916d03e96a2d373cef33f87de59ad25ade49820c8c6ef41e039d76e842c9",
+          "test/member_history_controller_integrity_test.dart": "237d6e79bc0e25f65519a3eac4fd64e37a51fbe6607801c6e040ccfb069a1eba",
+          "test/shared/member_history_pagination_test.dart": "8a7c73ff48176a78c4b82aeddf6878d333102b284d1a647ccac5cb9c38d1ae13"
+        }
+      },
+      "evidence-consumers": {
+        "commit": "ddacc6c4dba2228d2147fd265263c49e581a46df",
+        "files": {
+          "docs/release-evidence.md": "bf51a327bdd0a38c214532641de2ab3b8833aae0205b39bf9725bfc9dab9f7fd",
+          "scripts/qa/release_evidence.py": "3ffdf647ef1fb701da2f4b013aa97169db817740968eb41e72cb6ea14af50232",
+          "scripts/tests/release_evidence_test.py": "6fd4da715c8724aae27e39e47ef0293a0c8f88adf5768d2b6281c67b16ad5edd"
+        }
+      },
+      "request-history": {
+        "commit": "89e41e224ce3294307493e2030df30ba1dab8240",
+        "files": {
+          "supabase/functions/_shared/domain/admin_bridge.js": "c607332a0820df221f1aaca0d79a0e4fd51b15ef266bcafa7c92a178f43c1d33",
+          "supabase/functions/_shared/tests/admin_history.integration.test.ts": "d1fb07421c939bd229bb2c02048abbe856450ad8eab4136075b4ea404d62209c"
+        }
+      },
+      "public-copy": {
+        "commit": "a744449a3e4ccc3df35515fea54dc4b385056bec",
+        "files": {
+          "docs/release/public-website-current-content-contract.json": "0a88c3b93a17dc33000a2d9897130184f62d934b518084c3ac49477829787bb4",
+          "docs/release/public-content-provenance/2026-11-21-rendered-source-copy-comparison.json": "416332f71c6924a65737df5ec63ca4351291d2194c3414bd82d9a67c25e988c9",
+          "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json": "51d4bf37a482d890ffd7960508e6b345aaf20bdff96c71d17dd337f2d793771c",
+          "scripts/tests/rwanda_release_scope_test.py": "0a3522b37aabca0012261712268d042bed8bbcea18da62f5a90a2f9ac56d646d"
+        }
+      },
+      "public-source-export": {
+        "commit": "5242978acf33d7b1c276317ebcc20c01b2564d7e",
+        "files": {
+          "scripts/qa/collect_release_candidate.py": "3e3c7858db9929bf8c6a9464decbed1ba4322beff3dcdfaf0e6cd7494b0ada78",
+          "scripts/tests/test_collect_release_candidate.py": "8f104165176a628bbcf66db56f90f86223f40b6a068af634491ae44e9c136c9d"
+        }
+      }
+    },
+    "moved_member_preview_tooling": {
+      "member_font_tests": 21,
+      "workflow_policy_and_member_media_tests": 104,
+      "ruby_media_tests": 26,
+      "ruby_browser_graph_tests": 11,
+      "ruby_workflow_tests": 3,
+      "byte_comparison": {
+        "predecessor_sha256": "4a3f3553b58164c594b6a6ea704a2e75198eb6d51e416a35cc6940150ce27338",
+        "comparisons": [
+          {
+            "local_engine_fallback": false,
+            "run": 1,
+            "changed": true,
+            "files": 7,
+            "output_sha256": "1e005b6c5dacae8e29819e4f02acd6fde308347d4c4b535f198153ac25be87d1"
+          },
+          {
+            "local_engine_fallback": false,
+            "run": 2,
+            "changed": false,
+            "files": 7,
+            "output_sha256": "1e005b6c5dacae8e29819e4f02acd6fde308347d4c4b535f198153ac25be87d1"
+          },
+          {
+            "local_engine_fallback": true,
+            "run": 1,
+            "changed": true,
+            "files": 7,
+            "output_sha256": "21807e6b8bbe409a9c9433a4bf1e3a9e190996e50aa419f334f973ff68859978"
+          },
+          {
+            "local_engine_fallback": true,
+            "run": 2,
+            "changed": false,
+            "files": 7,
+            "output_sha256": "21807e6b8bbe409a9c9433a4bf1e3a9e190996e50aa419f334f973ff68859978"
+          }
+        ]
+      },
+      "workflow_policy": {
+        "findings": [],
+        "hosted_enforcement_verified": false,
+        "remote_settings_changed": false,
+        "scope": "Declared current Supabase CI/Make and automatic legacy retirement; local wiring only.",
+        "security_scan_execution_verified": false,
+        "status": "pass",
+        "workflow_count": 8
+      }
+    },
+    "burimunsi_posting": {
+      "checks": {
+        "cross-layer": {
+          "log": "phase3-posting-cross-layer-final.log",
+          "exitCode": 0,
+          "passLines": 198,
+          "sha256": "61fa36901d5a217148e95e855153ca9d544accf3790090c24794135bc9945f68"
+        },
+        "controller": {
+          "log": "phase3-posting-controller-final.log",
+          "exitCode": 0,
+          "passLines": 507,
+          "sha256": "571f4643b1bce44c5d3440ba344e2dfd9a3daae9505b7efabc6330895e4c9eaa"
+        },
+        "repository": {
+          "log": "phase3-posting-repository-final.log",
+          "exitCode": 0,
+          "passLines": 399,
+          "sha256": "7369ec18bbd1b69c82f3a1979069f250f3498f12ce6929b39132cdc46e324f3d"
+        },
+        "pipelineSource": {
+          "log": "phase3-posting-pipeline-source.log",
+          "exitCode": 0,
+          "tests": 124,
+          "sha256": "2b9cd6bd81ad4111f552b516b39e80f63c390730736e1670c8eacde43be21297"
+        },
+        "baseline": {
+          "log": "phase3-posting-before.log",
+          "exitCode": 1,
+          "failures": 2,
+          "sha256": "759c2ea000e6609fa1fb6cbe40aa48201bfb61380269dc0ca2e8538e41e42709"
+        },
+        "optionalFullPipeline": {
+          "log": "phase3-posting-pipeline-final.log",
+          "exitCode": 1,
+          "scope": "152 tests executed plus a setup error for the absent Android Studio JBR in the actual SDK signing suite",
+          "sha256": "bf636955c057a2fd6d943c3bd8407c6f5e4461800c65b7ea05f2f9bb574122e9"
+        }
+      },
+      "verified": "An unresolved original allocation survives a new controller, recovery on Home and an unrelated receipt. Staff and Admin Sync both waited for the posted payment version with a single submission.",
+      "remaining": "The receipt-version guard stays in the active controller after terminal cleanup. Recovery on a distribution-signed handset remains deferred."
+    },
+    "react_operator_approval": {
+      "tests": {
+        "four_delayed_owner_cases": "All four failed on the unmodified feature; all four pass on the correction. Three retained commands were erased on the predecessor, and a fourth case sent an additional POST.",
+        "vitest_command": "npm test -- --maxWorkers=4",
+        "vitest": {
+          "passedFiles": 135,
+          "passedTests": 993
+        },
+        "typecheck": "npm run typecheck (pass)",
+        "lint": "npm run lint (pass)",
+        "whitespace": "git diff --check (pass)",
+        "scope": "Local TypeScript source, jsdom component events, synthetic requests and storage."
+      },
+      "route_families": [
+        {
+          "family": "BuriMunsi approvals and native administration",
+          "route": "/admin/burimunsi",
+          "commands": "Operator role, capabilities and active status; native PIN setup and installation revocation; eligible original native request cancellation. Protected grant issuance and token delivery have a distinct gate.",
+          "admission": "Verified current canonical-ledger owner, fresh managed email, admin_users.manage plus receivers.read/manage, chosen group, approvalContract/provisioningContract v2. The route sets operatorApprovalEnabled and nativeAdministrationEnabled. The separate nativeGrantEnabled flag defaults false.",
+          "recovery": "Guarded operator tab predecessor; collection-scoped shared binding and lock; original request-key lookups. PIN and revocation each have their own recovery protocol.",
+          "source": [
+            "app/WorkspaceRoutes.tsx:271",
+            "app/route-access.ts:43",
+            "features/burimunsi/BuriMunsiPage.tsx:151",
+            "features/burimunsi/operatorApproval.ts:200",
+            "features/burimunsi/nativeProvisioning.ts:199",
+            "features/burimunsi/nativeRevocation.ts:201"
+          ],
+          "backend": [
+            "supabase/functions/_shared/domain/admin_burimunsi_operators.js:51",
+            "supabase/functions/_shared/domain/admin_burimunsi_provisioning.js:34"
+          ]
+        },
+        {
+          "family": "Collection, user, membership, payee and notes",
+          "route": "/admin/groups, users, members and payees; group member and payee subroutes; core detail notes",
+          "commands": "Create, edit, status and access changes; record notes on eligible entities.",
+          "admission": "Route-specific collections.create/manage, users.manage or receivers.manage plus the related read/financial-model checks. Explicit false flags on editors and default false on core detail/list.",
+          "recovery": "Resource-keyed original intents and original-request receipts, including predecessor encodings in feature-specific legacy helpers.",
+          "source": [
+            "app/WorkspaceRoutes.tsx:120",
+            "app/route-access.ts:4",
+            "features/core/CorePages.tsx:271",
+            "features/core/legacyGroupActions.ts",
+            "features/core/legacyMembershipActions.ts",
+            "features/core/legacyUserCreate.ts",
+            "features/core/legacyUserEdit.ts",
+            "features/core/legacyPersonAccess.ts",
+            "features/legacy-payees/actions.ts",
+            "features/notes/noteActions.ts"
+          ]
+        },
+        {
+          "family": "Payment evidence, reversals, journals, accounts, allocations and reconciliation",
+          "route": "/admin/transactions, groups/:groupId/transactions/new, transactions/:id/reverse, ledgers, ledger-accounts, reconciliations and nested journals",
+          "commands": "Payment creation, additional evidence and verification, reversal; journal create/edit/post; account create/edit; reconciliation proposal and review. Allocations carry the underlying transaction/allocation identity into journal creation.",
+          "admission": "Canonical and transaction_journals variants keep separate read, payments.manage/reconcile, ledger.manage, reconciliation propose/review and role checks. New command/reversal/review gates false in the route or page defaults.",
+          "recovery": "Original key/intent, receipt and financial identity validation; predecessor-only evidence, required amount, beneficiary and version held by existing feature modules.",
+          "source": [
+            "app/WorkspaceRoutes.tsx:148",
+            "app/WorkspaceRoutes.tsx:195",
+            "app/WorkspaceRoutes.tsx:220",
+            "features/core/TransactionEvidencePage.tsx",
+            "features/core/TransactionReversePage.tsx",
+            "features/core/LegacyJournalCreatePage.tsx",
+            "features/core/LegacyJournalEditPage.tsx",
+            "features/core/LegacyJournalPostPage.tsx",
+            "features/legacy-transactions/actions.ts",
+            "features/legacy-transactions/create.ts",
+            "features/ledger-accounts/LedgerAccountPages.tsx:51",
+            "features/legacy-ledger-accounts/actions.ts",
+            "features/reconciliation/actions.ts",
+            "features/reconciliation/legacyActions.ts"
+          ]
+        },
+        {
+          "family": "MoMo, member receipts, SMS, email, gateway devices and receiver grants",
+          "route": "/admin/momo-receipts, transactions?view=momo, member-receipts, sms-receipts, email and gateway",
+          "commands": "Source classification/reparse/resolution, payment assignment/conflict review, member receipt review, SMS extraction, email dispatch, device enroll/activate/revoke, receiver grant create/revoke. Three reasoned content GETs are separately accounted for.",
+          "admission": "Operations pages default allowActions false, with feature-specific payments.write/manage, sms.extract/reveal, gateway.manage or email.manage and group/model checks.",
+          "recovery": "allowRecovery defaults true on applicable list/detail panels. Existing pending fences, original request lookup and read-only recovery are separate from eligibility to retry. Each sensitive content reveal has its own review/admission guard.",
+          "source": [
+            "features/operations/OperationsPages.tsx:216",
+            "features/operations/MomoReceiptsPage.tsx:171",
+            "features/operations/GatewayEnrollmentPage.tsx:10",
+            "features/operations/pendingFence.ts",
+            "features/operations/momoAssignment.ts",
+            "features/operations/momoConflict.ts",
+            "features/operations/momoSourceActions.ts",
+            "features/operations/momoSourceReveal.ts",
+            "features/operations/memberReceiptReveal.ts",
+            "features/operations/smsActions.ts",
+            "features/operations/emailActions.ts",
+            "features/receipt-review/review.ts",
+            "features/operations/gatewayEnrollment.ts",
+            "features/operations/gatewayActivation.ts",
+            "features/operations/gatewayRevocation.ts",
+            "features/operations/receiverGrantCreation.ts",
+            "features/operations/receiverGrantActions.ts"
+          ]
+        },
+        {
+          "family": "Assisted notification work and SMS control",
+          "route": "/admin/notification-operator and /admin/notification-settings",
+          "commands": "Assisted operator claim/content/confirmation/start/outcome/release and gated gateway handoff/inspection; per-group policy and operator access updates. Queue and original-operation reads can use POST.",
+          "admission": "Assisted page allowWrites false and no sender injected. Controls policy changes, enabling and operator access all default false. Feature-level assisted_sms permissions and owner-only controls apply.",
+          "recovery": "Original operation observation with keyed commands and ephemeral dispatch permits; existing pending control lookups are separate from new mutation gates.",
+          "source": [
+            "features/assisted/AssistedSmsPage.tsx:64",
+            "features/assisted/SmsControlsPage.tsx:150",
+            "features/assisted/operatorWorkflow.ts:132",
+            "features/assisted/assistedGateway.ts:64",
+            "features/assisted/smsAccessMutations.ts",
+            "features/assisted/smsPolicyMutations.ts"
+          ]
+        },
+        {
+          "family": "Team, request cancellation and privacy review",
+          "route": "/admin/admin-users, /admin/requests and /admin/privacy-requests",
+          "commands": "Invitation, team access lifecycle and revocation; generic original-request cancellation; claim/record privacy review. Privacy lists, detail, context, and original-operation lookup are RPC reads sent with POST.",
+          "admission": "Principal, backend-specific contract and capability checks; team allowMutations false, request history allowCancellation false, privacy allowActions false.",
+          "recovery": "Team invitation/revoke originals and provider-specific predecessor receipts, request-history cancellation receipts, privacy operation journal and readbacks.",
+          "source": [
+            "session/TeamPage.tsx:68",
+            "session/teamMutations.ts",
+            "session/invitationRecovery.ts",
+            "app/WorkspaceRoutes.tsx:229",
+            "features/requests/cancellation.ts",
+            "features/privacy/PrivacyPage.tsx:30",
+            "features/privacy/journal.ts"
+          ]
+        },
+        {
+          "family": "Session and account credentials",
+          "route": "/admin/login, /admin/setup, /admin/forgot-password, /admin/security, /admin/security/verify-email and authenticator route; shell logout",
+          "commands": "Backend-specific password, federated and OTP sign-in, email challenge/verification, password reset/setup/change, logout and authenticator challenges/enrollment/recovery.",
+          "admission": "Dedicated identity, backend and challenge checks. Account security guards account.manage. Managed MFA transitions remain explicitly gated by mfaQualification.ts.",
+          "recovery": "Existing session epoch, logout intent fingerprint, verification deadlines and MFA transition/verification state. These commands do not use the financial mutation envelope.",
+          "source": [
+            "app/SessionRoutes.tsx:98",
+            "session/AdminSessionController.ts",
+            "session/AuthPages.tsx",
+            "session/AuthenticatorPage.tsx:46",
+            "session/sensitiveEmailVerification.ts",
+            "session/mfaQualification.ts",
+            "session/logoutIntent.ts",
+            "session/mfaRecovery.ts"
+          ]
+        }
+      ],
+      "transport_inventory": {
+        "source": "AdminApiClient.request defaults body to POST and no body to GET; only GET/POST/PATCH accepted (api/client.ts:169). Audit covers real workspace/session route composition and typed request call sites in src, including wrapped actions and the three reasoned content GETs.",
+        "candidateDefinitions": "POST/PATCH or body-defaulted POST call sites; includes same-request retries and read-only RPCs. A call site is not an operation count.",
+        "postOrPatchCandidates": 101,
+        "byMethod": {
+          "POST": 83,
+          "PATCH": 14,
+          "context.mode === create ? POST : PATCH": 4
+        },
+        "auditedContentReads": [
+          {
+            "source": "admin-web/src/features/operations/memberReceiptReveal.ts",
+            "line": 30,
+            "method": "GET",
+            "path": "`gateway/receipts/${context.receipt.id}/content`",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/operations/momoSourceReveal.ts",
+            "line": 35,
+            "method": "GET",
+            "path": "`momo/sources/${context.source.raw_sms_id}/content`",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/operations/smsActions.ts",
+            "line": 148,
+            "method": "GET",
+            "path": "`sms/receipts/${context.source.source_kind}/${context.source.id}/content`",
+            "request_key_option": false
+          }
+        ],
+        "assistedActionLiteralsInWrappedRequests": [
+          "get_claimed",
+          "get_operation"
+        ],
+        "callSites": [
+          {
+            "source": "admin-web/src/features/assisted/AssistedSmsPage.tsx",
+            "line": 103,
+            "method": "POST",
+            "path": "'notification-operator'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/assisted/assistedGateway.ts",
+            "line": 64,
+            "method": "POST",
+            "path": "'notification-operator'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/assisted/assistedGateway.ts",
+            "line": 73,
+            "method": "POST",
+            "path": "'notification-operator'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/assisted/operatorWorkflow.ts",
+            "line": 136,
+            "method": "POST",
+            "path": "'notification-operator'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/assisted/smsAccessMutations.ts",
+            "line": 58,
+            "method": "POST",
+            "path": "'notification-operator/access'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/assisted/smsPolicyMutations.ts",
+            "line": 63,
+            "method": "POST",
+            "path": "`notification-operator/policies/${original.collectionId}`",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/burimunsi/nativeProvisioning.ts",
+            "line": 199,
+            "method": "POST",
+            "path": "guardedProvisioningPath()",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/burimunsi/nativeProvisioning.ts",
+            "line": 231,
+            "method": "POST",
+            "path": "path",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/burimunsi/nativeProvisioning.ts",
+            "line": 250,
+            "method": "POST",
+            "path": "`burimunsi/provisioning/requests/${pending.requestKey}/delivery`",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/burimunsi/nativeRevocation.ts",
+            "line": 201,
+            "method": "POST",
+            "path": "guardedProvisioningPath()",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/burimunsi/nativeRevocation.ts",
+            "line": 227,
+            "method": "POST",
+            "path": "guardedProvisioningPath(path)",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/burimunsi/operatorApproval.ts",
+            "line": 156,
+            "method": "POST",
+            "path": "PATH",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/GroupCreatePage.tsx",
+            "line": 149,
+            "method": "POST",
+            "path": "'operations/groups'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/GroupEditPage.tsx",
+            "line": 161,
+            "method": "PATCH",
+            "path": "`operations/groups/${id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/LegacyJournalCreatePage.tsx",
+            "line": 256,
+            "method": "POST",
+            "path": "'operations/journals'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/LegacyJournalEditPage.tsx",
+            "line": 233,
+            "method": "PATCH",
+            "path": "`operations/journals/${id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/LegacyJournalPostPage.tsx",
+            "line": 191,
+            "method": "POST",
+            "path": "`operations/journals/${id}/post`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/LegacyPayeeCreatePage.tsx",
+            "line": 111,
+            "method": "POST",
+            "path": "'operations/payees'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/MembershipCreatePage.tsx",
+            "line": 113,
+            "method": "POST",
+            "path": "'operations/memberships'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/MembershipEditPage.tsx",
+            "line": 117,
+            "method": "PATCH",
+            "path": "`operations/memberships/${groupId}/${userId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/PayeeEditPage.tsx",
+            "line": 94,
+            "method": "PATCH",
+            "path": "`operations/payees/${id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/TransactionEvidencePage.tsx",
+            "line": 194,
+            "method": "POST",
+            "path": "'operations/transactions'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/TransactionReversePage.tsx",
+            "line": 131,
+            "method": "POST",
+            "path": "`operations/transactions/${id}/reverse`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/UserCreatePage.tsx",
+            "line": 89,
+            "method": "POST",
+            "path": "'operations/users'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/UserEditPage.tsx",
+            "line": 137,
+            "method": "PATCH",
+            "path": "`operations/users/${id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyGroupActions.ts",
+            "line": 180,
+            "method": "context.mode === create ? POST : PATCH",
+            "path": "context.mode === 'create' ? 'operations/groups' : `operations/groups/${context.groupId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyGroupActions.ts",
+            "line": 199,
+            "method": "context.mode === create ? POST : PATCH",
+            "path": "context.mode === 'create' ? 'operations/groups' : `operations/groups/${context.groupId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyGroupActions.ts",
+            "line": 314,
+            "method": "PATCH",
+            "path": "`operations/groups/${context.groupId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyMembershipActions.ts",
+            "line": 160,
+            "method": "context.mode === create ? POST : PATCH",
+            "path": "context.mode === 'create' ? 'operations/memberships' : `operations/memberships/${context.groupId}/${context.userId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyMembershipActions.ts",
+            "line": 179,
+            "method": "context.mode === create ? POST : PATCH",
+            "path": "context.mode === 'create' ? 'operations/memberships' : `operations/memberships/${context.groupId}/${context.userId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyPersonAccess.ts",
+            "line": 177,
+            "method": "PATCH",
+            "path": "`operations/users/${context.userId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyPersonAccess.ts",
+            "line": 196,
+            "method": "PATCH",
+            "path": "`operations/users/${context.userId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyUserCreate.ts",
+            "line": 128,
+            "method": "POST",
+            "path": "'operations/users'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyUserCreate.ts",
+            "line": 149,
+            "method": "POST",
+            "path": "'operations/users'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyUserEdit.ts",
+            "line": 150,
+            "method": "PATCH",
+            "path": "`operations/users/${context.userId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/core/legacyUserEdit.ts",
+            "line": 172,
+            "method": "PATCH",
+            "path": "`operations/users/${context.userId}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/ledger-accounts/actions.ts",
+            "line": 102,
+            "method": "PATCH",
+            "path": "`operations/accounts/${context.account.id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/ledger-accounts/actions.ts",
+            "line": 131,
+            "method": "PATCH",
+            "path": "`operations/accounts/${context.account.id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/legacy-ledger-accounts/actions.ts",
+            "line": 132,
+            "method": "POST",
+            "path": "'operations/accounts'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/legacy-payees/actions.ts",
+            "line": 125,
+            "method": "PATCH",
+            "path": "`operations/payees/${context.id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/legacy-payees/actions.ts",
+            "line": 142,
+            "method": "PATCH",
+            "path": "`operations/payees/${context.id}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/legacy-transactions/actions.ts",
+            "line": 215,
+            "method": "POST",
+            "path": "`operations/transactions/${context.id}/${operation(context.mode)}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/legacy-transactions/actions.ts",
+            "line": 228,
+            "method": "POST",
+            "path": "`operations/transactions/${context.id}/${operation(context.mode)}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/legacy-transactions/create.ts",
+            "line": 184,
+            "method": "POST",
+            "path": "'operations/transactions'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/legacy-transactions/create.ts",
+            "line": 198,
+            "method": "POST",
+            "path": "'operations/transactions'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/notes/noteActions.ts",
+            "line": 80,
+            "method": "POST",
+            "path": "`operations/${context.area}/${context.id}/notes`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/notes/noteActions.ts",
+            "line": 120,
+            "method": "POST",
+            "path": "`operations/${context.area}/${context.id}/notes`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/emailActions.ts",
+            "line": 99,
+            "method": "POST",
+            "path": "'email/dispatch'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/gatewayActivation.ts",
+            "line": 109,
+            "method": "POST",
+            "path": "`gateway/devices/${device.id}/activate`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/gatewayActivation.ts",
+            "line": 134,
+            "method": "POST",
+            "path": "`gateway/devices/${device.id}/activate`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/gatewayEnrollment.ts",
+            "line": 152,
+            "method": "POST",
+            "path": "'gateway/devices'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/gatewayEnrollment.ts",
+            "line": 178,
+            "method": "POST",
+            "path": "'gateway/devices'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/gatewayRevocation.ts",
+            "line": 113,
+            "method": "POST",
+            "path": "`gateway/devices/${device.id}/revoke`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/gatewayRevocation.ts",
+            "line": 140,
+            "method": "POST",
+            "path": "`gateway/devices/${device.id}/revoke`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/momoAssignment.ts",
+            "line": 185,
+            "method": "POST",
+            "path": "`momo/transactions/${context.detail.transaction.id}/assign`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/momoAssignment.ts",
+            "line": 201,
+            "method": "POST",
+            "path": "`momo/transactions/${context.detail.transaction.id}/assign`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/momoConflict.ts",
+            "line": 164,
+            "method": "POST",
+            "path": "`momo/transactions/${context.detail.transaction.id}/review-conflict`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/momoConflict.ts",
+            "line": 181,
+            "method": "POST",
+            "path": "`momo/transactions/${context.detail.transaction.id}/review-conflict`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/momoSourceActions.ts",
+            "line": 166,
+            "method": "POST",
+            "path": "`momo/sources/${context.sourceId}/${endpoint(context.kind)}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/receiverGrantActions.ts",
+            "line": 106,
+            "method": "POST",
+            "path": "`gateway/receiver-grants/${context.grant.id}/revoke`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/receiverGrantActions.ts",
+            "line": 140,
+            "method": "POST",
+            "path": "`gateway/receiver-grants/${grant.id}/revoke`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/receiverGrantCreation.ts",
+            "line": 154,
+            "method": "POST",
+            "path": "'gateway/receiver-grants'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/receiverGrantCreation.ts",
+            "line": 181,
+            "method": "POST",
+            "path": "'gateway/receiver-grants'",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/operations/smsActions.ts",
+            "line": 101,
+            "method": "POST",
+            "path": "`sms/receipts/${context.source.source_kind}/${context.source.id}/extract`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 91,
+            "method": "POST",
+            "path": "'privacy/admin_list_account_deletion_reviews_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 98,
+            "method": "POST",
+            "path": "'privacy/admin_get_account_retention_context_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 128,
+            "method": "POST",
+            "path": "'privacy/admin_get_account_deletion_review_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 139,
+            "method": "POST",
+            "path": "'privacy/admin_inspect_account_retention_scope_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 149,
+            "method": "POST",
+            "path": "'privacy/admin_get_account_deletion_review_operation_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 171,
+            "method": "POST",
+            "path": "'privacy/admin_get_account_deletion_review_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 204,
+            "method": "POST",
+            "path": "'privacy/admin_get_account_deletion_review_operation_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 213,
+            "method": "POST",
+            "path": "'privacy/admin_get_account_deletion_review_v1'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/privacy/PrivacyPage.tsx",
+            "line": 225,
+            "method": "POST",
+            "path": "`privacy/${operation}`",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/features/receipt-review/review.ts",
+            "line": 131,
+            "method": "POST",
+            "path": "`gateway/receipts/${context.receipt.id}/review`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/reconciliation/actions.ts",
+            "line": 158,
+            "method": "POST",
+            "path": "`reconciliations${intent.path}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/reconciliation/actions.ts",
+            "line": 208,
+            "method": "POST",
+            "path": "`reconciliations${intent.path}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/reconciliation/legacyActions.ts",
+            "line": 232,
+            "method": "POST",
+            "path": "`reconciliations${intent.path}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/reconciliation/legacyActions.ts",
+            "line": 250,
+            "method": "POST",
+            "path": "`reconciliations${intent.path}`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/features/requests/cancellation.ts",
+            "line": 118,
+            "method": "POST",
+            "path": "`operations/requests/${context.targetKey}/cancel`",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 262,
+            "method": "POST",
+            "path": "'auth/google/start'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 269,
+            "method": "POST",
+            "path": "'auth/google/exchange'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 366,
+            "method": "POST",
+            "path": "'auth/login'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 379,
+            "method": "POST",
+            "path": "'auth/logout'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 430,
+            "method": "POST",
+            "path": "'auth/logout'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 431,
+            "method": "POST",
+            "path": "'auth/logout'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 463,
+            "method": "POST",
+            "path": "'auth/otp'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 482,
+            "method": "POST",
+            "path": "'auth/verify'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 499,
+            "method": "POST",
+            "path": "'auth/forgot-password'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 506,
+            "method": "POST",
+            "path": "'auth/complete-password'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 525,
+            "method": "POST",
+            "path": "'auth/change-password'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 609,
+            "method": "POST",
+            "path": "'auth/mfa/verify'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 629,
+            "method": "POST",
+            "path": "'auth/mfa/recover'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AdminSessionController.ts",
+            "line": 670,
+            "method": "POST",
+            "path": "'auth/mfa/verify'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AuthenticatorPage.tsx",
+            "line": 68,
+            "method": "POST",
+            "path": "'auth/mfa/enroll'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AuthenticatorPage.tsx",
+            "line": 80,
+            "method": "POST",
+            "path": "'auth/mfa/challenge'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/AuthenticatorPage.tsx",
+            "line": 92,
+            "method": "POST",
+            "path": "'auth/mfa/cancel-enrollment'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/sensitiveEmailVerification.ts",
+            "line": 53,
+            "method": "POST",
+            "path": "'auth/email/request'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/sensitiveEmailVerification.ts",
+            "line": 68,
+            "method": "POST",
+            "path": "'auth/email/verify'",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/teamMutations.ts",
+            "line": 107,
+            "method": "POST",
+            "path": "intent.path as string",
+            "request_key_option": true
+          },
+          {
+            "source": "admin-web/src/session/teamMutations.ts",
+            "line": 171,
+            "method": "POST",
+            "path": "`team/${member.id}/revoke`",
+            "request_key_option": false
+          },
+          {
+            "source": "admin-web/src/session/teamMutations.ts",
+            "line": 370,
+            "method": "POST",
+            "path": "intent.path as string",
+            "request_key_option": true
+          }
+        ]
+      },
+      "limits": [
+        "Delivery and grant issuance are gated separately in the source. Hosted contract negotiation, operator testing, installed provider credentials, authorized OTP/SMS delivery and production acceptance require their respective external evidence.",
+        "Existing financially privileged routes with false mutation flags continue to require their activation qualifications. The suite validates contract handling with synthetic responses and does not establish live capability availability."
+      ]
+    },
+    "managed_retention": {
+      "migration": {
+        "file": "20261121182000_burimunsi_journal_posting_subjects.sql",
+        "version": "20261121182000",
+        "sha256": "035031f6796e0a39f5b57f3f1a8ab24f3f425303603b586ca306e28aec331b30",
+        "expected_history": {
+          "migration_count": 93,
+          "ordered_sha256": "0baa8365b91ebf8c796eeb126eb8bdcbf2669c943dff4dc58019bae5fffe2c35"
+        }
+      },
+      "predecessor": {
+        "file": "cloud-history-20261120-epoch44.json",
+        "receipt_sha256": "32b54a36d3469d735c8b4b20016591813b66242e6dcdb9db981b4c46bd7fe7d5",
+        "observed_at": "2026-11-20T15:47:21.376Z",
+        "migration_count": 89,
+        "ordered_sha256": "6ff5c9035113c0c17085eadbccf0c9dfc1c8cf928fbeb76f1e229ca11844f11f"
+      },
+      "source_tests": {
+        "rt1-source-unit.tap": {
+          "sha256": "5784e7d85000717e5b48e4e953646e0aa0eacc74943b222225ef1d0626f7f322",
+          "passed": 16
+        },
+        "rt1-writer-tests.tap": {
+          "sha256": "353d77da91d0443e22a97eb00100ddb40d91c4faeb5928a8839e874fb046338d",
+          "passed": 7
+        }
+      },
+      "disposable_pg17": {
+        "log_sha256": "bb1e7b15311ee102691ab17733f26118df2586c81b5e96fa428d8cdb24176bb6",
+        "scope": "Local socket only; real privacy.review authorizer, scoped sessions, fence, V2 capture and sealed-page RPCs. Synthetic financial posting graph. No carrier or production action.",
+        "journalPostingEvidence": {
+          "captures": 12,
+          "continuationPages": 25,
+          "roleLimit": 100
+        },
+        "fixtureCohortHistory": {
+          "before": 71,
+          "after": 75
+        },
+        "writerJournalChecks": [
+          "scoped_writer_lock_compatibility",
+          "writer_column_acl_and_atomicity",
+          "journal_subject_inventory_and_acl",
+          "scoped_posting_subjects_capture_and_page_v2",
+          "storage_insert_column_acl_and_atomicity",
+          "storage_journal_creation_and_replay",
+          "atomic_cohort_history_and_independent_readback"
+        ],
+        "productionDispatch": false
+      },
+      "remaining": "On installed managed project check predecessor, functions, roles, bucket metadata access and fenced release before activating. Unlinked or ambiguous parties remain unknown. Both journal dispositions remain blocked. This source change grants no erasure authority."
+    },
+    "member_history": {
+      "ordinary_flutter_tests": 2698,
+      "retained_sql_vm_cases": 6,
+      "retained_sql_inputs": 9,
+      "analyzer": "pass",
+      "format": "pass",
+      "reproduced": "The old Activity refresh repeated an obsolete search. An active query also reopened against a replacement repository that published identical profile and sync values.",
+      "scope": "Activity, Ledger and member group detail only open history through the current account. Refresh and retry recheck the visible query. Payment deep links survive ordinary same-member updates."
+    },
+    "qa_tooling": {
+      "python": 428,
+      "ruby": 138,
+      "counted_node_tests": 4
+    },
+    "supabase_source_suite": {
+      "node_reported_passed": 4240,
+      "node_reported_skips": 8,
+      "deno_frozen_typecheck": true
+    },
+    "asset_source_integrity": "pass",
+    "capability_inputs": 39,
+    "generated_capability_consumers": 9,
+    "public_evidence_comparison": {
+      "browser_current_inputs": 354,
+      "browser_retained_inputs": 354,
+      "browser_changed": [
+        "lib/app/router.dart",
+        "lib/core/cloudflare/collect_cloudflare_client.dart",
+        "lib/core/cloudflare/realtime_invalidation.dart",
+        "lib/features/activity/activity_screen.dart",
+        "lib/features/collections/collection_detail_screen.dart",
+        "lib/features/ledger/ledger_screen.dart",
+        "lib/features/privacy/privacy_email_verification.dart",
+        "lib/features/privacy/privacy_request_controller.dart",
+        "lib/features/privacy/privacy_request_screen.dart",
+        "lib/features/privacy/privacy_transport.dart",
+        "lib/shared/repositories/collect_offline_cache.dart",
+        "lib/shared/repositories/collect_repository.dart",
+        "lib/shared/repositories/collect_repository_contribution_commands.dart",
+        "lib/shared/repositories/collect_repository_history.dart",
+        "lib/shared/repositories/collect_repository_member_history.dart",
+        "lib/shared/repositories/collect_repository_providers.dart",
+        "lib/shared/repositories/collect_repository_state.dart",
+        "lib/shared/repositories/member_group_repository.dart",
+        "scripts/public_app_media.rb",
+        "scripts/qa/public_cua_capture_contract.json"
+      ],
+      "browser_added": [
+        "scripts/assets/prepare_member_preview_fonts.py"
+      ],
+      "browser_removed": [
+        "scripts/admin_cloudflare_assets.py"
+      ],
+      "content_retained_inputs": 25,
+      "content_changed_since_previous_review": [
+        "content/product/collect_capabilities.json",
+        "lib/features/landing/public_capability_content.dart",
+        "lib/features/landing/public_marketing_page_content.dart",
+        "scripts/public_site_publication.rb"
+      ],
+      "current_content_source_inputs": 25,
+      "current_content_differences": []
+    },
+    "additional_source_checks": {
+      "request_history": {
+        "aliases": [
+          "/operations/requests",
+          "/reconciliations/requests"
+        ],
+        "operations": [
+          "actor-scoped listing",
+          "lookup by original request key"
+        ],
+        "fixture": "Two PostgreSQL sessions, Staff and Admin with separate authenticated BFF cookies, and an actual committed private-group request.",
+        "confirmed": "The history reads finish while another database transaction owns the exclusive financial lock. Another principal cannot see the request. Revoking account.manage denies the four list and lookup routes. The stored receipt survives.",
+        "focused_real_http_checks": [
+          "current managed-branch synthetic PostgreSQL 17.11",
+          "13-migration compatibility schema"
+        ],
+        "predecessor": "Both principals signed in, but the managed original-key GET timed out on the held write lock after five seconds and returned 503.",
+        "successor_seconds": [
+          0.89,
+          0.89
+        ],
+        "scoped_node_tests": 24,
+        "frozen_deno_typecheck": "pass",
+        "database_migration_for_this_handler": false,
+        "qualification_scope": "The focused history case exercised both schemas. The full historical suite has separate prerequisites.",
+        "broader_historical_fixture_observations": [
+          "The unrelated complete historical suite on the older 13-entry profile refused its initial email OTP.",
+          "A separate attempt to seed a second fixed owner in an already-seeded managed fixture reported owner_identity_mismatch."
+        ],
+        "runtime_adoption": "Release the changed managed Admin Edge handler through its established process.",
+        "ci_selection": {
+          "current": "Normal CI selects GITHUB_SHA and discovers Node Edge source checks plus frozen Deno checks.",
+          "historical": "The historical-standard dispatch requires an explicit 40-character reviewed_historical_commit and runs that revision’s Deno suite in its own seeded database.",
+          "workflow": ".github/workflows/supabase.yml"
+        }
+      },
+      "evidence_consumers": {
+        "release_evidence_tests": 19,
+        "release_tree_custody_tests": 2,
+        "integrated_runner_tests": 25,
+        "receipt_150_files": 10,
+        "receipt_150_bytes": 330330,
+        "required_external_before_dump_sha256": "8e9a8b9f3626f9c70dbc9c823ba9e403fa77d3aea2d5652bc1b2cf27007af138",
+        "retained_member_history_files": 9,
+        "retained_member_history_bytes": 811747,
+        "index": "docs/release-evidence.md"
+      },
+      "public_and_play_source": {
+        "scope": "Source render and local text export only",
+        "integrated_files": {
+          "docs/release/public-website-current-content-contract.json": "0a88c3b93a17dc33000a2d9897130184f62d934b518084c3ac49477829787bb4",
+          "docs/release/public-content-provenance/2026-11-21-rendered-source-copy-comparison.json": "416332f71c6924a65737df5ec63ca4351291d2194c3414bd82d9a67c25e988c9",
+          "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json": "51d4bf37a482d890ffd7960508e6b345aaf20bdff96c71d17dd337f2d793771c",
+          "scripts/tests/rwanda_release_scope_test.py": "0a3522b37aabca0012261712268d042bed8bbcea18da62f5a90a2f9ac56d646d"
+        },
+        "git_source_snapshots": {
+          "previous": {
+            "revision": "debc4d2edf47662fafe4d85b5a8d710e54ec4d61",
+            "paths": 86,
+            "bytes": 1226844
+          },
+          "current": {
+            "revision": "ddacc6c4dba2228d2147fd265263c49e581a46df",
+            "paths": 86,
+            "bytes": 1235197
+          }
+        },
+        "historical_packet_unchanged": {
+          "live_audit_2026_08_20": {
+            "sha256": "92a47163feae178614b39a089120ef21cb63507db7af6e78a99f97fa18973472",
+            "bytes": 1125
+          },
+          "live_audit_2026_09_07": {
+            "sha256": "8d1d5e34bc5de5f1746b6d6d8f16023a2df7f8d3cad4671e983e2139b8544862",
+            "bytes": 864
+          },
+          "target_release": {
+            "sha256": "9281ba8f86d6575e920bbf9e7f6d3fe29d2e2e9e0d378f1332d85109652a4a9f",
+            "bytes": 1240
+          },
+          "app_content": {
+            "sha256": "931d60d47dfe4a151cbadf6ff8553fb7c35cd7803eaf5b1b47b836d7a3bf4e32",
+            "bytes": 7922
+          },
+          "play_console_surfaces": {
+            "sha256": "c2b910eeb7f5cba738e5c6e1b450355965211ea0bc040b7cc2880a15feaa4fb5",
+            "bytes": 1635
+          },
+          "console_completion_status": {
+            "sha256": "eb74ae69fcd003c09b088c27ed70979086434652b9be432fed7cd0ee2a83adc3",
+            "bytes": 74
+          },
+          "scope_review_status": {
+            "sha256": "6a8c31ab1c21ae690b18e123f890f36ab0882de89658b6ecda6c02f87c1cedd2",
+            "bytes": 67
+          }
+        },
+        "changed_packet_fields": [
+          "short_description",
+          "full_description"
+        ],
+        "short_drift_regression": {
+          "test_exit": 1,
+          "detected": "short_description"
+        },
+        "validator": {
+          "status": "pass",
+          "expected_routes": [
+            "/",
+            "/account-deletion/",
+            "/community-groups/",
+            "/craas/",
+            "/credit-readiness/",
+            "/data-deletion/",
+            "/group-savings/",
+            "/insurance/",
+            "/our-partners/",
+            "/partners/",
+            "/privacy/",
+            "/protection/",
+            "/security/",
+            "/terms/",
+            "/trust/"
+          ],
+          "generated_routes": [
+            "/",
+            "/account-deletion/",
+            "/community-groups/",
+            "/craas/",
+            "/credit-readiness/",
+            "/data-deletion/",
+            "/group-savings/",
+            "/insurance/",
+            "/our-partners/",
+            "/partners/",
+            "/privacy/",
+            "/protection/",
+            "/security/",
+            "/terms/",
+            "/trust/"
+          ],
+          "hash_failures": [],
+          "scope": "Exact locally reviewed Collect Rwanda-only product copy and source inputs. Historical baseline retained; no visual, legal, publication or hosted availability acceptance.",
+          "contract_sha256": "0a88c3b93a17dc33000a2d9897130184f62d934b518084c3ac49477829787bb4",
+          "historical_baseline_sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf",
+          "historical_comparison_sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e",
+          "historical_visible_text_sha256": "a9fa22f809403b0bae6cd88c20aeeaf20ceedf104f52676a4400cba67ea10264",
+          "current_comparison_sha256": "416332f71c6924a65737df5ec63ca4351291d2194c3414bd82d9a67c25e988c9",
+          "current_comparison_file": "docs/release/public-content-provenance/2026-11-21-rendered-source-copy-comparison.json",
+          "reviewed_source_count": 25,
+          "legal_release_approved": false,
+          "publication_approved": false
+        },
+        "source_tests": {
+          "content": [
+            29,
+            37
+          ],
+          "routes": [
+            17,
+            194
+          ],
+          "capability": [
+            10,
+            150
+          ],
+          "Rwanda_scope": [
+            4
+          ]
+        },
+        "export": {
+          "status": "pass",
+          "short_description_chars_before_after": [
+            66,
+            73
+          ],
+          "full_description_chars_before_after": [
+            1284,
+            1673
+          ],
+          "export_matches_fastlane_bytes": true
+        },
+        "hash_normalized_html_documents": 18,
+        "route_and_redirect_definitions": 23,
+        "external_actions": [],
+        "qualification": "Public media, complete built site, website publication and the actual Play listing are deferred."
+      },
+      "prior_product_source_readback": {
+        "corrected_unlisted_path": "scripts/__pycache__/admin_cloudflare_assets.cpython-312.pyc",
+        "preserved_generated_bytes": 33954,
+        "preserved_generated_sha256": "7b4ef3196a445f459c9e985588d4d5d1f4b056bba1ac43afe40530147ee3789e",
+        "original_source_file_count": 4279,
+        "unchanged_manifest_sha256": "ddc840d81871dc4ac4c88ef1e49dafa3f92c6e2145c46816fa199b75caa10e6c",
+        "old_and_current_verifiers": "pass",
+        "custody": "prior-product-source-generated-bytecode in the independent verification directory"
+      },
+      "public_source_export_fixture": {
+        "export_head_observed": "89e41e224ce3294307493e2030df30ba1dab8240",
+        "tested_source_sha256": {
+          "scripts/qa/collect_release_candidate.py": "3e3c7858db9929bf8c6a9464decbed1ba4322beff3dcdfaf0e6cd7494b0ada78",
+          "scripts/tests/test_collect_release_candidate.py": "8f104165176a628bbcf66db56f90f86223f40b6a068af634491ae44e9c136c9d"
+        },
+        "schema_version": 3,
+        "source_compared": true,
+        "file_count": 4291,
+        "total_source_bytes": 187390392,
+        "source_manifest_sha256": "73e73a1326d4c85bbb5020b1212e7c2edd44415ccf166889f7d1f1e094e3795f",
+        "export_manifest_sha256": "354d5a01a9aa87517fee9e1c23f1c76d4ff625e0ff40e112af62cc2d4e60cdb6",
+        "source_check_documents": {
+          "docs/PRODUCT.md": {
+            "bytes": 2851,
+            "mode": 493,
+            "sha256": "6f065e32578d9ebb33b1e07d848c575a382d7578d033e2eb2e4d8da92641aaa9"
+          },
+          "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json": {
+            "bytes": 24157,
+            "mode": 493,
+            "sha256": "51d4bf37a482d890ffd7960508e6b345aaf20bdff96c71d17dd337f2d793771c"
+          },
+          "docs/release/RELEASE_BLOCKERS.md": {
+            "bytes": 956,
+            "mode": 420,
+            "sha256": "879671ddb28a3218425d2e0cbbbfd055c0fd65804eca3a1f22cade5cb9328d9f"
+          },
+          "docs/release/public-content-provenance/2026-11-21-rendered-source-copy-comparison.json": {
+            "bytes": 9441,
+            "mode": 420,
+            "sha256": "416332f71c6924a65737df5ec63ca4351291d2194c3414bd82d9a67c25e988c9"
+          },
+          "docs/release/public-content-provenance/historical-comparison.json": {
+            "bytes": 18226,
+            "mode": 493,
+            "sha256": "42ae9ad0d98b70a8014fc4773d68092ce4fed722226da92a4dcc2681e619808e"
+          },
+          "docs/release/public-content-provenance/historical-visible-text.json": {
+            "bytes": 72421,
+            "mode": 493,
+            "sha256": "a9fa22f809403b0bae6cd88c20aeeaf20ceedf104f52676a4400cba67ea10264"
+          },
+          "docs/release/public-website-content-baseline.json": {
+            "bytes": 1900,
+            "mode": 493,
+            "sha256": "69fb1211d77ad8b0f3b60f583e35c1d78954a2e774d8bf9835ae8cfd80b26caf"
+          },
+          "docs/release/public-website-current-content-contract.json": {
+            "bytes": 7941,
+            "mode": 493,
+            "sha256": "0a88c3b93a17dc33000a2d9897130184f62d934b518084c3ac49477829787bb4"
+          }
+        },
+        "source_check_document_bytes": 137893,
+        "member_website_copy": {
+          "status": "pass",
+          "reviewed_sources": 25,
+          "routes": 15,
+          "comparison_path": "docs/release/public-content-provenance/2026-11-21-rendered-source-copy-comparison.json",
+          "comparison_sha256": "416332f71c6924a65737df5ec63ca4351291d2194c3414bd82d9a67c25e988c9",
+          "media": "Manifests supplied screen and photography metadata only. No media qualification."
+        },
+        "rwanda_scope": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK",
+        "ios_filesystem_identity_count": 4291,
+        "clean_standalone_verify": "pass",
+        "listed_file_differences": []
+      },
+      "launcher_working_checkout": {
+        "branch": "codex/burimunsi-android-integration-20261109",
+        "head_preserved": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+        "momo_source_roles": 69,
+        "auth17_rpcs": 85,
+        "auth17_functions": 7,
+        "review_ref": "codex/collect-fullstack-cleanup-20261120",
+        "tracked_index_preserved": true,
+        "unrelated_edits": "Each package was applied to this working copy while preserving concurrent edits. The independent source export identifies the review branch.",
+        "local_export_fixture_tests": 45,
+        "review_export_fixture_tests": 48
+      }
+    },
+    "independent_source_export": {
+      "revision": "5242978acf33d7b1c276317ebcc20c01b2564d7e",
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-review-3pm8g4sm/product-source",
+      "source_files_verified_against_git": 4291,
+      "source_bytes": 187390392,
+      "manifest_sha256": "7b80ca580d7886e4ee4a6cd81a49f74520507c355974ec68d600985bf4e28b2f",
+      "source_manifest_sha256": "73e73a1326d4c85bbb5020b1212e7c2edd44415ccf166889f7d1f1e094e3795f",
+      "momo15_inventory": "pass",
+      "auth17_inventory": "pass",
+      "managed_plan_last": {
+        "file": "20261121182000_burimunsi_journal_posting_subjects.sql",
+        "version": "20261121182000",
+        "sha256": "035031f6796e0a39f5b57f3f1a8ab24f3f425303603b586ca306e28aec331b30",
+        "expected_history": {
+          "migration_count": 93,
+          "ordered_sha256": "0baa8365b91ebf8c796eeb126eb8bdcbf2669c943dff4dc58019bae5fffe2c35"
+        }
+      },
+      "cloudflare_admin_tests": 104,
+      "public_copy": {
+        "routes": 15,
+        "source_inputs": 25
+      },
+      "rwanda_source_tests": "pass",
+      "compiled_artifacts": false
+    },
+    "independent_check_files": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-review-3pm8g4sm/checks",
+      "sha256": {
+        "activity-refresh-predecessor.log": "eece91265ad298659ecb105de3a940412ad82d670c5eed14dfd1a65d51616a77",
+        "activity-refresh-successor.log": "18be14f640d52e6f5cb2adbe72a8f2b5bdf77fd4bfc01b7a1086e2aaa26f375a",
+        "cleanup-capability-pins.json": "800db133c7577a5a5a2d9466f4aba9af928e5c2d7bd39debb48436a7ac6e9138",
+        "cleanup-flutter-analyze.log": "dd00432a1fcda2ecf6eb72f3781851f215edd63e9dac373fa1c2ed657402972a",
+        "cleanup-flutter-full.log": "a65d9e6c0ca3643f9afb810090d14839e670f7ffcbb92d818d8876839aac0633",
+        "cleanup-history-scopes.log": "278ace3a01453544cb073bbc4c497ea0dc492cf479c32abc947305eead841c54",
+        "cleanup-history-screens.log": "b91e070bc41b629db7230ff473086769086f8c9d05399f159f580f9de45f2408",
+        "cleanup-integrity.json": "4e291ffc47f8e982cc4d8ee060be3ab0e4d0526f60eb7f36df6f6318b80def25",
+        "cleanup-launcher-auth17.json": "3fccbd9e45b5249396b8f2ef0f49e324dd0aa368bcedc9f8bfcdc6dfed6415c2",
+        "cleanup-launcher-export-tests.log": "f23eb3feddce340e9ec62914843975db06c12a19587eeeca8d9096c400c72508",
+        "cleanup-launcher-momo.log": "5ee7e4179c9514b052381e4028e23b8365fe439d7b05608fafd01d7ed0c6777e",
+        "cleanup-public-capability.log": "c6f6d9c93e4962630a4f11213fdd992fea945524235c97a5a29d3e40e4026c4c",
+        "cleanup-public-comparison.json": "55ead2c6b244d50d7da3b1672133bc1fbde6eb5a85b639b2fb151918b0bf48ab",
+        "cleanup-qa-tooling-latest.log": "be42e8a962e63307c7940c1d975a6a9210413575e09ad7b203e9cb56d53bf248",
+        "cleanup-retained-decoder-vm.log": "6bf35f8f9a9198fcafc6e5d46d20960831e101d1ef3c6eef9cf3e753b53cc576",
+        "cleanup-retained-decoder.json": "e448b27fa2aeb23b1f2f034863e8397b5bec7c949ad53514d8b700a249adda02",
+        "cleanup-round-admin-approval.json": "5101567043d86ac6c9c42212fe237dcb961070a439c786b9e38a7d193aa31170",
+        "cleanup-round-evidence-consumers.json": "b6383ac26d9d1840549b5d18384d31226d7d671da0105027306cdf9ce5d10681",
+        "cleanup-round-journal-subjects.json": "c7a1c8e2eb6eb261795dd465df3c1c19b193c8faa01ffe4fc81fe1b932713311",
+        "cleanup-round-member-history.json": "a4c89c5b6dfe30360735a858bc706b2faa95dae96886458dc1fd193d61fee0ff",
+        "cleanup-round-native-posting.json": "13f251c0ac6030c875be014279798e9577e3a92afc19137592accef6910fac7e",
+        "cleanup-round-preview-fonts.json": "7e777a96fc149749ec1f9af5387e5d6656c7c62cd30ee6b90c04155c1b66bda9",
+        "cleanup-round-public-copy.json": "bb126c0981849b9b97cc32ce5fe2919faee899d6dedaed416ed446645a88c0ed",
+        "cleanup-round-public-source-export.json": "7cd5f37613b5f2fcf6871ead73bb035923d028b9122c0d663322c3ec0f030040",
+        "cleanup-round-request-history.json": "b20b8ae275065d9cbdbb11acf2ccd03a6b5420ade015dfeb5f2bc4fd84dedf19",
+        "cleanup-supabase-locked-final.log": "e5cc4f11e924a5877a62a382bc5c72814881a13962484ce2105176366bcd5196",
+        "collect-ra1-red.log": "bc56e3b1e8c1ad8886f9c02800cae696cfff10a598b58931b88124cf26980162",
+        "collect-ra1-vitest-all.log": "1f452484cdbbd54a8b63faefe487163a82440458d54c153fffc5314ae3776f1e",
+        "design-authority-final.log": "30c9fc546ccb8c9183b6981c836ea8cbb99f9ecff9ac053d5d8ba167c236f09a",
+        "format-check-final.log": "79d30fb70c9a7abd52d306801f90f98ad2767686be4655c6b8c43d43f72e3d30",
+        "member-preview-byte-comparison.json": "49aae517f774465d0cd022eaad6c7d47d72054da1de44e9ad59e95560261dd70",
+        "member-preview-ci-and-proof.log": "746aebf36d129062288a9bfde48777eebf4c4cdb6fdd24d49b2ac7f107fd34f4",
+        "member-preview-font-source.log": "bf0a9d5d1e9d0bae97a268663ec1de2ab7740c9a7284756659c1aeca42a20786",
+        "member-preview-workflows.json": "6ca5931ba98df9c559cf0ff7e2a7343c8f8bebd23fe9639252c32e1aa0e611fd",
+        "operator-approval.patch": "ae2d5fa25c39061002156c85ab612dba70b2e586e0a33b1c1ececa13c5f58a6c",
+        "phase3-posting-before.log": "759c2ea000e6609fa1fb6cbe40aa48201bfb61380269dc0ca2e8538e41e42709",
+        "phase3-posting-controller-final.log": "571f4643b1bce44c5d3440ba344e2dfd9a3daae9505b7efabc6330895e4c9eaa",
+        "phase3-posting-cross-layer-final.log": "61fa36901d5a217148e95e855153ca9d544accf3790090c24794135bc9945f68",
+        "phase3-posting-pipeline-final.log": "bf636955c057a2fd6d943c3bd8407c6f5e4461800c65b7ea05f2f9bb574122e9",
+        "phase3-posting-pipeline-source.log": "2b9cd6bd81ad4111f552b516b39e80f63c390730736e1670c8eacde43be21297",
+        "phase3-posting-recovery.json": "64bf3bf947b2b75e4e247d28e111517e8f81115d8c180aff49ef893b3fd5a16a",
+        "phase3-posting-recovery.patch": "5f95cb0fac84f6b85969787f35de07ac6a897e61afd935e6b2c63e99bf058667",
+        "phase3-posting-repository-final.log": "7369ec18bbd1b69c82f3a1979069f250f3498f12ce6929b39132cdc46e324f3d",
+        "public-and-play-source.json": "09b89c2f37d10e967810f8da076e3886af010ca13e0b4b09c9f4acabf0cea5ab",
+        "public-doc-export-portability-final.json": "9fc0307bd9856d4d1386dbd40690471f8f588e87b029973452778f29979a228d",
+        "public-doc-export-unit-final.log": "765ce1b83bb10829b9ba78277a9568a600366e35b8aaf9b11c29591a2837d84a",
+        "public-doc-export-v2-equivalence.json": "8c08e0c6acf710ebbe85c21ac78c7a73b44fefe8705eb03e0145295677c98dd2",
+        "request-history-curated-focused.log": "4488d82061cad23e3d1644383ba9a318a925f9900402f8faf4b8aae3aaf4205d",
+        "request-history-managed3.log": "b0cf670490eeb68906fcfc3c3bde122e7e78dee9ecee8ae3c5e972373fd6e054",
+        "request-history-preimage2.log": "3b34a46307ee5f3c8c6fe26b98151ae82caef3d646f218fb65a009cefe831349",
+        "rt1-chain.log": "bb1e7b15311ee102691ab17733f26118df2586c81b5e96fa428d8cdb24176bb6",
+        "rt1-offline-plan.json": "1efbd49bf13da82f27567a6284b91cf44f2e9a8b6c61ff9c2988ff427c07e8a8",
+        "rt1-planner-tests.tap": "bd5bbf08fc97e09e4d6e7ab8aa6d91a5ece60125f8df73efc4eba11076254d6e",
+        "rt1-qualification.json": "7bfcb8d57eb0faaea432759e34f6ef2f735e6ecb97d84f6926f7d3bae9daf47f",
+        "rt1-source-unit.tap": "5784e7d85000717e5b48e4e953646e0aa0eacc74943b222225ef1d0626f7f322",
+        "rt1-source.patch": "8eec034932a0d14463f9a6817b8ca85169638d994a4dae3a5feba13ceca516e0",
+        "rt1-writer-tests.tap": "353d77da91d0443e22a97eb00100ddb40d91c4faeb5928a8839e874fb046338d",
+        "source-integrity-final.json": "84a8e545887332fba40371887ec9a17a584522a9f4f51b0c85915b7821b5172f",
+        "write-families-and-tests.json": "94e01edb0dfe5b048a069399e7bd447308b689069822a046c97c56107853c269"
+      }
+    },
+    "hosting": {
+      "default_branch": "6c66fdb186e7c7d84b5528939a617888348bda14",
+      "review_removal": "6df2250c54d456a1414032ab398472f21c0c6b83",
+      "active_admin": "Cloudflare Workers and managed Supabase",
+      "github_readback": "GitHub returned no matching repository webhook or recent deployment. The deployment query requested the latest 100 records."
+    },
+    "remaining": [
+      "Independently read the installed managed fence, migration catalog and runtime grants before releasing the four-migration cohort. Positive links cannot classify every third party. Both journal classes retain blocked erasure.",
+      "Hosted roles, controlled browser upgrades, signed handset recovery, carrier or provider action and fresh public captures remain deferred. GitHub CodeQL remains subject to the recorded billing lock.",
+      "Receipt 150 database rollback requires the external before.dump matching the recorded digest."
+    ],
+    "production_changes": false,
+    "artifact_qualification": "deferred"
+  },
+  "latest_source_record": "pro_g40_scoped_team_payment_reads_and_candidate_selection_20261121",
+  "t7_operator_recovery_and_release_source_20261121": {
+    "review_base": "7e727712cebed1b32b1de76f7656da16d54df6da",
+    "verified_source_tip": "1ce6d27a3c36aa12bd5606d290dd97f3bf8003df",
+    "packages": {
+      "durable-allocation-receipts": "2e44cbf8cdfd0c6f56c040777394b89a6e65999f",
+      "operator-capability-contract": "d418817fa2c71708cf3a188035d37c7c0d68b94b",
+      "react-play-verifier": "ce2876082bdb60c53247d35784117c5a6c011ece",
+      "managed-journal-release": "1ce6d27a3c36aa12bd5606d290dd97f3bf8003df"
+    },
+    "admin_hosting": {
+      "sole_browser_admin": "admin-web",
+      "qa_and_production_host": "Cloudflare Workers",
+      "backend": "managed Supabase",
+      "profile_files": [
+        "deploy/platform-admin/wrangler.supabase-qa.jsonc",
+        "deploy/platform-admin/wrangler.supabase.jsonc"
+      ],
+      "retired_proposal_removed": true,
+      "review_removal": "6df2250c54d456a1414032ab398472f21c0c6b83",
+      "verified_github_main_removal": "6c66fdb186e7c7d84b5528939a617888348bda14",
+      "historical_proposal_verification": {
+        "deployment_performed": false,
+        "production_cutover": false
+      },
+      "live_traffic_changed": false
+    },
+    "allocation_recovery": {
+      "identity": [
+        "operator",
+        "collection",
+        "payment"
+      ],
+      "proof": [
+        "original request ID",
+        "highest consumed input version"
+      ],
+      "regression": "Both direct and lost acknowledgements allowed an obsolete receipt after controller recreation. An obsolete online reply could also replace the usable offline copy.",
+      "corrected": "The repository persists and rereads the encrypted version before clearing the journal. It validates freshness before replacing the cached receipt or preparing an allocation.",
+      "cases_per_product": {
+        "controller_repository": 122,
+        "bootstrap": 9
+      },
+      "encrypted_host_processes": 12,
+      "configuration": [
+        "Staff",
+        "Admin Sync"
+      ],
+      "host_key": "synthetic",
+      "installed_device_checked": false,
+      "legacy": "Existing unresolved journals are supported. A request erased by an earlier release before this fix has no historical local version to recover.",
+      "receipt_sha256": "448419eeb3afe1eea75b20f6f5aec5069801d06f9bddb17e94e1ffe2099dc7ef"
+    },
+    "operator_contract": {
+      "declaration": "contracts/burimunsi-api/operator-access.json",
+      "identifiers_from": "contracts/burimunsi-api/schema.json",
+      "coverage": "128 Staff/Admin capability subsets in forward and reversed selection order. Both generations of retained approvals and native provisioning discriminants use strict JSON types.",
+      "wire_schema_changed": false,
+      "grants_changed": false,
+      "previously_failing_react_cases": 2,
+      "react_tests": 995,
+      "react_test_files": 135,
+      "typecheck": "pass",
+      "lint": "pass",
+      "backend_and_wire_tests": {
+        "passed": 2684,
+        "skipped_without_pg_fixtures": 7,
+        "failed": 0
+      },
+      "separate_isolated_pg_tests": 6,
+      "handler_integration_tests": 19,
+      "focused_cloudflare_transport_tests": 63,
+      "source_admission": {
+        "base_commit": "ce2876082bdb60c53247d35784117c5a6c011ece",
+        "product_tree": "95ff655e729af4894227dc7e47d9ace88737e892",
+        "files": 557,
+        "bytes": 8554397
+      }
+    },
+    "managed_predecessor": {
+      "observed_at_utc": "2026-11-21 16:29:17.178502+00",
+      "project": "rrlduytparvsjfmegalh",
+      "migration_count": 89,
+      "last_version": "20261120104500",
+      "ordered_sha256": "6ff5c9035113c0c17085eadbccf0c9dfc1c8cf928fbeb76f1e229ca11844f11f",
+      "provider_version_list_matches_installed_registry": true,
+      "fence": {
+        "mode": "open",
+        "epoch": 48,
+        "source_sha256": "7b6947e0e163266bb9480b14fb3273a705455a107353851b107c714e5e68f37f"
+      },
+      "scheduler": {
+        "enabled": true,
+        "jobname": "collect-jobs-maintenance-v1",
+        "schedule": "* * * * *",
+        "scheduled": true
+      },
+      "runtime_postgres_role": {
+        "role": "collect_runtime",
+        "superuser": false,
+        "bypass_rls": false,
+        "postgres_member": false
+      },
+      "inspected_relations": 9,
+      "role_fingerprint": "1051be2b3d4692d2084b0e4a4ea805f22ff4f3c9aea359b097c5a7c44be01e24",
+      "catalog_function_sha256": "9476c7ee0cd5bd1b3e0165553cbf1721c67f1dbd1188779aebab30d00bacee2d",
+      "bucket_visibility_read_as": "postgres",
+      "configured_private_bucket_visible": true,
+      "journal_class_dispositions": {
+        "basis": "Exact immutable PostgreSQL function-body digest, independently measured on the installed managed project and the source-correct socket fixture. Evaluated values were observed locally.",
+        "inferred_from_fingerprint_and_local_evaluation": [
+          {
+            "relation": "private.burimunsi_observation_retry_commands",
+            "scope": "unmapped_private",
+            "blocked": true
+          },
+          {
+            "relation": "private.burimunsi_payment_sms_deliveries",
+            "scope": "unmapped_private",
+            "blocked": true
+          }
+        ],
+        "direct_hosted_output": "Unavailable. Managed catalog evaluation timed out, including the bounded read-only connector attempt."
+      },
+      "metadata_files_sha256": {
+        "installed-catalog.json": "ca9f7dbd58d1bb4c13d281826fc18ccd89129b08e27c933b9da05ebe5981f11c",
+        "installed-history.json": "537e25de044bcb9a399ea627754c42b4c2db16a0e8ac078fd4165fbbef860501",
+        "installed-version-list.json": "29964a480aa64948000d90e1b12f2ea1ce9b7d4426dfde7f0f58434e944fc2ac",
+        "metadata-query.sql": "6e3b76a8e08b0311264c8290e87636a881c1dd70d52ea77b1eb5c93f3b466630",
+        "managed-bucket-metadata.json": "1ef5a7ce2d32a6a0ea9ca557201e1d2f04453d38cc5a17d011b943310ecde3c7",
+        "managed-retention-definition.json": "2d6d1c9d5362ee9fb7ac1c12eb40e9c2350d5ae227d0189b8a353f5b94dcff47"
+      }
+    },
+    "managed_release_source": {
+      "dispatcher": "scripts/supabase/cloud-release/apply.mjs --writer-journal",
+      "sql_phase": "Each step checks the reviewed predecessor on two database connections, uses the original transaction locks, and records an exclusive intent before executing SQL.",
+      "tested_check_names": [
+        "role_and_catalog_drift",
+        "ordered_history_drift",
+        "refuse_open_or_busy_scheduler",
+        "changed_fence_identity",
+        "uncertain_rollback_and_retry",
+        "uncertain_commit_and_duplicate_refusal",
+        "live_transaction_reconciliation_wait",
+        "concurrent_apply_once",
+        "independent_per_step_readback",
+        "inventoried_private_bucket_visibility",
+        "schema_column_drift",
+        "previous_step_readback_required"
+      ],
+      "observed_fixture_prefixes": [
+        {
+          "count": 90,
+          "ordered_sha256": "08c5f41cfaa401ba23d4840c1607fc31d37031f408076b6533fd112cd8b3a812",
+          "sql_sha256": "b3efd73ed854a8d954af3e6c4d449377cfb36d1278de8a80335eea8d050602b4",
+          "role_sha256": "ee2428f5eee7009519a893bcfd0d404ab36cd96338b1a3dc7da1ba386f3c8c02",
+          "retention_sha256": "fa56621725ce623a0b8cfbefe979ee8e51bd99fbb9af0e987279340b0d6edf49"
+        },
+        {
+          "count": 91,
+          "ordered_sha256": "de570e4a3082918e86f9428b682554c80f4ef0142dc9350b31b68f0b372e7357",
+          "sql_sha256": "22e46ebe970d793038e904a2070da1562d7ac5e9161bdd76dd17dbd66b020368",
+          "role_sha256": "ee2428f5eee7009519a893bcfd0d404ab36cd96338b1a3dc7da1ba386f3c8c02",
+          "retention_sha256": "8c038a47102c4e00b86d410adb2d7d54f4209abd5103dae18798e91fb49aa6d6"
+        },
+        {
+          "count": 92,
+          "ordered_sha256": "99a0bf87620c448ef2f1f2ecab3d2df699c95fd34fbaedbb5aaead1ba56db3f8",
+          "sql_sha256": "4b00ed338ecf807f9a84d19001a9f4eeb68780d4e192ae453efd8f533e12b1c5",
+          "role_sha256": "6b7e23608b8b699fcaaf68d309fd18fd900eda6a8b0bf2783b7ca78fcecbb5a6",
+          "retention_sha256": "8c038a47102c4e00b86d410adb2d7d54f4209abd5103dae18798e91fb49aa6d6"
+        },
+        {
+          "count": 93,
+          "ordered_sha256": "0baa8365b91ebf8c796eeb126eb8bdcbf2669c943dff4dc58019bae5fffe2c35",
+          "sql_sha256": "035031f6796e0a39f5b57f3f1a8ab24f3f425303603b586ca306e28aec331b30",
+          "role_sha256": "6b7e23608b8b699fcaaf68d309fd18fd900eda6a8b0bf2783b7ca78fcecbb5a6",
+          "retention_sha256": "8460a8a9e391d8e6e0b81b72ef2e9d96f6215630c427c04c68f906187c230c39"
+        }
+      ],
+      "original_fixture_setup_rows": 71,
+      "payment_reference_setup": [
+        "20261119114700",
+        "20261120104500"
+      ],
+      "source_hashed_registry_rows": 89,
+      "final_fixture_fence": "fenced",
+      "node_tests": 11,
+      "retention_captures": 12,
+      "retention_continuation_pages": 25,
+      "source_tests_sha256": "120d3fbe84ada444cc85cfcca883488b3b64dab61e58e3ca5a2604040e50fba5",
+      "live_sql_applied": 0,
+      "remaining": "Obtain the direct two-session readback in a fenced and drained maintenance window. The four forward migration bodies are absent from the installed registry."
+    },
+    "play_check": {
+      "entry": "scripts/google_play_optimization_gate.sh",
+      "react_verifier": "scripts/admin_pwa_live_gate.sh",
+      "regression": "A historical status and two 200 responses could approve the former browser assets without a React package.",
+      "synthetic_workflow_tests": 31,
+      "current_local_verifier_exit_without_package": 99,
+      "hosted_or_store_check_performed": false
+    },
+    "receipt150_database_recovery": {
+      "ten_file_archive_bytes": 330330,
+      "required_database_dump_sha256": "8e9a8b9f3626f9c70dbc9c823ba9e403fa77d3aea2d5652bc1b2cf27007af138",
+      "database_dump_size_recorded": false,
+      "original_dump_found": false,
+      "searched": "Known project and backup paths, October 18 and November 1 inventories, the retained project packet and connected Drive recovery metadata.",
+      "receipt_sha256": "ddc9c31073720c238dfd984221a75d6430e47c24293d5aebe914aefb8221424d"
+    },
+    "product_source_export": {
+      "revision": "1ce6d27a3c36aa12bd5606d290dd97f3bf8003df",
+      "source_files_verified_against_git": 4299,
+      "source_bytes": 187442799,
+      "manifest_sha256": "3474fabc517df60f0a3cc0f888b284999d2062d66007fc1fe24dcb79f0189e03",
+      "source_manifest_sha256": "2a3139cf57a1aac263336a0a645d0cac72512402601f86caf6677c111e2451b6",
+      "momo15_inventory": "pass",
+      "auth17_inventory": "pass",
+      "cloudflare_admin_tests": 104,
+      "public_copy": {
+        "routes": 15,
+        "source_inputs": 25
+      },
+      "rwanda_source_tests": "pass",
+      "compiled_artifacts": false
+    },
+    "separate_source_custody": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-source-managed-pmosp1yb",
+      "check_receipts": 33,
+      "check_receipt_index_sha256": "9914d4916894fe38341f158fc62ecebfbe1308d1f226c3e45bf96c986a6855e4"
+    },
+    "artifact_qualification": "deferred"
+  },
+  "t7_document_and_sms_recovery_ci_20261121": {
+    "previous_review": "b445f5f86d16c598cc79a89a3ba5f8ef8f93dbb6",
+    "verified_source_tip": "a66a4337644a0bc95c0ef3c56f1d4ea3428c4a96",
+    "packages": {
+      "member-sms-explicit-retry": "c92154a94c7f6f69f94bb3032b951b7eba443376",
+      "managed-pg-source-ci": "20a3242a4c1c05abe9c05e8257e9e90b07deaffe",
+      "payer-sms-attempt-evidence": "e988df85dccd25295cccfc546564edbae28dd226",
+      "native-member-document-custody": "9c066b8964ebd2646da911847595a104905cc162",
+      "ci-real-runner-test": "40483d77dbd37b9a7d573d8d76cb1aa9c22fd2c0",
+      "public-receipt-source-continuity": "a66a4337644a0bc95c0ef3c56f1d4ea3428c4a96"
+    },
+    "native_registration": {
+      "product_configs": [
+        "Staff",
+        "Admin Sync"
+      ],
+      "document_cases_per_product": 12,
+      "cross_layer_pass_lines": 286,
+      "full_view_model_pass_lines": 508,
+      "repository_pass_lines": 404,
+      "file_read_cases": 9,
+      "syntax_files": 79,
+      "host_kotlin_toolchains": [
+        "1.9.25 embeddable",
+        "2.1.20 standalone"
+      ],
+      "observed_fix": "Consent, preview and bounded stream reads use the original selected document request and current owner, collection and permission. A same-URI replacement needs fresh consent. Session renewal in the same known session retains the original request.",
+      "decoding_owner": "NativeMemberRegistration",
+      "intermittent_existing_remote_sms_fixture": "Earlier aggregate controller runs timed out in the remote SMS suite after the permission check, before the member tests. The final aggregate passed. The identical unchanged base also had 1 failure in 3 isolated runs (RemoteSmsChecks.kt:61 navigation checkpoint assertion). The then-current candidate passed 3 isolated iterations. No remote-SMS product or fixture edits were made.",
+      "device_and_ocr_qualification": "deferred",
+      "evidence_sha256": "51c1e4036111a8d2d19a732a62358de718426804c9f5f5b26ab6e4b9d741caee"
+    },
+    "collect_member_sms": {
+      "observed_fix": "A retry can request a new queue pass while the current drain waits for its last native status. One acknowledgement consumes the original envelope.",
+      "targeted_flutter_tests": 125,
+      "full_ordinary_flutter_tests": 2699,
+      "dart_analysis": "pass",
+      "commands_preserved": "Owner, envelope ID, raw sender, body, timestamp, completeness and acknowledgement semantics."
+    },
+    "payer_receipt_sms": {
+      "observed_fix": "One confirmed gateway attempt must account for each part of a sent or delivered message. Uncertain evidence retains the original message for read-only recovery.",
+      "preserved_gateway_states": 13,
+      "focused_worker_tests": 9,
+      "native_pg_financial_and_sms_tests": 9,
+      "gateway_pg_fixture": {
+        "status": "passed",
+        "socket_pg_version": 170011,
+        "gateway_migration_sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906",
+        "gateway_entry": "messageDetail",
+        "states": [
+          {
+            "state": "accepted",
+            "observation": null
+          },
+          {
+            "state": "handoff_started",
+            "observation": null
+          },
+          {
+            "state": "partial",
+            "observation": "uncertain"
+          },
+          {
+            "state": "sent",
+            "observation": "observed_sent"
+          },
+          {
+            "state": "sent",
+            "observation": "observed_sent"
+          },
+          {
+            "state": "sent",
+            "observation": "observed_sent"
+          },
+          {
+            "state": "delivery_unconfirmed",
+            "observation": "observed_sent"
+          },
+          {
+            "state": "sent",
+            "observation": "observed_sent"
+          },
+          {
+            "state": "delivered",
+            "observation": "observed_sent"
+          }
+        ],
+        "counts": {
+          "get": 10,
+          "post": 0
+        },
+        "other_attempt_failure_and_uncertainty_preserved_sent": true,
+        "missing_detail_held": true,
+        "predecessor_with_missing_part": "delivered",
+        "external_calls": 0
+      },
+      "assisted_admin_transport_check": "pass",
+      "full_notification_fixture_scope": "The original database fixture was type checked. The exact OpenSMS transport step executed separately.",
+      "all_edge_node": {
+        "tests": 3840,
+        "pass": 3833,
+        "fail": 0,
+        "skipped": 7
+      },
+      "frozen_cached_deno_entrypoints": 6,
+      "runtime_consumer_graph_sha256": "51f73aee0f4deb4c5ac9986a1a1321ad38ba970aed867181b91f87b7065bff4e",
+      "evidence_sha256": "21a3e99cab7a274d540b9f326ddcb1bd39be6204174e9f32baf91c0d9bd76d3f"
+    },
+    "quality_gates": {
+      "review_ci_policy_tests": 64,
+      "merged_working_tree_ci_policy_tests": 61,
+      "workflow_files_checked": 8,
+      "source_integrity": "pass",
+      "qa_tooling_aggregate": "pass",
+      "offline_node_regressions": 14,
+      "declared_toolchains": {
+        "android": {
+          "burimunsi": {
+            "declarations": [
+              "native/burimunsi/build.gradle.kts",
+              "native/burimunsi/app/build.gradle.kts",
+              "native/burimunsi/gradle/wrapper/gradle-wrapper.properties"
+            ],
+            "distribution": "bin",
+            "distribution_sha256": "a17ddd85a26b6a7f5ddb71ff8b05fc5104c0202c6e64782429790c933686c806",
+            "gradle": "9.1.0",
+            "java": "17",
+            "kotlin": "2.4.21"
+          },
+          "member": {
+            "declarations": [
+              "android/settings.gradle.kts",
+              "android/app/build.gradle.kts",
+              "android/gradle/wrapper/gradle-wrapper.properties"
+            ],
+            "distribution": "all",
+            "distribution_sha256": "b84e04fa845fecba48551f425957641074fcc00a88a84d2aae5808743b35fc85",
+            "gradle": "9.1.0",
+            "java": "17",
+            "kotlin": "2.4.20"
+          }
+        },
+        "flutter": {
+          "declarations": [
+            ".fvmrc",
+            "pubspec.yaml",
+            "pubspec.lock"
+          ],
+          "declared_dart_constraint": "^3.12.0",
+          "locked_dart_constraint": ">=3.12.0 <4.0.0",
+          "version": "3.44.4"
+        },
+        "supabase": {
+          "cli": "2.121.0",
+          "declarations": [
+            "scripts/supabase/package.json",
+            "scripts/supabase/package-lock.json",
+            ".dvmrc",
+            ".supabase-cli-version"
+          ],
+          "deno": "2.9.6",
+          "node": "24.19.0"
+        }
+      },
+      "writer_journal_rehearsal": {
+        "local_command": "make supabase-writer-journal-postgres-test",
+        "local_postgres": "17.11",
+        "checks": [
+          "role_and_catalog_drift",
+          "ordered_history_drift",
+          "refuse_open_or_busy_scheduler",
+          "changed_fence_identity",
+          "uncertain_rollback_and_retry",
+          "uncertain_commit_and_duplicate_refusal",
+          "live_transaction_reconciliation_wait",
+          "concurrent_apply_once",
+          "independent_per_step_readback",
+          "inventoried_private_bucket_visibility",
+          "schema_column_drift",
+          "previous_step_readback_required"
+        ],
+        "predecessor_registry_rows": 89,
+        "independently_read_back_rows": [
+          90,
+          91,
+          92,
+          93
+        ],
+        "final_fence": "fenced",
+        "linux_gate_tests": 3,
+        "linux_pg_image_platform_run": "unverified",
+        "linux_runner_image": "postgres:17.10@sha256:7958605b474b3d264a969cb3a123d6aa00ad1e1fe9da8a69984dabb704d93317",
+        "linux_local_blocker": "The local Docker server was unavailable.",
+        "archived_fixture_git_blob": "3660a7b3fc357373930de45f74e56408c4eaf2be",
+        "archived_fixture_sha256": "634341a38b2a39a5c592c408122999c28619b2c76983009f45d0f5aa8056eefc"
+      }
+    },
+    "public_copy": {
+      "comparison": "docs/release/public-content-provenance/2026-11-21-member-sms-source-copy-comparison.json",
+      "comparison_sha256": "f95715d74ce195aa611e23e14b10be8b2ec436756aa3ae1962297224ff6e5019",
+      "source_inputs": 25,
+      "capability_authority_inputs": 39,
+      "capability_claims": 9,
+      "verified_visible_routes": 15,
+      "byte_identical_html_templates": 18,
+      "redirects": 5,
+      "configuration": "Same source configuration and retained screen metadata, with verified photo inputs.",
+      "media_and_publication_qualification": "deferred"
+    },
+    "checkout": {
+      "physical_head_preserved": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+      "preserved_concurrent_ci_edit": "The launcher checkout already used a separately edited CI job, source command roster and related tests. The reviewed journal step was merged into both forms.",
+      "preserved_fixture_deletion": "The separate launcher changes had removed scripts/supabase/testing/notification-channels.ts. The review branch retains its matching transport fixture and the physical checkout retains that deletion."
+    },
+    "source_export": {
+      "revision": "a66a4337644a0bc95c0ef3c56f1d4ea3428c4a96",
+      "source_files_verified_against_git": 4302,
+      "source_bytes": 187484051,
+      "manifest_sha256": "18c57ef81f80dd2a23cd361a109547a1ac13c28578d571cc8c200f49217d0288",
+      "source_manifest_sha256": "b81092cb40f291c0a0153b5181096fe506880fa1a09b59a5a6f9dc8999281a02",
+      "momo15_inventory": "pass",
+      "auth17_inventory": "pass",
+      "cloudflare_admin_tests": 104,
+      "public_copy": {
+        "routes": 15,
+        "source_inputs": 25
+      },
+      "rwanda_source_tests": "pass",
+      "compiled_artifacts": false
+    },
+    "independent_custody": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-source-gates-cbde32fn",
+      "verification_records": 55,
+      "checksum_sha256": "d08cf3d179255d0f94f287ce739d4fe5cb1390bf5571ae9cffa4a49c1a3d6d80"
+    },
+    "release_acceptance": {
+      "artifact_qualification": "deferred",
+      "pending": [
+        "fenced managed migration release and direct installed readback",
+        "account-scoped hosted Admin and carrier observations",
+        "signed device, browser upgrade and store qualification",
+        "original Receipt 150 database before.dump"
+      ]
+    }
+  },
+  "t7_admin_session_native_ocr_and_recovery_20261121": {
+    "previous_review": "8b559d6b9a30576e2f65a2499d61e4b05b0dadf2",
+    "verified_source_tip": "c95d93c1d5382a66a1a84553babd92c74ffd2002",
+    "packages": {
+      "admin-session-readback": "19f57b0ae9ccf0dc64501c0b43c8cc918faf5a58",
+      "historical-archive-inputs": "6c332f9c6127875a62157eab82754e49c449d3f5",
+      "archive-recheck-doc": "55c8281054d1d1a5d1c069d6260b118981c7f8b0",
+      "native-ocr-boundary": "55cc2694d2851018dd40c5d34087362efdb33e99",
+      "native-session-navigation": "c95d93c1d5382a66a1a84553babd92c74ffd2002"
+    },
+    "admin_hosting_source": {
+      "checked_at_utc": "2026-11-21T17:50:32.729774+00:00",
+      "current_github_main": "6c66fdb186e7c7d84b5528939a617888348bda14",
+      "review_removal_commit": "6df2250c54d456a1414032ab398472f21c0c6b83",
+      "git_tree_operational_matches": [],
+      "physical_path_matches": [],
+      "github_deployments_environments_and_webhooks": "No entries returned in repository readback.",
+      "selected_admin_frontend": "React",
+      "selected_admin_hosting": "Cloudflare",
+      "selected_admin_backend": "Managed Supabase",
+      "scope": "Git source and repository metadata."
+    },
+    "react_admin_session": {
+      "before_failing_regressions": 4,
+      "focused_cases_passed": 55,
+      "full_cases_passed": 998,
+      "test_files_passed": 135,
+      "typecheck": "pass",
+      "lint": "pass",
+      "changed": "Session and proof reads accept credentials and tokens only under the verification that owns the response. A stale Google or password response cannot overwrite a newer session or bind its saved requests."
+    },
+    "burimunsi_native": {
+      "flavors": [
+        "Staff",
+        "Admin Sync"
+      ],
+      "changed": "The encrypted checkpoint has one write order within the app process. A refreshed operator reaches the screen and repository even when its visible fields are unchanged.",
+      "host_jvm_controller_pass_lines": 512,
+      "host_jvm_cross_layer_pass_lines": 288,
+      "host_jvm_repository_pass_lines": 406,
+      "remote_sms_repetitions_per_flavor": 18,
+      "permission_repetitions": 12,
+      "kotlin_psi_source_files": 79
+    },
+    "managed_ocr": {
+      "changed": "Both wire decoders accept the existing approved disclosure string. Cancellation prevents a new provider effect. An already claimed or dispatched phase retains the original reservation and retry cannot dispatch it again.",
+      "wire_source_check": "pass",
+      "actual_client_fixture_cases": 285,
+      "focused_edge_cases_passed": 108,
+      "focused_edge_cases_skipped_without_docker_fixture": 1,
+      "current_ocr_journal_postgresql_17_11_cases": 9,
+      "handler_integration_cases": 19,
+      "all_edge_node": {
+        "passed": 3839,
+        "skipped": 7,
+        "failed": 0
+      },
+      "frozen_deno_entrypoints_checked": 6
+    },
+    "historical_archive_inputs": {
+      "commit": "8e12ee13d6487dd2a9489fb08f162f183ef4aa3d",
+      "manifest_sha256": "7cb8035606dd9a7e0e64ac0e6ae7f210eb6f8ffef83fb35f10f62cb861b9a5db",
+      "verified_inputs": 216,
+      "input_count": 217,
+      "verified_bytes": 132554301,
+      "counts": {
+        "git": {
+          "verified": 66
+        },
+        "npm": {
+          "verified": 140
+        },
+        "external": {
+          "verified": 10,
+          "missing": 1
+        }
+      },
+      "missing_input": "principal-mapping-preflight-author-final-20261114.log",
+      "missing_input_sha256": "0eac0cf91385c2c69329d4df88b4446e69ea04917610ee0c2851f801639b7e73",
+      "validation_scope": "Pinned source bytes and dependencies only."
+    },
+    "quality_gates": {
+      "qa_tooling": "pass",
+      "source_integrity": "pass",
+      "ci_policy": "pass",
+      "managed_archive_custody_tests": 4
+    },
+    "source_export": {
+      "revision": "c95d93c1d5382a66a1a84553babd92c74ffd2002",
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-authority-recovery-8o3xxhol/product-source",
+      "source_files_verified_against_git": 4304,
+      "source_bytes": 187527406,
+      "manifest_sha256": "368cc4f8b9d4aad5d1598ebb40e15d8931d7f724c8e0b933a88df395f04d5482",
+      "source_manifest_sha256": "79b55d2238d68e8ecc3914908be20bb2f811890388f1296ca28e1f4ae193ff87",
+      "momo15_inventory": "pass",
+      "auth17_inventory": "pass",
+      "managed_plan_last": {
+        "file": "20261121182000_burimunsi_journal_posting_subjects.sql",
+        "version": "20261121182000",
+        "sha256": "035031f6796e0a39f5b57f3f1a8ab24f3f425303603b586ca306e28aec331b30",
+        "expected_history": {
+          "migration_count": 93,
+          "ordered_sha256": "0baa8365b91ebf8c796eeb126eb8bdcbf2669c943dff4dc58019bae5fffe2c35"
+        }
+      },
+      "cloudflare_admin_tests": 104,
+      "public_copy": {
+        "routes": 15,
+        "source_inputs": 25
+      },
+      "rwanda_source_tests": "pass",
+      "compiled_artifacts": false
+    },
+    "evidence_directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-authority-recovery-8o3xxhol/source-checks",
+    "evidence_sha256_manifest": "faae9d75ab469d96e7f89a7481e54373f9d0059f9caff25653bc8bb2a483f9ff",
+    "remaining_acceptance": [
+      "Artifact qualification remains deferred.",
+      "Hosted signed-in roles, browser tab upgrade, installed handset recovery and provider outcomes remain unverified for this source.",
+      "The four forward migrations require the managed release rehearsal and installed catalog readback.",
+      "The original Receipt 150 database dump and the managed archive author log remain unavailable.",
+      "The pinned Linux PostgreSQL job has yet to run."
+    ]
+  },
+  "t7_relocated_inbox_payment_help_postgres_reconciliation_20261121": {
+    "previous_review": "489b03966d4a25516325f8003c4f69c7a82142b4",
+    "source_commit": "51b2a51a400c610aa5ba74da11a41737b600dfc2",
+    "packages": {
+      "native-inbox-reader": "e8b93a8a8a0846467dc12fcf17f58043659b9105",
+      "member-payment-help": "1af69b6855d9fc19c4a1290036c4eda65c656144",
+      "managed-postgres-boundaries": "414f8f680d9acc73d356fbc04b5b1a9bb4839335",
+      "react-reconciliation-custody": "51b2a51a400c610aa5ba74da11a41737b600dfc2"
+    },
+    "checkout_relocation": {
+      "physical_root": "/Volumes/T7/01 Projects/COLLECT/main-source",
+      "original_review": "489b03966d4a25516325f8003c4f69c7a82142b4",
+      "ref_at_start": "414f8f680d9acc73d356fbc04b5b1a9bb4839335",
+      "verified_review": "414f8f680d9acc73d356fbc04b5b1a9bb4839335",
+      "replayed_commits": [
+        "e8b93a8a8a0846467dc12fcf17f58043659b9105",
+        "1af69b6855d9fc19c4a1290036c4eda65c656144",
+        "414f8f680d9acc73d356fbc04b5b1a9bb4839335"
+      ],
+      "working_head_preserved": "34dcf6ee16b03b92d2131f34aa2ab9b3e73da3a4",
+      "working_index_preserved": "b65cfda12f5b6dbc93283fea384e5c48e8cadc29d30a8769d4628bce82e08e7d",
+      "paths_verified": 28,
+      "working_paths_reapplied": 27,
+      "git_connectivity_check": "pass",
+      "full_git_check": "pass",
+      "seven_evidence_paths_reverified": 7,
+      "appledouble_ref_metadata_preserved_separately": 1,
+      "appledouble_object_sidecars_preserved_separately": 16
+    },
+    "burimunsi_inbox": {
+      "production_flavors": [
+        "Staff",
+        "Admin Sync"
+      ],
+      "fixed": "The inbox coordinator owns scan budgets, pagination and coalescing. Android SMS permission is checked at initial and continuation dispatch and before returned observation rows are published.",
+      "reproduced_regressions": 3,
+      "focused_repetitions_per_flavor": 5,
+      "full_controller_checks": 513,
+      "cross_layer_checks": 288,
+      "kotlin_source_files": 80
+    },
+    "collect_payment_help": {
+      "fixed": "Payment Help owns the original support command and receipt. Concurrent callers in one repository and verified session share one pending dispatch. Durable v1 storage, account ownership, exact keys and zero-financial-effect receipt validation are preserved.",
+      "focused_checks": 20,
+      "ordinary_flutter_checks": 2701,
+      "dart_analysis": "pass",
+      "format_check": "pass"
+    },
+    "react_reconciliation": {
+      "fixed": "Managed principal IDs use the existing identity validator. Resource and request keys retain UUID validation. Current authority and the original retained body are checked before clearing either receipt model. The working detail route remains read-only.",
+      "focused_checks": 42,
+      "vitest_checks": 1006,
+      "test_files": 135,
+      "typescript": "pass",
+      "eslint": "pass"
+    },
+    "supabase_postgres": {
+      "fixed": "Business connections and lease-owned control pools have their own module. Fenced transaction ownership is separate from the legacy SQL shape and compiler. The six current Edge entrypoints use the verified source graph.",
+      "focused_node_checks": 106,
+      "focused_deno_checks": 24,
+      "edge_entrypoints_checked": 6,
+      "actual_local_postgres": "17.11",
+      "scoped_history_under_financial_lock": "pass",
+      "canonical_handler_checks": 19,
+      "relocated_worktree_handler_checks": 14,
+      "node_edge_suite": {
+        "passed": 3839,
+        "skipped": 7,
+        "failed": 0
+      },
+      "broader_postgres_fixture_failures": [
+        "actual Edge handlers on PostgreSQL: managed identities, phone consent, private Storage, retired Staff MFA and atomic financial review",
+        "Admin history on local PostgreSQL: own receipts, committed lost reply and current authority fences"
+      ],
+      "fixture_diagnosis": {
+        "otp_setup": "The retained proof function admits 300-second challenges. Both original fixtures inherited the current 1,800-second default.",
+        "after_correcting_fixture_setup": "The same baseline and candidate failures remained. One expects an expired refresh lease to refuse. The other lacks the later admin_email_prepare signature."
+      }
+    },
+    "public_source": {
+      "source_copy": "pass",
+      "proof": "docs/release/public-content-provenance/2026-11-21-payment-help-source-copy-comparison.json",
+      "capability_source_inputs": 41,
+      "reviewed_text_inputs": 25,
+      "route_texts": 15,
+      "byte_identical_templates": 18,
+      "render_hash": "0f6d8d39cfa6345120877fc0bb8087d3b93ace0065ac2f7e2e09a19946face63"
+    },
+    "source_readback": {
+      "verified_product_source_commit": "51b2a51a400c610aa5ba74da11a41737b600dfc2",
+      "t7_checkout": "/Volumes/T7/01 Projects/COLLECT/main-source",
+      "t7_review_ref": "refs/heads/codex/collect-fullstack-cleanup-20261120",
+      "matching_source_files": 4309,
+      "source_bytes": 187551625,
+      "exact_source_manifest_sha256": "3b49f6d9cc6541fa760b707b3ebc68e79690f5b5b273e338e7f6bebe4cc41733",
+      "snapshot": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-source-recovery-9koervs8/product-source",
+      "netlify_operational_input_matches": 0,
+      "compiled_artifacts": false,
+      "momo15_inventory": "pass",
+      "auth17_inventory": "pass",
+      "wire_check": "pass",
+      "managed_writer_plan": "pass",
+      "cloudflare_admin_checks": 104,
+      "toolchain_inventory": "pass"
+    },
+    "quality_gates": {
+      "source_integrity": "pass",
+      "qa_tooling": "pass",
+      "ci_policy": "pass"
+    },
+    "evidence": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-t7-source-recovery-9koervs8/source-checks",
+      "sha256_manifest": "50224636c795456d8676743000b0eab92d3a25684c78fcd2efafbe60c5a447b7",
+      "files": 53
+    },
+    "open_acceptance": [
+      "Reconcile the two retained PostgreSQL test setups against the intended migration and refresh lease behavior.",
+      "Run the pinned Linux PostgreSQL job.",
+      "Recover the exact Receipt 150 database dump and managed archive author log.",
+      "The four forward migrations and hosted sign-in, browser upgrade, installed handset and provider checks remain pending.",
+      "Artifact qualification remains deferred by the owner."
+    ],
+    "current_workspace": {
+      "workspace": "/Volumes/PRO-G40/COLLECT",
+      "working_checkout": "/Volumes/PRO-G40/COLLECT/main-source",
+      "linked_git_store": "/Volumes/PRO-G40/COLLECT/git-original/.git",
+      "verified_review": "af4892f4fc7d2d78a394a895560533dfe37f6c5c",
+      "review_ref": "refs/heads/codex/collect-fullstack-cleanup-20261120",
+      "source_matches": 4309,
+      "source_bytes": 187551625,
+      "source_manifest_sha256": "3b49f6d9cc6541fa760b707b3ebc68e79690f5b5b273e338e7f6bebe4cc41733",
+      "working_head_and_index_preserved": true,
+      "working_files_verified": 39,
+      "working_files_readmitted": 38,
+      "relocated_handler_checks": 14,
+      "connector_modes_checked_locally": [
+        "admin",
+        "direct-desktop"
+      ],
+      "connector_wrong_volume_denied": true,
+      "hosted_connector_session_verified": false
+    }
+  },
+  "pro_g40_native_page_authority_current_pg_fixtures_and_custody_20261121": {
+    "prior_source_record": "t7_relocated_inbox_payment_help_postgres_reconciliation_20261121",
+    "previous_review": "56a28eab36eb17491ed8ae900ed349eae6adfc1f",
+    "source_commit": "c95cd679398159ac8a003bacb5f84eca624d67b3",
+    "packages": {
+      "archive-packet-verification": "42248098027313703ef2d6dc9a9d269adbc82cbe",
+      "restore-native-pages-by-owner": "3f8568e765370685b2ee539564490d3628f12718",
+      "current-pg-handler-gates": "c95cd679398159ac8a003bacb5f84eca624d67b3"
+    },
+    "current_workspace": "/Volumes/PRO-G40/COLLECT/main-source",
+    "burimunsi": {
+      "fixed": "The page coordinator requires the original operator, generation, collection and route through initial reads, automatic restoration and manual continuation. A mismatched member detail is rejected before protected cache persistence and before history can be read.",
+      "host_viewmodel_checks": 581,
+      "cross_layer_checks": 300,
+      "repository_checks": 406,
+      "kotlin_syntax_files": 81,
+      "source_boundary": "pass"
+    },
+    "current_postgres_handler_tests": {
+      "schema": "36 reviewed migrations through the current Admin email OTP preparation signature. The retained 13-migration variant remains available for historical tests.",
+      "owned_mac_postgres_version": "17.11",
+      "combined_review_cases": 3,
+      "combined_working_checkout_cases": 3,
+      "full_history_steps": 12,
+      "refresh_custody_steps": 3,
+      "current_edge_node": {
+        "passed": 3839,
+        "skipped": 7
+      },
+      "source_test_aggregate": "pass",
+      "workflow_policy_review_tests": 65,
+      "workflow_policy_working_tests": 62,
+      "declared_linux_postgres_version": "17.10",
+      "linux_job_execution": "pending"
+    },
+    "evidence_custody": {
+      "location": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-release-custody-wYhVNsDl",
+      "archive": {
+        "format": "collect.release-tree-custody.v1",
+        "source_commit": "6526315b9f65fb39789a402eb5242fdf01737723",
+        "unit": "docs/release",
+        "tree": "05c03d86d81163927b5dc70334d78d2422e3382b",
+        "paths": 110302,
+        "bytes": 7637671247,
+        "distinct_blobs": 29835,
+        "git_modes": {
+          "100644": 110292,
+          "100755": 7,
+          "120000": 3
+        },
+        "inventory_sha256": "cbed0d9c920b76babe347d58138154fab86a91e2b7b5bcc424b078c9b9f634a0",
+        "pack_sha256": "2edcb672036fd4dbd3e72502216dcc28b71b4105e2ba7e6ff6a5984729ec6fbb",
+        "pack_bytes": 652934259,
+        "receipt_sha256": "c6ccd1d3284fe42ac254ff1a2025158d7b9ad8cfbb30231d444dd916244101cc"
+      },
+      "packet_readback": {
+        "verified": true,
+        "source_commit": "6526315b9f65fb39789a402eb5242fdf01737723",
+        "tree": "05c03d86d81163927b5dc70334d78d2422e3382b",
+        "unit": "docs/release",
+        "paths": 110302,
+        "bytes": 7637671247,
+        "git_modes": {
+          "100644": 110292,
+          "100755": 7,
+          "120000": 3
+        },
+        "receipt_sha256": "c6ccd1d3284fe42ac254ff1a2025158d7b9ad8cfbb30231d444dd916244101cc",
+        "scope": "packet"
+      },
+      "original_inventory_match": true,
+      "receipt150_restore": {
+        "verified": true,
+        "source_commit": "6526315b9f65fb39789a402eb5242fdf01737723",
+        "tree": "bb1363e914b14da579bd95d2a3156ddf094a187f",
+        "unit": "docs/release/financial-observability-2026-09-30/receipt150-rollback-attempt2-missing-telemetry",
+        "paths": 10,
+        "bytes": 330330,
+        "git_modes": {
+          "100644": 10
+        },
+        "receipt_sha256": "d2c9596d6bcf19d2f098b69c15f53cae1b701d1c763f5be3769fadbf71a74fda"
+      },
+      "original_receipt150_database_dump": "missing",
+      "original_managed_archive_author_log": "missing"
+    },
+    "source_readback": {
+      "revision": "c95cd679398159ac8a003bacb5f84eca624d67b3",
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-current-source-gates-9e4jnac8/product-source",
+      "source_files_verified_against_git": 4312,
+      "source_bytes": 187577914,
+      "manifest_sha256": "ad5a4af47d64dd735de1ba2af0dbd287a6c38d9a5369998ffb5b7f3ef229ddd3",
+      "source_manifest_sha256": "0f0622cfe77bb3abaa6053ca18d2826849c0ac03110c9f3322eaa474606a9da7",
+      "momo15_inventory": "pass",
+      "auth17_inventory": "pass",
+      "managed_writer_plan": "pass",
+      "current_handler_tests": 19,
+      "cloudflare_admin_tests": 104,
+      "public_copy": {
+        "routes": 15,
+        "source_inputs": 25
+      },
+      "rwanda_source_tests": "pass",
+      "wire_source_check": "pass",
+      "compiled_artifacts": false,
+      "toolchain_inventory": "pass"
+    },
+    "quality_gates": {
+      "qa_tooling": "pass",
+      "source_integrity": "pass",
+      "ci_policy": "pass"
+    },
+    "connected_service_readback": {
+      "observed_on_utc": "2026-11-21",
+      "scope": "Read-only migration history, Edge function metadata and GitHub Actions status.",
+      "supabase": {
+        "project_ref": "rrlduytparvsjfmegalh",
+        "migration_count": 89,
+        "last_version": "20261120104500",
+        "ordered_versions_and_names_match": true,
+        "one_complete_sql_statement_per_row": true,
+        "ordered_sql_history_sha256": "6ff5c9035113c0c17085eadbccf0c9dfc1c8cf928fbeb76f1e229ca11844f11f",
+        "matches_reviewed_predecessor": true,
+        "source_predecessor_receipt": "supabase/managed-migration-history/cloud-history-20261120-epoch44.json",
+        "pending_versions": [
+          "20261121111000",
+          "20261121111100",
+          "20261121142500",
+          "20261121182000"
+        ],
+        "active_edge_versions": {
+          "admin-api": 108,
+          "collect-api": 107,
+          "collect-jobs": 105,
+          "collect-sms": 25
+        }
+      },
+      "github": {
+        "repository": "ikanisa/COOL",
+        "main_sha": "6c66fdb186e7c7d84b5528939a617888348bda14",
+        "main_codeql_run": 44919661100,
+        "main_codeql_check": 136892741599,
+        "main_codeql_outcome": "GitHub stopped the job before it started because of an account billing lock.",
+        "reviewed_pg_source_sha": "c95cd679398159ac8a003bacb5f84eca624d67b3",
+        "reviewed_pg_source_actions_runs": 0
+      }
+    },
+    "evidence": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-current-source-gates-9e4jnac8/source-checks",
+      "files": 39,
+      "sha256_manifest": "49963dd82861bb605604be8fc104b96f853680339dbd56651448f73d762517f8"
+    },
+    "open_acceptance": [
+      "Run the pinned Linux PostgreSQL job.",
+      "Recover the original Receipt 150 database dump and managed archive author log.",
+      "Hosted authenticated roles, browser upgrade, the four forward managed migrations, signed device and provider acceptance remain pending.",
+      "Artifact qualification remains deferred by the owner."
+    ]
+  },
+  "pro_g40_scoped_team_payment_reads_and_candidate_selection_20261121": {
+    "prior_source_record": "pro_g40_native_page_authority_current_pg_fixtures_and_custody_20261121",
+    "prior_review_commit": "ae61b8297a2715da4aac214b379d4662f8d6848e",
+    "source_commit": "7f9089c58b2cb2445434f25ed24c581b16050cc4",
+    "current_workspace": "/Volumes/PRO-G40/COLLECT/main-source",
+    "packages": {
+      "react-admin-response-status": "745214caeb74d2ea7fd16a2d7c0b4cbb4288f3c2",
+      "managed-team-request-authority": "df2a573f3487bba5bbaf805ea5c9341bceeea954",
+      "collect-payment-read-order": "11f835d96e6057a55b060793cbfed27636ee33a2",
+      "burimunsi-allocation-selection": "d2f195a6a726548aea87aab0026566dc8b20553a",
+      "public-capability-source-readback": "7f9089c58b2cb2445434f25ed24c581b16050cc4"
+    },
+    "react_admin": {
+      "review_test_files": 135,
+      "review_tests": 1010,
+      "launcher_test_files": 135,
+      "launcher_tests": 1009,
+      "typecheck_and_lint": "pass on review and launcher",
+      "focused_cases": 43,
+      "baseline_regressions_reproduced": 3,
+      "confirmed_behavior": "Current session refusal and client retirement survive unreadable responses. Stale denials and unresolved MFA recovery retain their existing authority rules."
+    },
+    "managed_supabase": {
+      "node_passed": 3841,
+      "node_skipped_without_optional_fixtures": 7,
+      "frozen_deno_entrypoints": 6,
+      "owned_postgres_version": "17.11",
+      "postgres_cases_each_checkout": 3,
+      "postgres_nested_checks_each_checkout": 16,
+      "team_read_check": "Real Team handler returned the roster under an exclusive financial write lock and refused the next read after revocation.",
+      "disposable_postgres_shutdown": "confirmed"
+    },
+    "collect_member": {
+      "baseline_regressions_reproduced": 4,
+      "focused_cases_each_checkout": 246,
+      "focused_dart_analysis": "pass",
+      "review_member_suite_cases": 2705,
+      "review_generated_capability_cases": 9,
+      "launcher_scope": "Focused Flutter tests exercised the merged payment files and preserved group metadata and invitation modules."
+    },
+    "burimunsi": {
+      "baseline_regression_failures": 16,
+      "cross_layer_checks_each_checkout": 324,
+      "viewmodel_checks_each_checkout": 581,
+      "kotlin_syntax_files": 81,
+      "review_source_boundary": "pass",
+      "launcher_stable_snapshot_input_count": 136,
+      "launcher_stable_snapshot_sha256": "7ef7c8318e4f4a4e6fb889f42c7f272c9b7c7b71fead1518a97bc6e0c8ffb4f6",
+      "launcher_scope": "The final source snapshot matched before and after both host runners. The two earlier direct runs record concurrent source changes."
+    },
+    "source_and_public": {
+      "source_file_count": 4312,
+      "source_bytes": 187594153,
+      "source_manifest_sha256": "c6f0ea295ccd1032124fcf9dc985bf7c64f8e433290afe62741c76577961992c",
+      "independent_base_commit": "c95cd679398159ac8a003bacb5f84eca624d67b3",
+      "reused_verified_inputs": 4296,
+      "revised_inputs_matched_to_git": 16,
+      "reviewed_capability_inputs": 41,
+      "launcher_capability_inputs": 41,
+      "reviewed_public_copy_inputs": 25,
+      "launcher_public_copy_inputs": 26,
+      "matching_route_text": 15,
+      "byte_identical_html_to_reviewed_predecessor": 18,
+      "public_render_input": "Retained media manifest. Current media capture freshness and publication remain deferred.",
+      "auth17_inventory": "pass",
+      "momo15_inventory": "pass",
+      "writer_journal_plan": "pass",
+      "qa_tooling": "pass",
+      "review_and_launcher_source_integrity": "pass"
+    },
+    "evidence": {
+      "directory": "/Volumes/PRO-G40/Projects/COLLECT-Source-Custody/2026-11-21-resumed-review/.git/continuation6",
+      "sha256": {
+        "admin-web-physical-tests.log": "a9c5448c0717f36b4bf3f4e91d2fa787a46d23e2aca7ca1816abc54f4475cbc7",
+        "admin-web-tests.log": "e5a9807308b7264e9872e861b578b015b24701a64ee2e69f09c7465830a69633",
+        "auth17-inventory.json": "492cc36b73cafabcd71b3552a60a0e1fabaea25abc2ea164c0236aa887446f50",
+        "collect-payment-window-launcher-flutter.log": "78c6ee9c0c07fc9b66e146f843d05593101e42f288b2fe16825a0b94f15d24fa",
+        "collect-payment-window-launcher.json": "3a45d856d49f5f80f0a11e27d2f04824b3aa62c046dc19b6c74712b590aacefa",
+        "collect-payment-window-reviewed-flutter.log": "7161a4abf156bfb7719d9720af0fc3cf6b4cb9d56128470daa1f1bc37cafbc36",
+        "collect-reviewed-member-suite.log": "8c5fa8c953b600c152de122f7d01449cf6516322f93864464c05b4ca4176c7a7",
+        "collect-reviewed-public-copy-tests.log": "fe62e0fcb97159b0a46bda55b48c6090c1944f01cd925b1018c720715285bd92",
+        "current-source-byte-admission.json": "9e432443d1b0f4cf7222dea4a51e07b70bb4ab9a6e7fbb5cc184edf1b7aee215",
+        "launcher-source-integrity.log": "30810c7d98221315549b2dbed0d84ad3555bf73226c148b426ec2d24b33df559",
+        "managed-team-physical-pg-stop.log": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+        "managed-team-physical-pg.log": "eed7a921e5e8d18fbd648d145d687fbeec3f045d85e408e7fb2d9863926f9edc",
+        "managed-team-reviewed-deno-check.log": "ceadc72d34faad5880f89a4a8c27e1d2aeca9f89a05c397b5c1b4cac36bc29d1",
+        "managed-team-reviewed-edge-node.log": "f05df0e90f95e2ecee2ff218e03239565da04ad0c2524703a3c29e6d23275e05",
+        "managed-team-reviewed-pg.log": "eed7a921e5e8d18fbd648d145d687fbeec3f045d85e408e7fb2d9863926f9edc",
+        "managed-writer-plan.json": "1efbd49bf13da82f27567a6284b91cf44f2e9a8b6c61ff9c2988ff427c07e8a8",
+        "momo15-inventory.log": "5ee7e4179c9514b052381e4028e23b8365fe439d7b05608fafd01d7ed0c6777e",
+        "native-launcher-cross-layer-snapshot.log": "3e5554a468bba901d914513eada251e1e36eb0aea9b86308c8816c7da610b58c",
+        "native-launcher-viewmodel-snapshot.log": "d662cf6b8a0cf3d65cb43253be729e6b09f31519598aa1928acb7287180b740d",
+        "native-reviewed-cross-layer.log": "ca76c0152c6811ea781950d0a6db63f77e6727a331ff6eb693cee2db9f84339c",
+        "native-reviewed-kotlin-syntax.log": "4b7d0122ac69e832093023e18ff94ae91ed847c293f8442ee555fb754b653d1c",
+        "native-reviewed-predecessor-regression.log": "ddb21cc96404d340c4c9ce60d2cbe82bb2cf280a682842a47d4dea94edec7c2e",
+        "native-reviewed-source-boundary.log": "aa6444361d5bfcb73267607c11a2e236d33fce5bd486de990bcf6bf0352d5fbb",
+        "native-reviewed-viewmodel.log": "bee437849862ed9895de14e45d006ebf6a4669921d47bf6503821bf1a065b11c",
+        "public-capability-launcher-verify.json": "cc0b0f5ed89ec478c31e3ed873dbfa7e426d16d57eae88bf6084024ea539d45f",
+        "public-capability-reviewed-verify.json": "d71f818de9058ef777b669927a5bcc4cefea572ce7fd118634d6ec18decee72f",
+        "public-launcher-source-render.json": "2713f74a7a56c2e1a20c2813232fd4e3174b0e19fd82ce08d6475abcf289f7c7",
+        "public-reviewed-source-render.json": "0f6d8d39cfa6345120877fc0bb8087d3b93ace0065ac2f7e2e09a19946face63",
+        "public-source-copy-comparison.json": "8abb32ab062a6151b944164e141f88b57d922a98fdd5ccca9b0d69af2e1d7ad8",
+        "review-final-source-integrity.log": "30810c7d98221315549b2dbed0d84ad3555bf73226c148b426ec2d24b33df559",
+        "review-qa-tooling.log": "a789116294795d7b9725e0d61defef1d5dbdb03ce12e98e11192c0ed31569113"
+      }
+    },
+    "open_acceptance": [
+      "The pinned Linux Actions checks still require hosted execution.",
+      "The four forward managed migrations, signed-in hosted and signed-device journeys, and provider acceptance remain pending.",
+      "The original Receipt 150 database dump and managed archive author log are still missing.",
+      "The owner has deferred artifact qualification."
+    ]
+  }
+}

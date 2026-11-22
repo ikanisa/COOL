@@ -1,0 +1,57 @@
+-- PRIVATE PROPOSAL. Direct SQL maintenance only; no Vault, pg_net or Edge call.
+-- Render through operator.mjs. Separate operator installation, not app migration.
+BEGIN;
+DO $admit$
+BEGIN
+ IF current_user<>'__OPERATOR_ROLE__' OR current_database()<>'__DATABASE__' THEN
+  RAISE EXCEPTION 'stable_maintenance_operator_required';
+ END IF;
+ IF to_regnamespace('collect_ops') IS NOT NULL THEN
+  RAISE EXCEPTION 'existing_collect_ops_requires_exact_reconciliation';
+ END IF;
+ IF EXISTS(SELECT 1 FROM cron.job WHERE jobname='collect-google-ciphertext-expiry-v1') THEN
+  RAISE EXCEPTION 'existing_named_job_requires_exact_reconciliation';
+ END IF;
+END; $admit$;
+CREATE SCHEMA collect_ops AUTHORIZATION __OPERATOR_ROLE__;
+REVOKE ALL ON SCHEMA collect_ops FROM PUBLIC;
+CREATE FUNCTION collect_ops.cleanup_google_expired() RETURNS jsonb
+LANGUAGE plpgsql SECURITY INVOKER SET search_path=pg_catalog AS $cleanup$
+DECLARE now_epoch bigint:=floor(extract(epoch FROM clock_timestamp()))::bigint;purged_count integer;
+BEGIN
+ -- collect_fence_sql2_write_guard_v1
+ PERFORM private.collect_fence_assert_write(NULL,NULL,NULL);
+ IF current_user<>'__OPERATOR_ROLE__' OR current_database()<>'__DATABASE__' THEN
+  RAISE EXCEPTION 'stable_maintenance_operator_required';
+ END IF;
+ WITH expired AS MATERIALIZED (
+  SELECT id FROM app.auth_google_flows
+  WHERE expires_at<=now_epoch AND status IN('pending','exchanging','ready')
+  ORDER BY expires_at,id LIMIT 100 FOR UPDATE SKIP LOCKED
+ ), purged AS (
+  UPDATE app.auth_google_flows AS flow SET provider_verifier='{}',status='failed'
+  FROM expired WHERE flow.id=expired.id
+   AND flow.expires_at<=now_epoch AND flow.status IN('pending','exchanging','ready')
+  RETURNING flow.id
+ ) SELECT count(*)::integer INTO purged_count FROM purged;
+ RETURN jsonb_build_object('status','complete','examined_limit',100,'purged',purged_count,'provider_calls',0);
+END;
+$cleanup$;
+REVOKE ALL ON FUNCTION collect_ops.cleanup_google_expired() FROM PUBLIC;
+DO $acl$
+DECLARE role_name text;
+BEGIN
+ FOREACH role_name IN ARRAY ARRAY['anon','authenticated','service_role','collect_runtime','collect_importer'] LOOP
+  IF EXISTS(SELECT 1 FROM pg_roles WHERE rolname=role_name) THEN
+   EXECUTE format('REVOKE ALL ON SCHEMA collect_ops FROM %I',role_name);
+   EXECUTE format('REVOKE ALL ON FUNCTION collect_ops.cleanup_google_expired() FROM %I',role_name);
+  END IF;
+ END LOOP;
+END; $acl$;
+DO $schedule$
+DECLARE job_id bigint;
+BEGIN
+ job_id:=cron.schedule('collect-google-ciphertext-expiry-v1','*/5 * * * *','SELECT collect_ops.cleanup_google_expired();');
+ PERFORM cron.alter_job(job_id,active:=false);
+END; $schedule$;
+COMMIT;

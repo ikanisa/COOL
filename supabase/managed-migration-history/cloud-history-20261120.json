@@ -1,0 +1,577 @@
+{
+  "format": "collect.managed-migration-history.v1",
+  "project_ref": "rrlduytparvsjfmegalh",
+  "server_version": "17.11",
+  "observed_at": "2026-11-20T09:14:41Z",
+  "ordered_sha256": "02304f771accf67aa95a4e960dcc247644f06c266fb68a05db948fa01034b303",
+  "migration_count": 82,
+  "history": [
+    {
+      "version": "20261020134444",
+      "name": "collect_curated_platform_baseline",
+      "entries": 1,
+      "sha256": "0d943d17ddd92e809856831427cfc81b1264301dabdb867e1c90322d46b5a6f0"
+    },
+    {
+      "version": "20261020135932",
+      "name": "collect_runtime_role_and_function_paths",
+      "entries": 1,
+      "sha256": "59e4b13ddc81abeb39fb59b005c71a29f947023502727c118c9eb00b479e08a1"
+    },
+    {
+      "version": "20261020174856",
+      "name": "collect_retention_retry_authority",
+      "entries": 1,
+      "sha256": "d3ba38736fa46b70a0bb66520deffa56fd6f7317deb7c0144f8e06d791f8808c"
+    },
+    {
+      "version": "20261020184012",
+      "name": "collect_admin_invitation_attempts",
+      "entries": 1,
+      "sha256": "c6dc8aa6ac5130162c6e69904aae7221edde6dcb0c898af2cf9e10dba444b665"
+    },
+    {
+      "version": "20261020190301",
+      "name": "collect_rls_helper_permissions",
+      "entries": 1,
+      "sha256": "dccb79af17182164dc6afe0b8339b70bd35a80fc4a1c1fa7df1a09408310a645"
+    },
+    {
+      "version": "20261020191847",
+      "name": "collect_privacy_email_reauthentication",
+      "entries": 1,
+      "sha256": "d6f002a6e904226a88e666c70937a142f06aa5a7e29874c6edb564d59c5fcab4"
+    },
+    {
+      "version": "20261020193752",
+      "name": "collect_admin_invitation_access_notice_v2",
+      "entries": 1,
+      "sha256": "b48a381169e777160a37396539248325e40b331a61db986622514724517f8467"
+    },
+    {
+      "version": "20261020195249",
+      "name": "collect_admin_invitation_public_id_preservation",
+      "entries": 1,
+      "sha256": "78f8c454a9825b0d9e25622b0659245d9568e7b95f637d3e20160a945b4e0850"
+    },
+    {
+      "version": "20261022195747",
+      "name": "collect_application_mutation_fence",
+      "entries": 1,
+      "sha256": "714abf2d24ce3d42a36525d18627362b02ff38c30810e988d365b5796d840497"
+    },
+    {
+      "version": "20261022200028",
+      "name": "collect_private_member_realtime",
+      "entries": 1,
+      "sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4"
+    },
+    {
+      "version": "20261023002500",
+      "name": "collect_admin_recent_email_source_upgrade",
+      "entries": 1,
+      "sha256": "02c93209f546880032cf38382c61e78a3de0b0073dd2cb88699319afc6f0f185"
+    },
+    {
+      "version": "20261023072038",
+      "name": "collect_admin_initial_email_proof_ack",
+      "entries": 1,
+      "sha256": "2c31440ae10176e7e9e5f0befefce8e1ca44e06149d3cc4471119920b3abf6df"
+    },
+    {
+      "version": "20261023102707",
+      "name": "collect_retire_admin_mfa_enrollment",
+      "entries": 1,
+      "sha256": "e11ee7110cc2eb3a8a6cf571532966711b6a9b737537b5b893c61d2b48d8e834"
+    },
+    {
+      "version": "20261023174000",
+      "name": "collect_stopped_admission_lifecycle",
+      "entries": 1,
+      "sha256": "db6f2f23ae1ae5a7de01d8145e84b0429717e73628443ff58054f29aab451e25"
+    },
+    {
+      "version": "20261029120000",
+      "name": "collect_client_diagnostics",
+      "entries": 1,
+      "sha256": "6f7c1e537a3c7d114417cfa79bd7b545bbfd17c69ab1d643c806eeb457c81e3f"
+    },
+    {
+      "version": "20261029130000",
+      "name": "collect_notification_delivery",
+      "entries": 1,
+      "sha256": "2d5904d5aaae917715c6ff5b996ce5b7395864fc5e225f5aaa67ec7d931a6792"
+    },
+    {
+      "version": "20261101012309",
+      "name": "collect_admission_archive",
+      "entries": 1,
+      "sha256": "82b09d4d2abd5994429a978ccf80daa796fd83e5dc5d29bc54076f2b7565ad84"
+    },
+    {
+      "version": "20261101012310",
+      "name": "collect_member_history_pagination",
+      "entries": 1,
+      "sha256": "2e67c30af2860d9ffe4a8636c225278e24728e59f9ce9ee29b38f7f441932835"
+    },
+    {
+      "version": "20261101012311",
+      "name": "collect_guest_auth_upgrade",
+      "entries": 1,
+      "sha256": "c16f38f37fbe1f9e344a258125214bfc2e8f4930f3974adaa1416717716ad7f9"
+    },
+    {
+      "version": "20261101012312",
+      "name": "collect_notification_channels",
+      "entries": 1,
+      "sha256": "67faa7d057eb033abf27e9c3c93ed8eb9e910d108949ef378172aa743e299244"
+    },
+    {
+      "version": "20261101012503",
+      "name": "collect_sms_gateway",
+      "entries": 1,
+      "sha256": "4235bf5eb7e84006c38f06a01d5dbe3bd4d3bdd06589c927dcb5d5c0561e5906"
+    },
+    {
+      "version": "20261101013157",
+      "name": "collect_deployment_identity",
+      "entries": 1,
+      "sha256": "916a7b3012135484c74f0a6b4707cdda39c637959f8564233fc8f6a8f5adbdc1"
+    },
+    {
+      "version": "20261101014231",
+      "name": "collect_retention_inventory_manifests",
+      "entries": 1,
+      "sha256": "cfe8da08a85db4309abb6eea5c8a8aca4d84171b64addec3733ba5af7aeb67b6"
+    },
+    {
+      "version": "20261101020642",
+      "name": "collect_retention_row_executor",
+      "entries": 1,
+      "sha256": "63262c3dbadeae748b87b490460462403101536ede6708b30a88b1ba23893346"
+    },
+    {
+      "version": "20261101030502",
+      "name": "collect_sms_application_fence",
+      "entries": 1,
+      "sha256": "94e166bd70669743fe8ad1dc1c4aa504d82549f831c658d582d786049c354515"
+    },
+    {
+      "version": "20261109234517",
+      "name": "burimunsi_native_operator_schema",
+      "entries": 1,
+      "sha256": "c28ec95df7296052d911219c64a8a3d3fbbd60d77cfc222bd2f5de3590dfff2f"
+    },
+    {
+      "version": "20261110030800",
+      "name": "burimunsi_sms_source_scope",
+      "entries": 1,
+      "sha256": "114d871f4b62bd203274674705173588aec491fbc59e2c82cf18855de099386e"
+    },
+    {
+      "version": "20261110032620",
+      "name": "burimunsi_native_provisioning",
+      "entries": 1,
+      "sha256": "5e9a35580ac9086ffd82f4557a54651a1f1139eac260fd1539b4d8fa689192b7"
+    },
+    {
+      "version": "20261110040728",
+      "name": "burimunsi_gateway_classification",
+      "entries": 1,
+      "sha256": "742dee4ffcdab00d61eb6e7cf8d8e280a08ecae44c229ed93875df28ce3401b2"
+    },
+    {
+      "version": "20261110052756",
+      "name": "burimunsi_dynamic_scope_setup",
+      "entries": 1,
+      "sha256": "dc9699f3e7a25b2a799760fcaa90777e8466b3c863876246a50e93d100f4d553"
+    },
+    {
+      "version": "20261110093218",
+      "name": "burimunsi_managed_email_preauth",
+      "entries": 1,
+      "sha256": "5eb274ebc5ffe25532b26b55f54824a4f99d3f659886b14ce8d1ad79c13ecf9f"
+    },
+    {
+      "version": "20261110143000",
+      "name": "burimunsi_native_phone_pin",
+      "entries": 1,
+      "sha256": "bc2a6989b309258838966707548c588ff27bde6900c96d120b4d75e31c95d365"
+    },
+    {
+      "version": "20261110181002",
+      "name": "collect_local_stopped_admission",
+      "entries": 1,
+      "sha256": "c7ee8a86dbb6ba5706f2cf4cee9dcd6907a194f1a8cb8826edf606c3364bae64"
+    },
+    {
+      "version": "20261110181003",
+      "name": "burimunsi_gateway_handoff",
+      "entries": 1,
+      "sha256": "d16e86c128a887059afc7b2c5d4b6e3929850a1068d070bed8eb26616fe9795f"
+    },
+    {
+      "version": "20261110193000",
+      "name": "burimunsi_canonical_receipt_adoption",
+      "entries": 1,
+      "sha256": "8e2e1a70d220f17909b5c2539a5926237e4e5bf8de71c57a3928da1e689a45d6"
+    },
+    {
+      "version": "20261111043455",
+      "name": "collect_admin_email_otp_lifetime",
+      "entries": 1,
+      "sha256": "2d3a0d09e7dd369ed715a21fd91e5ea60cc5c958f7ed355933c6a6c82e07b948"
+    },
+    {
+      "version": "20261111120000",
+      "name": "collect_admin_persistent_sessions",
+      "entries": 1,
+      "sha256": "998ebb09cc065e06151cc58ea6466c72f6069ea083d86137501aa924588fdb90"
+    },
+    {
+      "version": "20261111120200",
+      "name": "burimunsi_native_session_renewal",
+      "entries": 1,
+      "sha256": "1e7c62ba414ca6ad6801ef0fa263f3b01f7ad65b379adf2a83ed8c64f7e728f7"
+    },
+    {
+      "version": "20261111120400",
+      "name": "burimunsi_passcode_session_rotation",
+      "entries": 1,
+      "sha256": "39794d4bafba2ed5100ae1039f429c5c6412d69060bf2fbed0bc6c4feefbb7d7"
+    },
+    {
+      "version": "20261111120500",
+      "name": "burimunsi_native_logout_barrier",
+      "entries": 1,
+      "sha256": "a4aba63eab61c3348328299d50fde8b924663258262f1b04b8ffa0806fa6c99f"
+    },
+    {
+      "version": "20261111121000",
+      "name": "burimunsi_private_observations",
+      "entries": 1,
+      "sha256": "df3e00ad7a5bc1f3f1f3c602989e7aa74f8da01d86f7c4d0c27cf04058d659e5"
+    },
+    {
+      "version": "20261111121100",
+      "name": "burimunsi_admin_observations",
+      "entries": 1,
+      "sha256": "6bbc33f633c320b4c698db1e52a27ca707090e6d6857a6e99f25ffd60863413a"
+    },
+    {
+      "version": "20261111121200",
+      "name": "burimunsi_retention_inspection",
+      "entries": 1,
+      "sha256": "e367539d6ff6548c05ea0b46cb4e216f8423c47b978fcfef530f2fefe6af7fa7"
+    },
+    {
+      "version": "20261111121300",
+      "name": "burimunsi_pin_clock_skew",
+      "entries": 1,
+      "sha256": "1d45aa3be15aee3d76cb92188880d0680c097bf67bb37e6b4eecb1609badaece"
+    },
+    {
+      "version": "20261111121400",
+      "name": "collect_protected_owner_identity",
+      "entries": 1,
+      "sha256": "8330530ee441825f4d06f4ba1d8664b81f50472502593c9d84592bd8cccded14"
+    },
+    {
+      "version": "20261111121500",
+      "name": "burimunsi_pin_bound_clock",
+      "entries": 1,
+      "sha256": "1837d603bcd8530988aaab14cf862f44d9b7f724432457bd115e897ba7708906"
+    },
+    {
+      "version": "20261111121600",
+      "name": "burimunsi_pin_rotation_expiry",
+      "entries": 1,
+      "sha256": "165dfedf3119a2fba6aaeb4bae40c8009d2ebce8938c7ae1fe71bfa878c2c7f2"
+    },
+    {
+      "version": "20261111121700",
+      "name": "burimunsi_staff_phone_preservation",
+      "entries": 1,
+      "sha256": "13e574a3048835e9838257c46f89d90d22574b23428977086bd049e6ec686064"
+    },
+    {
+      "version": "20261112200100",
+      "name": "burimunsi_native_auto_transactions",
+      "entries": 1,
+      "sha256": "50a995e709607c7fe794bb946e3f479ae1659a6a59633b93294f52bb0a9f54c8"
+    },
+    {
+      "version": "20261113130000",
+      "name": "burimunsi_native_observation_dedup",
+      "entries": 1,
+      "sha256": "2c0b6770c8202fd85c337af0abd82c660aa33a5bbd4acdd4e08512cb4619191e"
+    },
+    {
+      "version": "20261113130100",
+      "name": "burimunsi_smart_onboarding_journal",
+      "entries": 1,
+      "sha256": "cb06334e3f63fe97afbd1e42ab7f89cf3488860ea10ec348d3485117fe8f509c"
+    },
+    {
+      "version": "20261113130200",
+      "name": "burimunsi_account_sms_history",
+      "entries": 1,
+      "sha256": "7e815c423327016ee8ff84653a32053a1e1f522fee4f5716aff8f9a5693c99d4"
+    },
+    {
+      "version": "20261113130300",
+      "name": "burimunsi_native_financial_work",
+      "entries": 1,
+      "sha256": "91eef9b7c14172da6dd55da1f15d1db735077d6685b46813fd97d38982c50625"
+    },
+    {
+      "version": "20261113130400",
+      "name": "burimunsi_native_financial_custody",
+      "entries": 1,
+      "sha256": "01dece71d7152fd82f8d51d6626e4fd386edd3313ced588e9858ad07ac16ff05"
+    },
+    {
+      "version": "20261113130500",
+      "name": "burimunsi_native_work_discovery",
+      "entries": 1,
+      "sha256": "60a69f083659344521ee259175349cbca5da43366217ef882c8aebad78fca0a7"
+    },
+    {
+      "version": "20261113130600",
+      "name": "burimunsi_native_work_retention_inspection",
+      "entries": 1,
+      "sha256": "afcc2f76a37dd7b906f0b24390a42e8f135919dc88825ef2b2f3133f1b3e94bb"
+    },
+    {
+      "version": "20261113130800",
+      "name": "burimunsi_native_lease_history",
+      "entries": 1,
+      "sha256": "63594a016df890437b6f98f2b68657c73252492435e686fb9166898acd508687"
+    },
+    {
+      "version": "20261113130900",
+      "name": "burimunsi_native_sms_posting",
+      "entries": 1,
+      "sha256": "6fa1438824f9d5455903353573c508d697e11aabae9ec41df2d456fb0ab43d71"
+    },
+    {
+      "version": "20261114101000",
+      "name": "burimunsi_native_sms_post_retry",
+      "entries": 1,
+      "sha256": "836e5e925a03c5bbb0bb858a31e689912ecf0386f350b0fbe8d4c0209f6d329a"
+    },
+    {
+      "version": "20261114102000",
+      "name": "burimunsi_native_event_identity",
+      "entries": 1,
+      "sha256": "d05349ffd4a3cc93d8e641869dd2feecb4890de80d4944f95addd3d3fed535d0"
+    },
+    {
+      "version": "20261114110001",
+      "name": "burimunsi_native_retention_positive_links_managed_convergence",
+      "entries": 1,
+      "sha256": "23fe7bb434fd05b71da835083351fd568a1adbf997ca00f7419fb504bf1324ce"
+    },
+    {
+      "version": "20261114110100",
+      "name": "collect_admin_mfa_authority",
+      "entries": 1,
+      "sha256": "460721da7d7ea30c9255c684da477d05adea9f469b2d988a476338608c2d963d"
+    },
+    {
+      "version": "20261114110300",
+      "name": "collect_admin_mfa_intent_recovery",
+      "entries": 1,
+      "sha256": "ba10d574db42eae6c981c4fb037a6d93929f6f27f4dd0b574fb5af008f33259a"
+    },
+    {
+      "version": "20261115010000",
+      "name": "burimunsi_native_retention_evidence",
+      "entries": 1,
+      "sha256": "45cea7f8e8a6b2923e8d1468d40d43f5ea1990dd30d24994a61b4a07c623e465"
+    },
+    {
+      "version": "20261115010100",
+      "name": "collect_admin_mfa_activation",
+      "entries": 1,
+      "sha256": "089c40e145f69e6aa23c673fa8ddc9c7fe34a02788e403ee12ce6f94b1ae2095"
+    },
+    {
+      "version": "20261116163801",
+      "name": "collect_storage_lifecycle_retention_managed_convergence",
+      "entries": 1,
+      "sha256": "96e62d0f266987f9474b5677e05be5b25d7811c1fab8a25dae8f06f57c535b64"
+    },
+    {
+      "version": "20261116215300",
+      "name": "burimunsi_operator_identity_guard",
+      "entries": 1,
+      "sha256": "15a51f98a768334fd852372f2fb7e0de2193a2c8cba5520fc9c57143900371b2"
+    },
+    {
+      "version": "20261117060642",
+      "name": "burimunsi_retention_text_subjects",
+      "entries": 1,
+      "sha256": "fae5486220ef7f7aec99887faff6685ef69d3667adee8f1805341af258b171f2"
+    },
+    {
+      "version": "20261117064828",
+      "name": "collect_managed_executor_retirement",
+      "entries": 1,
+      "sha256": "af8317f31d9e92824114577c169bc0e99530384c3b6ee53724bf6cb1b5f22019"
+    },
+    {
+      "version": "20261117065536",
+      "name": "collect_cloud_runtime_binding",
+      "entries": 1,
+      "sha256": "dbaf8ae6900c8da298a857d6710f71feda9f803f8afc8493d222b7366de51343"
+    },
+    {
+      "version": "20261117071117",
+      "name": "storage_iceberg_cloud_catalog",
+      "entries": 1,
+      "sha256": "3ef135d93a0272260e8b12d1a2dcb690bb7a650b178fc12f98acd38ac176290d"
+    },
+    {
+      "version": "20261117071123",
+      "name": "storage_iceberg_cloud_census",
+      "entries": 1,
+      "sha256": "043c3eda476542c8f8e9f85ce985f789ef1fd4c0bc9f21fc3f87a76b3fef06e9"
+    },
+    {
+      "version": "20261117071343",
+      "name": "collect_burimunsi_import_lineage_guard",
+      "entries": 1,
+      "sha256": "065d3d7eb13b2c0ab335313d6984f980073b6b8c70ded2b7ab80cf7e59eb1a6f"
+    },
+    {
+      "version": "20261117073850",
+      "name": "collect_managed_jobs_hmac",
+      "entries": 1,
+      "sha256": "24429bfc2fc31cf44d44c4b3acbfc87cb946353edfac3cd2a4755c48c2d5aff7"
+    },
+    {
+      "version": "20261117081411",
+      "name": "collect_native_provider_budget",
+      "entries": 1,
+      "sha256": "2dcc597b6259d54d9aa46bc7ba015239a084a487296800dfc83078a925ae9aff"
+    },
+    {
+      "version": "20261117090952",
+      "name": "burimunsi_native_parse_review",
+      "entries": 1,
+      "sha256": "6c9d990e607b0ca5470992c39a4b82101f1fe86407a0f64a7e18c400ac653d24"
+    },
+    {
+      "version": "20261117134926",
+      "name": "collect_native_provider_policy",
+      "entries": 1,
+      "sha256": "920697592581f5872fa191b5ecb23bb980ee88d4d087333739a51cef0c137603"
+    },
+    {
+      "version": "20261117134954",
+      "name": "burimunsi_observation_processing_status",
+      "entries": 1,
+      "sha256": "3090412cf003655ca5e0d8f20e33cfe1d848e0df1596062fbc29d7fb540550a4"
+    },
+    {
+      "version": "20261117135049",
+      "name": "collect_sms_schedule_one_minute",
+      "entries": 1,
+      "sha256": "df5ff3ec33e8e8d02c182072abd99e0c24705fb74f1f85514b46f9da9149300c"
+    },
+    {
+      "version": "20261117180000",
+      "name": "burimunsi_observation_reconcile_status",
+      "entries": 1,
+      "sha256": "72f1cb4c145eccd8dac794051c8334e370d936ef58896d458e1698322e4bd372"
+    },
+    {
+      "version": "20261117190000",
+      "name": "burimunsi_legacy_reconcile",
+      "entries": 1,
+      "sha256": "c7ce86a7d55c01098a43ae78206cccf27ff9ea974ee2ced6baa813c4d95b4df6"
+    },
+    {
+      "version": "20261118090305",
+      "name": "burimunsi_automatic_payment_sms",
+      "entries": 1,
+      "sha256": "103ca560b8915450834ad11a5553921b71c132fb845d5f0a781ca4aeebae762f"
+    }
+  ],
+  "catalog": {
+    "observation_status_present": true,
+    "legacy_matching_present": true,
+    "payment_sms_claim_present": true,
+    "payment_sms_journal_present": true,
+    "scheduler": [
+      {
+        "job": "collect-jobs-maintenance-v1",
+        "schedule": "* * * * *",
+        "active": true
+      }
+    ],
+    "runtime_journals": {
+      "role": "collect_runtime",
+      "observed_date_utc": "2026-11-20",
+      "relations": [
+        {
+          "journal": "burimunsi_audit",
+          "rls": true,
+          "force_rls": true,
+          "table_privileges": [
+            "SELECT",
+            "INSERT",
+            "UPDATE"
+          ]
+        },
+        {
+          "journal": "burimunsi_command_receipts",
+          "rls": true,
+          "force_rls": true,
+          "table_privileges": [
+            "SELECT",
+            "INSERT",
+            "UPDATE"
+          ]
+        },
+        {
+          "journal": "burimunsi_rate_limits",
+          "rls": true,
+          "force_rls": true,
+          "table_privileges": [
+            "SELECT",
+            "INSERT",
+            "UPDATE"
+          ]
+        }
+      ]
+    }
+  },
+  "edge_functions": [
+    {
+      "slug": "admin-api",
+      "version": 90,
+      "status": "ACTIVE",
+      "bundle_sha256": "2d31dbe6e3f241bc1455582e1cb499762fdb09f39bb4d561bd5c1c5cb1468a2d"
+    },
+    {
+      "slug": "collect-api",
+      "version": 89,
+      "status": "ACTIVE",
+      "bundle_sha256": "574fca994a5e8cc4a128f9f041309fafe3b6e1a47695dba1ea508f71eb21e569"
+    },
+    {
+      "slug": "collect-jobs",
+      "version": 87,
+      "status": "ACTIVE",
+      "bundle_sha256": "f27779d838e6be477c94a19a6cbc1a79121ce892536725313a3da6dfa3c9fe08"
+    },
+    {
+      "slug": "collect-sms",
+      "version": 11,
+      "status": "ACTIVE",
+      "bundle_sha256": "faa1f8643eba72e6e29a7c913f286d82f7bc30db2a288a6aeb9139f8895c618e"
+    }
+  ]
+}

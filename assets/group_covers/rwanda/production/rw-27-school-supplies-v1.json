@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-27-school-supplies",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-27-school-supplies-v1.png",
+  "source_sha256": "044e3c98ed6eb28a563f94336f6752f7ab8ca229df2358e4600cf13fea2e6178",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "9b492866c7e54281ad8698360633540ef9a5581e4a327264830208681c2e004f",
+  "imported_at_utc": "2026-09-06T11:05:14.834855+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-54550640-bb23-4422-8008-36dce757faae.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

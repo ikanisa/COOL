@@ -1,0 +1,61 @@
+{
+  "format": "collect.public-rendered-verification.v1",
+  "verified_utc": "2026-11-20T16:45:43.757Z",
+  "command": "bash scripts/public_website_rendered_route_qa.sh",
+  "browser": "Google Chrome",
+  "network": "Local Chromium. The share page renders at its configured URL using only packaged HTML and assets from the loopback server. Clipboard actions use an in-memory fixture.",
+  "external_requests": 0,
+  "capability_registry_sha256": "3607b6084c585946467fa377589151a0c791b69450df737819742959970e446b",
+  "routes": [
+    "/",
+    "/account-deletion/",
+    "/community-groups/",
+    "/craas/",
+    "/credit-readiness/",
+    "/data-deletion/",
+    "/group-savings/",
+    "/insurance/",
+    "/our-partners/",
+    "/partners/",
+    "/privacy/",
+    "/protection/",
+    "/security/",
+    "/terms/",
+    "/trust/"
+  ],
+  "viewports": [
+    "compact_320x740",
+    "desktop_1440x1000",
+    "mobile_390x844",
+    "tablet_834x1194"
+  ],
+  "group_cases": [
+    "group_uuid",
+    "legacy_query_uuid",
+    "obsolete_slug",
+    "oversized_code"
+  ],
+  "before": {
+    "ordinary_pass": 60,
+    "group_fail": 16,
+    "report_sha256": "04875971ccf257bad4b6a8c843df48b4b97f6679e6f0339bcdd74f500fbe63db"
+  },
+  "after": {
+    "ordinary_pass": 60,
+    "group_pass": 16,
+    "route_failures": 0,
+    "browser_group_page_errors": 0,
+    "report_sha256": "63080664574aab2b2fafaff758c589f8dac43e73a62ed7af290846650be6ee56"
+  },
+  "navigation_tests": 15,
+  "website_ci_contract_tests": 3,
+  "member_ui_and_store_link_contract_tests": 50,
+  "screenshot_count": 307,
+  "screenshot_inventory_sha256": "c098671245444e3560cdbd4ae9137e972da54fdd295699e61dad41cc469e46a8",
+  "evidence_directory": "/Volumes/PRO-G40/Projects/COLLECT-Build-Evidence/2026-11-20/public-rendered-groups",
+  "public_website_deployment_verified": false,
+  "hosted_publication_approved": false,
+  "changed_behavior": "The browser check renders the packaged invitation page at its configured HTTPS origin. A valid UUID activates the native button and enables copying. Invalid links keep the action disabled. The public canonical URL omits private invitation identifiers.",
+  "raw_evidence_availability": "The separately stored screenshot and browser-report directory was deleted by concurrent storage cleanup after this verification. The counts and SHA-256 commitments above remain in Git.",
+  "raw_directory_verified_available": false
+}

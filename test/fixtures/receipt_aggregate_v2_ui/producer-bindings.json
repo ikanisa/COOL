@@ -1,0 +1,14 @@
+{
+  "original_request_id": "1a90bdff-ad45-4385-ac1d-7a7b78a5e277",
+  "side": {
+    "producer": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-aggregate-v2-20261003/sql-proof23/fixtures/worker-side-1a90bdff-ad45-4385-ac1d-7a7b78a5e277.json",
+    "sha256": "56376c4aef1ed4a951d2ab333bec116b7df1dec1322fba230e15ee34bf9b0601"
+  },
+  "sample": {
+    "producer": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/collect-aggregate-v2-20261003/sql-proof23/fixtures/force_custom_plan-sample.json",
+    "sha256": "ed85b42c0e68598a0bbdd57f2a11fa97adcad7ffd6c51e288fca9dde4bde8fb5"
+  },
+  "producer_result_sha256": "12d5c136d23739a179843fb98ebc9aae0e659148d4141a930c50cf45d4d69ab5",
+  "migration_sha256": "5aaf9a970982a0c3ae9237a75a6fc368e169b195bce2da79d696284a13866b80",
+  "scope": "Current216 plus final1400 actual original worker/v1 side and authenticated v2 sample; isolated admission fixture, production defaultfalse pending1800."
+}

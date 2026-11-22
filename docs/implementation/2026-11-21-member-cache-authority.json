@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-21",
+  "review_parent": "aeac8a89e43cf5cd68aed6adfd9859f7c845cf3e",
+  "scope": "Collect member session refresh, protected offline history and managed Realtime access.",
+  "behavior": [
+    "A confirmed member may stay on Settings during a same-account refresh. An account switch or an unknown scope returns to bootstrap.",
+    "Aggregate, signed-history and managed-sync reads record an owner-specific request before contacting the server. A refusal keeps its request pending even if later denial recording and encrypted cache deletion fail.",
+    "A fresh authorization can clear the interrupted requests it observed. It cannot clear a later refusal or another owner’s marker. A regular same-owner offline restart can still open the eligible snapshot."
+  ],
+  "source_sha256": {
+    "lib/app/router.dart": "a44ba4efc2ed94c89a3ce0de1d522b82fba489d441fa291154f14ff02bffee3a",
+    "lib/core/cloudflare/realtime_invalidation.dart": "27e9988a352bad4fccae1b26521d9fffa5ae041a9372241c6079ea6c19c3458c",
+    "lib/shared/repositories/collect_offline_cache.dart": "db7aaaa5f614c758a7e9ad953344e586ed27546333a622230ba81a6e9cb76b78",
+    "lib/shared/repositories/collect_repository.dart": "fb406260b289aeaceee472ec1cb3b0f999f65d6ae7e8a359c04732122fd15090",
+    "lib/shared/repositories/collect_repository_history.dart": "d0a1a4bf6e52ee58063c34ab86f91d46cf75df900da32c1106631df31c7fe840",
+    "lib/shared/repositories/collect_repository_member_history.dart": "183619459960898a7004f8e33603422574762fd8ccc00c21d19729cba074f913",
+    "test/features/privacy/privacy_default_route_integration_test.dart": "76108e0513d72f896d35b74c80bf36f75678a50897c43ae5823fe70a8be4f183",
+    "test/hardening/protected_snapshot_store_test.dart": "dc0c45b5e0fed0f8180bb56d640c2429d94a73bf36b7f17db2748aa330bc22ef",
+    "test/shared/member_balance_read_integrity_test.dart": "a0a1afacb9e6aae0138e7032905d046c2173cc610ff2cb3c4eb862fbfa32cd2b",
+    "test/shared/member_profile_save_test.dart": "b821f72720913cceec61f4849274013a107784e8b784ad0a97586b60758638f0",
+    "test/shared/member_signed_history_live_reader_test.dart": "c145220692363e3775cc7874600abb6611f462c17ed7a07ccf49072e6d433973",
+    "test/shared/supabase_member_realtime_denial_test.dart": "d162da6d8b417ee0819c20d4ed7f05ee3538a56ffaeecf7a18314e599e01e72f"
+  },
+  "verification": {
+    "tests_passed": 416,
+    "focused_suites": [
+      "test/core/history_response_status_test.dart",
+      "test/core/supabase_member_realtime_transport_test.dart",
+      "test/features/auth_route_accessibility_regression_test.dart",
+      "test/features/member_signed_history_views_test.dart",
+      "test/features/privacy/privacy_default_route_integration_test.dart",
+      "test/hardening/protected_snapshot_store_test.dart",
+      "test/member_history_controller_integrity_test.dart",
+      "test/member_history_page_integrity_test.dart",
+      "test/member_history_scope_state_test.dart",
+      "test/shared/member_balance_read_integrity_test.dart",
+      "test/shared/member_history_pagination_test.dart",
+      "test/shared/member_profile_save_test.dart",
+      "test/shared/member_receipt_sms_consent_test.dart",
+      "test/shared/member_signed_history_live_reader_test.dart",
+      "test/shared/member_signed_history_test.dart",
+      "test/shared/notification_preference_runtime_test.dart",
+      "test/shared/repository_session_fencing_test.dart",
+      "test/shared/supabase_member_realtime_denial_test.dart"
+    ],
+    "runtime": "Flutter test, Dart VM, --no-pub --no-test-assets",
+    "dependency_lock_sha256": "192c2f830a63b0b06b1a02bb97ce261e7c4832cee9ec16059731cce9edd18d5d",
+    "offline_enforced_lock": "passed",
+    "analyzed_files": 12,
+    "analyzer_issues": 0,
+    "formatted_files": 12,
+    "format_changes": 0,
+    "capability_source_inputs_verified": 39,
+    "updated_capability_source_inputs": {
+      "lib/app/router.dart": "a44ba4efc2ed94c89a3ce0de1d522b82fba489d441fa291154f14ff02bffee3a",
+      "lib/shared/repositories/collect_repository.dart": "fb406260b289aeaceee472ec1cb3b0f999f65d6ae7e8a359c04732122fd15090",
+      "lib/shared/repositories/collect_repository_member_history.dart": "183619459960898a7004f8e33603422574762fd8ccc00c21d19729cba074f913"
+    },
+    "generated_dart_consumers_checked": 2,
+    "unchanged_store_metadata_files": 7
+  },
+  "remaining_evidence": [
+    "The interrupted-read tests exercise an acknowledged preferences write and a recreated repository. Persistence through sudden handset power loss is unverified.",
+    "The existing captures predate these sources. Physical Android and iOS qualification and an authenticated hosted run remain deferred."
+  ]
+}

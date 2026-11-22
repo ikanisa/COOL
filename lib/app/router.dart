@@ -1,0 +1,563 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../core/cloudflare/cloudflare_module.dart';
+import '../core/widgets/collect_shell.dart';
+import '../features/activity/activity_screen.dart';
+import '../features/auth/auth_screen.dart';
+import '../features/collections/collection_create_screen.dart';
+import '../features/collections/collection_detail_screen.dart';
+import '../features/collections/collection_manage_screen.dart';
+import '../features/collections/collections_screen.dart';
+import '../features/collections/group_profile_screen.dart';
+import '../features/collections/group_link_screen.dart';
+import '../features/collections/group_qr_scanner_screen.dart';
+import '../features/collections/share_screen.dart';
+import '../features/home/home_screen.dart';
+import '../features/launch/launch_splash_screen.dart';
+import '../features/ledger/ledger_screen.dart';
+import '../features/payments/contribution_flow_screen.dart';
+import '../features/payments/contribute_entry_screen.dart';
+import '../features/profile/profile_edit_screen.dart';
+import '../features/settings/settings_screen.dart';
+import '../features/settings/app_permissions_screen.dart';
+import '../features/settings/appearance_settings_screen.dart';
+import '../features/settings/notification_settings_screen.dart';
+import '../features/settings/security_and_help_settings.dart';
+import '../features/status/production_state_screens.dart';
+import '../shared/repositories/collect_repository.dart';
+import '../shared/widgets/collect_components.dart';
+import '../shared/widgets/collect_licenses_page.dart';
+
+part 'member_route_access.dart';
+
+const collectRoutePaths = <String>[
+  '/',
+  '/auth',
+  '/home',
+  '/offline',
+  '/sync',
+  '/groups',
+  '/groups/join',
+  '/groups/scan',
+  '/groups/create',
+  '/groups/:collectionId',
+  '/groups/:collectionId/members',
+  '/groups/:collectionId/manage',
+  '/groups/:collectionId/profile',
+  '/groups/:collectionId/contribute',
+  '/groups/:collectionId/share',
+  '/groups/:collectionId/invite',
+  '/groups/:collectionId/ledger',
+  '/contribute',
+  '/activity',
+  '/c/:slug',
+  '/share/invalid',
+  '/share/expired',
+  '/share/expired/request',
+  '/app',
+  '/invite/:publicId',
+  '/settings',
+  '/settings/profile',
+  '/settings/notifications',
+  '/settings/permissions',
+  '/settings/appearance',
+  '/settings/security',
+  '/settings/account',
+  '/settings/account/delete',
+  '/settings/privacy',
+  '/settings/help',
+  '/settings/legal/terms',
+  '/settings/legal/privacy',
+  '/settings/legal/licenses',
+];
+
+GoRouter createAppRouter({
+  String initialLocation = '/',
+  Listenable? refreshListenable,
+  String? Function(GoRouterState state)? routeRedirect,
+}) {
+  return GoRouter(
+    initialLocation: initialLocation,
+    refreshListenable: refreshListenable,
+    redirect: routeRedirect == null
+        ? null
+        : (context, state) => routeRedirect(state),
+    routes: [
+      GoRoute(
+        path: '/',
+        pageBuilder: (context, state) =>
+            _immediateCollectPage(state, const LaunchSplashScreen()),
+      ),
+      GoRoute(
+        path: '/auth',
+        pageBuilder: (context, state) =>
+            _immediateCollectPage(state, const AuthScreen()),
+      ),
+      StatefulShellRoute.indexedStack(
+        // The shell owns GlobalKeys for branch navigators. It must leave the
+        // tree immediately on an account boundary: a retained exit animation
+        // can otherwise overlap a fresh shell during rapid Auth redirects.
+        // Individual member pages keep their existing route transitions.
+        pageBuilder: (context, state, navigationShell) =>
+            NoTransitionPage<void>(
+              key: state.pageKey,
+              child: CollectShell(navigationShell: navigationShell),
+            ),
+        branches: [
+          StatefulShellBranch(
+            initialLocation: '/home',
+            routes: [
+              GoRoute(
+                path: '/home',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const HomeScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+              ),
+              GoRoute(
+                path: '/offline',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const OfflineRecoveryScreen(),
+                  transition: _CollectRouteTransition.utility,
+                ),
+              ),
+              GoRoute(
+                path: '/sync',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const SyncRecoveryScreen(),
+                  transition: _CollectRouteTransition.utility,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            initialLocation: '/groups',
+            routes: [
+              GoRoute(
+                path: '/groups',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const CollectionsScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+                routes: [
+                  GoRoute(
+                    path: 'join',
+                    redirect: (context, state) => '/groups/scan',
+                  ),
+                  GoRoute(
+                    path: 'scan',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const GroupQrScannerScreen(),
+                      transition: _CollectRouteTransition.modal,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'create',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const CollectionCreateScreen(),
+                      transition: _CollectRouteTransition.modal,
+                    ),
+                  ),
+                  GoRoute(
+                    path: ':collectionId',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      CollectionDetailScreen(
+                        collectionId: state.pathParameters['collectionId']!,
+                      ),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: 'members',
+                        pageBuilder: (context, state) => _collectPage(
+                          context,
+                          state,
+                          GroupMembersScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'manage',
+                        pageBuilder: (context, state) => _collectPage(
+                          context,
+                          state,
+                          CollectionManageScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'profile',
+                        pageBuilder: (context, state) => _collectPage(
+                          context,
+                          state,
+                          GroupProfileScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'contribute',
+                        pageBuilder: (context, state) => _collectPage(
+                          context,
+                          state,
+                          ContributionFlowScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.modal,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'share',
+                        pageBuilder: (context, state) => _collectPage(
+                          context,
+                          state,
+                          ShareScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                          ),
+                          transition: _CollectRouteTransition.modal,
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'invite',
+                        redirect: (context, state) =>
+                            '/groups/${state.pathParameters['collectionId']}/share',
+                      ),
+                      GoRoute(
+                        path: 'ledger',
+                        pageBuilder: (context, state) => _collectPage(
+                          context,
+                          state,
+                          LedgerScreen(
+                            collectionId: state.pathParameters['collectionId']!,
+                            initialPaymentId:
+                                state.uri.queryParameters['payment_id'],
+                          ),
+                          transition: _CollectRouteTransition.detail,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            initialLocation: '/contribute',
+            routes: [
+              GoRoute(
+                path: '/contribute',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const ContributeEntryScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            initialLocation: '/activity',
+            routes: [
+              GoRoute(
+                path: '/activity',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const ActivityScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            initialLocation: '/settings',
+            routes: [
+              GoRoute(
+                path: '/settings',
+                pageBuilder: (context, state) => _collectPage(
+                  context,
+                  state,
+                  const SettingsScreen(),
+                  transition: _CollectRouteTransition.primary,
+                ),
+                routes: [
+                  GoRoute(
+                    path: 'profile',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const ProfileEditScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'account',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const AccountSessionScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'notifications',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const NotificationSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'permissions',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const AppPermissionsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'appearance',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const AppearanceSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'security',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const SecuritySettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'account/delete',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const DeleteAccountRequestScreen(),
+                      transition: _CollectRouteTransition.modal,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'privacy',
+                    redirect: (context, state) => '/settings/legal/privacy',
+                  ),
+                  GoRoute(
+                    path: 'help',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const HelpSettingsScreen(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'legal/terms',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const LegalScreen(kind: 'terms'),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'legal/privacy',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const LegalScreen(kind: 'privacy'),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'legal/licenses',
+                    pageBuilder: (context, state) => _collectPage(
+                      context,
+                      state,
+                      const CollectLicensesPage(),
+                      transition: _CollectRouteTransition.detail,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(path: '/app', redirect: (context, state) => '/home'),
+      GoRoute(path: '/invite/:publicId', redirect: (context, state) => '/home'),
+      GoRoute(path: '/share/invalid', redirect: (context, state) => '/groups'),
+      GoRoute(path: '/share/expired', redirect: (context, state) => '/groups'),
+      GoRoute(
+        path: '/share/expired/request',
+        redirect: (context, state) => '/groups',
+      ),
+      GoRoute(
+        path: '/c/:slug',
+        pageBuilder: (context, state) => _collectPage(
+          context,
+          state,
+          GroupLinkScreen(slug: state.pathParameters['slug']!),
+          transition: _CollectRouteTransition.detail,
+        ),
+      ),
+    ],
+    errorBuilder: (context, state) => const _RouteNotFoundScreen(),
+  );
+}
+
+// Auth and splash leave immediately at an account boundary. Keeping their
+// old route alive during an exit animation can overlap shell navigator keys.
+Page<void> _immediateCollectPage(GoRouterState state, Widget child) =>
+    NoTransitionPage<void>(
+      key: state.pageKey,
+      name: state.name,
+      arguments: state.extra,
+      child: child,
+    );
+
+enum _CollectRouteTransition {
+  primary,
+  forward,
+  detail,
+  modal,
+  utility,
+  confirmation,
+}
+
+Page<void> _collectPage(
+  BuildContext context,
+  GoRouterState state,
+  Widget child, {
+  _CollectRouteTransition transition = _CollectRouteTransition.detail,
+}) {
+  final duration = CollectMotion.duration(context, switch (transition) {
+    _CollectRouteTransition.utility => CollectMotion.fast,
+    _CollectRouteTransition.confirmation => CollectMotion.slow,
+    _ => CollectMotion.medium,
+  });
+  final platform = Theme.of(context).platform;
+  final usesNativeIosNavigation =
+      platform == TargetPlatform.iOS &&
+      transition != _CollectRouteTransition.primary;
+  if (usesNativeIosNavigation) {
+    return CupertinoPage<void>(
+      key: state.pageKey,
+      name: state.name,
+      arguments: state.extra,
+      fullscreenDialog: transition == _CollectRouteTransition.modal,
+      child: child,
+    );
+  }
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    name: state.name,
+    arguments: state.extra,
+    transitionDuration: duration,
+    reverseTransitionDuration: duration,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      if (MediaQuery.maybeOf(context)?.disableAnimations == true) {
+        return child;
+      }
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: CollectMotion.standard,
+        reverseCurve: Curves.easeInCubic,
+      );
+      return switch (transition) {
+        _CollectRouteTransition.primary => FadeTransition(
+          opacity: curved,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.985, end: 1).animate(curved),
+            child: child,
+          ),
+        ),
+        _CollectRouteTransition.forward ||
+        _CollectRouteTransition.detail => SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.035, 0.012),
+            end: Offset.zero,
+          ).animate(curved),
+          child: FadeTransition(opacity: curved, child: child),
+        ),
+        _CollectRouteTransition.modal => SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 0.08),
+            end: Offset.zero,
+          ).animate(curved),
+          child: FadeTransition(opacity: curved, child: child),
+        ),
+        _CollectRouteTransition.utility => FadeTransition(
+          opacity: curved,
+          child: child,
+        ),
+        _CollectRouteTransition.confirmation => ScaleTransition(
+          scale: Tween<double>(begin: 0.96, end: 1).animate(curved),
+          child: FadeTransition(opacity: curved, child: child),
+        ),
+      };
+    },
+  );
+}
+
+class _RouteNotFoundScreen extends StatelessWidget {
+  const _RouteNotFoundScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenScaffoldLayout(
+      title: 'Screen not found',
+      children: [
+        const MinimalStatePanel(
+          icon: CollectIcons.warning,
+          title: 'This screen is unavailable.',
+          message: 'This link may be out of date. Return to Groups or Home.',
+          tone: CollectStatusTone.warning,
+        ),
+        CollectButton(
+          label: 'Home',
+          icon: CollectIcons.home,
+          onPressed: () => context.go('/home'),
+          expand: true,
+        ),
+        CollectButton(
+          label: 'Groups',
+          icon: CollectIcons.collections,
+          variant: CollectButtonVariant.secondary,
+          onPressed: () => context.go('/groups'),
+          expand: true,
+        ),
+      ],
+    );
+  }
+}

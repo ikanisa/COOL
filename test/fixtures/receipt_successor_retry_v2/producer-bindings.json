@@ -1,0 +1,37 @@
+{
+  "retry-inspection-v2.json": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-retry-20261003/proof-attempt4/fixtures/retry-inspection-v2.json",
+    "sha256": "e454c651d654a495b9f2dd48091daf167a5fcdef341f150a5126817bb396b6f2",
+    "size": 2364
+  },
+  "retry-approval-v2.json": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-retry-20261003/proof-attempt4/fixtures/retry-approval-v2.json",
+    "sha256": "0295cc332be98732a6841e2f43dd988d59c88a7b891bd84c2b2c72697e58b9a7",
+    "size": 1015
+  },
+  "original-request-v2.json": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-retry-20261003/proof-attempt4/fixtures/original-request-v2.json",
+    "sha256": "7a623da2ebd5d0f125ce246069e4ae76d4bcd606e252d95b4bb3cb7b0b0e9c9f",
+    "size": 1370
+  },
+  "third-inspection-v2.json": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-retry-20261003/proof-attempt4/fixtures/third-inspection-v2.json",
+    "sha256": "5d1088f25c6acb67c0ee96498836319984e2ae2541e3c7f7a17b8f38f0c86a3c",
+    "size": 2364
+  },
+  "third-approval-v2.json": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-retry-20261003/proof-attempt4/fixtures/third-approval-v2.json",
+    "sha256": "fc1d6b8f7ef69135abddf9b119e67ad156c9c335960fc1e4183bcba7c76ee454",
+    "size": 1015
+  },
+  "second-revoked-investigation-v5.json": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-retry-20261003/proof-attempt4/fixtures/second-revoked-investigation-v5.json",
+    "sha256": "c4107723718c7c8ccd1584ecfaeb77b03d9bb64d91543aba55646d7aec759768",
+    "size": 2179
+  },
+  "actual-child-observations-v5.json": {
+    "source": "/Volumes/PRO-G40/Projects/Recovered-G-PRO/COOL/.cache/receipt-successor-retry-20261003/proof-attempt4/fixtures/actual-child-observations-v5.json",
+    "sha256": "35e52b8cc8f671f1bb2d5c34ede34d449095f5e4879056e530f57b40f22e7b67",
+    "size": 1045
+  }
+}

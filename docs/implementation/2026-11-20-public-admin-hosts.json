@@ -1,0 +1,693 @@
+{
+  "schema": "collect.admin.public-origin-observations.v1",
+  "started_at_utc": "2026-11-20T09:27:54Z",
+  "finished_at_utc": "2026-11-20T09:27:57Z",
+  "transport": "Verified public HTTPS GET, identity encoding, no redirects followed, cookies or authorization",
+  "source_inputs": {
+    ".github/workflows/ci.yml": "e9ca7cab99b19c1a1a6ef304f8382a2f7b0425224312924ece48d94548e5c20d",
+    "admin-web/scripts/package-pwa.mjs": "a7c1c852bd0f2f9c2f7955f3a32719cc31c53a6cce9273a05ad24f83c61750b7",
+    "admin-web/scripts/verify-live.mjs": "7a6f304f6aacdc7cc04a240239902c34fa06ac398900630240103003c6d86411",
+    "deploy/platform-admin/wrangler.supabase.jsonc": "771be9a25040ba26d15a011b7c3227c50a5e50c5d79ccd05b050fcad752123ec",
+    "deploy/platform-admin/wrangler.supabase-qa.jsonc": "685cad13f374288bf829bc1c574538d3010545cb9adaaa5e8319cf5501ce4954",
+    "deploy/admin-entry/wrangler.jsonc": "198e323567b0af48eae0ee4260386044da5d78038e0c8ed934f928a412ea4885",
+    "deploy/admin-entry/src/index.mjs": "1da031af6214458526894a13b9a00eb18fa715e6b2d5864c0f475cd6beb20199",
+    "deploy/admin-entry/README.md": "843742d68588dbf6b593e39929f6adf87b39e8ba6a5c1168054c19ff3f5bef9b",
+    "deploy/platform-supabase-free/README.md": "2d25e9eaac200fd4c5228a8265bd2281979788a358a9638b8023b90e7a2b3258",
+    "deploy/admin-api/README.md": "91ad5d86c1b00f9371c893a3abf63c6e60e0d1c29afe6ba94e68d6caf786ab69"
+  },
+  "origin_roles": {
+    "production": "https://platform-admin.collect.ikanisa.com",
+    "qualification": "https://admin-supabase-qa.collect.ikanisa.com",
+    "legacy_entry": "https://admin.collect.ikanisa.com",
+    "archived_preview": "https://admin-preview.collect.ikanisa.com"
+  },
+  "observations": [
+    {
+      "site": "production",
+      "path": "/",
+      "url": "https://platform-admin.collect.ikanisa.com/",
+      "requested_at_utc": "2026-11-20T09:27:54Z",
+      "method": "GET",
+      "accept": "text/html",
+      "status": 200,
+      "byte_count": 1380,
+      "sha256": "81e5a8034a998039f33ac734e430967f7e68f001fe175b675b94ee0df3a4ae6d",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:55 GMT",
+        "content-type": "text/html",
+        "cache-control": "no-store, no-transform",
+        "etag": "\"baccbace090e2deb0a84e2ae53a054f9\"",
+        "content-length": "1380",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "html": {
+        "scripts": [
+          {
+            "path": "flutter_bootstrap.js",
+            "module": false
+          }
+        ],
+        "manifests": [
+          "manifest.json"
+        ],
+        "flutter_bootstrap": true,
+        "react_immutable_entry": false,
+        "root_mount": false
+      }
+    },
+    {
+      "site": "qualification",
+      "path": "/",
+      "url": "https://admin-supabase-qa.collect.ikanisa.com/",
+      "requested_at_utc": "2026-11-20T09:27:54Z",
+      "method": "GET",
+      "accept": "text/html",
+      "status": 200,
+      "byte_count": 1380,
+      "sha256": "a7564e655b23b0f5b94790a0239a801a2bfdcc29da30268c7660df9464fea8aa",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:55 GMT",
+        "content-type": "text/html",
+        "cache-control": "no-store, no-transform",
+        "etag": "\"1b6019da3fb43a2aabf3a7b0cb69a57b\"",
+        "content-length": "1380",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "html": {
+        "scripts": [
+          {
+            "path": "flutter_bootstrap.js",
+            "module": false
+          }
+        ],
+        "manifests": [
+          "manifest.json"
+        ],
+        "flutter_bootstrap": true,
+        "react_immutable_entry": false,
+        "root_mount": false
+      }
+    },
+    {
+      "site": "legacy_entry",
+      "path": "/",
+      "url": "https://admin.collect.ikanisa.com/",
+      "requested_at_utc": "2026-11-20T09:27:54Z",
+      "method": "GET",
+      "accept": "text/html",
+      "status": 302,
+      "byte_count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:55 GMT",
+        "cache-control": "no-store, no-transform",
+        "content-length": "0",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "cross-origin-resource-policy": "same-origin",
+        "server": "cloudflare",
+        "location": "https://platform-admin.collect.ikanisa.com/",
+        "content-security-policy-sha256": "a9502912965c03a262d8a403b43d3346bded737f9c9e75866e2b4c2fd277981a",
+        "frame-ancestors": "frame-ancestors 'none'"
+      }
+    },
+    {
+      "site": "archived_preview",
+      "path": "/",
+      "url": "https://admin-preview.collect.ikanisa.com/",
+      "requested_at_utc": "2026-11-20T09:27:54Z",
+      "method": "GET",
+      "accept": "text/html",
+      "status": 200,
+      "byte_count": 1650,
+      "sha256": "ffcdfec303023378908de83135652c2e240e0bc822eae2b6f59d29833137b505",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "text/html",
+        "cache-control": "no-store",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "9424fcbfc8e1ee1d2e6d80e01bc85506ee4ff1cadfe6091b71548d46de1c62c7",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "html": {
+        "scripts": [
+          {
+            "path": "flutter_bootstrap.js",
+            "module": false
+          },
+          {
+            "path": "/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+            "module": true
+          }
+        ],
+        "manifests": [
+          "manifest.json"
+        ],
+        "flutter_bootstrap": true,
+        "react_immutable_entry": false,
+        "root_mount": false
+      }
+    },
+    {
+      "site": "production",
+      "path": "/version.json",
+      "url": "https://platform-admin.collect.ikanisa.com/version.json",
+      "requested_at_utc": "2026-11-20T09:27:55Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 200,
+      "byte_count": 12213,
+      "sha256": "54e13242fae85a7ddf20394045b98788796bf3cb9da70de807882828681960f4",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "etag": "\"f20bf11f00c285a80cc6a885da264c46\"",
+        "content-length": "12213",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "public_metadata": {
+        "app_name": "collect_app",
+        "version": "1.2.4",
+        "build_number": "23",
+        "package_name": "collect_app",
+        "backend": "supabase",
+        "financial_model": "canonical_evidence_ledger",
+        "admin_origin": "https://platform-admin.collect.ikanisa.com"
+      }
+    },
+    {
+      "site": "production",
+      "path": "/manifest.json",
+      "url": "https://platform-admin.collect.ikanisa.com/manifest.json",
+      "requested_at_utc": "2026-11-20T09:27:55Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 200,
+      "byte_count": 481,
+      "sha256": "71b2d3b5164cf4ed441ff7e1496b9e7b07d3ed88f44d2f60c769f41b0c142541",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "etag": "\"c3adbda1251d21f3bfefdd58e5f47c2c\"",
+        "content-length": "481",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "public_metadata": {
+        "name": "Collect Admin",
+        "short_name": "Collect Admin",
+        "start_url": ".",
+        "display": "standalone",
+        "background_color": "#FFFFFF",
+        "theme_color": "#000000"
+      }
+    },
+    {
+      "site": "production",
+      "path": "/custom-sw.js",
+      "url": "https://platform-admin.collect.ikanisa.com/custom-sw.js",
+      "requested_at_utc": "2026-11-20T09:27:55Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 52639,
+      "sha256": "f35767495269669cecb2bab300151f08b6a2b35275600bf4613c397536c5893f",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "text/javascript",
+        "cache-control": "no-cache",
+        "etag": "\"af716985d9e63f84171304e67240a42f\"",
+        "content-length": "52639",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "javascript_markers": {
+        "flutter_bootstrap": true,
+        "react_runtime": false,
+        "unregister": false
+      }
+    },
+    {
+      "site": "production",
+      "path": "/flutter_bootstrap.js",
+      "url": "https://platform-admin.collect.ikanisa.com/flutter_bootstrap.js",
+      "requested_at_utc": "2026-11-20T09:27:55Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 10680,
+      "sha256": "efe4b26276ac05d44dbda19b78b30c64fe9b158cdfe6f991e254483abf888b46",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "text/javascript",
+        "cache-control": "no-cache",
+        "etag": "\"cdc3088802137a270654f3395ec70bd6\"",
+        "content-length": "10680",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "javascript_markers": {
+        "flutter_bootstrap": true,
+        "react_runtime": false,
+        "unregister": false
+      }
+    },
+    {
+      "site": "qualification",
+      "path": "/version.json",
+      "url": "https://admin-supabase-qa.collect.ikanisa.com/version.json",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 200,
+      "byte_count": 3857,
+      "sha256": "20d481212a2ca79bc06446011c740cd29bb602ddbdcf4517f689193b7250e16b",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "etag": "\"54fdfb8814bfcd572012be8861b08111\"",
+        "content-length": "3857",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "public_metadata": {
+        "app_name": "collect_app",
+        "version": "1.2.4",
+        "build_number": "23",
+        "package_name": "collect_app",
+        "backend": "supabase",
+        "financial_model": "canonical_evidence_ledger",
+        "environment": "qualification",
+        "admin_origin": "https://admin-supabase-qa.collect.ikanisa.com",
+        "qualification_complete": false,
+        "shipping_candidate": false,
+        "source_commit": "b0a73b25bf9899a54c314703afad4905b5d62143"
+      }
+    },
+    {
+      "site": "qualification",
+      "path": "/manifest.json",
+      "url": "https://admin-supabase-qa.collect.ikanisa.com/manifest.json",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 200,
+      "byte_count": 481,
+      "sha256": "ff4b6052e1d61d48d6387f83c63f5c9db81bc3749b1d84cd036f8914049fd26a",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "etag": "\"a5d99336049ad012bcd415f3b685c96c\"",
+        "content-length": "481",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "public_metadata": {
+        "name": "Collect Admin",
+        "short_name": "Collect Admin",
+        "start_url": ".",
+        "display": "standalone",
+        "background_color": "#FFFFFF",
+        "theme_color": "#000000"
+      }
+    },
+    {
+      "site": "qualification",
+      "path": "/custom-sw.js",
+      "url": "https://admin-supabase-qa.collect.ikanisa.com/custom-sw.js",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 52639,
+      "sha256": "15d5f94b1adc19dfbf70499e28f5d310f15e3c0f407034342564bd93ba96620f",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "text/javascript",
+        "cache-control": "no-cache",
+        "etag": "\"3210ea26c3243e99ca3c1aa5de77838a\"",
+        "content-length": "52639",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "javascript_markers": {
+        "flutter_bootstrap": true,
+        "react_runtime": false,
+        "unregister": false
+      }
+    },
+    {
+      "site": "qualification",
+      "path": "/flutter_bootstrap.js",
+      "url": "https://admin-supabase-qa.collect.ikanisa.com/flutter_bootstrap.js",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 10680,
+      "sha256": "7f8900f8d2abfa757856938a31f2fae3301ee3e287f2183c5d461835f58be81c",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "content-type": "text/javascript",
+        "cache-control": "no-cache",
+        "etag": "\"209aa913e7645d773c5ec8226d35c9c8\"",
+        "content-length": "10680",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "496c72646d661f87b928a7c8607f9e9a3bd1eb6fc6fd63ae4df7d4aca9d492aa",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "javascript_markers": {
+        "flutter_bootstrap": true,
+        "react_runtime": false,
+        "unregister": false
+      }
+    },
+    {
+      "site": "legacy_entry",
+      "path": "/version.json",
+      "url": "https://admin.collect.ikanisa.com/version.json",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 410,
+      "byte_count": 44,
+      "sha256": "84b373b6e4e3132e3f50ca57b289e997a8e4bea1f2b518f0da30e11ef63486a7",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "no-store, no-transform",
+        "content-length": "44",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "cross-origin-resource-policy": "same-origin",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "a9502912965c03a262d8a403b43d3346bded737f9c9e75866e2b4c2fd277981a",
+        "frame-ancestors": "frame-ancestors 'none'"
+      }
+    },
+    {
+      "site": "legacy_entry",
+      "path": "/manifest.json",
+      "url": "https://admin.collect.ikanisa.com/manifest.json",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 410,
+      "byte_count": 44,
+      "sha256": "84b373b6e4e3132e3f50ca57b289e997a8e4bea1f2b518f0da30e11ef63486a7",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:56 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "no-store, no-transform",
+        "content-length": "44",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "cross-origin-resource-policy": "same-origin",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "a9502912965c03a262d8a403b43d3346bded737f9c9e75866e2b4c2fd277981a",
+        "frame-ancestors": "frame-ancestors 'none'"
+      }
+    },
+    {
+      "site": "legacy_entry",
+      "path": "/custom-sw.js",
+      "url": "https://admin.collect.ikanisa.com/custom-sw.js",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 116,
+      "sha256": "f69045c572e22af79425b17094242154079d6090a2d8e336a200679c78e380f0",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "content-type": "text/javascript; charset=utf-8",
+        "cache-control": "no-store, no-transform",
+        "content-length": "116",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "cross-origin-resource-policy": "same-origin",
+        "service-worker-allowed": "/",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "a9502912965c03a262d8a403b43d3346bded737f9c9e75866e2b4c2fd277981a",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "javascript_markers": {
+        "flutter_bootstrap": false,
+        "react_runtime": false,
+        "unregister": true
+      }
+    },
+    {
+      "site": "legacy_entry",
+      "path": "/admin/settings",
+      "url": "https://admin.collect.ikanisa.com/admin/settings",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "text/html",
+      "status": 302,
+      "byte_count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "cache-control": "no-store, no-transform",
+        "content-length": "0",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "cross-origin-resource-policy": "same-origin",
+        "server": "cloudflare",
+        "location": "https://platform-admin.collect.ikanisa.com/#/admin/settings",
+        "content-security-policy-sha256": "a9502912965c03a262d8a403b43d3346bded737f9c9e75866e2b4c2fd277981a",
+        "frame-ancestors": "frame-ancestors 'none'"
+      }
+    },
+    {
+      "site": "legacy_entry",
+      "path": "/flutter_service_worker.js",
+      "url": "https://admin.collect.ikanisa.com/flutter_service_worker.js",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 116,
+      "sha256": "f69045c572e22af79425b17094242154079d6090a2d8e336a200679c78e380f0",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "content-type": "text/javascript; charset=utf-8",
+        "cache-control": "no-store, no-transform",
+        "content-length": "116",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "cross-origin-resource-policy": "same-origin",
+        "service-worker-allowed": "/",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "a9502912965c03a262d8a403b43d3346bded737f9c9e75866e2b4c2fd277981a",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "javascript_markers": {
+        "flutter_bootstrap": false,
+        "react_runtime": false,
+        "unregister": true
+      }
+    },
+    {
+      "site": "archived_preview",
+      "path": "/version.json",
+      "url": "https://admin-preview.collect.ikanisa.com/version.json",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 200,
+      "byte_count": 544,
+      "sha256": "afe8cdf865baa05c592c7e46636db74f7772868a20918ed3a80dbc352ecfbab2",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "etag": "\"f064ea7327fed942414193a9d48d8e6a\"",
+        "content-length": "544",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "9424fcbfc8e1ee1d2e6d80e01bc85506ee4ff1cadfe6091b71548d46de1c62c7",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "public_metadata": {
+        "app_name": "collect_app",
+        "version": "1.2.4",
+        "build_number": "23",
+        "package_name": "collect_app",
+        "backend": "cloudflare"
+      }
+    },
+    {
+      "site": "archived_preview",
+      "path": "/manifest.json",
+      "url": "https://admin-preview.collect.ikanisa.com/manifest.json",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "application/json",
+      "status": 200,
+      "byte_count": 493,
+      "sha256": "e8a982da9c4ba4cde2d02c898619d77766f06ede27fe002dacaf6b5489dad789",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "content-type": "application/json",
+        "cache-control": "no-cache",
+        "etag": "\"827357fe6ab86acfbf4d2966df026c36\"",
+        "content-length": "493",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "9424fcbfc8e1ee1d2e6d80e01bc85506ee4ff1cadfe6091b71548d46de1c62c7",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "public_metadata": {
+        "name": "Collect",
+        "short_name": "Collect",
+        "start_url": ".",
+        "display": "standalone",
+        "background_color": "#FFFFFF",
+        "theme_color": "#000000"
+      }
+    },
+    {
+      "site": "archived_preview",
+      "path": "/custom-sw.js",
+      "url": "https://admin-preview.collect.ikanisa.com/custom-sw.js",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 1283,
+      "sha256": "6571b5c4cd45d133bae0972854cfc5899d8c6348bdc524ff21c19f86282498d1",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "content-type": "text/html",
+        "cache-control": "no-cache",
+        "etag": "\"7847648714ea8f1fc4dfb6131f326ed8\"",
+        "content-length": "1283",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "9424fcbfc8e1ee1d2e6d80e01bc85506ee4ff1cadfe6091b71548d46de1c62c7",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "html": {
+        "scripts": [
+          {
+            "path": "flutter_bootstrap.js",
+            "module": false
+          }
+        ],
+        "manifests": [
+          "manifest.json"
+        ],
+        "flutter_bootstrap": true,
+        "react_immutable_entry": false,
+        "root_mount": false
+      }
+    },
+    {
+      "site": "archived_preview",
+      "path": "/flutter_bootstrap.js",
+      "url": "https://admin-preview.collect.ikanisa.com/flutter_bootstrap.js",
+      "requested_at_utc": "2026-11-20T09:27:56Z",
+      "method": "GET",
+      "accept": "text/javascript",
+      "status": 200,
+      "byte_count": 10608,
+      "sha256": "9532c8c84be3ee110329277d87c989f09610233245a32da0700a7b04408cf928",
+      "headers": {
+        "date": "Fri, 20 Nov 2026 09:27:57 GMT",
+        "content-type": "text/javascript",
+        "cache-control": "no-cache",
+        "etag": "\"17b6120fc7107095f51ba115d7c627f4\"",
+        "content-length": "10608",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "no-referrer",
+        "x-robots-tag": "noindex, nofollow",
+        "server": "cloudflare",
+        "content-security-policy-sha256": "9424fcbfc8e1ee1d2e6d80e01bc85506ee4ff1cadfe6091b71548d46de1c62c7",
+        "frame-ancestors": "frame-ancestors 'none'"
+      },
+      "javascript_markers": {
+        "flutter_bootstrap": true,
+        "react_runtime": false,
+        "unregister": false
+      }
+    }
+  ]
+}

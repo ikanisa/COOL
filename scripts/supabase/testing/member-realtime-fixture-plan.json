@@ -1,0 +1,14 @@
+{
+  "format": "collect.member.realtime.fixture-binding.v1",
+  "status": "reviewed_static_binding",
+  "project_ref": "rrlduytparvsjfmegalh",
+  "migration": "20261022200028_collect_private_member_realtime.sql",
+  "hosted_metadata_sha256": "62bf00d15d1bd950a764048c51b1c50558784c0d8f8618ec0b0ca32ea8173440",
+  "hosted_sql_sha256": "ebfd0389e6ba3aa5fe1595f854b25c69b9b31a0500f202b8e0643209ab0ef6e4",
+  "synthetic_metadata_sha256": "c712e616e51fbe122fd8685fc7f4bbb9b0bbb6265a32d508a89523755a78e2d2",
+  "synthetic_sql_sha256": "f27233a124b3b737f469915aa4eade6a4149272cfea2f6a15b6060389eefcf20",
+  "interface_sha256": "074e380664493eea86a56d3f3042460bbb33352bc4f46483fd19d559446b0e1b",
+  "metadata_expression_sha256": "ed97cdf0838100502344d2d54563992df6170c6a64e95843c037aaec4cd703e3",
+  "metadata_literal_occurrences": 2,
+  "review_evidence_sha256": "bb34c9c0b2ff4d653ffc2d130e2d179bcdb85d1d8f157acc3e189ad2b11c50ed"
+}

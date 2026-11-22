@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+output_format="text"
+public_defines=""
+while [[ "$#" -gt 0 ]]; do
+  case "$1" in
+    --json) output_format="json"; shift ;;
+    --public-defines)
+      [[ "$#" -ge 2 && -n "$2" && -z "$public_defines" ]] || { printf 'A single public defines file is required.\n' >&2; exit 2; }
+      public_defines="$2"; shift 2 ;;
+    *) printf 'usage: %s [--json] [--public-defines PATH]\n' "$0" >&2; exit 2 ;;
+  esac
+done
+umask 077
+defines_dir=""
+cleanup() {
+  if [[ -n "$defines_dir" ]]; then
+    rm -f "$defines_dir/defines.json"
+    rmdir "$defines_dir" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+if [[ -z "$public_defines" ]]; then
+  defines_dir="$(mktemp -d "${TMPDIR:-/tmp}/collect-signing-public-defines.XXXXXX")"
+  public_defines="$defines_dir/defines.json"
+  python3 scripts/qa/native_build_config.py android --defines-output "$public_defines"
+fi
+# Validate the exact caller profile rather than rebuilding it from another env.
+python3 scripts/qa/native_build_config.py android --validate-defines "$public_defines"
+public_gradle_defines="$(ruby -r json -r base64 -e 'puts JSON.parse(File.read(ARGV.fetch(0))).sort.map { |key, value| Base64.strict_encode64("#{key}=#{value}") }.join(",")' "$public_defines")"
+
+set +e
+gradle_output="$(
+  cd "$ROOT_DIR/android" &&
+    ./gradlew -q "-Pdart-defines=$public_gradle_defines" :app:printReleaseSigningCertificateStatus --console=plain 2>&1
+)"
+gradle_rc=$?
+set -e
+
+OUTPUT_FORMAT="$output_format" GRADLE_OUTPUT="$gradle_output" GRADLE_RC="$gradle_rc" ruby -r json <<'RUBY'
+output_format = ENV.fetch("OUTPUT_FORMAT")
+gradle_output = ENV.fetch("GRADLE_OUTPUT")
+gradle_rc = ENV.fetch("GRADLE_RC").to_i
+
+def parse_json_object(text)
+  start_index = text.index("{")
+  end_index = text.rindex("}")
+  return nil unless start_index && end_index && end_index >= start_index
+
+  JSON.parse(text[start_index..end_index])
+rescue JSON::ParserError
+  nil
+end
+
+# Gradle diagnostics are not trusted output: forward only the status task's
+# public fields, with constrained types, and never an arbitrary message or key.
+def safe_summary(value)
+  return nil unless value.is_a?(Hash) && %w[pass blocked].include?(value["status"])
+  messages = [
+    "Production Android signing material is missing.",
+    "Configured Android signing certificate does not match the expected Google Play upload certificate.",
+    "Configured Android upload signing material is present; upload certificate pinning is not configured.",
+    "Configured Android signing certificate matches the expected Google Play upload certificate."
+  ]
+  result = {"status" => value["status"],
+            "message" => messages.include?(value["message"]) ? value["message"] : "Android signing status returned by Gradle."}
+  %w[store_file_configured store_file_exists key_alias_configured store_password_configured key_password_configured
+     matches_expected_upload_certificate matches_expected_play_signing_certificate].each do |key|
+    next unless value.key?(key)
+    return nil unless value[key] == true || value[key] == false
+    result[key] = value[key]
+  end
+  %w[configured_certificate_sha256 expected_upload_signing_sha256 expected_play_signing_sha256].each do |key|
+    next unless value.key?(key)
+    fingerprint = value[key]
+    return nil unless fingerprint.nil? || (fingerprint.is_a?(String) && fingerprint.match?(/\A[A-F0-9]{64}\z/))
+    result[key] = fingerprint
+  end
+  if result["status"] == "pass"
+    required = %w[store_file_configured store_file_exists key_alias_configured store_password_configured
+                  key_password_configured matches_expected_upload_certificate]
+    return nil unless required.all? { |key| result[key] == true }
+    configured = result["configured_certificate_sha256"]
+    expected = result["expected_upload_signing_sha256"]
+    return nil unless configured.is_a?(String) && expected.is_a?(String) && configured == expected
+  end
+  if value.key?("play_app_signing_certificate_note")
+    result["play_app_signing_certificate_note"] = "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users."
+  end
+  result
+end
+
+summary = safe_summary(parse_json_object(gradle_output))
+summary =
+  if summary && gradle_rc.zero?
+    summary.merge(
+      "gradle_exit_code" => gradle_rc,
+      "secret_handling" => "This preflight reports certificate fingerprints and boolean configuration state only; it does not print keystore passwords or key aliases."
+    )
+  else
+    {
+      "status" => "blocked",
+      "message" => gradle_rc.zero? ? "Unable to read Android signing preflight status from Gradle." : "Android signing preflight failed; Gradle diagnostics withheld.",
+      "gradle_exit_code" => gradle_rc,
+      "diagnostic_output_suppressed" => true,
+      "expected_upload_signing_sha256" => nil,
+      "matches_expected_upload_certificate" => false,
+      "expected_play_signing_sha256" => nil,
+      "matches_expected_play_signing_certificate" => false,
+      "play_app_signing_certificate_note" => "Google Play App Signing uses the upload key for uploaded bundles and the Play app-signing key for APKs delivered to users.",
+      "secret_handling" => "Raw Gradle diagnostics are withheld because they can contain sensitive signing details."
+    }
+  end
+
+if output_format == "json"
+  puts JSON.pretty_generate(summary)
+else
+  puts "[android-release-signing-preflight] status=#{summary.fetch("status")}"
+  puts "[android-release-signing-preflight] message=#{summary.fetch("message")}"
+  if summary["configured_certificate_sha256"]
+    puts "[android-release-signing-preflight] configured_certificate_sha256=#{summary["configured_certificate_sha256"]}"
+  end
+  if summary.key?("expected_upload_signing_sha256")
+    puts "[android-release-signing-preflight] expected_upload_signing_sha256=#{summary["expected_upload_signing_sha256"] || "not_configured"}"
+  end
+  if summary["expected_play_signing_sha256"]
+    puts "[android-release-signing-preflight] expected_play_signing_sha256=#{summary["expected_play_signing_sha256"]}"
+  end
+end
+
+exit(summary.fetch("status") == "pass" ? 0 : 1)
+RUBY

@@ -1,0 +1,80 @@
+{
+  "status": "pending",
+  "approval_packet": "docs/release/RELEASE_APPROVAL_PACKET.md",
+  "qa_summary": "docs/release/RELEASE_APPROVAL_PACKET.md",
+  "approvals": [
+    {
+      "key": "product_signoff",
+      "title": "Product definition approval",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-06-21T12:54:05Z",
+      "evidence_reference": "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      "suggested_evidence_reference": "docs/COLLECT_REVISED_PRODUCT_DEFINITION_FOR_REVIEW.md",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Owner authorized Google Play production release from current SMS-first Collect product definition in Codex chat."
+    },
+    {
+      "key": "android_sms_access_uat",
+      "title": "Android MoMo SMS UAT approval",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-06-21T12:54:05Z",
+      "evidence_reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      "suggested_evidence_reference": "docs/release/UAT_EVIDENCE_MANIFEST.json",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Owner authorized Android production release based on sanitized UAT evidence manifest and current Play production scope."
+    },
+    {
+      "key": "android_release_signing_review",
+      "title": "Android release signing review",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-08-09T17:54:11Z",
+      "evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "signing_keys_exposed": false,
+      "notes": "Technical release verification for 1.2.2+14 is bound to the exact signed APK and AAB digests below. The APK/AAB signatures, upload-certificate preflight, 16 KB alignment, production runtime identity, and signed Android emulator acceptance evidence were rechecked without exposing signing material.",
+      "artifact_version": "1.2.2+14",
+      "android_artifact_sha256": {
+        "apk": "abf5a610b6dee60227a33aa6de534622b130b0115d495a95df7a4146580dbe6f",
+        "aab": "da98b062e43c08a2086450decb704b6990807d382786eaab48119284ec369f4f"
+      }
+    },
+    {
+      "key": "ios_release_scope",
+      "title": "iOS release scope decision",
+      "status": "approved",
+      "decision": "GO",
+      "reviewer": "Jean Bosco (Codex chat authorization)",
+      "signed_at": "2026-08-08T12:53:00Z",
+      "evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "suggested_evidence_reference": "docs/release/RELEASE_STATUS.md",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Owner expanded the current release authority to include iOS execution, distribution preparation, store inspection, upload, and submission for the complete app scope."
+    },
+    {
+      "key": "release_owner_signoff",
+      "title": "Release-owner go/no-go approval",
+      "status": "pending",
+      "decision": "PENDING",
+      "reviewer": "",
+      "signed_at": "",
+      "evidence_reference": null,
+      "suggested_evidence_reference": "docs/release/RELEASE_APPROVAL_PACKET.md",
+      "sanitized_evidence": true,
+      "contains_production_customer_data": false,
+      "notes": "Execution authorization is not final production go-live signoff. Record a fresh artifact-bound owner decision only after provider configuration, physical-device accessibility and push evidence, CI, policy, and store-processing gates are complete.",
+      "artifact_version": "1.2.2+14"
+    }
+  ],
+  "secret_handling": "Approval evidence metadata only. Do not add secrets, signing keys, raw SMS bodies, phone/MoMo numbers, service keys, provider tokens, or production customer data."
+}

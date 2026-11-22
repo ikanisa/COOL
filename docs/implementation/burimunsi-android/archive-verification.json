@@ -1,0 +1,47 @@
+[
+  {
+    "archive": "BuriMunsi_Complete_Source_v0.20.0-a04.3.zip",
+    "sha256": "8ab65e44231a05545da2c26369a46d11021f12a02b42ef28823e202e058904f3",
+    "matches": true
+  },
+  {
+    "archive": "BuriMunsi_Complete_Command_Recovery_Source_v0.19.0-recovery.3.zip",
+    "sha256": "f965d2976c25e5759f33ec9ab4462e6104efd37c4233acbba82392dce7e8f8ca",
+    "matches": true
+  },
+  {
+    "archive": "SMS_Policies_R4_Source_2026-11-09.zip",
+    "sha256": "6d40ff00413bc14b613bb4ee0e2abcfa373ee12e760bfdeea3b8a0879ba7a516",
+    "matches": true
+  },
+  {
+    "archive": "BuriMunsi_MMoney_API_Contracts_r3_2026-11-09.zip",
+    "sha256": "4d227602489c21944c6d5a1d6af3b4894fe0f05f28f320d4e82252ca785ae9ef",
+    "matches": true
+  },
+  {
+    "archive": "Storage_Policies_R3_Complete_Source_2026-11-09.zip",
+    "sha256": "57cc4293dbb76028cbf156144e47f7ed1f89e14cab68df2373cba55b16f76492",
+    "matches": true
+  },
+  {
+    "archive": "BuriMunsi_Presentation_Source_v0.19.0-presentation.3.zip",
+    "sha256": "0d43de4ee7b4c311560fb1569def6d2af0ba0e63938a7d602dab452044c96731",
+    "matches": true
+  },
+  {
+    "archive": "Release_Evidence_Packaging_Safeguards_r4_Source.zip",
+    "sha256": "d6b2e0318510d4511c5356822564061d1482e44d9a3a2c42539348a08aab0553",
+    "matches": true
+  },
+  {
+    "archive": "BuriMunsi_Final_Handover_2026-11-09.zip",
+    "sha256": "4618b811d46fc161566e9ecc308db1273fbd24a4a4f16b65aa5f034bd3b72c25",
+    "matches": true
+  },
+  {
+    "archive": "Engineering_Delivery_2026-11-09_r3.zip",
+    "sha256": "be0e7f6a98bb31abe64db3364839689e31e984b867c1bd1782afd48939148a75",
+    "matches": true
+  }
+]

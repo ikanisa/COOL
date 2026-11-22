@@ -1,0 +1,38 @@
+BEGIN;
+DO $$DECLARE n bigint; BEGIN
+ SELECT count(*) INTO n FROM pg_tables WHERE schemaname='app';
+ IF n<>97 THEN RAISE EXCEPTION 'Expected97 source tables, got%',n; END IF;
+ SELECT count(*) INTO n FROM pg_tables WHERE schemaname='private';
+ IF n<>21 THEN RAISE EXCEPTION 'Expected21 private custody/control tables including email and source-upgrade lineage, got%',n;END IF;
+ SELECT count(*) INTO n FROM information_schema.views WHERE table_schema='app';
+ IF n<>2 THEN RAISE EXCEPTION 'Expected2 source views, got%',n; END IF;
+ SELECT count(*) INTO n FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace s ON s.oid=c.relnamespace WHERE s.nspname='app' AND NOT t.tgisinternal AND t.tgname<>'collect_fence_statement_v1';
+ IF n<>175 THEN RAISE EXCEPTION 'Expected169 source+6 managed/storage/lock guards, got%',n; END IF;
+ SELECT count(*) INTO n FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace s ON s.oid=c.relnamespace WHERE s.nspname='app' AND t.tgname='collect_fence_statement_v1' AND t.tgenabled='A' AND t.tgtype=62;
+ IF n<>97 THEN RAISE EXCEPTION 'Expected97 additional statement-level emergency guards, got%',n;END IF;
+ IF (SELECT count(*) FROM app.admin_account_role_capabilities)<>67 THEN RAISE EXCEPTION 'Role definitions lost'; END IF;
+ IF EXISTS(SELECT 1 FROM pg_tables WHERE schemaname IN('app','private') AND NOT rowsecurity) THEN RAISE EXCEPTION 'RLS missing'; END IF;
+ IF has_schema_privilege('anon','app','USAGE') OR has_schema_privilege('authenticated','app','USAGE') OR has_schema_privilege('anon','private','USAGE') OR has_schema_privilege('authenticated','private','USAGE') THEN RAISE EXCEPTION 'Client direct schema exposure'; END IF;
+ IF has_table_privilege('authenticated','app.ledger_entries','INSERT') OR has_table_privilege('collect_runtime','auth.users','UPDATE') THEN RAISE EXCEPTION 'Privilege leak'; END IF;
+ IF has_table_privilege('collect_runtime','private.object_metadata','INSERT') OR has_table_privilege('collect_runtime','private.storage_namespace','UPDATE') OR has_table_privilege('collect_runtime','private.storage_payload_reservations','DELETE') THEN RAISE EXCEPTION 'Storage custody privilege leak'; END IF;
+ IF has_table_privilege('collect_runtime','private.auth_principal_links','UPDATE') OR has_table_privilege('collect_runtime','private.auth_principal_links','DELETE') THEN RAISE EXCEPTION 'Principal remapping privilege leak';END IF;
+ IF has_table_privilege('collect_runtime','private.managed_phone_verifications','INSERT') OR has_table_privilege('collect_runtime','private.managed_phone_verifications','UPDATE') OR has_table_privilege('collect_runtime','private.managed_phone_verifications','DELETE') THEN RAISE EXCEPTION 'Managed phone proof write privilege leak';END IF;
+ IF has_table_privilege('collect_runtime','private.admin_email_operations','INSERT,UPDATE,DELETE,TRUNCATE') OR has_table_privilege('collect_runtime','private.admin_sensitive_email_proofs','INSERT,UPDATE,DELETE,TRUNCATE') THEN RAISE EXCEPTION 'Admin email provenance write privilege leak';END IF;
+ IF has_function_privilege('anon','private.admin_email_status(text,text,text,text)','EXECUTE') OR has_function_privilege('authenticated','private.admin_email_record(text,text,text,text,text,uuid)','EXECUTE') OR has_function_privilege('collect_runtime','private._admin_email_latest(jsonb)','EXECUTE') THEN RAISE EXCEPTION 'Admin email private helper privilege leak';END IF;
+ IF EXISTS(SELECT 1 FROM pg_proc p JOIN pg_namespace ns ON ns.oid=p.pronamespace CROSS JOIN LATERAL aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a WHERE ns.nspname IN('app','private','api') AND a.grantee=0 AND a.privilege_type='EXECUTE') THEN RAISE EXCEPTION 'PUBLIC function execute leak';END IF;
+ IF has_function_privilege('anon','private.lock_collections(text[])','EXECUTE') OR has_function_privilege('authenticated','private.trg_lock_collection_accounting()','EXECUTE') OR has_function_privilege('authenticated','private.record_managed_phone_verification(text)','EXECUTE') THEN RAISE EXCEPTION 'Client helper execute leak';END IF;
+ IF (SELECT count(*) FROM pg_tables WHERE schemaname='private' AND tablename LIKE 'storage_%')<>6 THEN RAISE EXCEPTION 'Storage journal incomplete'; END IF;
+ IF NOT EXISTS(SELECT 1 FROM pg_indexes WHERE schemaname='app' AND indexname='admin_users_email_casefold' AND indexdef LIKE '%lower(email)%') THEN RAISE EXCEPTION 'Case-insensitive email uniqueness missing'; END IF;
+END$$;
+SET LOCAL search_path=app,pg_catalog;
+DO $$BEGIN
+ IF json_extract('{"enabled":true,"amount":1200,"nested":{"key":"x"},"items":["a"]}','$.enabled')<>'1' OR NOT(json_numeric('{"n":1}','$.n')=1) OR json_extract('{"missing":null}','$.missing') IS NOT NULL THEN RAISE EXCEPTION 'JSON SQLite scalar semantics'; END IF;
+ IF json_numeric('{"n":"1"}','$.n')=1 OR NOT(json_numeric('{"n":"1"}','$.n')>1) OR json_numeric('{"n":true}','$.n')<>1 THEN RAISE EXCEPTION 'Numeric-looking JSON strings must not authorize flags'; END IF;
+ IF json_extract('{"nested":{"key":"x"}}','$.nested.key')<>'x' OR json_extract('{"items":["a"]}','$.items[0]')<>'a' THEN RAISE EXCEPTION 'JSON path failure'; END IF;
+ IF json_extract('{"a.b":{"type":"table"}}','$."a.b"."type"')<>'table' OR json_extract('[{"n":42}]','$[0].n')<>'42' THEN RAISE EXCEPTION 'Quoted/root-array SQLite JSON path failure';END IF;
+ IF json_array_length('{"a":[1,2]}','$.a')<>2 OR json_type('{"n":1}','$.n')<>'integer' THEN RAISE EXCEPTION 'JSON typed helper'; END IF;
+ IF (SELECT count(*) FROM json_each('[{"id":1},{"id":2}]'))<>2 THEN RAISE EXCEPTION 'JSON iteration failure'; END IF;
+ IF json_valid('{invalid') OR NOT json_valid('{"safe":true}') THEN RAISE EXCEPTION 'JSON validity failure'; END IF;
+ IF printf('%06d',42)<>'000042' OR strftime('%Y-%m-%dT%H:%M:%fZ','2026-10-20T00:00:00Z','-1 day')<>'2026-10-19T00:00:00.000Z' THEN RAISE EXCEPTION 'Formatting/time helper failure'; END IF;
+END$$;
+ROLLBACK;

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<restrictions xmlns:android="http://schemas.android.com/apk/res/android">
+    <restriction android:key="burimunsi_installation_id" android:title="@string/installation_id" android:restrictionType="string" />
+    <restriction android:key="burimunsi_installation_token" android:title="@string/installation_grant" android:restrictionType="string" />
+</restrictions>

@@ -1,0 +1,863 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+OUTPUT_FORMAT="text"
+PHASE="rollout"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --json) OUTPUT_FORMAT="json"; shift ;;
+    --phase)
+      [[ $# -gt 1 ]] || { printf 'Missing --phase value.\n' >&2; exit 2; }
+      PHASE="$2"; shift 2 ;;
+    --help|-h)
+      printf 'Usage: %s [--json] [--phase prepare|upload|review|rollout]\n' "$0"
+      printf 'SDK tools: use android/local.properties sdk.dir or ANDROID_HOME (or ANDROID_SDK_ROOT); COLLECT_ANDROID_BUILD_TOOLS_VERSION defaults to 36.0.0.\n'
+      exit 0 ;;
+    *) printf 'Unknown argument: %s\n' "$1" >&2; exit 2 ;;
+  esac
+done
+case "$PHASE" in
+  prepare|upload|review|rollout) ;;
+  *) printf 'Invalid release phase: %s\n' "$PHASE" >&2; exit 2 ;;
+esac
+
+cd "$ROOT_DIR"
+
+OUTPUT_FORMAT="$OUTPUT_FORMAT" PHASE="$PHASE" ruby -r digest -r json -r net/http -r uri -r open3 -r time <<'RUBY'
+root = Dir.pwd
+output_format = ENV.fetch("OUTPUT_FORMAT")
+phase = ENV.fetch("PHASE")
+require File.join(root, 'scripts/android_manifest_permissions')
+
+def read(path)
+  File.file?(path) ? File.read(path) : ""
+end
+
+def check(status, message, extra = {})
+  { "status" => status, "message" => message }.merge(extra)
+end
+
+def artifact(root, relative)
+  path = File.join(root, relative)
+  {
+    "path" => path,
+    "exists" => File.file?(path),
+    "bytes" => File.file?(path) ? File.size(path) : 0,
+    "mtime" => File.file?(path) ? File.mtime(path).utc.iso8601 : nil
+  }
+end
+
+def image_dimensions(path)
+  bytes = File.binread(path)
+  if bytes.byteslice(0, 8) == "\x89PNG\r\n\x1A\n".b
+    return bytes.byteslice(16, 8).unpack("NN")
+  end
+
+  return nil unless bytes.byteslice(0, 2) == "\xFF\xD8".b
+
+  offset = 2
+  sof_markers = [0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF]
+  while offset < bytes.bytesize
+    offset += 1 while offset < bytes.bytesize && bytes.getbyte(offset) == 0xFF
+    break if offset >= bytes.bytesize
+
+    marker = bytes.getbyte(offset)
+    offset += 1
+    next if marker == 0xD8 || marker == 0xD9
+    break if offset + 1 >= bytes.bytesize
+
+    segment_length = bytes.byteslice(offset, 2).unpack1("n")
+    return nil if segment_length < 2 || offset + segment_length > bytes.bytesize
+    if sof_markers.include?(marker)
+      height = bytes.byteslice(offset + 3, 2).unpack1("n")
+      width = bytes.byteslice(offset + 5, 2).unpack1("n")
+      return [width, height]
+    end
+    offset += segment_length
+  end
+  nil
+rescue StandardError
+  nil
+end
+
+def latest_mtime(root, patterns)
+  paths = patterns.flat_map { |pattern| Dir.glob(File.join(root, pattern), File::FNM_DOTMATCH) }
+  files = paths.select { |path| File.file?(path) }.reject do |path|
+    relative = path.sub(%r{\A#{Regexp.escape(root)}/?}, "")
+    relative == "lib/main_public.dart" ||
+      relative.start_with?("lib/features/landing/") ||
+      relative == "android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java"
+  end
+  files.map { |path| File.mtime(path) }.max
+end
+
+def run(*cmd)
+  stdout, stderr, status = Open3.capture3(*cmd)
+  {
+    "status" => status.exitstatus,
+    "stdout" => stdout,
+    "stderr" => stderr
+  }
+end
+
+def admin_pwa_live_assets(root, origin)
+  unless origin.is_a?(String) && !origin.empty?
+    return check("blocked", "The Play candidate needs a verified production Admin origin.")
+  end
+  verifier = File.join(root, "scripts/admin_pwa_live_gate.sh")
+  return check("blocked", "The React Admin live verifier is unavailable.") unless File.file?(verifier)
+
+  command = run({ "ADMIN_PWA_LIVE_URL" => origin }, "bash", verifier, "--json")
+  result = JSON.parse(command.fetch("stdout"))
+  if result.is_a?(Hash) && result["frontend"] == "react-vite"
+    if command["status"] == 99 && result["status"] == "blocked"
+      return check("blocked", "A verified production React Admin package and build receipt are required.")
+    end
+    count = result["static_responses_verified"]
+    if command["status"] == 0 && result["status"] == "pass" && result["origin"] == origin &&
+        count.is_a?(Integer) && count.positive?
+      return check("pass", "The production React Admin served the verified package at the Play candidate's Admin origin.",
+                   "origin" => origin, "static_responses_verified" => count)
+    end
+  end
+  check("fail", "The React Admin verifier did not confirm the candidate's production origin and package.")
+rescue JSON::ParserError
+  check("fail", "The React Admin verifier returned an invalid result.")
+end
+
+def archive_entry_includes?(archive_path, entry, expected)
+  stdout, _stderr, status = Open3.capture3("unzip", "-p", archive_path, entry)
+  status.success? && stdout.b.include?(expected.b)
+rescue StandardError
+  false
+end
+
+def http_probe(url)
+  uri = URI(url)
+  response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: 6, read_timeout: 8) do |http|
+    http.get(uri.request_uri)
+  end
+  {
+    "url" => url,
+    "status_code" => response.code.to_i,
+    "content_type" => response["content-type"].to_s,
+    "cache_control" => response["cache-control"].to_s,
+    "bytes" => response.body.to_s.bytesize
+  }
+rescue StandardError => e
+  {
+    "url" => url,
+    "status_code" => 0,
+    "error" => e.class.name
+  }
+end
+
+def badging_integer(value)
+  value&.match?(/\A[0-9]+\z/) ? value.to_i : nil
+end
+
+def parse_badging(text)
+  {
+    "package_name" => text[/package: name='([^']+)'/, 1],
+    "version_code" => badging_integer(text[/versionCode='([^']+)'/, 1]),
+    "version_name" => text[/versionName='([^']+)'/, 1],
+    "compile_sdk" => badging_integer(text[/compileSdkVersion='([^']+)'/, 1]),
+    "min_sdk" => badging_integer(text[/sdkVersion:'([^']+)'/, 1]),
+    "target_sdk" => badging_integer(text[/targetSdkVersion:'([^']+)'/, 1]),
+    "permissions" => text.scan(/^uses-permission(?:-sdk-23|-sdk-m)?: name='([^']+)'/).flatten.sort
+  }
+end
+
+# `aapt dump badging` omits several uses-permission conditions. Require the
+# compiled APK tree to show one direct, unqualified RECEIVE_SMS declaration.
+def unqualified_apk_receive_sms?(text)
+  return false unless text.valid_encoding? && text.bytesize <= 4 * 1024 * 1024
+  lines = text.lines(chomp: true)
+  return false if lines.length > 100_000
+  roots = lines.each_index.select { |i| lines[i].match?(/\A *E: manifest \(line=[0-9]+\)\z/) }
+  return false unless roots.length == 1
+  root_indent = lines[roots.first][/\A */].length
+  match_count = 0
+  lines.each_with_index do |line, index|
+    entry = line.match(/\A( *)E: (uses-permission(?:-sdk-23|-sdk-m)?) \(line=[0-9]+\)\z/)
+    next unless entry && entry[1].length == root_indent + 2 && index > roots.first
+    indent = entry[1].length
+    block = []
+    cursor = index + 1
+    while cursor < lines.length
+      following = lines[cursor]
+      element = following.match(/\A( *)E: /)
+      break if element && element[1].length <= indent
+      block << following
+      cursor += 1
+    end
+    next unless block.any? { |item| item.include?('android.permission.RECEIVE_SMS') }
+    match_count += 1
+    attrs = block.select { |item| item.match?(/\A *A: /) }.map(&:strip)
+    expected = 'A: android:name(0x01010003)="android.permission.RECEIVE_SMS" (Raw: "android.permission.RECEIVE_SMS")'
+    return false unless entry[2] == 'uses-permission' && attrs == [expected] &&
+                        block.none? { |item| item.match?(/\A *E: /) }
+  end
+  match_count == 1
+end
+
+# Select one explicit, stable Build Tools version from the configured SDK.
+# Record the binaries used for later release review; this is a point-in-time
+# identity check, not proof of the tools used to build the APK/AAB.
+def resolve_android_build_tools(root)
+  configured = %w[ANDROID_HOME ANDROID_SDK_ROOT].map { |name| ENV[name].to_s }.reject(&:empty?)
+  # Gradle can select an SDK from android/local.properties before either
+  # environment variable. Accept a deliberately narrow, unescaped properties
+  # subset and fail closed on ambiguous input rather than guess Java parsing.
+  local_properties = File.join(root, "android", "local.properties")
+  local_digest = nil
+  local_values = {}
+  local_opened = false
+  begin
+    File.open(local_properties, File::RDONLY | File::NOFOLLOW | File::NONBLOCK) do |file|
+      local_opened = true
+      before = file.stat
+      return {"status" => "blocked", "reason" => "local_properties_unavailable"} unless before.file? && before.size <= 65_536
+      contents = file.read(65_537) || "".b
+      after = file.stat
+      entry = File.lstat(local_properties)
+      identity = ->(s) { [s.dev, s.ino, s.size, s.mtime, s.ctime] }
+      return {"status" => "blocked", "reason" => "local_properties_changed"} unless
+        identity.call(before) == identity.call(after) && identity.call(after) == identity.call(entry) && contents.bytesize == before.size
+      return {"status" => "blocked", "reason" => "local_properties_unsupported"} unless contents.ascii_only? && !contents.include?("\0")
+      contents.split(/\r\n|\n|\r/, -1).each do |line|
+        line = line.sub(/\A[ \t\f]*/, "")
+        next if line.empty? || line.start_with?("#", "!")
+        return {"status" => "blocked", "reason" => "local_properties_unsupported"} if line.include?("\\")
+        key = line[/\A[^ \t\f:=]+/]
+        next unless key
+        value = line[key.length..].sub(/\A[ \t\f]*/, "").sub(/\A[:=]/, "").sub(/\A[ \t\f]*/, "")
+        next unless %w[sdk.dir android.dir].include?(key)
+        return {"status" => "blocked", "reason" => "local_properties_ambiguous"} if local_values.key?(key)
+        local_values[key] = value
+      end
+      local_digest = Digest::SHA256.hexdigest(contents)
+    end
+  rescue Errno::ENOENT
+    # An absent file leaves the documented SDK environment variables in use.
+    return {"status" => "blocked", "reason" => "local_properties_changed"} if local_opened
+  rescue SystemCallError, IOError
+    return {"status" => "blocked", "reason" => "local_properties_unavailable"}
+  end
+  return {"status" => "blocked", "reason" => "local_properties_unsupported"} if local_values.key?("android.dir")
+  if local_values.key?("sdk.dir")
+    local_sdk = local_values.fetch("sdk.dir")
+    return {"status" => "blocked", "reason" => "local_properties_unsupported"} if local_sdk.empty?
+    configured << local_sdk
+  end
+  return {"status" => "blocked", "reason" => "missing_sdk_root"} if configured.empty?
+  # AGP resolves relative SDK paths against the Android project's root. Resolve
+  # symlinks before .., and treat a leading ~ literally as Java File does.
+  sdk_roots = configured.map { |path| File.realpath(path, File.join(root, "android")) }.uniq
+  return {"status" => "blocked", "reason" => "conflicting_sdk_roots"} unless sdk_roots.length == 1
+
+  version = ENV.fetch("COLLECT_ANDROID_BUILD_TOOLS_VERSION", "36.0.0").strip
+  parts = version.match(/\A([0-9]+)\.([0-9]+)\.([0-9]+)\z/)
+  return {"status" => "blocked", "reason" => "invalid_build_tools_version"} unless parts && parts[1].to_i >= 36
+
+  build_tools_root = File.realpath(File.join(sdk_roots.first, "build-tools"))
+  return {"status" => "blocked", "reason" => "build_tools_root_outside_sdk"} unless File.dirname(build_tools_root) == sdk_roots.first
+  directory = File.realpath(File.join(build_tools_root, version))
+  return {"status" => "blocked", "reason" => "build_tools_directory_outside_sdk"} unless File.dirname(directory) == build_tools_root
+  properties = File.join(directory, "source.properties")
+  return {"status" => "blocked", "reason" => "build_tools_properties_outside_sdk"} unless File.realpath(properties).start_with?("#{directory}/")
+  revisions = File.readlines(properties, chomp: true).map do |line|
+    line[/\APkg\.Revision\s*=\s*(\S+)\s*\z/, 1]
+  end.compact
+  return {"status" => "blocked", "reason" => "build_tools_revision_mismatch"} unless revisions == [version]
+
+  binaries = %w[aapt zipalign].to_h do |name|
+    path = File.realpath(File.join(directory, name))
+    unless path.start_with?("#{directory}/") && File.file?(path) && File.executable?(path)
+      raise Errno::ENOENT, "invalid Build Tools executable"
+    end
+    [name, path]
+  end
+  {"status" => "pass", "sdk_root" => sdk_roots.first, "version" => version,
+   "local_properties_sha256" => local_digest,
+   "source_properties_sha256" => Digest::SHA256.file(properties).hexdigest,
+   "aapt" => binaries.fetch("aapt"), "aapt_sha256" => Digest::SHA256.file(binaries.fetch("aapt")).hexdigest,
+   "zipalign" => binaries.fetch("zipalign"), "zipalign_sha256" => Digest::SHA256.file(binaries.fetch("zipalign")).hexdigest}
+rescue SystemCallError, IOError
+  {"status" => "blocked", "reason" => "build_tools_unavailable"}
+end
+
+pubspec = read(File.join(root, "pubspec.yaml"))
+manifest = read(File.join(root, "android/app/src/main/AndroidManifest.xml"))
+receiver_manifest = read(File.join(root, "android/app/src/internal_receiver/AndroidManifest.xml"))
+production_manifest = read(File.join(root, "android/app/src/production/AndroidManifest.xml"))
+assetlinks_source = read(File.join(root, "web/.well-known/assetlinks.json"))
+console_audit_packet_path = File.join(root, "docs/release/GOOGLE_PLAY_CONSOLE_AUDIT_PACKET.json")
+console_audit_packet = JSON.parse(read(console_audit_packet_path)) rescue {}
+
+apk = artifact(root, "build/app/outputs/flutter-apk/app-production-release.apk")
+aab = artifact(root, "build/app/outputs/bundle/productionRelease/app-production-release.aab")
+source_latest = latest_mtime(root, [
+  "lib/**/*.dart",
+  "android/app/src/**/*",
+  "android/app/build.gradle.kts",
+  "android/build.gradle.kts",
+  "android/settings.gradle.kts",
+  "pubspec.yaml",
+  "pubspec.lock",
+  "web/.well-known/assetlinks.json"
+])
+
+build_tools = resolve_android_build_tools(root)
+aapt = build_tools["aapt"]
+zipalign = build_tools["zipalign"]
+apk_badging_before_sha256 = apk["exists"] && !File.symlink?(apk["path"]) ? Digest::SHA256.file(apk["path"]).hexdigest : nil
+badging = apk["exists"] && aapt ? run(aapt, "dump", "badging", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "aapt missing or APK missing" }
+apk_tree = apk["exists"] && aapt ? run(aapt, "dump", "xmltree", apk["path"], "AndroidManifest.xml") : { "status" => 127, "stdout" => "" }
+apk_badging_after_sha256 = apk["exists"] && !File.symlink?(apk["path"]) ? Digest::SHA256.file(apk["path"]).hexdigest : nil
+apk_badging_stable = apk_badging_before_sha256 && apk_badging_before_sha256 == apk_badging_after_sha256
+package = parse_badging(badging.fetch("status") == 0 ? badging.fetch("stdout") : "")
+apk_receive_sms_unqualified = apk_tree.fetch('status') == 0 && unqualified_apk_receive_sms?(apk_tree.fetch('stdout'))
+zipalign_16k = apk["exists"] && zipalign ? run(zipalign, "-c", "-P", "16", "-v", "4", apk["path"]) : { "status" => 127, "stdout" => "", "stderr" => "zipalign missing or APK missing" }
+
+native_libs = []
+if aab["exists"]
+  native_listing = run("unzip", "-Z1", aab["path"])
+  native_libs = native_listing.fetch("stdout").lines.map(&:strip).select { |line| line.end_with?(".so") }
+end
+
+policy_urls = %w[
+  https://collect.ikanisa.com/privacy/
+  https://collect.ikanisa.com/account-deletion/
+  https://collect.ikanisa.com/data-deletion/
+  https://collect.ikanisa.com/.well-known/assetlinks.json
+]
+http = policy_urls.to_h { |url| [url, http_probe(url)] }
+
+restricted_sms = %w[
+  android.permission.READ_SMS
+  android.permission.RECEIVE_SMS
+  android.permission.SEND_SMS
+  android.permission.BROADCAST_SMS
+  android.permission.RECEIVE_MMS
+  android.permission.RECEIVE_WAP_PUSH
+  android.permission.BROADCAST_WAP_PUSH
+  android.permission.WRITE_SMS
+  android.permission.READ_CELL_BROADCASTS
+  android.permission.READ_CALL_LOG
+  android.permission.WRITE_CALL_LOG
+  android.permission.PROCESS_OUTGOING_CALLS
+]
+main_permissions = AndroidManifestPermissions.requested(manifest)
+production_permissions = AndroidManifestPermissions.requested(production_manifest)
+receiver_permissions = AndroidManifestPermissions.requested(receiver_manifest)
+main_restricted = main_permissions & restricted_sms
+production_declares_receive = production_permissions.include?("android.permission.RECEIVE_SMS")
+production_declares_read = production_permissions.include?("android.permission.READ_SMS")
+receiver_declares_receive = receiver_permissions.include?("android.permission.RECEIVE_SMS")
+receiver_declares_read = receiver_permissions.include?("android.permission.READ_SMS")
+sms_receiver_protected = AndroidManifestPermissions.sms_receiver_protected?(manifest) &&
+  AndroidManifestPermissions.sms_receiver_protected?(receiver_manifest)
+telephony_optional_pattern = /android:name=["']android\.hardware\.telephony["'][^>]*android:required=["']false["']/m
+production_telephony_optional = manifest.match?(telephony_optional_pattern)
+receiver_telephony_optional = receiver_manifest.match?(telephony_optional_pattern)
+apk_restricted = Array(package["permissions"]) & restricted_sms
+expected_apk_restricted = ["android.permission.RECEIVE_SMS"]
+expected_play_fingerprint = "45:17:38:E6:9A:DF:1B:4D:3F:AA:7A:65:90:20:28:2E:02:7B:47:86:26:71:C9:FC:32:45:AF:82:2B:4D:2A:92"
+expected_upload_fingerprint = "9E:E1:21:72:C7:8A:8A:48:79:06:D9:15:9B:FD:D1:7B:4D:78:AB:A3:54:1F:17:B4:10:65:9E:6D:60:DD:CC:10"
+
+checks = {}
+checks["android_build_tools"] =
+  if build_tools["status"] == "pass"
+    check("pass", "Android Build Tools were resolved from one SDK and exact version.", build_tools)
+  else
+    check("blocked", "A consistent Android SDK and exact Build Tools version are required.", build_tools)
+  end
+checks["package_identity"] =
+  if badging.fetch("status") == 0 && apk_badging_stable && package["package_name"] == "app.cool.mobile" && package["version_code"].is_a?(Integer) && package["version_code"].positive? && package["version_name"].to_s.match?(/\A\d+\.\d+\.\d+\z/)
+    check("pass", "APK package identity and version metadata are valid.", package)
+  else
+    check("fail", "APK package identity/version metadata are invalid or unreadable.", package.merge("aapt_status" => badging.fetch("status")))
+  end
+
+checks["target_api"] =
+  if badging.fetch("status") == 0 && package["compile_sdk"].to_i >= 36 && package["target_sdk"].to_i >= 36
+    check("pass", "APK targets the current Google Play API floor.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"], "min_sdk" => package["min_sdk"])
+  else
+    check("blocked", "APK must target API 36+ for Google Play submissions from 31 August 2026.", "compile_sdk" => package["compile_sdk"], "target_sdk" => package["target_sdk"])
+  end
+
+checks["sms_device_compatibility"] =
+  if production_telephony_optional && receiver_telephony_optional
+    check("pass", "Telephony hardware remains optional for Android MoMo receipt and USSD support.")
+  else
+    check("fail", "Telephony hardware must be optional and isolated to the internal receiver flavor.")
+  end
+
+stale = [apk, aab].select { |item| item["exists"] && source_latest && File.mtime(item["path"]) < source_latest }.map { |item| item["path"] }
+missing = [apk, aab].reject { |item| item["exists"] }.map { |item| item["path"] }
+checks["release_artifacts_fresh"] =
+  if missing.empty? && stale.empty?
+    check("pass", "APK and AAB exist and are newer than mobile/Android/assetlinks sources.", "source_latest_mtime" => source_latest&.utc&.iso8601, "apk" => apk, "aab" => aab)
+  elsif missing.any?
+    check("blocked", "Missing production APK/AAB artifacts.", "missing" => missing, "apk" => apk, "aab" => aab)
+  else
+    check("blocked", "Production APK/AAB artifacts are stale relative to current sources.", "stale" => stale, "source_latest_mtime" => source_latest&.utc&.iso8601, "apk" => apk, "aab" => aab)
+  end
+
+expected_aab_sha256 = console_audit_packet.dig("target_release", "aab_sha256").to_s
+expected_apk_sha256 = console_audit_packet.dig("target_release", "apk_sha256").to_s
+actual_aab_sha256 = aab["exists"] ? Digest::SHA256.file(aab["path"]).hexdigest : ""
+actual_apk_sha256 = apk["exists"] ? Digest::SHA256.file(apk["path"]).hexdigest : ""
+aab_permissions = {"status" => "fail", "error" => "aab_missing_or_unreadable"}
+if aab["exists"] && !File.symlink?(aab["path"])
+  inspection = run('python3', File.join(root, 'scripts/qa/android_aab_permissions.py'),
+                   '--artifact', aab['path'], '--pubspec', File.join(root, 'pubspec.yaml'))
+  begin
+    parsed_inspection = JSON.parse(inspection.fetch('stdout'))
+    if inspection.fetch('status') == 0 && parsed_inspection.is_a?(Hash)
+      aab_permissions = parsed_inspection
+    end
+  rescue JSON::ParserError
+    # Missing, failed, or malformed inspection is not permission evidence.
+  end
+end
+checks["release_artifact_hash_binding"] =
+  if !expected_aab_sha256.empty? && !expected_apk_sha256.empty? &&
+      expected_aab_sha256 == actual_aab_sha256 && expected_apk_sha256 == actual_apk_sha256
+    check("pass", "The Play packet is hash-bound to the current signed APK and AAB.", "aab_sha256" => actual_aab_sha256, "apk_sha256" => actual_apk_sha256)
+  else
+    check("fail", "The Play packet is not hash-bound to the current signed APK and AAB.", "expected_aab_sha256" => expected_aab_sha256, "actual_aab_sha256" => actual_aab_sha256, "expected_apk_sha256" => expected_apk_sha256, "actual_apk_sha256" => actual_apk_sha256)
+  end
+
+# Derive the same reviewed public profile used by the store wrapper. A matching
+# legacy URL string cannot establish the current Supabase runtime identity.
+runtime_profile = nil
+runtime_profile_error = nil
+begin
+  require 'tempfile'
+  Tempfile.create(['collect-play-public-profile-', '.json']) do |file|
+    observed = run('python3', File.join(root, 'scripts/qa/native_build_config.py'),
+                   'android', '--store-candidate', '--defines-output', file.path)
+    if observed.fetch('status') == 0
+      Tempfile.create(['collect-play-diagnostic-source-', '.json']) do |manifest|
+        bound = run('python3', File.join(root, 'scripts/qa/client_diagnostic_identity.py'),
+                    'bind', '--surface', 'member', '--defines', file.path,
+                    '--manifest', manifest.path)
+        if bound.fetch('status') == 0
+          runtime_profile = JSON.parse(File.read(file.path))
+        else
+          runtime_profile_error = 'Current client source and public profile binding is required'
+        end
+      end
+    else
+      runtime_profile_error = 'Validated Supabase public production profile is required'
+    end
+  end
+rescue StandardError
+  runtime_profile_error = 'Public production profile could not be read'
+end
+runtime_profile_sha256 = runtime_profile && Digest::SHA256.hexdigest(JSON.generate(runtime_profile.sort.to_h))
+native_manifest_path = File.join(root, '.cache/android_play_store_build', "#{pubspec[/^version:\s*(\S+)/, 1]}.json")
+native_manifest = begin
+  File.file?(native_manifest_path) && !File.symlink?(native_manifest_path) ? JSON.parse(File.read(native_manifest_path)) : {}
+rescue JSON::ParserError
+  {}
+end
+runtime_identity_bound = runtime_profile && native_manifest['status'] == 'pass' &&
+  native_manifest['application_id'] == 'app.cool.mobile' && native_manifest['backend'] == 'supabase' &&
+  native_manifest['artifact_version'] == pubspec[/^version:\s*(\S+)/, 1] &&
+  native_manifest['public_runtime_config_sha256'] == runtime_profile_sha256 &&
+  native_manifest['diagnostics_source_revision'] == runtime_profile['COLLECT_BUILD_SOURCE_ID'] &&
+  native_manifest['supabase_project_url'] == runtime_profile['SUPABASE_URL'] &&
+  native_manifest['production_api_url'] == runtime_profile['SUPABASE_API_URL'] &&
+  native_manifest.dig('artifacts', 'apk', 'sha256') == actual_apk_sha256 &&
+  native_manifest.dig('artifacts', 'aab', 'sha256') == actual_aab_sha256
+required_runtime_keys = %w[SUPABASE_URL SUPABASE_API_URL SUPABASE_PUBLISHABLE_KEY COLLECT_BUILD_VERSION COLLECT_BUILD_SOURCE_ID]
+apk_runtime_config = !!(runtime_profile && apk['exists'] && !File.symlink?(apk['path']) &&
+  required_runtime_keys.all? { |key| archive_entry_includes?(apk['path'], 'lib/arm64-v8a/libapp.so', runtime_profile.fetch(key)) })
+aab_runtime_config = !!(runtime_profile && aab['exists'] && !File.symlink?(aab['path']) &&
+  required_runtime_keys.all? { |key| archive_entry_includes?(aab['path'], 'base/lib/arm64-v8a/libapp.so', runtime_profile.fetch(key)) })
+runtime_artifacts_stable = apk['exists'] && aab['exists'] &&
+  Digest::SHA256.file(apk['path']).hexdigest == actual_apk_sha256 &&
+  Digest::SHA256.file(aab['path']).hexdigest == actual_aab_sha256
+checks["production_runtime_config"] = check(
+  runtime_identity_bound && apk_runtime_config && aab_runtime_config && runtime_artifacts_stable ? 'pass' : 'fail',
+  'APK and AAB require the reviewed Supabase profile and diagnostic source identity, bound to the same build inputs and artifacts.',
+  'public_profile_sha256' => runtime_profile_sha256,
+  'profile_error' => runtime_profile_error,
+  'build_profile_and_artifacts_bound' => !!runtime_identity_bound,
+  'apk_runtime_config' => apk_runtime_config,
+  'aab_runtime_config' => aab_runtime_config,
+  'artifacts_stable_during_runtime_read' => !!runtime_artifacts_stable,
+)
+
+checks["sixteen_kb_alignment"] =
+  if zipalign_16k.fetch("status") == 0
+    check("pass", "APK verifies with zipalign -P 16 for 16 KB page-size packaging alignment.", "native_library_count" => native_libs.length)
+  else
+    check("blocked", "APK must pass zipalign -P 16 before Play production updates.", "native_library_count" => native_libs.length, "zipalign_status" => zipalign_16k.fetch("status"), "stderr" => zipalign_16k.fetch("stderr").lines.first(5).join)
+  end
+
+checks["production_permissions"] =
+  if badging.fetch("status") == 0 && main_restricted == expected_apk_restricted &&
+      !production_declares_read &&
+      receiver_declares_receive && apk_restricted == expected_apk_restricted && sms_receiver_protected &&
+      apk_badging_stable && apk_badging_after_sha256 == actual_apk_sha256 && apk_receive_sms_unqualified &&
+      aab_permissions['status'] == 'pass' && aab_permissions['artifact_sha256'] == actual_aab_sha256 &&
+      aab_permissions['restricted_permissions'] == expected_apk_restricted &&
+      aab_permissions.dig('runtime', 'compile_sdk') == package['compile_sdk'] &&
+      aab_permissions.dig('runtime', 'min_sdk') == package['min_sdk'] &&
+      aab_permissions.dig('runtime', 'target_sdk') == package['target_sdk'] &&
+      aab_permissions.dig('runtime', 'sms_receiver') == 'protected_enabled_exported_with_sms_received_filter' &&
+      aab_permissions['actual'] == {'package' => package['package_name'], 'version_name' => package['version_name'],
+                                    'version_code' => package['version_code']} &&
+      Digest::SHA256.file(aab['path']).hexdigest == actual_aab_sha256
+    check("pass", "The production APK and AAB contain only the reviewed RECEIVE_SMS restricted permission; the AAB receiver declaration is protected.", "apk_permissions" => package["permissions"], "restricted_permissions" => apk_restricted, "apk_receiver_inspected" => false, "aab_inspection" => aab_permissions)
+  else
+    check("fail", "Production APK/AAB restricted permission scope, identity, or receiver protection is invalid or unverified.", "restricted_in_main_manifest" => main_restricted, "production_declares_receive" => production_declares_receive, "production_declares_read" => production_declares_read, "receiver_declares_receive" => receiver_declares_receive, "receiver_declares_read" => receiver_declares_read, "apk_restricted" => apk_restricted, "apk_receive_sms_unqualified" => apk_receive_sms_unqualified, "source_sms_receiver_protected" => sms_receiver_protected, "apk_receiver_inspected" => false, "aab_inspection" => aab_permissions)
+  end
+
+sms_declaration_status = console_audit_packet.dig("app_content", "permissions", "sms_permissions_declaration_status").to_s
+checks["restricted_sms_declaration"] =
+  if sms_declaration_status == "approved_for_core_functionality"
+    check("pass", "Google Play restricted-SMS approval is recorded for the core Rwanda MoMo receipt feature.")
+  elsif sms_declaration_status == "required_pending_play_approval"
+    check(phase == "rollout" ? "blocked" : "pass",
+      phase == "rollout" ? "Google Play restricted-SMS approval is still pending; production rollout is blocked." :
+        "Prepared SMS declaration may accompany candidate upload/review while Google's decision is pending.",
+      "declaration_status" => sms_declaration_status, "google_approval_required_before_rollout" => true)
+  else
+    check("fail", "The release packet must record the restricted-SMS review state.", "declaration_status" => sms_declaration_status.empty? ? "not_recorded" : sms_declaration_status)
+  end
+
+checks["android_app_links"] =
+  if manifest.include?('android:autoVerify="true"') &&
+      manifest.include?('android:host="collect.ikanisa.com"') &&
+      manifest.include?('android:pathPrefix="/c/"') &&
+      assetlinks_source.include?('"package_name": "app.cool.mobile"') &&
+      assetlinks_source.include?(expected_play_fingerprint) &&
+      assetlinks_source.include?(expected_upload_fingerprint)
+    status = http.dig("https://collect.ikanisa.com/.well-known/assetlinks.json", "status_code") == 200 ? "pass" : "blocked"
+    message = status == "pass" ? "Verified App Links source and live assetlinks endpoint are present." : "Verified App Links source is present but live assetlinks endpoint is not deployed yet."
+    check(status, message, "assetlinks_url" => http["https://collect.ikanisa.com/.well-known/assetlinks.json"])
+  else
+    check("blocked", "Android App Links manifest/source configuration is incomplete.")
+  end
+
+policy_status = %w[
+  https://collect.ikanisa.com/privacy/
+  https://collect.ikanisa.com/account-deletion/
+  https://collect.ikanisa.com/data-deletion/
+].all? { |url| http.dig(url, "status_code") == 200 }
+checks["play_policy_urls"] =
+  if policy_status
+    check(
+      "pass",
+      "Play privacy, account deletion, and data deletion URLs are live.",
+      "urls" => http.select { |url, _| url.match?(%r{/(privacy|account-deletion|data-deletion)/}) },
+    )
+  else
+    check("blocked", "Play policy URLs must return HTTP 200.", "urls" => http)
+  end
+
+checks["admin_pwa_live_assets"] = admin_pwa_live_assets(root, runtime_profile&.fetch("ADMIN_APP_URL", nil))
+
+required_packet_surfaces = %w[
+  publishing_overview
+  production_track
+  deep_links
+  android_vitals
+  pre_launch_report
+  app_integrity
+  device_catalog
+  testing_tracks
+  monetization
+  reporting_exports
+]
+packet_surface_missing = required_packet_surfaces.reject do |surface|
+  console_audit_packet.dig("play_console_surfaces", surface, "required_evidence").to_s.strip != ""
+end
+checks["play_console_readiness_packet"] =
+  if File.file?(console_audit_packet_path) &&
+      console_audit_packet["package_name"] == "app.cool.mobile" &&
+      console_audit_packet.dig("target_release", "version_code").to_i == package["version_code"].to_i &&
+      console_audit_packet.dig("store_listing", "app_name").to_s != "" &&
+      console_audit_packet.dig("app_content", "privacy_policy_url").to_s == "https://collect.ikanisa.com/privacy/" &&
+      console_audit_packet.dig("app_content", "account_deletion_url").to_s == "https://collect.ikanisa.com/account-deletion/" &&
+      console_audit_packet.dig("app_content", "data_deletion_url").to_s == "https://collect.ikanisa.com/data-deletion/" &&
+      console_audit_packet.dig("app_content", "permissions", "restricted_sms_permissions_in_production") == true &&
+      console_audit_packet.dig("app_content", "permissions", "production_permissions").to_a.include?("android.permission.RECEIVE_SMS") &&
+      packet_surface_missing.empty?
+    check("pass", "Repo-owned Play Console audit packet is complete for listing, app content, policy, release, and account-controlled audit prompts.", "packet_path" => console_audit_packet_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""), "console_completion_status" => console_audit_packet["console_completion_status"])
+  else
+    check("blocked", "Repo-owned Play Console audit packet is missing or inconsistent with the current release.", "packet_exists" => File.file?(console_audit_packet_path), "packet_path" => console_audit_packet_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""), "missing_surfaces" => packet_surface_missing)
+  end
+
+metadata_files = {
+  "title" => "fastlane/metadata/android/en-US/title.txt",
+  "short_description" => "fastlane/metadata/android/en-US/short_description.txt",
+  "full_description" => "fastlane/metadata/android/en-US/full_description.txt",
+  "play_store_icon" => "fastlane/metadata/android/en-US/images/icon.png",
+  "changelog" => "fastlane/metadata/android/en-US/changelogs/#{package["version_code"]}.txt"
+}
+metadata_items = metadata_files.transform_values do |relative|
+  path = File.join(root, relative)
+  is_text = !relative.end_with?(".png")
+  {
+    "path" => relative,
+    "exists" => File.file?(path),
+    "bytes" => File.file?(path) ? File.size(path) : 0,
+    "text" => is_text && File.file?(path) ? File.read(path).strip : "",
+    "binary" => !is_text
+  }
+end
+metadata_missing = metadata_items.select { |_name, item| item["exists"] != true || (item["binary"] != true && item["text"].empty?) }.keys
+metadata_length_issues = []
+metadata_length_issues << "title_over_30_chars" if metadata_items.dig("title", "text").to_s.length > 30
+metadata_length_issues << "short_description_over_80_chars" if metadata_items.dig("short_description", "text").to_s.length > 80
+metadata_length_issues << "full_description_over_4000_chars" if metadata_items.dig("full_description", "text").to_s.length > 4000
+play_assets = console_audit_packet.dig("store_listing", "assets") || {}
+feature_graphic = play_assets.fetch("feature_graphic", {})
+feature_graphic_path = File.join(root, feature_graphic["path"].to_s)
+feature_graphic_valid =
+  feature_graphic["status"] == "approved_official_asset" &&
+  File.file?(feature_graphic_path) &&
+  Digest::SHA256.file(feature_graphic_path).hexdigest == feature_graphic["sha256"].to_s
+screenshot_policies = {
+  "phone" => play_assets.fetch("phone_screenshots", {}),
+  "seven_inch" => play_assets.fetch("seven_inch_screenshots", {}),
+  "ten_inch" => play_assets.fetch("ten_inch_screenshots", {})
+}
+screenshot_sets = screenshot_policies.transform_values do |policy|
+  export_path = policy["path"].to_s
+  paths = export_path.empty? ? [] : Dir.glob(File.join(root, export_path, "*.{png,jpg,jpeg}")).sort
+  expected_hashes = policy["sha256"].is_a?(Hash) ? policy["sha256"] : {}
+  expected_dimensions = policy["dimensions"].to_s.split("x").map(&:to_i)
+  dimensions_valid =
+    expected_dimensions.length == 2 && expected_dimensions.all?(&:positive?) &&
+    paths.all? { |path| image_dimensions(path) == expected_dimensions }
+  hashes_valid =
+    !expected_hashes.empty? &&
+    paths.length == expected_hashes.length &&
+    paths.all? do |path|
+      expected = expected_hashes[File.basename(path)].to_s
+      !expected.empty? && Digest::SHA256.file(path).hexdigest == expected
+    end
+  {
+    "count" => paths.length,
+    "hashes_valid" => hashes_valid,
+    "dimensions_valid" => dimensions_valid,
+    "status" => policy["status"],
+    "source" => policy["source"],
+    "minimum_required" => policy["minimum_required"].to_i
+  }
+end
+brand_icon_path = File.join(root, play_assets["brand_icon_source"].to_s)
+play_store_icon_path = File.join(root, play_assets["play_store_icon"].to_s)
+launcher_icon_path = File.join(root, play_assets["launcher_icon"].to_s)
+official_icon_policy =
+  play_assets["brand_icon_source"] == "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" &&
+  play_assets["play_store_icon"] == "fastlane/metadata/android/en-US/images/icon.png" &&
+  File.file?(brand_icon_path) &&
+  Digest::SHA256.file(brand_icon_path).hexdigest == play_assets["brand_icon_sha256"].to_s &&
+  File.file?(play_store_icon_path) &&
+  Digest::SHA256.file(play_store_icon_path).hexdigest == play_assets["play_store_icon_sha256"].to_s &&
+  File.file?(launcher_icon_path) &&
+  Digest::SHA256.file(launcher_icon_path).hexdigest == play_assets["launcher_icon_sha256"].to_s
+current_visual_exports =
+  feature_graphic_valid &&
+  screenshot_sets.values.all? do |set|
+    set["status"] == "current_product_capture" &&
+      set["source"].to_s.end_with?("native_product_capture") &&
+      set["hashes_valid"] &&
+      set["dimensions_valid"] &&
+      set["count"] >= set["minimum_required"]
+  end
+checks["play_store_metadata_export"] =
+  if metadata_missing.empty? && metadata_length_issues.empty? && official_icon_policy && current_visual_exports
+    check("pass", "Fastlane-compatible Play metadata uses the approved Collect icon and current phone, 7-inch, and 10-inch native screenshots.", "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } }, "screenshot_sets" => screenshot_sets, "official_icon_policy" => true)
+  else
+    check("blocked", "Play listing metadata awaits an owner-approved feature graphic and complete current native screenshot sets; fabricated assets are forbidden.", "missing" => metadata_missing, "length_issues" => metadata_length_issues, "screenshot_sets" => screenshot_sets, "official_icon_policy" => official_icon_policy, "feature_graphic_status" => feature_graphic["status"], "metadata_files" => metadata_items.transform_values { |item| item.reject { |key, _| key == "text" } })
+  end
+
+fastlane_files = {
+  "supplyfile" => "fastlane/Supplyfile",
+  "fastfile" => "fastlane/Fastfile"
+}
+fastlane_items = fastlane_files.transform_values do |relative|
+  path = File.join(root, relative)
+  text = File.file?(path) ? File.read(path) : ""
+  {
+    "path" => relative,
+    "exists" => File.file?(path),
+    "bytes" => File.file?(path) ? File.size(path) : 0,
+    "uses_env_credentials" => text.include?("GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"),
+    "mentions_package" => text.include?("app.cool.mobile")
+  }
+end
+fastlane_missing = fastlane_items.select { |_name, item| item["exists"] != true || item["uses_env_credentials"] != true }.keys
+checks["play_upload_tooling"] =
+  if fastlane_missing.empty? && fastlane_items.dig("supplyfile", "mentions_package")
+    check("pass", "Fastlane supply upload tooling is present and keeps Play service-account JSON in the environment.", "files" => fastlane_items)
+  else
+    check("blocked", "Fastlane supply upload tooling is missing or would require unsafe credential handling.", "missing_or_invalid" => fastlane_missing, "files" => fastlane_items)
+  end
+
+required_integrity_sources = {
+  "android_gradle" => "android/app/build.gradle.kts",
+  "main_activity" => "android/app/src/main/kotlin/app/cool/mobile/MainActivity.kt",
+  "play_integrity_channel" => "android/app/src/main/kotlin/app/cool/mobile/MemberPlayIntegrityChannel.kt",
+  "flutter_service" => "lib/core/security/play_integrity_service.dart",
+  "managed_integrity" => "supabase/functions/_shared/domain/native_integrity.js",
+  "platform_integrity" => "deploy/platform-api/src/native_integrity.js"
+}
+integrity_items = required_integrity_sources.transform_values do |relative|
+  path = File.join(root, relative)
+  text = File.file?(path) ? File.read(path) : ""
+  {
+    "path" => relative,
+    "exists" => File.file?(path),
+    "bytes" => File.file?(path) ? File.size(path) : 0,
+    "has_integrity_marker" => text.include?("Play Integrity") || text.include?("play_integrity") || text.include?("playIntegrity.register(messenger)") || text.include?("com.google.android.play:integrity"),
+    "has_secret_material" => text.match?(/-----BEGIN PRIVATE KEY-----|\"private_key\"\s*:\s*\"|ya29\.|eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/)
+  }
+end
+integrity_present = integrity_items.select do |name, item|
+  if %w[flutter_service managed_integrity platform_integrity].include?(name)
+    item["exists"] == true
+  else
+    item["has_integrity_marker"] == true
+  end
+end.keys
+checks["android_group_creation_attestation"] =
+  if integrity_present.sort == required_integrity_sources.keys.sort && integrity_items.values.none? { |item| item["has_secret_material"] == true }
+    check("pass", "The attested Android group-creation path includes Play Integrity verification without embedded secret material.", "files" => integrity_items)
+  else
+    check("fail", "Play Integrity group-creation wiring is incomplete or contains secret material.", "present" => integrity_present, "files" => integrity_items)
+  end
+
+reporting_snapshot_path = File.join(root, ".cache/google_play_optimization/google_play_reporting_snapshot.json")
+reporting_snapshot = JSON.parse(read(reporting_snapshot_path)) rescue {}
+checks["play_reporting_api_snapshot"] =
+  if File.file?(reporting_snapshot_path) && %w[pass blocked].include?(reporting_snapshot["status"].to_s) && Array(reporting_snapshot["metric_sets"] || reporting_snapshot.dig("queries")&.keys).any?
+    status = reporting_snapshot["status"] == "pass" ? "pass" : "blocked"
+    message = status == "pass" ? "Play Developer Reporting API snapshot was collected." : "Play Developer Reporting API snapshot automation exists, but live vitals retrieval is auth blocked."
+    check(status, message, "snapshot_path" => reporting_snapshot_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""), "blockers" => reporting_snapshot["blockers"], "required_scope" => reporting_snapshot["required_scope"])
+  else
+    check("blocked", "Play Developer Reporting API snapshot evidence is missing. Run scripts/google_play_reporting_snapshot.sh --json.", "snapshot_path" => reporting_snapshot_path.sub(%r{\A#{Regexp.escape(root)}/?}, ""))
+  end
+unless phase == "rollout"
+  checks["play_reporting_api_snapshot"] = check(
+    "deferred", "Production reporting acceptance is required at rollout; it cannot prove candidate upload or review readiness.",
+    "required_phase" => "rollout", "observed" => checks["play_reporting_api_snapshot"]
+  )
+end
+
+required_console_surfaces = {
+  "publishing_overview" => "Verify changes in review / managed publishing.",
+  "production_track" => "Verify rollout, version codes, countries, and staged rollout state.",
+  "app_content" => "Verify Data safety, privacy policy, account deletion, content rating, target audience, ads, financial features, and permissions declarations.",
+  "store_listing" => "Verify title, short/full descriptions, graphics, screenshots, category/tags, contact details, and store listing experiments.",
+  "deep_links" => "Verify collect.ikanisa.com /c App Link status and assetlinks domain verification.",
+  "android_vitals" => "Review crash, ANR, excessive wakeup, slow rendering, and bad behavior thresholds.",
+  "pre_launch_report" => "Review device/language/accessibility/security findings before widening rollout.",
+  "app_integrity" => "Verify Play App Signing and automatic protection options.",
+  "device_catalog" => "Review exclusions, device reach, app size, and form-factor compatibility."
+}
+# Keep captured Console observations with the packet's existing surface records.
+# A prompt, a checklist or a declared status alone is not live account evidence.
+def console_observation_blockers(root, packet, surface, version, apk_sha, aab_sha, artifact_time)
+  observed = packet.dig("play_console_surfaces", surface, "observation")
+  return ["observation_missing"] unless observed.is_a?(Hash)
+  blockers = []
+  blockers << "status" unless observed["status"] == "pass"
+  blockers << "reviewer" unless observed["reviewer"].to_s.strip.length >= 2
+  blockers << "artifact_identity" unless observed["package_name"] == "app.cool.mobile" &&
+    observed["artifact_version"] == version &&
+    apk_sha.match?(/\A[0-9a-f]{64}\z/) && observed["apk_sha256"] == apk_sha &&
+    aab_sha.match?(/\A[0-9a-f]{64}\z/) && observed["aab_sha256"] == aab_sha
+  captured = Time.iso8601(observed["observed_at"].to_s) rescue nil
+  blockers << "observation_stale_or_predates_artifacts" unless captured &&
+    observed["observed_at"].to_s.end_with?("Z") && captured <= Time.now.utc &&
+    captured >= Time.now.utc - 86_400 && artifact_time && captured.to_i >= artifact_time.to_i
+  reference = observed["evidence_reference"].to_s
+  path = File.expand_path(reference, root)
+  safe = !reference.empty? && path.start_with?("#{root}/") && File.file?(path) &&
+    !File.symlink?(path) && File.realpath(path).start_with?("#{File.realpath(root)}/")
+  blockers << "captured_evidence_missing_or_changed" unless safe && File.size(path).positive? &&
+    observed["evidence_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+    observed["evidence_sha256"] == Digest::SHA256.file(path).hexdigest
+  blockers
+rescue ArgumentError, TypeError, Errno::ENOENT
+  ["observation_invalid"]
+end
+
+if %w[prepare upload].include?(phase)
+  checks["play_console_surface_audit_required"] = check(
+    "deferred", "Current candidate Console findings are required after upload, before review and rollout.",
+    "required_phase" => "review", "surfaces" => required_console_surfaces
+  )
+else
+  surfaces = required_console_surfaces.keys
+  surfaces -= ["android_vitals"] if phase == "review"
+  artifact_time = [apk, aab].select { |item| item["exists"] }.map { |item| File.mtime(item["path"]) }.max
+  console_blockers = surfaces.to_h do |surface|
+    [surface, console_observation_blockers(root, console_audit_packet, surface,
+      pubspec[/^version:\s*(\S+)/, 1], actual_apk_sha256, actual_aab_sha256, artifact_time)]
+  end.reject { |_surface, reasons| reasons.empty? }
+  publishing = console_audit_packet.dig("play_console_surfaces", "publishing_overview", "observation") || {}
+  unless publishing["production_countries"] == ["RW"]
+    console_blockers["production_countries"] = ["Capture the intended Rwanda-only production distribution before review or rollout."]
+  end
+  if phase == "review" && publishing["managed_publishing_enabled"] != true
+    console_blockers["managed_publishing"] = ["Enable and capture managed publishing before API review submission to prevent automatic publication."]
+  end
+  if phase == "rollout" && !%w[approved ready_to_publish published].include?(publishing["review_status"])
+    console_blockers["google_review"] = ["Capture Google's approval for this candidate before production rollout."]
+  end
+  checks["play_console_surface_audit_required"] = check(
+    console_blockers.empty? ? "pass" : "blocked",
+    "Live Console observations must identify this candidate, reviewer, recent capture and unchanged evidence.",
+    "surfaces" => surfaces, "blockers" => console_blockers
+  )
+end
+
+blocked = checks.select { |_key, value| value["status"] == "blocked" }
+failed = checks.select { |_key, value| value["status"] == "fail" }
+status = failed.any? ? "fail" : blocked.any? ? "blocked" : "pass"
+
+result = {
+  "generated_at" => Time.now.utc.iso8601,
+  "status" => status,
+  "phase" => phase,
+  "production_availability_verified" => false,
+  "blocker_keys" => blocked.keys,
+  "failure_keys" => failed.keys,
+  "application_id" => "app.cool.mobile",
+  "version" => pubspec[/^version:\s*(\S+)/, 1],
+  "checks" => checks,
+  "official_source_summary" => [
+    "Google Play target API requirements: https://support.google.com/googleplay/android-developer/answer/11926878",
+    "Android 16 KB page size guidance: https://developer.android.com/guide/practices/page-sizes",
+    "Android App Links: https://developer.android.com/training/app-links",
+    "Android vitals: https://developer.android.com/topic/performance/vitals",
+    "Core app quality: https://developer.android.com/docs/quality-guidelines/core-app-quality",
+    "Data safety: https://support.google.com/googleplay/android-developer/answer/10787469",
+    "SMS and Call Log permissions: https://support.google.com/googleplay/android-developer/answer/10208820",
+    "Account deletion: https://support.google.com/googleplay/android-developer/answer/13327111"
+  ],
+  "secret_handling" => "This gate records public URLs, build metadata, certificate fingerprints, and artifact paths only; it must not print signing keys, service account JSON, cookies, raw bank notifications, payment identifiers, provider tokens, or production customer data."
+}
+
+if output_format == "json"
+  puts JSON.pretty_generate(result)
+else
+  puts "[google-play-optimization-gate] status=#{status}"
+  blocked.each_key { |key| warn "[google-play-optimization-gate][BLOCKED] #{key}" }
+  failed.each_key { |key| warn "[google-play-optimization-gate][FAIL] #{key}" }
+end
+
+exit(status == "pass" ? 0 : status == "blocked" ? 99 : 1)
+RUBY

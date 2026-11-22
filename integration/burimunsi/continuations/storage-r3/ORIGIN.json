@@ -1,0 +1,20 @@
+{
+  "schema_version": 3,
+  "continuation": "storage-policies-r3",
+  "date": "2026-11-09",
+  "previous_delivery": {
+    "file": "Storage_Policies_R2_Complete_Source_2026-11-09.zip",
+    "sha256": "3f20a9537c9bd0f3cd85ade01c9d252b405995812c650d569d53c2a224a73bd3",
+    "drive_id": "13-8m9d17IzACkgc9DPAD3WZjsiIBbtqB"
+  },
+  "original_product_origins": "history/r1/ORIGIN.json",
+  "previous_origin": "history/r2/ORIGIN.json",
+  "consolidates_other_workstreams": false,
+  "changes_applied_to_working_collect_checkout": false,
+  "local_efficient_codex_skill_available": false,
+  "production_qualified": false,
+  "source_tree_digest": "f4e54db78c69d3db60ae661b06109f12a6dbafbaa5ddc72a2e776bcf6a5bc9b2",
+  "drive_root_id": "1jm9YztANVsQfKgh3rm-aC8G9LDs12oPi",
+  "drive_workstream_folder_id": "1I4rOFsx3uYD7D1I0awAXnOCzzRFO0VjP",
+  "drive_r3_folder_id": "1_NfquW5jkZ3plzJm9tGRD_KuHVsbVFY7"
+}

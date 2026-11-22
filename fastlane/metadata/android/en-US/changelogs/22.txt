@@ -1,0 +1,1 @@
+Uses the approved Collect icon on Google Play and one black native Android Collect splash, then opens the app directly without a Flutter splash.

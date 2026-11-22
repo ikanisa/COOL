@@ -1,0 +1,365 @@
+{
+  "notice": "Synthetic fixtures only; not actual carrier evidence.",
+  "cases": [
+    {
+      "id": "mm-received-null-fee",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 10000 RWF from Test Person (*****007) at 2026-11-06 12:00:00. Balance: 12000 RWF. FT Id: TEST-001.",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-merchant-leading-zero",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": " M-MONEY ",
+      "body": "Your payment of 4550 RWF to TEST MERCHANT (merchant code 028415) at 2026-11-06 10:00:00 was completed. Balance: 450 RWF. FT Id: TEST-002.",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-balance-only",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "Your MoMo balance at 2026-11-06 09:00:00 is 5000 RWF.",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-explicit-zero-fee-balance",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF from Test Person at 2026-11-06 09:00:00. Fee: 0 RWF. Balance: 0 RWF. FT Id: ZERO-01.",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-unrelated-sender",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "0780000000",
+      "body": "You have received 10000 RWF from Test Person.",
+      "expected": "UNSUPPORTED",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-missing-sender",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": null,
+      "body": "You have received 10000 RWF from Test Person.",
+      "expected": "INCOMPLETE",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-otp",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "Your OTP is 123456. You have received 10000 RWF.",
+      "expected": "UNSUPPORTED",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-promotion",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 10000 RWF prize. Claim your offer.",
+      "expected": "UNSUPPORTED",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-service-notice",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "MoMo service notice: scheduled maintenance is complete.",
+      "expected": "UNSUPPORTED",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-uncertain-confirmation",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "MoMo transaction confirmation. Reference: TEST-003.",
+      "expected": "UNSUPPORTED",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-url-injection",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 10000 RWF. See https://example.test/receive.",
+      "expected": "UNSUPPORTED",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-whitespace-original",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF from \u00c9cole TEST (*****006) at 2026-11-06 09:00:00.\r\nBalance: 100 RWF.  FT Id: EXACT-01.\n",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "mm-zero-movement",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 0 RWF from Test Person at 2026-11-06 09:00:00. FT Id: ZERO-MOVEMENT.",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "inherited-synthetic"
+    },
+    {
+      "id": "buri-supported",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "SUPPORTED_RECEIPT",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-wrong-sender",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "MTN",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-case-sender",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "m-money",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-spaced-sender",
+      "contract": "BURI_COLLECT_V2",
+      "sender": " M-Money ",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-zero",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 0 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-fraction",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1.5 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-bad-grouping",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,00 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-overflow",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 9007199254740992 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-invalid-date",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-02-30 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-trailing-text",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789. Hello",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-otp",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789. OTP 123456",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-alpha-ftid",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: ABC-001.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-zero-balance",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from Test Person (*****007) at 2026-11-09 09:30:00. Balance: 0 RWF. FT Id: 123456789.",
+      "expected": "SUPPORTED_RECEIPT",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-full-phone",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from Test Person (0780000007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "SUPPORTED_RECEIPT",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "buri-bidi",
+      "contract": "BURI_COLLECT_V2",
+      "sender": "M-Money",
+      "body": "You have received 1,000 RWF from \u202eTest Person (*****007) at 2026-11-09 09:30:00. Balance: 2,000 RWF. FT Id: 123456789.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-28",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 1,2 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-29",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 1.50 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-30",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 01 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-31",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received -100 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-32",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received +100 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-33",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 9,000,000,000,001 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-34",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 1,,000 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-amount-35",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 1..0 RWF. Balance: 100 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-multiple-statements",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF. You have sent 200 RWF.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-currency-without-number",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF. Balance: RWF unknown.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-bidi",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received \u202e100 RWF.",
+      "expected": "UNSUPPORTED",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-zero-balance",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "Your MoMo balance is 0 RWF.",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-conflicting-reference",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF. FT Id: ABC-001. Reference: ABC-002.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-case-reference-conflict",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF. FT Id: ABC-001. Reference: abc-001.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-invalid-reference",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF. FT Id: ABC_001.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-long-reference",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF. FT Id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.",
+      "expected": "AMBIGUOUS",
+      "origin": "new-synthetic"
+    },
+    {
+      "id": "mm-agreed-reference",
+      "contract": "MMONEY_LEDGER_V1",
+      "sender": "M-Money",
+      "body": "You have received 100 RWF. FT Id: ABC-001. Reference: ABC-001.",
+      "expected": "SUPPORTED_CANDIDATE",
+      "origin": "new-synthetic"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+# Native dependency notices
+
+These unmodified upstream files supply native attributions absent from Flutter package licenses. `assets/licenses/ios-native-NOTICES.txt` adds package headings around the three standalone licenses and preserves the complete Firebase CoreOnly aggregate. `flutter.licenses` includes the result in the existing open-source licenses screen. The manifest binds each original body to its upstream revision. Aggregate package names are upstream attribution, not an assertion that every named library ships. Review resolver changes and verify the resulting distribution notices when rebuilding.

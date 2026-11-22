@@ -1,0 +1,424 @@
+path,area,role,change_from_80695183e,current_bytes
+admin-web/.gitignore,Build and packaging,Package input or documentation,Retained,50
+admin-web/README.md,Build and packaging,Package input or documentation,Retained,4990
+admin-web/eslint.config.js,Build and packaging,Package input or documentation,Retained,533
+admin-web/index.html,Build and packaging,Package input or documentation,Retained,609
+admin-web/package-lock.json,Build and packaging,Package input or documentation,Retained,131014
+admin-web/package.json,Build and packaging,Package input or documentation,Retained,1219
+admin-web/public/icons/collect-web-512.png,Public assets,Static asset or license,Retained,92022
+admin-web/public/licenses/OFL-Inter.txt,Public assets,Static asset or license,Retained,4377
+admin-web/scripts/build-admin.mjs,Build and packaging,Package input or documentation,Retained,6179
+admin-web/scripts/build-configuration.mjs,Build and packaging,Package input or documentation,Retained,2101
+admin-web/scripts/build-identity.mjs,Build and packaging,Package input or documentation,Modified,2118
+admin-web/scripts/generate-notices.mjs,Build and packaging,Package input or documentation,Retained,3200
+admin-web/scripts/package-pwa.mjs,Build and packaging,Package input or documentation,Retained,9295
+admin-web/scripts/pwa-assets.mjs,Build and packaging,Package input or documentation,Retained,2251
+admin-web/scripts/pwa-hosting.mjs,Build and packaging,Package input or documentation,Retained,1429
+admin-web/scripts/source-inputs.json,Build and packaging,Package input or documentation,Retained,3477
+admin-web/scripts/verify-live.mjs,Build and packaging,Package input or documentation,Retained,4200
+admin-web/src/api/client.ts,api,Frontend source,Modified,3128
+admin-web/src/api/contracts.ts,api,Frontend source,Modified,2148
+admin-web/src/api/requestPolicy.ts,api,Frontend source,Modified,6292
+admin-web/src/api/responses.ts,api,Frontend source,Retained,5838
+admin-web/src/api/transport.ts,api,Frontend source,Added,1726
+admin-web/src/api/useScopedRead.ts,api,Frontend source,Added,1017
+admin-web/src/app/App.tsx,app,Frontend source,Modified,2922
+admin-web/src/app/SessionRoutes.tsx,app,Frontend source,Modified,5121
+admin-web/src/app/UnavailablePage.tsx,app,Frontend source,Retained,393
+admin-web/src/app/WorkspaceRoutes.tsx,app,Frontend source,Modified,849
+admin-web/src/app/authority.ts,app,Frontend source,Retained,363
+admin-web/src/app/route-access.ts,app,Frontend source,Modified,598
+admin-web/src/app/sensitive-access.ts,app,Frontend source,Retained,1017
+admin-web/src/app/transaction-view.css,app,Frontend source,Retained,89
+admin-web/src/app/workspace/access.ts,app,Frontend source,Retained,1386
+admin-web/src/app/workspace/account-routes.tsx,app,Frontend source,Modified,2432
+admin-web/src/app/workspace/financial-routes.tsx,app,Frontend source,Modified,7079
+admin-web/src/app/workspace/operator-routes.tsx,app,Frontend source,Modified,5838
+admin-web/src/app/workspace/record-routes.tsx,app,Frontend source,Modified,9878
+admin-web/src/app/workspace/routePolicy.ts,app,Frontend source,Added,826
+admin-web/src/app/workspace/verification-routes.tsx,app,Frontend source,Added,1849
+admin-web/src/config.ts,Application entry,Frontend source,Modified,2865
+admin-web/src/custodyRealm.ts,Application entry,Frontend source,Retained,1707
+admin-web/src/features/assisted/AssistedSmsPage.tsx,assisted,Frontend source,Modified,6845
+admin-web/src/features/assisted/OperatorPanel.tsx,assisted,Frontend source,Modified,13336
+admin-web/src/features/assisted/SmsControlsPage.tsx,assisted,Frontend source,Retained,29743
+admin-web/src/features/assisted/assistedContracts.ts,assisted,Frontend source,Added,12980
+admin-web/src/features/assisted/assistedGateway.ts,assisted,Frontend source,Modified,7116
+admin-web/src/features/assisted/operatorWorkflow.ts,assisted,Frontend source,Modified,25694
+admin-web/src/features/assisted/smsAccessMutations.ts,assisted,Frontend source,Retained,10155
+admin-web/src/features/assisted/smsControlContracts.ts,assisted,Frontend source,Retained,16296
+admin-web/src/features/assisted/smsControlRecovery.ts,assisted,Frontend source,Retained,3169
+admin-web/src/features/assisted/smsMaterializationStatus.ts,assisted,Frontend source,Retained,7696
+admin-web/src/features/assisted/smsPolicyMutations.ts,assisted,Frontend source,Retained,11968
+admin-web/src/features/burimunsi/BuriDirectoryView.tsx,burimunsi,Frontend source,Added,3018
+admin-web/src/features/burimunsi/BuriMunsiPage.tsx,burimunsi,Frontend source,Modified,20068
+admin-web/src/features/burimunsi/NATIVE_ACCESS_BOUNDARY.md,burimunsi,Contract or workflow evidence,Retained,2735
+admin-web/src/features/burimunsi/NativeProvisioningPanel.tsx,burimunsi,Frontend source,Retained,14246
+admin-web/src/features/burimunsi/NativeRevocationPanel.tsx,burimunsi,Frontend source,Retained,5847
+admin-web/src/features/burimunsi/OPERATOR_APPROVAL_BOUNDARY.md,burimunsi,Contract or workflow evidence,Retained,2588
+admin-web/src/features/burimunsi/OperatorApprovalPreview.tsx,burimunsi,Frontend source,Retained,7405
+admin-web/src/features/burimunsi/contracts.ts,burimunsi,Frontend source,Retained,11954
+admin-web/src/features/burimunsi/index.ts,burimunsi,Frontend source,Retained,108
+admin-web/src/features/burimunsi/nativeAccess.ts,burimunsi,Frontend source,Modified,4828
+admin-web/src/features/burimunsi/nativeProvisioning.ts,burimunsi,Frontend source,Retained,28030
+admin-web/src/features/burimunsi/nativeRevocation.ts,burimunsi,Frontend source,Retained,17369
+admin-web/src/features/burimunsi/operatorApproval.ts,burimunsi,Frontend source,Retained,14377
+admin-web/src/features/burimunsi/operatorPreparation.ts,burimunsi,Frontend source,Retained,3417
+admin-web/src/features/burimunsi/recovery.ts,burimunsi,Frontend source,Retained,8056
+admin-web/src/features/core/CoreListPage.tsx,core,Frontend source,Retained,11747
+admin-web/src/features/core/CoreRecordPage.tsx,core,Frontend source,Retained,9058
+admin-web/src/features/core/CoreRelatedRecords.tsx,core,Frontend source,Modified,7655
+admin-web/src/features/core/GroupCreatePage.tsx,core,Frontend source,Modified,19817
+admin-web/src/features/core/GroupEditPage.tsx,core,Frontend source,Modified,19316
+admin-web/src/features/core/LegacyGroupOwnershipReview.tsx,core,Frontend source,Modified,5008
+admin-web/src/features/core/LegacyGroupPage.tsx,core,Frontend source,Modified,21372
+admin-web/src/features/core/LegacyGroupStatusControls.tsx,core,Frontend source,Added,11863
+admin-web/src/features/core/LegacyJournalCreatePage.tsx,core,Frontend source,Modified,22456
+admin-web/src/features/core/LegacyJournalEditPage.tsx,core,Frontend source,Modified,19428
+admin-web/src/features/core/LegacyJournalPostPage.tsx,core,Frontend source,Modified,14132
+admin-web/src/features/core/LegacyMembershipPage.tsx,core,Frontend source,Modified,17163
+admin-web/src/features/core/LegacyPayeeCreatePage.tsx,core,Frontend source,Modified,17629
+admin-web/src/features/core/LegacyPersonAccessPage.tsx,core,Frontend source,Modified,16501
+admin-web/src/features/core/LegacyUserCreatePage.tsx,core,Frontend source,Modified,13628
+admin-web/src/features/core/LegacyUserEditPage.tsx,core,Frontend source,Modified,16345
+admin-web/src/features/core/MembershipCreatePage.tsx,core,Frontend source,Modified,16420
+admin-web/src/features/core/MembershipEditPage.tsx,core,Frontend source,Modified,17626
+admin-web/src/features/core/PayeeEditPage.tsx,core,Frontend source,Modified,13797
+admin-web/src/features/core/TransactionEvidencePage.tsx,core,Frontend source,Modified,28450
+admin-web/src/features/core/TransactionReversePage.tsx,core,Frontend source,Modified,19141
+admin-web/src/features/core/UserCreatePage.tsx,core,Frontend source,Modified,15084
+admin-web/src/features/core/UserEditPage.tsx,core,Frontend source,Modified,19278
+admin-web/src/features/core/canonicalMutation.ts,core,Frontend source,Added,1769
+admin-web/src/features/core/collectPeopleLookup.ts,core,Frontend source,Retained,2023
+admin-web/src/features/core/contracts.ts,core,Frontend source,Retained,11080
+admin-web/src/features/core/core.css,core,Frontend source,Retained,1415
+admin-web/src/features/core/coreRecordActions.ts,core,Frontend source,Retained,7429
+admin-web/src/features/core/legacyGroupActions.ts,core,Frontend source,Modified,16443
+admin-web/src/features/core/legacyGroupOwnership.ts,core,Frontend source,Retained,8261
+admin-web/src/features/core/legacyGroupRecords.ts,core,Frontend source,Added,11199
+admin-web/src/features/core/legacyGroupStatus.ts,core,Frontend source,Added,21853
+admin-web/src/features/core/legacyJournalInputs.ts,core,Frontend source,Added,3882
+admin-web/src/features/core/legacyJournalRequest.ts,core,Frontend source,Added,3385
+admin-web/src/features/core/legacyJournalSources.ts,core,Frontend source,Added,13985
+admin-web/src/features/core/legacyMembershipActions.ts,core,Frontend source,Retained,26064
+admin-web/src/features/core/legacyPersonAccess.ts,core,Frontend source,Modified,13926
+admin-web/src/features/core/legacyPersonRecovery.ts,core,Frontend source,Added,7009
+admin-web/src/features/core/legacyUserCreate.ts,core,Frontend source,Retained,15402
+admin-web/src/features/core/legacyUserEdit.ts,core,Frontend source,Modified,16256
+admin-web/src/features/core/pendingAttempt.ts,core,Frontend source,Retained,13958
+admin-web/src/features/core/relatedRecordContract.ts,core,Frontend source,Retained,2236
+admin-web/src/features/core/types.ts,core,Frontend source,Retained,1513
+admin-web/src/features/core/usePendingIdentity.ts,core,Frontend source,Added,472
+admin-web/src/features/ledger-accounts/LedgerAccountPages.tsx,ledger-accounts,Frontend source,Modified,15883
+admin-web/src/features/ledger-accounts/actions.ts,ledger-accounts,Frontend source,Retained,12851
+admin-web/src/features/ledger-accounts/contracts.ts,ledger-accounts,Frontend source,Retained,1759
+admin-web/src/features/ledger-accounts/ledgerAccounts.css,ledger-accounts,Frontend source,Retained,970
+admin-web/src/features/legacy-ledger-accounts/LegacyLedgerAccountCreatePage.tsx,legacy-ledger-accounts,Frontend source,Modified,14031
+admin-web/src/features/legacy-ledger-accounts/actions.ts,legacy-ledger-accounts,Frontend source,Retained,16232
+admin-web/src/features/legacy-payees/LegacyPayeeEditPage.tsx,legacy-payees,Frontend source,Modified,12788
+admin-web/src/features/legacy-payees/actions.ts,legacy-payees,Frontend source,Retained,20884
+admin-web/src/features/legacy-transactions/LegacyTransactionActions.tsx,legacy-transactions,Frontend source,Modified,17773
+admin-web/src/features/legacy-transactions/LegacyTransactionCreate.tsx,legacy-transactions,Frontend source,Modified,23066
+admin-web/src/features/legacy-transactions/actions.ts,legacy-transactions,Frontend source,Retained,24163
+admin-web/src/features/legacy-transactions/create.ts,legacy-transactions,Frontend source,Retained,22861
+admin-web/src/features/legacy-transactions/createSource.ts,legacy-transactions,Frontend source,Retained,4351
+admin-web/src/features/licenses/LicensesPage.tsx,licenses,Frontend source,Retained,1359
+admin-web/src/features/licenses/licenses.css,licenses,Frontend source,Retained,568
+admin-web/src/features/notes/OperatorNotes.tsx,notes,Frontend source,Modified,9380
+admin-web/src/features/notes/noteActions.ts,notes,Frontend source,Modified,8226
+admin-web/src/features/notes/noteContracts.ts,notes,Frontend source,Added,2322
+admin-web/src/features/notes/notes.css,notes,Frontend source,Retained,769
+admin-web/src/features/operations/EmailDispatchPanel.tsx,operations,Frontend source,Retained,8380
+admin-web/src/features/operations/EmailEventsPage.tsx,operations,Frontend source,Retained,1608
+admin-web/src/features/operations/GatewayDevicePages.tsx,operations,Frontend source,Retained,5072
+admin-web/src/features/operations/GatewayEnrollmentPage.tsx,operations,Frontend source,Retained,11903
+admin-web/src/features/operations/GatewayTrustPanel.tsx,operations,Frontend source,Modified,10723
+admin-web/src/features/operations/MemberReceiptPages.tsx,operations,Frontend source,Retained,3549
+admin-web/src/features/operations/MemberReceiptRevealPanel.tsx,operations,Frontend source,Retained,5708
+admin-web/src/features/operations/MomoAssignmentPanel.tsx,operations,Frontend source,Retained,16381
+admin-web/src/features/operations/MomoConflictReviewPanel.tsx,operations,Frontend source,Retained,12903
+admin-web/src/features/operations/MomoIncomingSms.tsx,operations,Frontend source,Added,3016
+admin-web/src/features/operations/MomoPaymentReview.tsx,operations,Frontend source,Added,5567
+admin-web/src/features/operations/MomoReceiptsPage.tsx,operations,Frontend source,Modified,2093
+admin-web/src/features/operations/MomoRecordViews.tsx,operations,Frontend source,Added,1947
+admin-web/src/features/operations/MomoSourceActionsPanel.tsx,operations,Frontend source,Retained,19026
+admin-web/src/features/operations/MomoSourceRevealPanel.tsx,operations,Frontend source,Retained,6995
+admin-web/src/features/operations/MomoSourceReview.tsx,operations,Frontend source,Added,4266
+admin-web/src/features/operations/MomoTransactionList.tsx,operations,Frontend source,Added,7127
+admin-web/src/features/operations/OperationsRecords.tsx,operations,Frontend source,Modified,12918
+admin-web/src/features/operations/ReceiverGrantActionPanel.tsx,operations,Frontend source,Retained,8789
+admin-web/src/features/operations/ReceiverGrantCreatePanel.tsx,operations,Frontend source,Retained,14258
+admin-web/src/features/operations/ReceiverGrantPages.tsx,operations,Frontend source,Retained,3939
+admin-web/src/features/operations/SmsActionPanel.tsx,operations,Frontend source,Retained,10539
+admin-web/src/features/operations/SmsReceiptPages.tsx,operations,Frontend source,Retained,6156
+admin-web/src/features/operations/contracts.ts,operations,Frontend source,Retained,22383
+admin-web/src/features/operations/emailActions.ts,operations,Frontend source,Modified,7302
+admin-web/src/features/operations/gatewayActivation.ts,operations,Frontend source,Removed,
+admin-web/src/features/operations/gatewayDeviceTrust.ts,operations,Frontend source,Added,11352
+admin-web/src/features/operations/gatewayEnrollment.ts,operations,Frontend source,Modified,13819
+admin-web/src/features/operations/gatewayRevocation.ts,operations,Frontend source,Removed,
+admin-web/src/features/operations/memberReceiptReveal.ts,operations,Frontend source,Retained,3369
+admin-web/src/features/operations/momoAssignment.ts,operations,Frontend source,Modified,15155
+admin-web/src/features/operations/momoConflict.ts,operations,Frontend source,Modified,14554
+admin-web/src/features/operations/momoContracts.ts,operations,Frontend source,Retained,8006
+admin-web/src/features/operations/momoOwnerBinding.ts,operations,Frontend source,Added,3324
+admin-web/src/features/operations/momoSourceActions.ts,operations,Frontend source,Modified,18254
+admin-web/src/features/operations/momoSourceReveal.ts,operations,Frontend source,Retained,3881
+admin-web/src/features/operations/operationRequestCustody.ts,operations,Frontend source,Added,5380
+admin-web/src/features/operations/operations.css,operations,Frontend source,Retained,3126
+admin-web/src/features/operations/pendingFence.ts,operations,Frontend source,Retained,6287
+admin-web/src/features/operations/receiverGrantActions.ts,operations,Frontend source,Modified,8359
+admin-web/src/features/operations/receiverGrantCreation.ts,operations,Frontend source,Modified,14667
+admin-web/src/features/operations/smsActions.ts,operations,Frontend source,Modified,8562
+admin-web/src/features/operations/useOperationRead.ts,operations,Frontend source,Added,2477
+admin-web/src/features/overview/OverviewPage.tsx,overview,Frontend source,Retained,4135
+admin-web/src/features/overview/SmsOversight.tsx,overview,Frontend source,Modified,4988
+admin-web/src/features/overview/overview.css,overview,Frontend source,Retained,2236
+admin-web/src/features/overview/overview.ts,overview,Frontend source,Retained,5071
+admin-web/src/features/overview/smsOversightContract.ts,overview,Frontend source,Added,4198
+admin-web/src/features/privacy/PrivacyPage.tsx,privacy,Frontend source,Modified,15759
+admin-web/src/features/privacy/PrivacyReviewPanels.tsx,privacy,Frontend source,Added,4862
+admin-web/src/features/privacy/contracts.ts,privacy,Frontend source,Modified,17362
+admin-web/src/features/privacy/evidence.ts,privacy,Frontend source,Added,3523
+admin-web/src/features/privacy/journal.ts,privacy,Frontend source,Modified,4948
+admin-web/src/features/privacy/privacy.css,privacy,Frontend source,Retained,470
+admin-web/src/features/privacy/reviewWorkflow.ts,privacy,Frontend source,Added,2987
+admin-web/src/features/receipt-review/ReceiptReviewPanel.tsx,receipt-review,Frontend source,Retained,17844
+admin-web/src/features/receipt-review/index.ts,receipt-review,Frontend source,Retained,87
+admin-web/src/features/receipt-review/review.ts,receipt-review,Frontend source,Retained,18085
+admin-web/src/features/reconciliation/CanonicalActions.tsx,reconciliation,Frontend source,Retained,19365
+admin-web/src/features/reconciliation/LegacyReconciliationActions.tsx,reconciliation,Frontend source,Retained,17231
+admin-web/src/features/reconciliation/ReconciliationDetailPage.tsx,reconciliation,Frontend source,Added,4968
+admin-web/src/features/reconciliation/ReconciliationPages.tsx,reconciliation,Frontend source,Modified,136
+admin-web/src/features/reconciliation/ReconciliationQueuePage.tsx,reconciliation,Frontend source,Added,6050
+admin-web/src/features/reconciliation/RelatedReconciliationRecords.tsx,reconciliation,Frontend source,Added,3434
+admin-web/src/features/reconciliation/actions.ts,reconciliation,Frontend source,Retained,18772
+admin-web/src/features/reconciliation/contracts.ts,reconciliation,Frontend source,Retained,10804
+admin-web/src/features/reconciliation/custody.ts,reconciliation,Frontend source,Retained,1067
+admin-web/src/features/reconciliation/index.ts,reconciliation,Frontend source,Retained,225
+admin-web/src/features/reconciliation/legacyActions.ts,reconciliation,Frontend source,Modified,17663
+admin-web/src/features/reconciliation/legacyDecisionSource.ts,reconciliation,Frontend source,Added,23967
+admin-web/src/features/reconciliation/reconciliationRoutes.ts,reconciliation,Frontend source,Added,2127
+admin-web/src/features/requests/CancellationPanel.tsx,requests,Frontend source,Retained,10011
+admin-web/src/features/requests/RequestHistoryPage.tsx,requests,Frontend source,Modified,10169
+admin-web/src/features/requests/cancellation.ts,requests,Frontend source,Retained,10549
+admin-web/src/features/requests/contracts.ts,requests,Frontend source,Retained,8980
+admin-web/src/features/requests/permissions.ts,requests,Frontend source,Retained,445
+admin-web/src/features/requests/requests.css,requests,Frontend source,Retained,1198
+admin-web/src/features/route-compat/GroupSelectionPage.tsx,route-compat,Frontend source,Retained,5021
+admin-web/src/generated/notices.json,generated,Licensed asset or generated notice,Retained,19276
+admin-web/src/layout/AdminAccountMenu.tsx,layout,Frontend source,Modified,1978
+admin-web/src/layout/AdminNavigation.tsx,layout,Frontend source,Added,2513
+admin-web/src/layout/AdminShell.tsx,layout,Frontend source,Modified,4824
+admin-web/src/main.tsx,Application entry,Frontend source,Retained,1885
+admin-web/src/pwa-registration.ts,Application entry,Frontend source,Retained,568
+admin-web/src/session/AccountSecurityPage.tsx,session,Frontend source,Retained,3570
+admin-web/src/session/AdminSessionController.ts,session,Frontend source,Modified,21926
+admin-web/src/session/AuthFrame.tsx,session,Frontend source,Retained,756
+admin-web/src/session/AuthenticatorPage.tsx,session,Frontend source,Retained,8252
+admin-web/src/session/CloudflareTeamPanel.tsx,session,Frontend source,Retained,12002
+admin-web/src/session/LoginPage.tsx,session,Frontend source,Retained,5539
+admin-web/src/session/ManagedTeamPanel.tsx,session,Frontend source,Retained,12844
+admin-web/src/session/PasswordRecoveryPages.tsx,session,Frontend source,Retained,4347
+admin-web/src/session/SensitiveEmailVerificationPage.tsx,session,Frontend source,Retained,4950
+admin-web/src/session/SessionProvider.tsx,session,Frontend source,Modified,3126
+admin-web/src/session/TeamPage.tsx,session,Frontend source,Retained,5876
+admin-web/src/session/adminEmail.ts,session,Frontend source,Retained,1004
+admin-web/src/session/adminSignIn.ts,session,Frontend source,Modified,8913
+admin-web/src/session/auth.css,session,Frontend source,Retained,1889
+admin-web/src/session/authenticatorResponses.ts,session,Frontend source,Retained,3329
+admin-web/src/session/captcha.ts,session,Frontend source,Retained,4126
+admin-web/src/session/cloudflareTeamMutations.ts,session,Frontend source,Retained,18195
+admin-web/src/session/google.ts,session,Frontend source,Retained,5456
+admin-web/src/session/invitationRecovery.ts,session,Frontend source,Retained,6565
+admin-web/src/session/logoutIntent.ts,session,Frontend source,Retained,1937
+admin-web/src/session/managedAuthenticator.ts,session,Frontend source,Retained,14242
+admin-web/src/session/managedLogout.ts,session,Frontend source,Retained,4490
+admin-web/src/session/managedTeamMutations.ts,session,Frontend source,Retained,14486
+admin-web/src/session/mfaAuthority.ts,session,Frontend source,Retained,3338
+admin-web/src/session/mfaQualification.ts,session,Frontend source,Retained,163
+admin-web/src/session/mfaRecovery.ts,session,Frontend source,Retained,3419
+admin-web/src/session/mfaTransition.ts,session,Frontend source,Retained,2495
+admin-web/src/session/ownerIdentity.ts,session,Frontend source,Retained,1722
+admin-web/src/session/passwordActions.ts,session,Frontend source,Added,2127
+admin-web/src/session/returnLocation.ts,session,Frontend source,Modified,3526
+admin-web/src/session/sensitiveEmailVerification.ts,session,Frontend source,Modified,7798
+admin-web/src/session/sessionAuthority.ts,session,Frontend source,Modified,1206
+admin-web/src/session/sessionContext.ts,session,Frontend source,Retained,2027
+admin-web/src/session/sessionPolicy.ts,session,Frontend source,Retained,1244
+admin-web/src/session/sessionReadback.ts,session,Frontend source,Modified,1773
+admin-web/src/session/sessionResponses.ts,session,Frontend source,Retained,7545
+admin-web/src/session/teamDirectory.ts,session,Frontend source,Retained,5741
+admin-web/src/session/teamPolicy.ts,session,Frontend source,Retained,942
+admin-web/src/styles/admin.css,styles,Frontend source,Retained,107
+admin-web/src/styles/components.css,styles,Frontend source,Retained,5328
+admin-web/src/styles/foundation.css,styles,Frontend source,Retained,2794
+admin-web/src/styles/responsive.css,styles,Frontend source,Modified,2024
+admin-web/src/styles/shell.css,styles,Frontend source,Retained,4708
+admin-web/src/ui/Components.tsx,ui,Frontend source,Retained,2978
+admin-web/src/ui/Dialog.tsx,ui,Frontend source,Modified,1380
+admin-web/src/ui/Icon.tsx,ui,Frontend source,Retained,3172
+admin-web/src/ui/assets/Inter-Variable.ttf,ui,Licensed asset or generated notice,Retained,876576
+admin-web/src/ui/assets/OFL-Inter.txt,ui,Licensed asset or generated notice,Retained,4377
+admin-web/src/ui/assets/collect-logo.png,ui,Licensed asset or generated notice,Retained,103231
+admin-web/src/ui/index.ts,ui,Frontend source,Retained,80
+admin-web/src/ui/useFocusScope.ts,ui,Frontend source,Added,2553
+admin-web/tests/app/ScreenBoundary.test.tsx,app,Test or fixture,Retained,891
+admin-web/tests/app/SessionProblem.test.tsx,app,Test or fixture,Retained,1953
+admin-web/tests/app/authority.test.ts,app,Test or fixture,Retained,1066
+admin-web/tests/app/config.test.ts,app,Test or fixture,Retained,2894
+admin-web/tests/app/route-access.test.ts,app,Test or fixture,Modified,6691
+admin-web/tests/app/sensitive-access.test.ts,app,Test or fixture,Retained,2595
+admin-web/tests/app/session-recovery.test.tsx,app,Test or fixture,Retained,6888
+admin-web/tests/app/session-return.test.tsx,app,Test or fixture,Modified,1368
+admin-web/tests/browser/fence-fixture.ts,browser,Test or fixture,Retained,1901
+admin-web/tests/browser/fence.html,browser,Test or fixture,Retained,545
+admin-web/tests/browser/fixture-server.mjs,browser,Test or fixture,Retained,10981
+admin-web/tests/browser/predecessor-transition.mjs,browser,Test or fixture,Retained,23274
+admin-web/tests/browser/smoke.mjs,browser,Test or fixture,Modified,13918
+admin-web/tests/burimunsi/contracts.test.ts,burimunsi,Test or fixture,Retained,6334
+admin-web/tests/burimunsi/delivery-release-race.mjs,burimunsi,Test or fixture,Retained,4509
+admin-web/tests/burimunsi/fixture.ts,burimunsi,Test or fixture,Retained,3570
+admin-web/tests/burimunsi/native-revocation.postgres.mjs,burimunsi,Test or fixture,Retained,17440
+admin-web/tests/burimunsi/nativeProvisioning.test.ts,burimunsi,Test or fixture,Retained,16577
+admin-web/tests/burimunsi/nativeProvisioningPanel.test.tsx,burimunsi,Test or fixture,Retained,7437
+admin-web/tests/burimunsi/nativeRevocation.test.ts,burimunsi,Test or fixture,Retained,13156
+admin-web/tests/burimunsi/operator-race.postgres.mjs,burimunsi,Test or fixture,Retained,4676
+admin-web/tests/burimunsi/operatorPreparation.test.ts,burimunsi,Test or fixture,Retained,3146
+admin-web/tests/burimunsi/page.test.tsx,burimunsi,Test or fixture,Retained,42847
+admin-web/tests/burimunsi/source-parity.generated.json,burimunsi,Test or fixture,Retained,14185
+admin-web/tests/burimunsi/source-parity.md,burimunsi,Test or fixture,Retained,4390
+admin-web/tests/burimunsi/source-parity.page.test.tsx,burimunsi,Test or fixture,Retained,4988
+admin-web/tests/burimunsi/source-parity.postgres.mjs,burimunsi,Test or fixture,Retained,14202
+admin-web/tests/burimunsi/source-parity.test.ts,burimunsi,Test or fixture,Retained,5189
+admin-web/tests/core/canonical-core-fixtures.json,core,Test or fixture,Retained,12294
+admin-web/tests/core/canonical-reconciliation-fixture.json,core,Test or fixture,Retained,16198
+admin-web/tests/core/contracts.test.ts,core,Test or fixture,Retained,6147
+admin-web/tests/core/group-create.test.tsx,core,Test or fixture,Retained,9507
+admin-web/tests/core/group-detail-fixtures.json,core,Test or fixture,Retained,22226
+admin-web/tests/core/group-edit.test.tsx,core,Test or fixture,Retained,11836
+admin-web/tests/core/legacy-group-actions.test.ts,core,Test or fixture,Retained,13897
+admin-web/tests/core/legacy-group-ownership.test.tsx,core,Test or fixture,Retained,6998
+admin-web/tests/core/legacy-group-page.test.tsx,core,Test or fixture,Retained,11116
+admin-web/tests/core/legacy-group-status.test.tsx,core,Test or fixture,Modified,16372
+admin-web/tests/core/legacy-journal-create.test.tsx,core,Test or fixture,Retained,19138
+admin-web/tests/core/legacy-journal-edit.test.tsx,core,Test or fixture,Retained,20796
+admin-web/tests/core/legacy-journal-post.test.tsx,core,Test or fixture,Retained,17533
+admin-web/tests/core/legacy-linked-journal-create.test.tsx,core,Test or fixture,Retained,18394
+admin-web/tests/core/legacy-membership-actions.test.ts,core,Test or fixture,Retained,15628
+admin-web/tests/core/legacy-membership-page.test.tsx,core,Test or fixture,Retained,8900
+admin-web/tests/core/legacy-payee-create.test.tsx,core,Test or fixture,Retained,8056
+admin-web/tests/core/legacy-person-access-backend-check.mjs,core,Test or fixture,Retained,6626
+admin-web/tests/core/legacy-person-access-page.test.tsx,core,Test or fixture,Retained,10946
+admin-web/tests/core/legacy-person-access.test.ts,core,Test or fixture,Retained,10588
+admin-web/tests/core/legacy-user-create-page.test.tsx,core,Test or fixture,Retained,8784
+admin-web/tests/core/legacy-user-create.test.ts,core,Test or fixture,Retained,11158
+admin-web/tests/core/legacy-user-edit-page.test.tsx,core,Test or fixture,Retained,7383
+admin-web/tests/core/legacy-user-edit.test.ts,core,Test or fixture,Retained,11436
+admin-web/tests/core/legacy-user-status-backend-check.mjs,core,Test or fixture,Retained,6135
+admin-web/tests/core/legacy-user-status.test.tsx,core,Test or fixture,Retained,12452
+admin-web/tests/core/membership-create.test.tsx,core,Test or fixture,Retained,8029
+admin-web/tests/core/membership-edit.test.tsx,core,Test or fixture,Retained,8683
+admin-web/tests/core/pages.test.tsx,core,Test or fixture,Retained,24291
+admin-web/tests/core/payee-edit.test.tsx,core,Test or fixture,Retained,6712
+admin-web/tests/core/payment-reference.test.tsx,core,Test or fixture,Retained,12109
+admin-web/tests/core/pending-attempt.test.ts,core,Test or fixture,Retained,7565
+admin-web/tests/core/reconciliation-actions.test.ts,core,Test or fixture,Retained,15239
+admin-web/tests/core/reconciliation-ui.test.tsx,core,Test or fixture,Retained,8345
+admin-web/tests/core/transaction-evidence.test.tsx,core,Test or fixture,Retained,15898
+admin-web/tests/core/transaction-reverse.test.tsx,core,Test or fixture,Retained,10634
+admin-web/tests/core/user-create.test.tsx,core,Test or fixture,Modified,9268
+admin-web/tests/core/user-edit.test.tsx,core,Test or fixture,Retained,11822
+admin-web/tests/foundation/setup.ts,foundation,Test or fixture,Retained,150
+admin-web/tests/foundation/shell.test.tsx,foundation,Test or fixture,Retained,5495
+admin-web/tests/ledger-accounts/actions.test.ts,ledger-accounts,Test or fixture,Retained,10474
+admin-web/tests/ledger-accounts/pages.test.tsx,ledger-accounts,Test or fixture,Modified,11217
+admin-web/tests/legacy-ledger-accounts/actions.test.ts,legacy-ledger-accounts,Test or fixture,Retained,11637
+admin-web/tests/legacy-ledger-accounts/page.test.tsx,legacy-ledger-accounts,Test or fixture,Retained,8093
+admin-web/tests/legacy-payees/actions.test.ts,legacy-payees,Test or fixture,Retained,12287
+admin-web/tests/legacy-payees/fixture.ts,legacy-payees,Test or fixture,Retained,3570
+admin-web/tests/legacy-payees/ui.test.tsx,legacy-payees,Test or fixture,Retained,6169
+admin-web/tests/legacy-transactions/actions.test.tsx,legacy-transactions,Test or fixture,Retained,24387
+admin-web/tests/legacy-transactions/create-source.test.tsx,legacy-transactions,Test or fixture,Retained,16793
+admin-web/tests/legacy-transactions/create.test.tsx,legacy-transactions,Test or fixture,Retained,20492
+admin-web/tests/licenses/LicensesPage.test.tsx,licenses,Test or fixture,Retained,867
+admin-web/tests/native/run-receiver-instrumentation.py,native,Test or fixture,Retained,1959
+admin-web/tests/notes/OperatorNotes.test.tsx,notes,Test or fixture,Retained,4564
+admin-web/tests/notes/noteActions.test.ts,notes,Test or fixture,Retained,3695
+admin-web/tests/operations/contracts.test.ts,operations,Test or fixture,Retained,8666
+admin-web/tests/operations/crossTab.test.ts,operations,Test or fixture,Modified,16582
+admin-web/tests/operations/emailActions.test.ts,operations,Test or fixture,Retained,4846
+admin-web/tests/operations/emailPanel.test.tsx,operations,Test or fixture,Retained,5012
+admin-web/tests/operations/gatewayActivation.test.ts,operations,Test or fixture,Modified,8235
+admin-web/tests/operations/gatewayActivationPanel.test.tsx,operations,Test or fixture,Retained,6652
+admin-web/tests/operations/gatewayEnrollment.test.ts,operations,Test or fixture,Retained,11333
+admin-web/tests/operations/gatewayEnrollmentPage.test.tsx,operations,Test or fixture,Retained,7811
+admin-web/tests/operations/gatewayRecoveryLink.test.tsx,operations,Test or fixture,Retained,2329
+admin-web/tests/operations/gatewayRevocation.test.ts,operations,Test or fixture,Modified,10438
+admin-web/tests/operations/gatewayRevocationPanel.test.tsx,operations,Test or fixture,Retained,7425
+admin-web/tests/operations/memberReceiptReveal.test.ts,operations,Test or fixture,Retained,5032
+admin-web/tests/operations/memberReceiptRevealPanel.test.tsx,operations,Test or fixture,Retained,3832
+admin-web/tests/operations/momo.test.tsx,operations,Test or fixture,Retained,17466
+admin-web/tests/operations/momoAssignment.test.ts,operations,Test or fixture,Retained,14391
+admin-web/tests/operations/momoAssignmentPanel.test.tsx,operations,Test or fixture,Retained,11715
+admin-web/tests/operations/momoConflict.test.ts,operations,Test or fixture,Retained,12604
+admin-web/tests/operations/momoConflictPanel.test.tsx,operations,Test or fixture,Retained,9548
+admin-web/tests/operations/momoSourceActions.test.ts,operations,Test or fixture,Retained,13917
+admin-web/tests/operations/momoSourceActionsPanel.test.tsx,operations,Test or fixture,Retained,13863
+admin-web/tests/operations/momoSourcePage.test.tsx,operations,Test or fixture,Retained,4168
+admin-web/tests/operations/momoSourceReveal.test.ts,operations,Test or fixture,Retained,6421
+admin-web/tests/operations/momoSourceRevealPanel.test.tsx,operations,Test or fixture,Retained,7046
+admin-web/tests/operations/pages.test.tsx,operations,Test or fixture,Retained,17020
+admin-web/tests/operations/receiverGrantActions.test.ts,operations,Test or fixture,Retained,9535
+admin-web/tests/operations/receiverGrantCreation.test.tsx,operations,Test or fixture,Retained,18072
+admin-web/tests/operations/receiverGrantPanel.test.tsx,operations,Test or fixture,Retained,5484
+admin-web/tests/operations/smsActions.test.ts,operations,Test or fixture,Retained,7361
+admin-web/tests/operations/smsPanel.test.tsx,operations,Test or fixture,Retained,5404
+admin-web/tests/overview/SmsOversight.test.tsx,overview,Test or fixture,Modified,3402
+admin-web/tests/overview/overview.test.ts,overview,Test or fixture,Retained,2428
+admin-web/tests/privacy/PrivacyPage.test.tsx,privacy,Test or fixture,Retained,11294
+admin-web/tests/privacy/contracts.test.ts,privacy,Test or fixture,Retained,5561
+admin-web/tests/privacy/journal.test.ts,privacy,Test or fixture,Modified,3803
+admin-web/tests/pwa/package-pwa.test.mjs,pwa,Test or fixture,Modified,7362
+admin-web/tests/receipt-review/panel.test.tsx,receipt-review,Test or fixture,Retained,11442
+admin-web/tests/receipt-review/review.test.ts,receipt-review,Test or fixture,Retained,12469
+admin-web/tests/reconciliation/legacy-actions.test.ts,reconciliation,Test or fixture,Retained,16564
+admin-web/tests/reconciliation/legacy-fixture.ts,reconciliation,Test or fixture,Retained,6133
+admin-web/tests/reconciliation/legacy-ui.test.tsx,reconciliation,Test or fixture,Retained,5808
+admin-web/tests/requests/RequestHistoryPage.test.tsx,requests,Test or fixture,Retained,3215
+admin-web/tests/requests/cancellation-ui.test.tsx,requests,Test or fixture,Retained,6765
+admin-web/tests/requests/cancellation.test.ts,requests,Test or fixture,Retained,11677
+admin-web/tests/requests/requests.test.ts,requests,Test or fixture,Retained,3267
+admin-web/tests/route-compat/GroupSelectionPage.test.tsx,route-compat,Test or fixture,Retained,4253
+admin-web/tests/session/assisted-gateway.test.ts,session,Test or fixture,Modified,18154
+admin-web/tests/session/assisted-operator-ui.test.tsx,session,Test or fixture,Retained,12827
+admin-web/tests/session/assisted-operator.test.ts,session,Test or fixture,Modified,19475
+admin-web/tests/session/assisted.test.tsx,session,Test or fixture,Modified,5278
+admin-web/tests/session/captcha.test.ts,session,Test or fixture,Retained,2224
+admin-web/tests/session/client.test.ts,session,Test or fixture,Retained,9356
+admin-web/tests/session/cloudflare-team-mutations.test.ts,session,Test or fixture,Retained,10410
+admin-web/tests/session/cloudflare-team-ui.test.tsx,session,Test or fixture,Retained,5352
+admin-web/tests/session/custody-realm.test.ts,session,Test or fixture,Retained,2568
+admin-web/tests/session/google-policy.test.ts,session,Test or fixture,Retained,5490
+admin-web/tests/session/google.test.ts,session,Test or fixture,Retained,4285
+admin-web/tests/session/invitation-recovery.test.ts,session,Test or fixture,Retained,3770
+admin-web/tests/session/login-ui.test.tsx,session,Test or fixture,Retained,5078
+admin-web/tests/session/logout-intent.test.ts,session,Test or fixture,Retained,8375
+admin-web/tests/session/managed-mfa-blocked.test.tsx,session,Test or fixture,Retained,4925
+admin-web/tests/session/managed-mfa-controller.test.ts,session,Test or fixture,Retained,27233
+admin-web/tests/session/managed-mfa-ui.test.tsx,session,Test or fixture,Retained,6302
+admin-web/tests/session/mfa-authority.test.ts,session,Test or fixture,Retained,3214
+admin-web/tests/session/mfa-recovery.test.ts,session,Test or fixture,Retained,2501
+admin-web/tests/session/owner-identity.test.ts,session,Test or fixture,Retained,5537
+admin-web/tests/session/security-ui.test.tsx,session,Test or fixture,Retained,6997
+admin-web/tests/session/sensitive-deadline.test.ts,session,Test or fixture,Retained,2256
+admin-web/tests/session/session.test.ts,session,Test or fixture,Modified,36536
+admin-web/tests/session/sms-access-mutation.test.ts,session,Test or fixture,Retained,8853
+admin-web/tests/session/sms-controls.test.tsx,session,Test or fixture,Retained,27425
+admin-web/tests/session/sms-materialization-status.test.tsx,session,Test or fixture,Retained,8706
+admin-web/tests/session/sms-policy-mutation.test.ts,session,Test or fixture,Retained,14286
+admin-web/tests/session/team-mutations.test.ts,session,Test or fixture,Retained,14889
+admin-web/tests/session/team-ui.test.tsx,session,Test or fixture,Retained,13233
+admin-web/tests/session/team.test.ts,session,Test or fixture,Retained,4038
+admin-web/tsconfig.json,Build and packaging,Package input or documentation,Retained,507
+admin-web/vite.config.ts,Build and packaging,Package input or documentation,Retained,870

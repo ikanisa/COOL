@@ -1,0 +1,19 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "action": "policy",
+  "enabled": true,
+  "audit_id": "08788677-906d-4726-902f-6d522eb7b89e",
+  "language": "en",
+  "request_id": "6508469a-6e00-4fc9-88c7-a0f9d0ebf67c",
+  "recorded_at": "2026-10-03T06:52:25.258162Z",
+  "collection_id": "99780000-0000-4000-8000-000000030001",
+  "notice_family": "reversal_notice",
+  "approval_basis": "actual_current_owner_policy_action",
+  "send_authority": false,
+  "policy_revision": 2,
+  "template_sha256": "6f1b50442f215986e13f16da54c4ea93c7e318d0b1a72b054252abf3490a2a39",
+  "contract_version": 1,
+  "financial_action": false,
+  "semantic_version": 1,
+  "notice_transport_available": false
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "provider": "OpenSMS",
+  "provider_api_version": "0.3.0",
+  "supabase_auth_version_checked": "v2.197.0",
+  "supabase_destination_field": "sms.phone",
+  "supabase_legacy_payload_without_sms_phone": "Rejected with HTTP 400; user.phone and user.phone_change are never used as fallbacks",
+  "supabase_source_urls": [
+    "https://github.com/supabase/auth/blob/v2.197.0/internal/api/phone.go",
+    "https://github.com/supabase/auth/blob/v2.197.0/internal/hooks/v0hooks/v0hooks.go"
+  ],
+  "inspected_at": "2026-10-31",
+  "source_folder": "https://drive.google.com/drive/folders/1ij3DGCeAD055bLC5g49AgLWs_MlSAO3B",
+  "api_document": "https://drive.google.com/file/d/1yBGh-giqTEdxyHTgZeQ_waL_HI6063lM/view",
+  "source_archive": "https://drive.google.com/file/d/1j5Xg6iMIYilauzBkIaFCIUc9v07UnInn/view",
+  "source_archive_sha256": "fbb65c024d8b1c1340245ea0014d525f7b1e2009910598e34de56c2ca0eb4909",
+  "source_files_sha256": {
+    "collect-sms/apps/worker/src/messages.ts": "6bfb62e028d57fe19930c27a9b117acc5f30f0f9cbee87464647595718f3d237",
+    "collect-sms/apps/worker/src/util.ts": "1cbd51d86071aa9cd0abee3bd1708ab353dd72c00b10661544ddaf993aa5e5ee",
+    "collect-sms/apps/worker/src/index.ts": "1f1e4e876f1964102922972ca76e88eb3e6ae5ad4fe2ca038b3a6ecb32a82c24",
+    "collect-sms/apps/worker/src/auth.ts": "dfd3035fe0cc70b5361774d8a0d7ab1829ba2ebece5d978a1d15e3f60a8a911d"
+  },
+  "required_application_scopes": ["messages:read", "messages:write"],
+  "required_allowed_kinds": ["otp"],
+  "credential": "Application-scoped Bearer token; never a root/operator/device credential",
+  "submit": {
+    "method": "POST",
+    "path": "/v1/messages",
+    "headers": ["Authorization", "Content-Type: application/json", "Idempotency-Key"],
+    "required_body_fields": ["kind", "to", "text", "not_after"],
+    "adapter_body_fields": ["message_id", "kind", "to", "text", "not_after", "priority", "metadata"],
+    "success_status": 202,
+    "success_fields": ["message_id", "state"],
+    "meaning": "Durably accepted for dispatch; not a carrier-delivery receipt"
+  },
+  "inspect": {
+    "method": "GET",
+    "path": "/v1/messages/{message_id}",
+    "success_status": 200,
+    "message_container": "message",
+    "missing_status": 404,
+    "otp_text_and_metadata_masked": true,
+    "content_verification": "Recompute the existing v0.3 payload_digest from the signed OTP and returned immutable job fields"
+  },
+  "otp_authority": "Supabase Auth",
+  "opensms_managed_challenge_endpoint_used": false,
+  "live_api_endpoint_known": false,
+  "live_sms_sent": false
+}

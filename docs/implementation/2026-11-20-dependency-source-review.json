@@ -1,0 +1,52 @@
+{
+  "source_verification": "2026-11-20",
+  "active_member_delivery": {
+    "package": "addressable",
+    "before": "2.9.0",
+    "after": "2.9.2",
+    "gem_sha256": "9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610",
+    "registry": "https://rubygems.org/gems/addressable/versions/2.9.2",
+    "public_default_commit": "eb35a29ea3075898204a1bf5b3f84306fb10e2ba",
+    "upstream_lock_sha256": "77dfacc60e14a2a8f026257ce5d04b29b097b0dcb14f8f0e534a6e2761fff843",
+    "runtime_dependency_requirements": [
+      {
+        "name": "public_suffix",
+        "requirements": ">= 2.0.2, < 8.0"
+      }
+    ]
+  },
+  "retained_cloudflare_api_tooling": {
+    "package": "undici",
+    "before": "7.29.1",
+    "after": "7.30.1",
+    "scope": "development transitive dependency of Miniflare",
+    "changed_lockfile_packages": [
+      "node_modules/undici"
+    ],
+    "npm_verified_resolution": true,
+    "integrity": "sha512-03KrMbjIFDWQR5RNPrSw3bd1r12JpyFQl9/yxjUbJtqkjmllqC5lFjZh6ujeuJCKr8EOQvRW872Oy/az+nLYxg==",
+    "matches_react_admin_transport_lock": true,
+    "open_advisory_ids_at_start": [
+      "GHSA-4w7w-5xrc-9h26",
+      "GHSA-2m5v-pch6-74hx",
+      "GHSA-qrxm-fqhp-jwvm",
+      "GHSA-9fm3-97px-rjf6",
+      "GHSA-xjj6-f33q-929c"
+    ],
+    "normal_inventory_check": "The historical gate requires the original MoMo15 Wrangler config at SHA-256 5db2b2c14b7b3e4fe48f1b56c863b1a7557e20d917732aef1ff631e232a80224. The maintained file hashes to 1d93593991abdd93d3369d00396ddff895a8d08ca86928ff7c565b7c81244678. The same failure occurred with the predecessor dependency. The dependency resolver checks passed.",
+    "four_high_advisories_reported": true
+  },
+  "historical_ruby_packet": {
+    "unit": "docs/release/critical-implementation-2026-10-01/ruby-dependency-batch1",
+    "public_default_alerts_at_start": 6,
+    "tree": "26b775561dc2cd4268fc5826a83e549196b5f9f7",
+    "historical_lock_preserved": true
+  },
+  "hosted_alert_closed_verified": false,
+  "ruby_resolver_checks": {
+    "active_lockfile_modified_lines": 2,
+    "all_dependent_addressable_requirements_satisfied": true,
+    "locked_public_suffix_satisfies_registry_requirements": true,
+    "registry_version_has_same_runtime_constraints_as_predecessor": true
+  }
+}

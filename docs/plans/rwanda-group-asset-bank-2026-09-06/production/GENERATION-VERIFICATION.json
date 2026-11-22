@@ -1,0 +1,551 @@
+{
+  "checked_at_utc": "2026-09-06T11:48:51.388558+00:00",
+  "scope": "Generated original files and local review gallery; no native or production acceptance",
+  "selected_originals": 40,
+  "unique_hashes": 40,
+  "generator_calls": 42,
+  "rejected_candidates": 2,
+  "source_total_bytes": 90621346,
+  "catalogue": {
+    "valid": true,
+    "concepts": 40,
+    "families": {
+      "savings_livelihoods": 8,
+      "weddings": 6,
+      "faith_giving": 6,
+      "family_solidarity": 6,
+      "education": 4,
+      "community_projects": 4,
+      "sport_culture": 4,
+      "diaspora": 2
+    },
+    "source_pngs_saved": 40,
+    "runtime_ready": 0,
+    "scope": "Asset bank preparation; not mobile acceptance"
+  },
+  "matching_http_image_responses": 40,
+  "python_syntax": "pass",
+  "browser_checks": {
+    "wedding_type": {
+      "count": 7,
+      "includes_diaspora_family": true
+    },
+    "church_default": {
+      "count": 4,
+      "ids": [
+        15,
+        16,
+        17,
+        20
+      ]
+    },
+    "wedding_search_gusaba": {
+      "count": 1,
+      "ids": [
+        10
+      ]
+    },
+    "empty_search_and_clear": "pass",
+    "faith_family_muslim_context": {
+      "count": 3,
+      "ids": [
+        18,
+        19,
+        20
+      ]
+    },
+    "faith_family_neutral_context": {
+      "count": 1,
+      "ids": [
+        20
+      ]
+    },
+    "original_dialog_open_close_and_focus_return": "pass",
+    "all_four_crop_controls": "exercised; spot review only"
+  },
+  "visual_review": "All 40 generated originals received initial scene inspection; native crop, cultural and language reviews pending. Known wide crop limitation for concept 13.",
+  "runtime_derivatives": 0,
+  "runtime_integration": false,
+  "assets": [
+    {
+      "asset_id": "rw-01-neighbourhood-ikimina",
+      "sha256": "3b5ffed81d4f95a9946323554e415618d89dd895cef972c0e834498613310e53",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2333809
+    },
+    {
+      "asset_id": "rw-02-women-savings-circle",
+      "sha256": "26f5ab2ef664a526a94f38d2f3e379f1d414f10d90da547e742f75bf52fe204d",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2611189
+    },
+    {
+      "asset_id": "rw-03-young-professionals-goal",
+      "sha256": "a6c20290602c8d054cf2175d6831e90e95c2402addbb6e2c85dee462e8e649fd",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2066976
+    },
+    {
+      "asset_id": "rw-04-market-traders-stock",
+      "sha256": "b9e9557dc9e341c09120f82a63d553496c89823331761cc1f8768446fbb96327",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2563096
+    },
+    {
+      "asset_id": "rw-05-moto-riders-shared-goal",
+      "sha256": "b597cf3ee63e57bad4b69fa8ed774e106f356aecf1ece19ea725d49bdbbcd5b4",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2350576
+    },
+    {
+      "asset_id": "rw-06-farmers-season-inputs",
+      "sha256": "944e8fdbc13cefa70f819353b2dc28e97d5c821b8fa44f45a37a103d89d64a19",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2413077
+    },
+    {
+      "asset_id": "rw-07-family-home-goal",
+      "sha256": "df52e7bf64e88558bcfbf1e27c76c13d433e059fe65d6fea37e2e7cd7f49482d",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2251480
+    },
+    {
+      "asset_id": "rw-08-craft-cooperative-tools",
+      "sha256": "ba8d3bc39c024dc4cb2295e42a7faaf75e74b85fb28ea11e8e313943e6d9fe17",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2032733
+    },
+    {
+      "asset_id": "rw-09-wedding-committee",
+      "sha256": "a8c2561881794daa8bbecac34277bb6920ecd8296bd4c2aae6a55fbc23214fb2",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2714871
+    },
+    {
+      "asset_id": "rw-10-gusaba-gukwa-gathering",
+      "sha256": "f7db1e6b5728ce9fe314210dd487425a5ff47830bf3287f4da2dc1bf4752697f",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2454794
+    },
+    {
+      "asset_id": "rw-11-wedding-attire-preparation",
+      "sha256": "7672cb001ef02e403c8da1d5ee8720e0e3304b99e5191a1cc95178f7aef2743e",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2140856
+    },
+    {
+      "asset_id": "rw-12-wedding-reception-table",
+      "sha256": "c09ecffb62e7dad2477c59741614d89438b6e5c623a30cec19b9bf490c0f5a6e",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2367361
+    },
+    {
+      "asset_id": "rw-13-new-home-wedding-gift",
+      "sha256": "e95a29a7f7c22152772ce1a2fdf742f490832006314f767ca3188327737d6544",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2032022
+    },
+    {
+      "asset_id": "rw-14-wedding-day-family",
+      "sha256": "60f40dac9c130a8276d29de9593c5691afd29aefed4d6e10dac6da8ebc1f7ce4",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2580289
+    },
+    {
+      "asset_id": "rw-15-church-community-offering",
+      "sha256": "359023dd4521f2916d3b8f4b6c161e18def03fe370c643eb91c344258d06d348",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2130418
+    },
+    {
+      "asset_id": "rw-16-church-building-project",
+      "sha256": "b95eb3bc3cd2f5f6b192223ab109bf1329ae46b5f4c3fedbe051419080a1f8a2",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2501000
+    },
+    {
+      "asset_id": "rw-17-choir-shared-equipment",
+      "sha256": "ecb97fe567faec342cbb9c5bd9a2bb05508f79a67077645fff026541c2e03a15",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 1991871
+    },
+    {
+      "asset_id": "rw-18-muslim-community-giving",
+      "sha256": "054d0afeb2f93cf00406c095eab5d42fff0bb2e14496c3f82d563e20c1807450",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2185566
+    },
+    {
+      "asset_id": "rw-19-ramadan-community-meal",
+      "sha256": "f31a33a8b93ea514a55a99af3ef97aeb7557dd18673b7dc991a4a420bf9ae759",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2117213
+    },
+    {
+      "asset_id": "rw-20-community-giving-parcels",
+      "sha256": "3850d6c40dbd823834967913d1c8add363cefb40ab48b370fbed8677e544f83e",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2152537
+    },
+    {
+      "asset_id": "rw-21-bereavement-support",
+      "sha256": "cc961295152da174c785d695220d24879e2155e34f761a205997568b8ae4f597",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 1912704
+    },
+    {
+      "asset_id": "rw-22-medical-care-support",
+      "sha256": "2d95c4273bead2c109c047f7711fed1af3bce9ed46a39b56fb982d6ab317d32d",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2262915
+    },
+    {
+      "asset_id": "rw-23-health-cover-contribution",
+      "sha256": "424d197df5effd659dbf450b833c4bac19fbb05be505bb2a1cd8f005f333cc08",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2026748
+    },
+    {
+      "asset_id": "rw-24-neighbours-recovery-support",
+      "sha256": "42d89a77f68215e468e8ea4702c3c6a48f71d2087cb6dc8eb2cf46dd4bac56d4",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2396159
+    },
+    {
+      "asset_id": "rw-25-family-everyday-support",
+      "sha256": "bf2fdb281b62c32d80d2d5afb5f8966adecb3303b5b24aa4b5712b7be6b5b03c",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 1991370
+    },
+    {
+      "asset_id": "rw-26-welcoming-new-baby",
+      "sha256": "38db7f8f6a2ebaf70b5e435d0827c07bc8a8c1c8e61621ef95c68394007373cf",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 1969347
+    },
+    {
+      "asset_id": "rw-27-school-supplies",
+      "sha256": "044e3c98ed6eb28a563f94336f6752f7ab8ca229df2358e4600cf13fea2e6178",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2216900
+    },
+    {
+      "asset_id": "rw-28-school-meal-support",
+      "sha256": "24cda7b8aeb34d46c90b6d8773024d38c2dbfae933cbccfaf3ee91160dc6dddb",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2193700
+    },
+    {
+      "asset_id": "rw-29-higher-study-support",
+      "sha256": "c0ae00edca3948dd9b7f8b1de30e0a83aecd887aff0ccaf3b38ae6dddbca8ed3",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2073690
+    },
+    {
+      "asset_id": "rw-30-youth-skills-training",
+      "sha256": "40118eccb02864e4016b93385bdbf5207bb75b7912fb9cdb2f65bccc8cfa2f97",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2167810
+    },
+    {
+      "asset_id": "rw-31-umuganda-project-tools",
+      "sha256": "fe091f4736e13b14ab868e884520a9585d04e0abde3b3d4266ae62e518e84c92",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2551193
+    },
+    {
+      "asset_id": "rw-32-shared-water-point",
+      "sha256": "0b2103f200a5f8a51a2d1efc329a904be20b4eb954aab1b1a954186198ecd8cc",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2733099
+    },
+    {
+      "asset_id": "rw-33-community-hall-improvement",
+      "sha256": "e5a085ccdfd5ad85acd15cd33187180d51c52131f5f03bad2edc66626c96652a",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2398443
+    },
+    {
+      "asset_id": "rw-34-tree-planting-neighbours",
+      "sha256": "b372d9786c620198ad2ceac1fe2cc7232a3d13c32affa22744d69ca822696707",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2714009
+    },
+    {
+      "asset_id": "rw-35-football-fan-community",
+      "sha256": "913fb68d679553b8f90c83df8d6969934ca19e0c2e6d31f2bd219ab4d44ab3c7",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2126780
+    },
+    {
+      "asset_id": "rw-36-local-team-equipment",
+      "sha256": "d73c382c94d5bf441e6bb1cbefe8a009a40a26e23aedaa07c6455a7ccdbc4b31",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2260399
+    },
+    {
+      "asset_id": "rw-37-away-match-travel",
+      "sha256": "7cac7d730701f186a8a7d6e560fb1b5027438213e6b413508e36c5e48eaf6de4",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2317690
+    },
+    {
+      "asset_id": "rw-38-cultural-troupe-rehearsal",
+      "sha256": "a5f9d0060a169b2e900a1efba5ee0e274229ebdaec8f4688eb1cad532b4700e5",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2106350
+    },
+    {
+      "asset_id": "rw-39-diaspora-family-connection",
+      "sha256": "447862ee61913ca43f713edb0d6e2577a58e01619e47863e761ca4fecba78960",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2012507
+    },
+    {
+      "asset_id": "rw-40-diaspora-community-project",
+      "sha256": "26d5d4107394c642b2f8d3f6a6a1750dbe76fdb3dc4a436a5d53d0e2cbfa391a",
+      "png_crc_and_stream": "pass",
+      "original_byte_match": "pass",
+      "prompt_hash_match": "pass",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2197799
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "scope": "rw_receipt_notice_content",
+  "candidate": {
+    "enabled": true,
+    "template": {
+      "family": "duplicate_copy",
+      "language": "rw",
+      "body_frame": "Kopi yinyemezabwishyu ya Collect %s yanditswe %s. Amafaranga yanditswe: %s RWF. Ubwizigame bwawe bwanditswe icyo gihe: %s RWF. Ref: %s. Iyi ni kopi yibyanditswe icyo gihe.",
+      "consent_rule": "current_receipt_consent_required_no_override",
+      "template_key": "collect.notice.duplicate_copy",
+      "recipient_rule": "same_original_member",
+      "disclosure_rule": "original_recorded_receipt_facts_only",
+      "template_sha256": "0f3c848ad2e1457e8f35fb6dd93e40bc04306878d9dacbb71612db2b839f07ef",
+      "semantic_version": 1
+    },
+    "collection_id": "99780000-0000-4000-8000-000000030001",
+    "notice_family": "duplicate_copy",
+    "approval_basis": "actual_current_owner_policy_action",
+    "current_policy": null,
+    "recipient_rule": "same_original_member",
+    "send_authority": false,
+    "consent_override": false,
+    "financial_mutation": false,
+    "current_policy_status": "unapproved",
+    "expected_policy_revision": 0,
+    "notice_transport_available": false
+  },
+  "checked_at": "2026-10-03T06:52:21.261168Z",
+  "candidate_sha256": "5b4283579854ea700c84256df4e445ef658b32c524c426aa7e2b333e8482bf01",
+  "contract_version": 1,
+  "sample_valid_until": "2026-10-03T06:53:21.265235Z"
+}

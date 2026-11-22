@@ -1,0 +1,30 @@
+{
+  "asset_id": "rw-28-school-meal-support",
+  "status": "generated_candidate",
+  "source": "assets/group_covers/rwanda/source/rw-28-school-meal-support-v1.png",
+  "source_sha256": "24cda7b8aeb34d46c90b6d8773024d38c2dbfae933cbccfaf3ee91160dc6dddb",
+  "source_dimensions": {
+    "width": 1086,
+    "height": 1448
+  },
+  "source_format": "png",
+  "prompt_sha256": "a1941cc182e4855fe61af9fca0c12619998b3d9b8d4b381e040ae6e14faf7a09",
+  "imported_at_utc": "2026-09-06T11:22:22.029805+00:00",
+  "generator": "Built-in image_gen.imagegen, observed tool result in this task",
+  "operation": "Byte-for-byte copy; no pixel edits",
+  "reviews": {
+    "cultural": "pending",
+    "visual_and_crops": "pending",
+    "accessibility": "pending",
+    "localization": "pending",
+    "runtime_save_and_reload": "pending"
+  },
+  "runtime_ready": false,
+  "derivatives": [],
+  "returned_original": "/Users/jeanbosco/.codex/generated_images/01a07637-928f-7a00-8af2-cfad0bc49d0d/exec-95428f80-8242-444d-9979-0a7964ebc7ab.png",
+  "provenance_verified": "Original and project copy are byte-identical; prompt digest matches the exact selected generation job.",
+  "agent_visual_review": {
+    "status": "initial_scene_review_complete",
+    "scope": "Generated original inspected in tool output for broad scene fit and obvious defects; local cultural, language and final native crop reviews remain pending."
+  }
+}

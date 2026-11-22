@@ -1,0 +1,105 @@
+{
+  "contract": "collect.roster.native-probe.dependencies.v1",
+  "production_dependency_admission": false,
+  "packages": [
+    {
+      "name": "@imagemagick/magick-wasm",
+      "version": "0.0.45",
+      "purpose": "image_probe",
+      "tarball_url": "https://registry.npmjs.org/@imagemagick/magick-wasm/-/magick-wasm-0.0.45.tgz",
+      "sha256": "9e34a0ed83455f3bafd9ac764bc0d84e7c8c1ccb746a272517bce5dc0a15e5b2",
+      "integrity": "sha512-ef8FHka4xLWo5/tGTV6P45bPjTvnKZz/oHN6sCDTbY8zaCdM2MeaoQHLsy9IHuiVHQhomG3TQ6ErgTnEDyuzvw==",
+      "bytes": 11260414,
+      "repository": {
+        "url": "git+https://github.com/dlemstra/magick-wasm.git",
+        "type": "git"
+      },
+      "declared_dependencies": {},
+      "signature_verification_performed": false,
+      "provenance_attestation_verification_performed": false
+    },
+    {
+      "name": "@hyzyla/pdfium",
+      "version": "3.0.0",
+      "purpose": "pdf_render_probe",
+      "tarball_url": "https://registry.npmjs.org/@hyzyla/pdfium/-/pdfium-3.0.0.tgz",
+      "sha256": "35ae2bd7aeb538927cb55de82bd8b9c2f629a2e6b2ca3960c6145c4f1024e857",
+      "integrity": "sha512-Hw7/Pc/y2f8ZYVNXxAvDiLAV0qJT4+e5HMwbMghra/s2RKXuuWYdR/8ohoD4YwQfTL5UzSNlTtP1LJHip7LiEQ==",
+      "bytes": 5858038,
+      "repository": {
+        "url": "git+https://github.com/hyzyla/pdfium.git",
+        "type": "git"
+      },
+      "declared_dependencies": {},
+      "signature_verification_performed": false,
+      "provenance_attestation_verification_performed": false
+    },
+    {
+      "name": "@neslinesli93/qpdf-wasm",
+      "version": "0.3.0",
+      "purpose": "pdf_structure_probe",
+      "tarball_url": "https://registry.npmjs.org/@neslinesli93/qpdf-wasm/-/qpdf-wasm-0.3.0.tgz",
+      "sha256": "404eab5d57db5b277dbda87ed75fb3557feaa76bd648e08fb0326ea95261d72d",
+      "integrity": "sha512-ObyTmabopTMwN6AGwrEkmDbdmM5wnwlRdn9jnJYQ2KbBUPdPDcfNf1QkcWFOVD+qIgSqILz9nK51e22T+x+gkQ==",
+      "bytes": 468104,
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/neslinesli93/qpdf-wasm.git"
+      },
+      "declared_dependencies": {},
+      "signature_verification_performed": false,
+      "provenance_attestation_verification_performed": false
+    },
+    {
+      "name": "fast-png",
+      "version": "8.0.0",
+      "purpose": "source_review_only",
+      "tarball_url": "https://registry.npmjs.org/fast-png/-/fast-png-8.0.0.tgz",
+      "sha256": "dfdd8a277295bbd8a8e354a6e048c7d1c323ab5d1c620a0d462105617635c0fe",
+      "integrity": "sha512-gCysNasJ8KEMgfdYIKd/wTDo6ENK1PWT0RJO7O+0pgmuHPw2O6tA1WvdxFRJoLf9V8yFYpG0FA1YgI8X97OhJA==",
+      "bytes": 33675,
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/image-js/fast-png.git"
+      },
+      "declared_dependencies": {
+        "fflate": "^0.8.2",
+        "iobuffer": "^6.0.1"
+      },
+      "signature_verification_performed": false,
+      "provenance_attestation_verification_performed": false
+    },
+    {
+      "name": "iobuffer",
+      "version": "6.0.1",
+      "purpose": "source_review_dependency_only",
+      "tarball_url": "https://registry.npmjs.org/iobuffer/-/iobuffer-6.0.1.tgz",
+      "sha256": "5eb872abb0ab552a4a74a12228dd4c7a8ccc1799130cb3b9d2992635bae0d5ba",
+      "integrity": "sha512-SZWYkWNfjIXIBYSDpXDYIgshqtbOPsi4lviawAEceR1Kqk+sHDlcQjWrzNQsii80AyBY0q5c8HCTNjqo74ul+Q==",
+      "bytes": 12904,
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/image-js/iobuffer.git"
+      },
+      "declared_dependencies": {},
+      "signature_verification_performed": false,
+      "provenance_attestation_verification_performed": false
+    },
+    {
+      "name": "fflate",
+      "version": "0.8.3",
+      "purpose": "source_review_dependency_only",
+      "tarball_url": "https://registry.npmjs.org/fflate/-/fflate-0.8.3.tgz",
+      "sha256": "38c2cd824402407b43153c782274aec2ea83ea688e4aa0b743c5f2c305857d92",
+      "integrity": "sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA==",
+      "bytes": 173034,
+      "repository": {
+        "url": "git+https://github.com/101arrowz/fflate.git",
+        "type": "git"
+      },
+      "declared_dependencies": {},
+      "signature_verification_performed": false,
+      "provenance_attestation_verification_performed": false
+    }
+  ]
+}

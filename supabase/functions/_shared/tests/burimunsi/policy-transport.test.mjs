@@ -1,0 +1,50 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {authorize,authorizeEntity,admitGateway,matchExistingMember} from '../../domain/burimunsi/policy.js';
+import {CAPABILITIES,roleAllowsCapability,validOperatorCapabilities} from '../../domain/burimunsi/operator-access.mjs';
+import {parseReceipt} from '../../domain/burimunsi/receipt.js';
+import {acknowledgedIds,matchesCollectAcknowledgement} from '../../domain/burimunsi/acknowledgement.js';
+import {ScopedCursor} from '../../domain/burimunsi/cursor.js';
+import {sha256} from '../../domain/burimunsi/values.js';
+import {ledgerCsv} from '../../domain/burimunsi/csv.js';
+import {profile,source,fullSource,binding,actor,admin,policy,member,identity} from './fixtures.mjs';
+test('Staff and Admin keep their existing capability combinations in any order',()=>{
+  const staff=['records.read','members.enroll','payments.allocate'];
+  const all=[...staff,'staff.manage','sms.read','gateway.manage'];
+  assert.deepEqual(CAPABILITIES,all);
+  for(const role of ['staff','admin']){
+    const allowed=role==='staff'?staff:all;
+    for(const capability of all)assert.equal(roleAllowsCapability(role,capability),allowed.includes(capability));
+    for(let mask=0;mask<2**all.length;mask++){
+      const selected=all.filter((_,index)=>mask&(1<<index));
+      const expected=selected.includes('records.read') && selected.every(capability=>allowed.includes(capability));
+      assert.equal(validOperatorCapabilities(role,selected),expected);
+      assert.equal(validOperatorCapabilities(role,selected.toReversed()),expected);
+    }
+  }
+  for(const value of [[],['records.read','records.read'],['records.read',['members.enroll']]]) {
+    assert.equal(validOperatorCapabilities('admin',value),false);
+  }
+});
+for(const c of ['sms.read','gateway.manage','staff.manage'])test('staff denied '+c,()=>assert.throws(()=>authorize({...actor,capabilities:[...actor.capabilities,c]},'group-1',c,{binding}),/access_denied/));
+test('admin SMS requires registered installation, not role alone',()=>{assert.equal(authorize(admin,'group-1','sms.read',{binding}),admin);assert.throws(()=>authorize({...admin,installationId:'second'},'group-1','sms.read',{binding}),/gateway/);});
+test('cross-group and revoked actor denied',()=>{assert.throws(()=>authorize(actor,'group-2','records.read'),/access_denied/);assert.throws(()=>authorize({...actor,revoked:true},'group-1','records.read'),/session/);assert.throws(()=>authorize({...actor,expiresAt:1},'group-1','records.read'),/session/);});
+test('entity scope independent of request claims',()=>assert.throws(()=>authorizeEntity(actor,{groupId:'other'},'records.read'),/access_denied/));
+test('capabilities independent of role and each other',()=>{assert.throws(()=>authorize({...actor,capabilities:['records.read']},'group-1','payments.allocate'));assert.throws(()=>authorize({...actor,capabilities:['payments.allocate']},'group-1','members.enroll'));});
+const admission={bindingId:binding.id,bindingVersion:1,installationId:binding.installationId,receivingAccountId:binding.receivingAccountId,subscriptionId:4};
+test('ingress admits bound gateway without operator session',()=>assert.equal(admitGateway(binding,admission).groupId,'group-1'));
+for(const [k,v] of [['bindingId','wrong'],['bindingVersion',2],['installationId','other'],['receivingAccountId','other'],['subscriptionId',null]])test('ingress rejects tampered '+k,()=>assert.throws(()=>admitGateway(binding,{...admission,[k]:v})));
+test('masked suffix and name never allocate',()=>assert.deepEqual(matchExistingMember({...parseReceipt(source,profile),groupId:'group-1'},[member],[identity],policy),{kind:'unallocated',reason:'masked_identity'}));
+test('unique verified full identity matches',()=>assert.equal(matchExistingMember({...parseReceipt(fullSource,profile),groupId:'group-1'},[member],[identity],policy).memberId,member.id));
+for(const [name,identityChange] of [['unverified',{status:'candidate'}],['client asserted',{authority:'client'}],['third party',{purpose:'third_party'}],['expired',{validUntil:'2026-10-08T13:15:20.000Z'}],['not yet valid',{validFrom:'2027-01-01T00:00:00Z'}],['wrong scope',{groupId:'other'}]])test('identity rejected: '+name,()=>assert.equal(matchExistingMember({...parseReceipt(fullSource,profile),groupId:'group-1'},[member],[{...identity,...identityChange}],policy).kind,'unallocated'));
+test('duplicate suffix/full identity candidates remain unallocated',()=>{const m2={...member,id:'m2'};assert.equal(matchExistingMember({...parseReceipt(fullSource,profile),groupId:'group-1'},[member,m2],[identity,{...identity,id:'i2',memberId:'m2'}],policy).reason,'ambiguous_identity');});
+test('inactive membership and unapproved policy denied',()=>{assert.equal(matchExistingMember({...parseReceipt(fullSource,profile),groupId:'group-1'},[{...member,active:false}],[identity],policy).kind,'unallocated');assert.equal(matchExistingMember({...parseReceipt(fullSource,profile),groupId:'group-1'},[member],[identity],{...policy,approvedVersion:null}).kind,'unallocated');});
+const pending=[{id:'c1',owner_user_id:'o1',raw_body:'retained-original-body',gateway_binding_id:'b1',gateway_binding_version:1}];
+const ack={ok:true,receipt:{contract_version:2,stored:true,owner_user_id:'o1',client_envelope_id:'c1',raw_sms_id:'retained-source',body_sha256:await sha256(pending[0].raw_body)}};
+test('only matching Collect v2 acknowledgement retires work',async()=>assert.deepEqual(await acknowledgedIds(pending,[ack]),['c1']));
+for(const response of [{status:200},{...ack,ok:false},{...ack,receipt:{...ack.receipt,stored:false}},{...ack,receipt:{...ack.receipt,body_sha256:'b'.repeat(64)}},{...ack,receipt:{...ack.receipt,owner_user_id:'other'}},{...ack,receipt:{...ack.receipt,contract_version:1}}])test('non-authoritative ACK preserves queue '+JSON.stringify(response).slice(0,70),async()=>assert.deepEqual(await acknowledgedIds(pending,[response]),[]));
+test('duplicate ACK identity rejects ambiguous batch',async()=>assert.deepEqual(await acknowledgedIds(pending,[ack,ack]),[]));
+test('partial ACK only retires matching work',async()=>assert.deepEqual(await acknowledgedIds([...pending,{...pending[0],id:'c2'}],[ack]),['c1']));
+test('HTML fallback and changed body cannot acknowledge',async()=>{assert.equal(await matchesCollectAcknowledgement(pending[0],'<html>OK</html>'),false);assert.equal(await matchesCollectAcknowledgement({...pending[0],raw_body:'other'},ack),false);});
+const scope={groupId:'g',actorId:'a',snapshot:'s1',filterHash:'f',sort:'newest'};
+test('cursor rejects tamper, expiry and other users/groups',async()=>{const c=new ScopedCursor(new Uint8Array(32).fill(9));const token=await c.create({...scope,after:{at:'2026-01-01',id:'x'},expiresAt:500});assert.deepEqual(await c.read(token,scope,100),{at:'2026-01-01',id:'x'});await assert.rejects(c.read(token,{...scope,groupId:'other'},100));await assert.rejects(c.read(token,{...scope,actorId:'other'},100));await assert.rejects(c.read(token,scope,500));await assert.rejects(c.read(token.slice(0,-5)+'abcde',scope,100));});
+test('CSV neutralizes spreadsheet formulas and preserves provider facts',()=>{const csv=ledgerCsv([{atRaw:'2026-10-08 15:15:20',ftId:'90000000001',payerNameRaw:' =HYPERLINK("x")',memberPhone:'+250780000816',amountRwf:10000}]);assert(csv.includes('"\' =HYPERLINK(""x"")"'));assert(csv.includes('"\'+250780000816"'));assert(csv.includes('"90000000001"'));assert(csv.endsWith('\r\n'));});

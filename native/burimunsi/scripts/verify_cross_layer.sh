@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Real controller + repository + DTO + journal. Only platform/storage/HTTP/JSON are doubles.
+set -euo pipefail
+HERE="$(cd "$(dirname "$0")/.." && pwd)"
+KOTLIN_HOME="${KOTLIN_HOME:-$(cd "$(dirname "$(command -v kotlinc)")/.." && pwd)}"
+COROUTINES="$KOTLIN_HOME/lib/kotlinx-coroutines-core-jvm.jar"
+test -f "$COROUTINES"
+TMP="$(mktemp -d)";trap 'rm -rf "$TMP"' EXIT
+SOURCES=(); while IFS= read -r -d '' source; do SOURCES+=("$source"); done < <(find "$HERE/core/src/main/kotlin" "$HERE/cross-layer-tests" -name '*.kt' -print0)
+for name in ComposeStub SnapshotStub LifecycleStub BuildConfigStub GatewayStub StorageStub AndroidPermissionStub AndroidManifestStub NetworkStub; do SOURCES+=("$HERE/viewmodel-tests/$name.kt");done
+for name in ContextStub JsonAdapter StorageStub; do SOURCES+=("$HERE/repository-tests/$name.kt");done
+source "$HERE/scripts/repository_sources.sh"
+source "$HERE/scripts/controller_sources.sh"
+SOURCES+=("${BURI_REPOSITORY_SOURCES[@]}" "${BURI_CONTROLLER_SOURCES[@]}"
+    "$HERE/app/src/main/kotlin/rw/ikanisa/burimunsi/MemberPhotoFiles.kt")
+kotlinc "${SOURCES[@]}" -cp "$COROUTINES" -include-runtime -d "$TMP/checks.jar"
+for receiver in false true; do
+    java -Dburimunsi.test.receiver="$receiver" -cp "$TMP/checks.jar:$COROUTINES" rw.ikanisa.burimunsi.crosslayertests.CommandViewChecksKt
+    java -Dburimunsi.test.receiver="$receiver" -cp "$TMP/checks.jar:$COROUTINES" rw.ikanisa.burimunsi.crosslayertests.SessionBootstrapChecksKt
+    java -Dburimunsi.test.receiver="$receiver" -cp "$TMP/checks.jar:$COROUTINES" rw.ikanisa.burimunsi.crosslayertests.MemberDocumentChecksKt
+done

@@ -1,0 +1,100 @@
+{
+  "format": "collect.public-product.default-branch.v1",
+  "verified_utc": "2026-11-20T13:18:08+00:00",
+  "repository": "https://github.com/ikanisa/COOL",
+  "branch": "main",
+  "commit": "87bcf0a2ded6f5676424ea9509b5f4cede28121c",
+  "tree": "8a5c7910f33980e83896ac16caf8e4138201ea33",
+  "tracked_files": 115677,
+  "retired_flutter_admin_entry_or_source_paths": [],
+  "confirmed_entrypoints": [
+    "admin-web/src/main.tsx",
+    "admin-web/src/session/sessionResponses.ts",
+    "deploy/platform-admin/src/index.js",
+    "deploy/platform-admin/wrangler.supabase.jsonc",
+    "deploy/platform-admin/wrangler.supabase-qa.jsonc",
+    "lib/main.dart",
+    "native/burimunsi/app/src/staff/AndroidManifest.xml",
+    "native/burimunsi/app/src/internal_receiver/AndroidManifest.xml"
+  ],
+  "pull_requests": [
+    {
+      "number": 71,
+      "url": "https://github.com/ikanisa/COOL/pull/71",
+      "title": "Consolidate Collect Admin in React on managed Supabase",
+      "head": "a5f8dcf6dd8c6b8d8f508b2d758a3b8550054d6b",
+      "merged": "2026-11-20T12:47:09Z",
+      "merge_commit": "d09e0564f8d40b4f2a9962709164cff826350d68"
+    },
+    {
+      "number": 79,
+      "url": "https://github.com/ikanisa/COOL/pull/79",
+      "title": "Remove the final Flutter Admin test fixtures",
+      "head": "adb44df9581ec72742151392806eeaaa6220c2cd",
+      "merged": "2026-11-20T12:56:36Z",
+      "merge_commit": "1bc5f36d2bee69630c2590223be5e024d8b2db9e"
+    },
+    {
+      "number": 80,
+      "url": "https://github.com/ikanisa/COOL/pull/80",
+      "title": "Extract React Admin session response decoding",
+      "head": "61e6fb3d61e5d1e44794612333a0bb99993c0f35",
+      "merged": "2026-11-20T12:59:20Z",
+      "merge_commit": "38823f905c3b88540b140717f6399d2c9567ab2a"
+    },
+    {
+      "number": 81,
+      "url": "https://github.com/ikanisa/COOL/pull/81",
+      "title": "Remove retired Flutter Admin assumptions from member captures",
+      "head": "05dd88a25085995eb0f751fd8a273440e5dfa7d9",
+      "merged": "2026-11-20T13:08:45Z",
+      "merge_commit": "b78616400a54efd15ea0828f5834c2146594b094"
+    },
+    {
+      "number": 82,
+      "url": "https://github.com/ikanisa/COOL/pull/82",
+      "title": "Scope member account, group, receipt SMS and payment reads",
+      "head": "7be6147a2bddf244b05aa9fcdefac3fe984ff541",
+      "merged": "2026-11-20T13:15:57Z",
+      "merge_commit": "87bcf0a2ded6f5676424ea9509b5f4cede28121c"
+    }
+  ],
+  "local_and_historical_evidence_sha256": {
+    "public-product-delivery-a5f8dcf6dd8c.json": "b1a6df0b97fde7dab7603356728780e1ad3a1d3189ec697aa8dd1ceb388ff1af",
+    "public-historical-sql-a5f8dcf6dd8c.json": "fe4fbc7d5f5f05571588626718271abf10df5ee2171534347f6c71557fdd3a4b",
+    "public-ci-classification-a5f8dcf6dd8c.json": "8cc2966677a817dc2c89aacd7369cb9c8ca355d875a83db58482e4524080417b",
+    "public-session-schema-61e6fb3d61e5.json": "574b92bf27756d1486405872a1ddb2f1dfdc82cc2cd86da6806b76fac8549b30",
+    "six-retired-fixture-hashes.json": "d80d0f5b1789894624f6d4c424c54fe03ea45e8ae7a3e77a9487e5cd9a836e68",
+    "private-retired-source.json": "871294696f109af6860bccf049708198d70fad56204d25f5044cc080a3f27b0a",
+    "pre-public-recorder.log": "9765538206c5584e1bcf43c371baf437b1629f99a6ee10f506724fe77e93a413"
+  },
+  "github_actions": {
+    "publication_pr": 71,
+    "failed_before_jobs_could_run_due_to_billing": 26,
+    "skipped": 37,
+    "default_branch_protected_at_observation": false,
+    "applicable_branch_rules": 0
+  },
+  "qualification": {
+    "core_react_tests": 973,
+    "original_member_source_full": 2645,
+    "new_member_authority_source_full": 2655,
+    "member_financial_successor_full": 2659,
+    "member_financial_successor_browser": 7,
+    "native_public_cross_layer": 78,
+    "managed_source_inputs": 207,
+    "managed_source_sha256": "fd27f0977b40542bfefc44092b4eb875674d4ea2a145d50c1de6b36b8c5fe366"
+  },
+  "remaining_evidence": "Hosted CI billing, a current human operator session, signed device distribution and carrier delivery have independent acceptance criteria.",
+  "merged_member_acceptance": {
+    "combined_tree": "8a5c7910f33980e83896ac16caf8e4138201ea33",
+    "affected_flutter": 327,
+    "chrome": 7,
+    "policy_tests": 58,
+    "capability_assertions": 341,
+    "pr82_receipt_sha256": "c68a4a4639944976bf09bcd881f0d834b8eff6258a5c34e241c391cd1062d1de",
+    "pull_request_ci_failed_before_running": 23,
+    "default_branch_ci_failed_before_running": 12,
+    "cause": "GitHub Actions account billing lock."
+  }
+}

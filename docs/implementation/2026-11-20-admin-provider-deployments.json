@@ -1,0 +1,162 @@
+{
+  "format": "collect.admin-worker-deployment-readback.v1",
+  "observed_utc": "2026-11-20T10:23:31+00:00",
+  "method": "Authenticated Wrangler deployments list and versions view for each named Worker. The two most recent deployments are ordered by provider creation time. The archived preview configuration supplied its Worker name.",
+  "workers": {
+    "production": {
+      "source_config": "deploy/platform-admin/wrangler.supabase.jsonc",
+      "exit_code": 0,
+      "worker": "collect-platform-admin",
+      "deployment_count_returned": 10,
+      "latest": {
+        "deployment": "1a1f99b5-eb2e-48ea-a63a-47754bf91d52",
+        "created_on": "2026-11-14T09:31:56.12198Z",
+        "version_traffic": [
+          {
+            "version": "bdc146c5-38d4-4701-ae48-8b7409ac2111",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 35,
+          "has_preview": true,
+          "asset_binding_reported": true
+        }
+      },
+      "previous": {
+        "deployment": "75d1de13-9b04-4745-9951-0ae4356de563",
+        "created_on": "2026-11-14T09:02:51.435051Z",
+        "version_traffic": [
+          {
+            "version": "e459ffd6-f657-4e48-beda-cb6c329227c1",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 34,
+          "has_preview": true,
+          "asset_binding_reported": true
+        }
+      }
+    },
+    "qa": {
+      "source_config": "deploy/platform-admin/wrangler.supabase-qa.jsonc",
+      "exit_code": 0,
+      "worker": "collect-platform-admin-supabase-qa",
+      "deployment_count_returned": 10,
+      "latest": {
+        "deployment": "9344407b-09aa-4633-9503-a09e383f33ea",
+        "created_on": "2026-10-25T09:44:31.618482Z",
+        "version_traffic": [
+          {
+            "version": "e0dcc037-62a0-4b94-ae61-26e48fbef7c4",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 13,
+          "has_preview": true,
+          "asset_binding_reported": true
+        }
+      },
+      "previous": {
+        "deployment": "5ab91ffb-6066-4fd2-b298-e03d81b3c8dd",
+        "created_on": "2026-10-24T00:08:20.692337Z",
+        "version_traffic": [
+          {
+            "version": "3d7dfe1c-46f5-43f4-baa1-4f96223bcb8d",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 12,
+          "has_preview": true,
+          "asset_binding_reported": true
+        }
+      }
+    },
+    "original_entry": {
+      "source_config": "deploy/admin-entry/wrangler.jsonc",
+      "exit_code": 0,
+      "worker": "collect-admin",
+      "deployment_count_returned": 10,
+      "latest": {
+        "deployment": "10f8f485-ed1a-462c-8ae9-f23aff19c726",
+        "created_on": "2026-10-16T13:21:37.598789Z",
+        "version_traffic": [
+          {
+            "version": "ef67525c-163c-4929-a288-3409c7e5abf3",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 42,
+          "has_preview": true,
+          "asset_binding_reported": false
+        }
+      },
+      "previous": {
+        "deployment": "583bbf2a-adc0-4f38-ba7a-c5791de8371e",
+        "created_on": "2026-09-06T18:59:41.713462Z",
+        "version_traffic": [
+          {
+            "version": "2dce5a15-6902-40ee-96eb-added7ae52f8",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 41,
+          "has_preview": true,
+          "asset_binding_reported": false
+        }
+      }
+    },
+    "preview": {
+      "worker": "collect-admin-cloudflare",
+      "exit_code": 0,
+      "source_config_in_verified_retirement_archive": "deploy/admin.cloudflare.wrangler.jsonc",
+      "deployment_count_returned": 7,
+      "latest": {
+        "deployment": "548566b1-1b19-4a1e-a90d-9c3163f39175",
+        "created_on": "2026-10-04T16:01:25.225532Z",
+        "version_traffic": [
+          {
+            "version": "780ee26c-2301-451e-be8a-39e7b359b57a",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 7,
+          "has_preview": true,
+          "asset_binding_reported": true
+        }
+      },
+      "previous": {
+        "deployment": "468f6485-0713-4703-9a49-166476063d21",
+        "created_on": "2026-10-04T14:06:53.434271Z",
+        "version_traffic": [
+          {
+            "version": "6ec67d36-2093-4cb0-a1f7-1b0e983dd144",
+            "percentage": 100
+          }
+        ],
+        "provider_version_metadata": {
+          "available": true,
+          "version_number": 6,
+          "has_preview": true,
+          "asset_binding_reported": true
+        }
+      }
+    }
+  },
+  "scope": "Provider traffic metadata for the configured Workers. The public-host receipt identifies the served application. User authentication, asset-level predecessor recovery and rollback remain separate.",
+  "version_check_utc": "2026-11-20T10:25:56+00:00",
+  "release_changes": 0
+}

@@ -1,0 +1,129 @@
+// OpenSMS v0.3 wire contract, inspected source archive SHA256:
+// fbb65c024d8b1c1340245ea0014d525f7b1e2009910598e34de56c2ca0eb4909.
+// A receipt transport only. Supabase remains the durable business authority.
+const encoder=new TextEncoder();
+const safeError=()=>new Error('opensms_receipt_unconfirmed');
+const sha=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',encoder.encode(value))),b=>b.toString(16).padStart(2,'0')).join('');
+const states=new Set(['accepted','assigned','phone_accepted','queued','handoff_started','sent','delivered','delivery_unconfirmed','partial','failed','outcome_unknown','cancelled','expired']);
+
+function validPartTime(value) {
+  if (value === null) return true;
+  if (typeof value !== 'string' || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,3})?Z$/.test(value)) return false;
+  const time = Date.parse(value);
+  return Number.isFinite(time) && new Date(time).toISOString().slice(0,19) === value.slice(0,19);
+}
+
+// The gateway derives phone outcomes from attempt_evidence. Every segment must
+// belong to the same attempt. Only the commitment leaves this transport.
+function reportedAttempts(messageId, state, attempts, parts) {
+  if (!Array.isArray(attempts) || !Array.isArray(parts)) throw safeError();
+  const byId = new Map();
+  for (const attempt of attempts) {
+    if (attempt?.message_id !== messageId || typeof attempt.attempt_id !== 'string' || !attempt.attempt_id ||
+        typeof attempt.installation_id !== 'string' || !attempt.installation_id || byId.has(attempt.attempt_id)) throw safeError();
+    const {attempt_id, installation_id, parts_total} = attempt;
+    if (parts_total !== null && (!Number.isInteger(parts_total) || parts_total < 1 || parts_total > 255)) throw safeError();
+    byId.set(attempt_id, {attempt_id, installation_id, parts_total, parts: new Map()});
+  }
+  for (const part of parts) {
+    const attempt = byId.get(part?.attempt_id), index = part?.part_index;
+    if (!attempt || part.message_id !== messageId || !Number.isInteger(index) || index < 0 || index > 254 ||
+        (attempt.parts_total !== null && index >= attempt.parts_total) || attempt.parts.has(index)) throw safeError();
+    const {sent_at, delivered_at, delivery_failed_at, delivery_unknown_at} = part;
+    if (![sent_at, delivered_at, delivery_failed_at, delivery_unknown_at].every(validPartTime)) throw safeError();
+    attempt.parts.set(index, {part_index: index, sent_at, delivered_at, delivery_failed_at, delivery_unknown_at});
+  }
+  const proof = [];
+  for (const id of [...byId.keys()].sort()) {
+    const attempt = byId.get(id);
+    if (attempt.parts.size !== attempt.parts_total) continue;
+    const segments = [...attempt.parts.values()].sort((a,b) => a.part_index - b.part_index);
+    if (state === 'delivered') {
+      if (!segments.every(part => part.delivered_at !== null)) continue;
+    } else {
+      if (!segments.every(part => part.sent_at !== null)) continue;
+      const outstanding = segments.filter(part => part.delivered_at === null);
+      if (outstanding.some(part => part.delivery_failed_at !== null)) continue;
+      if (outstanding.some(part => part.delivery_unknown_at !== null) !== (state === 'delivery_unconfirmed')) continue;
+    }
+    proof.push({...attempt, parts: segments});
+  }
+  if (!proof.length) throw safeError();
+  return proof;
+}
+
+export function openSmsReceiptConfiguration(env){
+ if(env.COLLECT_RECEIPT_SMS_ENABLED!=='true')return null;
+ const origin=env.OPENSMS_RECEIPT_BASE_URL,applicationId=env.OPENSMS_RECEIPT_APPLICATION_ID,token=env.OPENSMS_RECEIPT_APPLICATION_TOKEN;
+ let url;try{url=new URL(origin);}catch{throw safeError();}
+ if(![url.origin,url.origin+'/functions/v1/collect-sms'].includes(origin)||url.protocol!=='https:'||url.username||url.password||url.port||
+  !/^[A-Za-z0-9_-]{1,100}$/.test(applicationId??'')||typeof token!=='string'||token.length<32||token.length>4096||/[\s\x00-\x1f]/.test(token)||
+  !/^[a-f0-9]{64}$/.test(env.COLLECT_RECEIPT_SMS_APPROVAL_SHA256??'')||!/^[a-f0-9]{64}$/.test(env.BUILD_SOURCE_ID??''))throw safeError();
+ return Object.freeze({origin,applicationId,token});
+}
+
+export function createOpenSmsReceiptTransport(configuration,{fetchImpl=(request,init)=>globalThis.fetch(request,init)}={}){
+ const config=configuration;
+ async function request(path,{body,idempotencyKey}={}){
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);
+  try{
+   const response=await fetchImpl(config.origin+path,{method:body?'POST':'GET',redirect:'error',cache:'no-store',signal:controller.signal,
+    headers:{Authorization:'Bearer '+config.token,Accept:'application/json',...(body?{'Content-Type':'application/json','Idempotency-Key':idempotencyKey}:{})},
+    ...(body?{body:JSON.stringify(body)}:{})});
+   if(response.redirected||response.status!==(body?202:200)||!/^application\/json(?:;|$)/i.test(response.headers.get('content-type')??''))throw safeError();
+   const reader=response.body?.getReader();if(!reader)throw safeError();let size=0;const chunks=[];
+   try{while(true){const part=await reader.read();if(part.done)break;size+=part.value.length;if(size>131072){await reader.cancel();throw safeError();}chunks.push(part.value);}}finally{reader.releaseLock();}
+   const bytes=new Uint8Array(size);let offset=0;for(const part of chunks){bytes.set(part,offset);offset+=part.length;}
+   const result=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));
+   if(!result||Array.isArray(result)||typeof result!=='object')throw safeError();return result;
+  }catch{throw safeError();}finally{clearTimeout(timer);}
+ }
+ function payload(message){
+  if(!message||typeof message.messageId!=='string'||!message.messageId.startsWith(config.applicationId+':')||message.messageId.length>200||
+   !/^\+2507[2389][0-9]{7}$/.test(message.to)||typeof message.text!=='string'||message.text.length<1||message.text.length>2000||
+   typeof message.notAfter!=='string'||!Number.isFinite(Date.parse(message.notAfter)))throw safeError();
+  return {message_id:message.messageId,kind:'receipt',to:message.to,text:message.text,not_after:message.notAfter,priority:80,metadata:{}};
+ }
+ async function observe(message,detail){
+  const row=detail.message;
+  if(!row||row.message_id!==message.messageId||row.application_id!==config.applicationId||row.kind!=='receipt'||
+   row.to!==message.to||row.text!==message.text||row.priority!==80||row.not_after!==message.notAfter||
+   typeof row.available_at!=='string'||!Number.isFinite(Date.parse(row.available_at))||
+   row.campaign_id!==null||!states.has(row.state)||row.content_redacted_at!==null)throw safeError();
+  const fields=[row.message_id,row.application_id,row.kind,row.to,row.text,String(row.priority),row.not_after,row.available_at,''];
+  const digest=await sha('collect-sms-payload-v1\n'+fields.map(value=>`${encoder.encode(value).byteLength}:${value}`).join(''));
+  if(row.payload_digest!==digest)throw safeError();
+  const observation=['sent','delivered','delivery_unconfirmed'].includes(row.state)?'observed_sent':
+    ['failed','partial','outcome_unknown','cancelled','expired'].includes(row.state)?'uncertain':null;
+  const attempts=observation==='observed_sent'?reportedAttempts(row.message_id,row.state,detail.attempts,detail.parts):null;
+  const evidence=await sha(JSON.stringify({message_id:row.message_id,payload_digest:digest,state:row.state,
+   updated_at:row.updated_at??null,...(attempts?{attempts}:{})}));
+  return {state:row.state,providerAccepted:true,observation,evidenceSha256:evidence};
+ }
+ async function inspect(message){
+  payload(message);
+  const result=await request('/v1/messages/'+encodeURIComponent(message.messageId));
+  return observe(message,result);
+ }
+ return Object.freeze({
+  async submit(message){
+   const body=payload(message);
+   // One POST only. Every timeout/non-acknowledgment is retained by the caller;
+   // subsequent explicit reconciliation uses inspect(), never another POST.
+   const idempotencyKey=message.messageId.slice(config.applicationId.length+1);
+   if(!idempotencyKey||idempotencyKey.length>128)throw safeError();
+   const result=await request('/v1/messages',{body,idempotencyKey});
+   if(result.message_id!==message.messageId||!states.has(result.state))throw safeError();
+   return inspect(message);
+  },inspect,
+  async inspectRecorded(message){
+   if(typeof message?.messageId!=='string'||!message.messageId.startsWith(config.applicationId+':')||message.messageId.length>200||
+    !/^[a-f0-9]{64}$/.test(message.destinationSha256??''))throw safeError();
+   const result=await request('/v1/messages/'+encodeURIComponent(message.messageId)),to=result.message?.to;
+   if(typeof to!=='string'||await sha(to)!==message.destinationSha256)throw safeError();
+   const original={messageId:message.messageId,to,text:message.text,notAfter:message.notAfter};
+   payload(original);
+   return observe(original,result);
+  },
+ });
+}

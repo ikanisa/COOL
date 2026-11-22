@@ -1,0 +1,48 @@
+{
+  "mode": "Live-limited",
+  "scope": "configured_receipt_operations_both_protocols",
+  "status": "not_admitted",
+  "backlog": null,
+  "budgets": null,
+  "unknown": null,
+  "handling": null,
+  "callbacks": null,
+  "checked_at": "2026-10-03T07:51:26.314507Z",
+  "window_end": "2026-10-03T07:51:26.314507Z",
+  "reason_code": "admission_disabled",
+  "send_action": false,
+  "probe_counts": {
+    "created": 9,
+    "pending": 9,
+    "collections": 1,
+    "current_heads": 0,
+    "global_handled": 0,
+    "recent_primary": 1,
+    "publisher_heads": 0,
+    "recent_successor": 1,
+    "unresolved_primary": 0,
+    "global_reservations": 2,
+    "unresolved_successor": 0
+  },
+  "window_start": "2026-10-02T07:51:26.314507Z",
+  "carrier_proof": false,
+  "emergency_stop": false,
+  "window_seconds": 86400,
+  "delivery_proven": false,
+  "policy_revision": 2,
+  "contract_version": 2,
+  "financial_action": false,
+  "protocol_families": [
+    "primary_v2",
+    "receipt_successor_v1"
+  ],
+  "sample_valid_until": "2026-10-03T07:52:26.314507Z",
+  "evidence_limit_codes": [
+    "durable_handling_not_delivery",
+    "framework_callbacks_not_carrier_proof",
+    "callback_coverage_not_delivery_success",
+    "budget_caps_not_measured_capacity",
+    "costs_unmeasured",
+    "configured_scope_only"
+  ]
+}

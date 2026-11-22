@@ -1,0 +1,1947 @@
+{
+  "date": "2026-11-09",
+  "receiving_branch": "codex/burimunsi-android-integration-20261109",
+  "receiving_head": "940bbb39e89d2a72d4ce44c7fe5bd31d0575749d",
+  "source_drive_file_id": "1rTMcsIZywlQ6J6Y7e4WmNTcQzcDPBXBU",
+  "source_archive": "BuriMunsi_Complete_Source_v0.20.0-a04.3.zip",
+  "source_archive_sha256": "8ab65e44231a05545da2c26369a46d11021f12a02b42ef28823e202e058904f3",
+  "candidate": "0.20.0-a04.3",
+  "source_integrity_verified_files": 1069,
+  "receiver_input_pins": "all 17 matched current Collect source",
+  "existing_workflow_disposition": "Replace reviewed capture-only preparation workflow with isolated native build/instrumentation workflow; original retained in receiving_head Git history.",
+  "production_acceptance": "not established",
+  "files": [
+    {
+      "path": ".github/workflows/burimunsi-native.yml",
+      "source_sha256": "c8199bee38b60190cd3a9f69ca63dbfd889ea39aab2e8e73c24eb8e5c3d25963",
+      "before_sha256": "bfd327871ef73673fb0c47bcf02df4f51b13fe2b160b7b400a163e45b92b6e69",
+      "bytes": 3984,
+      "action": "replace_reviewed_source_capture_workflow"
+    },
+    {
+      "path": "contracts/ui-copy.json",
+      "source_sha256": "72e5b4e4375ee941582a1ee7bb6b1fdb7e983e683d3c73996a8091dacd823246",
+      "before_sha256": null,
+      "bytes": 36899,
+      "action": "create"
+    },
+    {
+      "path": "integration/collect-posting/payments.js",
+      "source_sha256": "1bed4fc8b422fc4d51569de1671aece1c39904c3743ece9e6eaaee0bc19aa17b",
+      "before_sha256": null,
+      "bytes": 20916,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/.gitignore",
+      "source_sha256": "e2c426ceeef573cb15e17e934443149fae1e55eacef91792560a4668c0065978",
+      "before_sha256": null,
+      "bytes": 95,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/build.gradle.kts",
+      "source_sha256": "faf7a2803a801d514156ceb84212cc517b0271d3796c315a5fb674b0626b8d15",
+      "before_sha256": null,
+      "bytes": 10506,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/proguard-rules.pro",
+      "source_sha256": "157c3c42205bf360a325db4e3806dcbf16ec2a99297d160626bdbcc30dbefd0c",
+      "before_sha256": null,
+      "bytes": 217,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/NativeSandboxContractTest.kt",
+      "source_sha256": "b3ebc0b22456ab196a414f64dc617b6e2ffb8921d098a661093f9c721cff696b",
+      "before_sha256": null,
+      "bytes": 3081,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/NativeUiContractTest.kt",
+      "source_sha256": "70bfe3df1eee852fb1302f55d51a5d3cf774f4b56a531df1f6c9a3de943b5323",
+      "before_sha256": null,
+      "bytes": 10742,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/androidTest/kotlin/rw/ikanisa/burimunsi/StaffPackageIsolationTest.kt",
+      "source_sha256": "0e6ca6c764350513813f0696d7dca6e8091e343795f27ef09d4d13115cde3384",
+      "before_sha256": null,
+      "bytes": 2598,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/androidTestInternal_receiver/kotlin/app/cool/mobile/receiver_sms/CarrierFixtureReplayTest.kt",
+      "source_sha256": "0b04b1f2ded438b94ce41a656465a934df4fd42e0ef58571125d2b1aa823ce4b",
+      "before_sha256": null,
+      "bytes": 4101,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/androidTestInternal_receiver/kotlin/app/cool/mobile/receiver_sms/GatewayDurabilityTest.kt",
+      "source_sha256": "dd23f496a6e69b9e5bfb6356092225b75ce1b884fb9325ac24346fe9edd54c31",
+      "before_sha256": null,
+      "bytes": 6074,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/internal_receiver/AndroidManifest.xml",
+      "source_sha256": "194ff75080ce48441e27abd9a4e5b911f03239e5b0e1ac7d8f5189e4ffda4751",
+      "before_sha256": null,
+      "bytes": 1491,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriCapturePolicy.kt",
+      "source_sha256": "67a85ee9cfa6dccca06ae978a5b87067015f2a97a78324cbdbe169e46a30d3d4",
+      "before_sha256": null,
+      "bytes": 2645,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriQueueFile.kt",
+      "source_sha256": "d619115477b5fad485d54fe3fc86ac2d32399be9ddefc2dc6880b28f3d98ad53",
+      "before_sha256": null,
+      "bytes": 3329,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriReceiverReliability.kt",
+      "source_sha256": "7db5d53bff8c14d6b0dd767c74014e01e2c446223d2a4c25d02b10884aeafb9d",
+      "before_sha256": null,
+      "bytes": 2079,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/internal_receiver/kotlin/app/cool/mobile/receiver_sms/BuriReceiverStorage.kt",
+      "source_sha256": "f553707df9e717178193e278aaa8d8b4b617c57f0d952672394de8c67ee09ec2",
+      "before_sha256": null,
+      "bytes": 478,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/internal_receiver/kotlin/rw/ikanisa/burimunsi/gateway/GatewayFactory.kt",
+      "source_sha256": "dfa6d55bb07843a251b2897315e30524d14e33afec0de16e448669e91e571237",
+      "before_sha256": null,
+      "bytes": 5324,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/AndroidManifest.xml",
+      "source_sha256": "9b5fc21225046a0d3169ac300a0970f6c750ee8389a15b03869c74185f45b4e6",
+      "before_sha256": null,
+      "bytes": 1136,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/BuriApplication.kt",
+      "source_sha256": "050b9ec0f71b4a7d7cf14f39e466c99c43fc6bce41c12e9cafa67e642aa3b637",
+      "before_sha256": null,
+      "bytes": 211,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/MainActivity.kt",
+      "source_sha256": "c7e29b0cf28653d1e9e28c9f2a6cda0e971b63ab8edb457237e4f7aec8da9a59",
+      "before_sha256": null,
+      "bytes": 2436,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/ApiClient.kt",
+      "source_sha256": "a68667cd5923eb98c26eceb44d03647ac9d94837e23b746756e5c4417176119f",
+      "before_sha256": null,
+      "bytes": 7121,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/Dto.kt",
+      "source_sha256": "d9d288c558137f8121d724a77a77593c9d3a6f906a00687f861b666da7641813",
+      "before_sha256": null,
+      "bytes": 5624,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/data/NativeRepository.kt",
+      "source_sha256": "73fe4e2a4989c07b57a69a590d699ed26dc54a65b6180366960a2e05af0fb152",
+      "before_sha256": null,
+      "bytes": 17779,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/gateway/GatewayPort.kt",
+      "source_sha256": "9c7851c660f7728e7e4d6327dde2bd79fee9b9584c289af9d0440c832e3318e2",
+      "before_sha256": null,
+      "bytes": 370,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/AndroidNavigationCheckpointStore.kt",
+      "source_sha256": "8b6a78f26b5c825605c11caa9832f245ea99c286e66f3b2d57362e15dfde52d5",
+      "before_sha256": null,
+      "bytes": 519,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/AndroidOperationStore.kt",
+      "source_sha256": "14eb9acdf9982ffa4fef5738e40b776f7c9506920a1da5aa2279ac11aa4fbc8c",
+      "before_sha256": null,
+      "bytes": 1485,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/DeviceProvisioning.kt",
+      "source_sha256": "bc63f645925bad9fabce07b30c5c1f0e8dd59d5adfa2bb12250c2040ad548cbc",
+      "before_sha256": null,
+      "bytes": 1162,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/storage/SecureStore.kt",
+      "source_sha256": "4add27d8689a8f78f5da9713cb21198a89633d89c79fe019980020e63c86e442",
+      "before_sha256": null,
+      "bytes": 2989,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriApp.kt",
+      "source_sha256": "f3797fb54d5af3f58cf26731c8df314e00fe830aadf4ebb1beeff177fd92853f",
+      "before_sha256": null,
+      "bytes": 59036,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriController.kt",
+      "source_sha256": "e7b995cc860e750369b1860c6f9d81630d9a911b3c244a5ccc96f15f7c11dfeb",
+      "before_sha256": null,
+      "bytes": 1284,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/BuriViewModel.kt",
+      "source_sha256": "b3a5cd13b252e166f75df1a0eb94d61e8fecaa0e9695421a4d5fbdbdc6233884",
+      "before_sha256": null,
+      "bytes": 41591,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/Theme.kt",
+      "source_sha256": "80bf4462ab88c63e1fead7e28f5c2a027e83c5e21ce417514fac22589ed5337a",
+      "before_sha256": null,
+      "bytes": 3349,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiBehavior.kt",
+      "source_sha256": "6493e4af8f77187e9f717b7dcd9b0a7fad4474709875e1a71b2e92dea5fba895",
+      "before_sha256": null,
+      "bytes": 2906,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiPreferences.kt",
+      "source_sha256": "675291513e3318ba5e681b4e9467f535a937de5be32408297efe1aa1b8e9d65a",
+      "before_sha256": null,
+      "bytes": 4948,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/kotlin/rw/ikanisa/burimunsi/ui/UiStringIds.kt",
+      "source_sha256": "21c8a84105a6e387b53b0ed018c3c7386978f491a6a3b27f8b7a12104d29a881",
+      "before_sha256": null,
+      "bytes": 16929,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_activity.xml",
+      "source_sha256": "318767c01e58b121c1d4b79efa61d4306daed1f2ab3b14fdb249ebe5db9f7a20",
+      "before_sha256": null,
+      "bytes": 401,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_alert.xml",
+      "source_sha256": "637fe2b3b257e493137b9771c0392fea3b64fa53bb99b9ba5f7486e09b1d4b9c",
+      "before_sha256": null,
+      "bytes": 382,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_arrow.xml",
+      "source_sha256": "b8bfdbffca83dce17679a3110a58f77e503c57be54a63f7d60c85a93ab61863b",
+      "before_sha256": null,
+      "bytes": 365,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_back.xml",
+      "source_sha256": "bc64cc5d10a69b6b2eadbaf4310d8c155006e9289be6f7aea56a7f61a2ad5ac4",
+      "before_sha256": null,
+      "bytes": 366,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_check.xml",
+      "source_sha256": "f86d065f689f6f0886a6ff17468a2423335a2cd3bda5a143dc2d93499b60cdc4",
+      "before_sha256": null,
+      "bytes": 367,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_clock.xml",
+      "source_sha256": "c7d8a35d40ce086aa99c1a77b1d506df731206a3875a8fcdda1cdb1533c52a15",
+      "before_sha256": null,
+      "bytes": 595,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_close.xml",
+      "source_sha256": "bf48ce224de585dab5b42d568544a88ebdc4f0875ecaaa86c0d60ae49c97671c",
+      "before_sha256": null,
+      "bytes": 373,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_device.xml",
+      "source_sha256": "9da1030c417a3e5c6d299c483ed16ec9f162fc89ee2a248185db597c23d387e5",
+      "before_sha256": null,
+      "bytes": 653,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_export.xml",
+      "source_sha256": "9b435bb2160c59619a5a5e4be691ecaf05a7878f97fce4ca82a2fa674e1fc908",
+      "before_sha256": null,
+      "bytes": 387,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_eye.xml",
+      "source_sha256": "2c1a923183323bae382ad2c546fc06b1b20ded20892a0a9cac1214a435c4e7b2",
+      "before_sha256": null,
+      "bytes": 625,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_filter.xml",
+      "source_sha256": "6268a616d91449305978999b6c1acf10903e87b6534d22b86955db29c72429e6",
+      "before_sha256": null,
+      "bytes": 375,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_help.xml",
+      "source_sha256": "0132157628d2351154601227995118df25cf3697ac68eb60a51767401d429817",
+      "before_sha256": null,
+      "bytes": 622,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_history.xml",
+      "source_sha256": "1831cba12fa2d213c8c1bfb95d78769e6f506062ecff7abc4a84e291509d14c8",
+      "before_sha256": null,
+      "bytes": 390,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_home.xml",
+      "source_sha256": "e21574f2a821cf37a77f3fb71608fae1cd4c3073144c1434ffe5b8c4d8cfaadd",
+      "before_sha256": null,
+      "bytes": 410,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_info.xml",
+      "source_sha256": "384b35ad2bc9b909a07ebf7fec6337b73b1488d50c46f957631c3b501d02eda8",
+      "before_sha256": null,
+      "bytes": 599,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_link.xml",
+      "source_sha256": "dea3e542c19ca7c70c5b8a69cb7381046231466863bb781b35943a4b28306e05",
+      "before_sha256": null,
+      "bytes": 415,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_lock.xml",
+      "source_sha256": "7eefc91cf3f4dc6710e7647806b9a099978adb7e57905e07f88888f31e8c4ad7",
+      "before_sha256": null,
+      "bytes": 675,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_members.xml",
+      "source_sha256": "0ddef403443424d8c82bd57232485e07c451b61123118c9c030ab3e61a3e4305",
+      "before_sha256": null,
+      "bytes": 645,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_out.xml",
+      "source_sha256": "4af22da7a8fa633962a3addcd4f30a2782b53e5e6db1335820065202e90d08ed",
+      "before_sha256": null,
+      "bytes": 387,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_pause.xml",
+      "source_sha256": "ba4d3c3bd5066fdc8cd079de175296b628965084f741184d41ad57339be7d68e",
+      "before_sha256": null,
+      "bytes": 368,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_plus.xml",
+      "source_sha256": "87d44c82d1f14dd90b9458019da7dfbd36ec6b637fe9626f2576179f9907dad5",
+      "before_sha256": null,
+      "bytes": 369,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_power.xml",
+      "source_sha256": "7479e59599493137a450ad9bed207c2a21aca68ef30e889ee62b7af1fb88061a",
+      "before_sha256": null,
+      "bytes": 380,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_search.xml",
+      "source_sha256": "38d74673cf9c98279e38dd450ee21e2f17804ec8bb3163eeae6556fa40386f78",
+      "before_sha256": null,
+      "bytes": 417,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_settings.xml",
+      "source_sha256": "c1385f2226537193921b768ae3d22b77500adb5be75fee416bd6940c25d690c7",
+      "before_sha256": null,
+      "bytes": 1063,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_shield.xml",
+      "source_sha256": "7d86adf4242dbde25295db105aac4fe932f4a79d2d95f1a70b4cb75a8f72ceac",
+      "before_sha256": null,
+      "bytes": 404,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_sms.xml",
+      "source_sha256": "e9d974e199e413bced6e12cb6e8edf218f7d0cb8837217a7d253ef1428071800",
+      "before_sha256": null,
+      "bytes": 386,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/drawable/ic_sync.xml",
+      "source_sha256": "f53671ffa4524365836793cd206adc25224ec3803ec789264faab11774e27057",
+      "before_sha256": null,
+      "bytes": 419,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/values/strings.xml",
+      "source_sha256": "2ee9c2bb28f05938d2ea0729d6dbddf1941d7414051b32dd6087c84a509dfcce",
+      "before_sha256": null,
+      "bytes": 159,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/values/styles.xml",
+      "source_sha256": "1f987c09d23717cacda013887887b979384023e1c8d0f1018662180d5c7fa30e",
+      "before_sha256": null,
+      "bytes": 481,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/values/ui_strings.xml",
+      "source_sha256": "19bcf8e630dc60dc87c22d9702b8469a65adc119286c5e304e8d70098363729d",
+      "before_sha256": null,
+      "bytes": 19001,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/values-rw/ui_strings.xml",
+      "source_sha256": "9da49673d8ca34399c55c2df102134594721652667fa1ce684c150dff274b08b",
+      "before_sha256": null,
+      "bytes": 21244,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/xml/app_restrictions.xml",
+      "source_sha256": "cbf846c6b3070b9bd366f32f58f8550dcf058a66cb1664dd1340bda005d868a8",
+      "before_sha256": null,
+      "bytes": 401,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/xml/backup_rules.xml",
+      "source_sha256": "f9c05ba90d6818be627053c12cc696ecdf325aa8fcba174e06050a47921d647c",
+      "before_sha256": null,
+      "bytes": 223,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/xml/data_extraction_rules.xml",
+      "source_sha256": "39002a6a15ee1c80efb8b7e70d75770d90c7c8cd52ada44666571affdf0cda60",
+      "before_sha256": null,
+      "bytes": 522,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/xml/locales_config.xml",
+      "source_sha256": "b5a9fcefb95933bab95e78d337258ae29885eb870689846f67f3dc3064ec9e98",
+      "before_sha256": null,
+      "bytes": 197,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/main/res/xml/network_security_config.xml",
+      "source_sha256": "a9c56c87d0f54de2d5a1495ac1e2e553c7d6f3a05b9519b62216c1d5fa185539",
+      "before_sha256": null,
+      "bytes": 178,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/nativeTest/AndroidManifest.xml",
+      "source_sha256": "b9b18393785a98531c087e6b008762a2341ec2a4a90379d3d2157e92463ad56b",
+      "before_sha256": null,
+      "bytes": 319,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/qualification/AndroidManifest.xml",
+      "source_sha256": "28f17c1f9257813f8b7e400b325bc8b9f90a1753a0a31d60251e374c9c6333d4",
+      "before_sha256": null,
+      "bytes": 320,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/staff/AndroidManifest.xml",
+      "source_sha256": "d6161e15f2525804d4c70b41cb85e6961e5b9ad6b311a7c7e24973acdff63891",
+      "before_sha256": null,
+      "bytes": 863,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/app/src/staff/kotlin/rw/ikanisa/burimunsi/gateway/GatewayFactory.kt",
+      "source_sha256": "0c3f9758f3c7759ab8af0a5b7f24ef12da0d788a7545975720b0c848d34b296c",
+      "before_sha256": null,
+      "bytes": 679,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/build.gradle.kts",
+      "source_sha256": "635ac0ac4626f6296b475b8abccd1e158b2dda0920078c67821a925ec390ec0e",
+      "before_sha256": null,
+      "bytes": 281,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/build.gradle.kts",
+      "source_sha256": "f545bf33a7e578a2ed900e5c4a295c2c4a5cc9e1a515df432104343d5c3aae05",
+      "before_sha256": null,
+      "bytes": 253,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Acknowledgement.kt",
+      "source_sha256": "b4b00d78f7693459ce7f4114f95ae46998fd747da7bd411aee23e561baa49da1",
+      "before_sha256": null,
+      "bytes": 755,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/GatewayHealth.kt",
+      "source_sha256": "a53b6f18c98bea78d7546344948f00f35c0aeb0828c046e8e6344872008a7b1e",
+      "before_sha256": null,
+      "bytes": 3460,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Models.kt",
+      "source_sha256": "c400de5f1ae21cffabbab57044a3085320a7e1da2ae41aa4ecb69b174876ec0b",
+      "before_sha256": null,
+      "bytes": 3039,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/NavigationCheckpoint.kt",
+      "source_sha256": "21d088e5c6e260999b51f8ecb793b5f54c5d3a8281269f41ed108670d152c879",
+      "before_sha256": null,
+      "bytes": 2931,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/OperationJournal.kt",
+      "source_sha256": "7b4a28685d7804794c8b93ba403af32c6021da5692449f345d0fb33e1a7c0081",
+      "before_sha256": null,
+      "bytes": 5279,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/PageIntegrity.kt",
+      "source_sha256": "009afeaf91e77f7ef07b3321affa08445b3d72df03315c6a7755a33550030e45",
+      "before_sha256": null,
+      "bytes": 954,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Presentation.kt",
+      "source_sha256": "e37889c26506b54624f1d9a63de478d59a11c3fc8244a1b106685e5405b34c81",
+      "before_sha256": null,
+      "bytes": 2354,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Receipt.kt",
+      "source_sha256": "8f5cf76484006305504e4b7755e9355e8479695eeeac4980925da8124cd0fcad",
+      "before_sha256": null,
+      "bytes": 2985,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ScreenGate.kt",
+      "source_sha256": "80e66c4a54a6e13e7ab02078e78d348ed528a8c4c29785e25c3cb676d45ec228",
+      "before_sha256": null,
+      "bytes": 628,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SessionAuthority.kt",
+      "source_sha256": "28eb9f8676269ec8c19273949b5043a6402020b3fcd2d8ce331ea536aa6ab676",
+      "before_sha256": null,
+      "bytes": 1513,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/SnapshotFreshness.kt",
+      "source_sha256": "6ce9ea3048757c86688475adbe1f7e732548f8bf5d835733528b9f571c3cdab3",
+      "before_sha256": null,
+      "bytes": 391,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/Values.kt",
+      "source_sha256": "802bc2a66b9ac09429c29d9b0cf2fbc577f5632d43bf74e90452bbe003b26554",
+      "before_sha256": null,
+      "bytes": 3237,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/main/kotlin/rw/ikanisa/burimunsi/core/ViewMemory.kt",
+      "source_sha256": "e269f8fb772d6742e69b255935e8cd143d83fc078f032282836a77aac08721aa",
+      "before_sha256": null,
+      "bytes": 1249,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/core/src/test/kotlin/rw/ikanisa/burimunsi/core/CoreChecks.kt",
+      "source_sha256": "fb4e1bcb30318046ac7af32badbbacce753fb8917301166bf3dafb18fcceddd1",
+      "before_sha256": null,
+      "bytes": 13175,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/cross-layer-tests/ApplicationStub.kt",
+      "source_sha256": "1e83bf13566057d0a29d177670f96d7a2356a699927ba82ef709d74894cd6e8e",
+      "before_sha256": null,
+      "bytes": 69,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/cross-layer-tests/CommandViewChecks.kt",
+      "source_sha256": "0d5dd8f3b75c9190736d38df991e198c8c10fb8f54612af8200775723dc6b874",
+      "before_sha256": null,
+      "bytes": 14994,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/cross-layer-tests/TransportStub.kt",
+      "source_sha256": "140b786b95aac16fbc168ade8afb7ef7c7859c657f75c0ae4ebb29d442c2c983",
+      "before_sha256": null,
+      "bytes": 1181,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/gradle/wrapper/gradle-wrapper.properties",
+      "source_sha256": "65454a5e5985b07c9f62181943306ddc3f557a822dd237fc8e06786210cd5184",
+      "before_sha256": null,
+      "bytes": 339,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/gradle.properties",
+      "source_sha256": "bfc8ad75540f024d70d2180d1588200683428019eef6e98ad739cec057a52d82",
+      "before_sha256": null,
+      "bytes": 263,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/gradlew",
+      "source_sha256": "f93f60f11cb7d205b3b18edf1af5a21e040dba07fd87400c3bb4b942b02207dd",
+      "before_sha256": null,
+      "bytes": 209,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/http-tests/HttpChecks.kt",
+      "source_sha256": "f3337b9a68e16d9ac8316e1b5a9f94f51731ec55757fe68c7b884ffef7c54e0c",
+      "before_sha256": null,
+      "bytes": 10184,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/integration/canonical-integration-proposal.sql",
+      "source_sha256": "88d4567002681a1e0d329e57a78178ec3b35e6d97d591a6b3ec14373368d6a3b",
+      "before_sha256": null,
+      "bytes": 6806,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/integration/native-principal-session-upgrade-proposal.sql",
+      "source_sha256": "be0bde85f6d6df3254a666a6529568f905ff90b46c71055e96054fb5ea51d732",
+      "before_sha256": null,
+      "bytes": 2597,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/integration/receipt-jobs-proposal.sql",
+      "source_sha256": "8a8fcf26f2d15df01812375cb6141174fa4a047c85113dab88dd4335e407c803",
+      "before_sha256": null,
+      "bytes": 4321,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/integration/receiver-sources.json",
+      "source_sha256": "b5ac18be2cc5b1e67316b5970e1bab27f0ffd535989bd5ec4a253f90730023d7",
+      "before_sha256": null,
+      "bytes": 1511,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/integration/rematch-jobs-proposal.sql",
+      "source_sha256": "1e6f3740ec028069a389f6eabf3aafb0dc5a7593b23003d840bc822855c5700b",
+      "before_sha256": null,
+      "bytes": 7510,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/integration/schema-proposal.sql",
+      "source_sha256": "0a56327e1fb1eadb96241e495f2f657279931f1323b57db77cc392b1dcc1a799",
+      "before_sha256": null,
+      "bytes": 6775,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/pipeline-tests/native_execution_test.py",
+      "source_sha256": "8e13eb5d35f93658faac2947cf84417e6fad5a596d71daee04d4d86ce732e97a",
+      "before_sha256": null,
+      "bytes": 17849,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/presentation-tests/PresentationChecks.kt",
+      "source_sha256": "35bdbf2dcb825a3518fc85982c1dc09b71b5a724b34b4fa756457c0f8e2e2c66",
+      "before_sha256": null,
+      "bytes": 6446,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/receiver-tests/ReceiverChecks.kt",
+      "source_sha256": "607876c5bb955fbc234fb9db7641608997c0a881cd867dd99fa2f2c343b82a85",
+      "before_sha256": null,
+      "bytes": 13756,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/receiver-tests/ReliabilityChecks.kt",
+      "source_sha256": "203874042da76efe2c66600134ea309a6cb0be635a74f463a6f295d49dcda670",
+      "before_sha256": null,
+      "bytes": 9958,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/repository-tests/A04Checks.kt",
+      "source_sha256": "98a87601a380dbe82fa6e32cf03194362ee795a16282bad5c5f835960801fbab",
+      "before_sha256": null,
+      "bytes": 9800,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/repository-tests/ApiStub.kt",
+      "source_sha256": "f53899e3622ac84d4deb8f225757ee4234e25e12b7fe848109d4079819fbf091",
+      "before_sha256": null,
+      "bytes": 685,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/repository-tests/ContextStub.kt",
+      "source_sha256": "567eb8003d5a6b0ae6e3463986989b59c6f323fe87c421ffaa7b41f420a9c722",
+      "before_sha256": null,
+      "bytes": 43,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/repository-tests/JsonAdapter.kt",
+      "source_sha256": "1a1c8657c7006264aedd216d60d3672bc660f85ab695d983c558471dcedc5f7a",
+      "before_sha256": null,
+      "bytes": 3655,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/repository-tests/RecoveryChecks.kt",
+      "source_sha256": "ab7a7d55407db40f292e933a18afeb46304afb777f7ec7dc0a307fef773866d1",
+      "before_sha256": null,
+      "bytes": 9975,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/repository-tests/RepositoryChecks.kt",
+      "source_sha256": "100540394164859cdcef92331079bfca951d8da8165f23f54d3b1dff5abbc821",
+      "before_sha256": null,
+      "bytes": 16928,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/repository-tests/StorageStub.kt",
+      "source_sha256": "af9c54105a042b49e83b3b4f67d6b3553f528078dbbb55869e68822e631b9195",
+      "before_sha256": null,
+      "bytes": 640,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/bootstrap_gradle.py",
+      "source_sha256": "ea34a2e6832b09a2b76ce30c84a806b246af03bfe287a31cd71c2baf64762800",
+      "before_sha256": null,
+      "bytes": 5663,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/build_preflight.py",
+      "source_sha256": "9d5adb4a45df1e78aa11f9d88a622e0aa8fab0ae5ff576cc0f152810b3e3469e",
+      "before_sha256": null,
+      "bytes": 2907,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/check_api_origin.py",
+      "source_sha256": "390ed6655659f84e70c2793c2fd89f52f364f6436a5670ad45be96f97704fb87",
+      "before_sha256": null,
+      "bytes": 1897,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/native_pipeline.py",
+      "source_sha256": "b34a9e77e324d6813cb02b1b5145ff044fe02d32d490d6f059288342eeb9c152",
+      "before_sha256": null,
+      "bytes": 29048,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/prepare_receiver.py",
+      "source_sha256": "31c46c6486df3f1ef146c6365a34a4f98ff8cbbc6e4f79d33b665a62ee9d3390",
+      "before_sha256": null,
+      "bytes": 24799,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/release_readiness.py",
+      "source_sha256": "8608298635a85587205e02cb740f08a4cd2522080ddf38520c86e059298c6731",
+      "before_sha256": null,
+      "bytes": 3432,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/run_emulator_matrix.sh",
+      "source_sha256": "4c856fb73a006d886d6ea778b93b14379f3c66a53c6d72cc0f8827977dd81796",
+      "before_sha256": null,
+      "bytes": 2962,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/setup_native_toolchain.py",
+      "source_sha256": "884b460f1d36c8d7e11aa27558adec5ef7208297fb89a0af8aae73f047b6d5e9",
+      "before_sha256": null,
+      "bytes": 3147,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_all.sh",
+      "source_sha256": "a0013523c579f4b80b0588a1093e2212e95446d5800f012585573872deab2d0a",
+      "before_sha256": null,
+      "bytes": 1027,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_cross_layer.sh",
+      "source_sha256": "11c9aa2ba6c9edb97da5b6aa6c08c1634ec4f4044643300859f0237a17f441bf",
+      "before_sha256": null,
+      "bytes": 1087,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_http.sh",
+      "source_sha256": "f4825f7b1d07e9d65d59a2f3099fa1eb85aa0b9d72e8d4e6e18f3eee976f4faf",
+      "before_sha256": null,
+      "bytes": 502,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_native_boundary.py",
+      "source_sha256": "dae437813ec0c14c1bc7e65bf619b34ec2333f70c4f51a92051ffe2827de5c75",
+      "before_sha256": null,
+      "bytes": 7884,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_presentation.sh",
+      "source_sha256": "fbac0aafe794d4eacf8cc3621097af3b24391514907554f8c6e14c0e3e5d15ee",
+      "before_sha256": null,
+      "bytes": 329,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_receiver_policies.sh",
+      "source_sha256": "c5880a1aa264324dcab7f977de33612cc92a427f6e6ce67c8012059fc3396a1a",
+      "before_sha256": null,
+      "bytes": 707,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_repository.sh",
+      "source_sha256": "2b7014b1a0a326cdcda2277277460a00d23bc3948a7fc4ccc55c188c9131ff45",
+      "before_sha256": null,
+      "bytes": 922,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_sms_reliability.sh",
+      "source_sha256": "2bd5ea2ec09d500e9c609cf910030f5a9fabe392937cc09ae6c14e6344919a58",
+      "before_sha256": null,
+      "bytes": 615,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_ui_syntax.sh",
+      "source_sha256": "0b32bd7c8302106db04ea91642638bf2ee406a0e39383576a42a5046f31c0766",
+      "before_sha256": null,
+      "bytes": 573,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/scripts/verify_viewmodel.sh",
+      "source_sha256": "73cb43ba6f89ef15ba0925793c5319b04538749cb2dbd162f302cf1549b38def",
+      "before_sha256": null,
+      "bytes": 1164,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/settings.gradle.kts",
+      "source_sha256": "1cb253703a970c810bede5cc61a2558d0d6429c271afed1f0e996dc86cafab09",
+      "before_sha256": null,
+      "bytes": 280,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/syntax-tests/ParseKotlin.kt",
+      "source_sha256": "b47102b7490a3bc3f95bfbc038ddea3dcac229f651cc4bdbf00cac4a89933be9",
+      "before_sha256": null,
+      "bytes": 1547,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/AndroidStub.kt",
+      "source_sha256": "45af19eb8de3b551005e962448a786b7a531489270d012225b5193dada306690",
+      "before_sha256": null,
+      "bytes": 43,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/BuildConfigStub.kt",
+      "source_sha256": "937021c86cf46f143127a4c61574dee22cf6166122553df296af4721ed6e268e",
+      "before_sha256": null,
+      "bytes": 161,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/CheckpointChecks.kt",
+      "source_sha256": "dfeb63138b5044588f4750bcb29154449343cb1ead1bd0ceac4b670bc43f7691",
+      "before_sha256": null,
+      "bytes": 7570,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/ComposeStub.kt",
+      "source_sha256": "b8eb56d91eb42b6bef124a2007e78b87f3f8ef517dfdfd613441c2cef1bc7b8d",
+      "before_sha256": null,
+      "bytes": 345,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/ForegroundChecks.kt",
+      "source_sha256": "d020e6a704e15f969592ce3bd8d14ef29b0655b8e88efe831e4f54793709b630",
+      "before_sha256": null,
+      "bytes": 9677,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/GatewayStub.kt",
+      "source_sha256": "c9958592ecbeb66ba9692c55493820c0fb2db9d36d27d599984c05f9d5b3bace",
+      "before_sha256": null,
+      "bytes": 711,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/JourneyChecks.kt",
+      "source_sha256": "8fe833815173424eab9ad1f339ed81dfc6b92b25676c376417a2893a38b2cc7c",
+      "before_sha256": null,
+      "bytes": 8063,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/JsonStub.kt",
+      "source_sha256": "ee7c7cab2f073cd7a45353a6e58fdecc264dddcb04691cae95da983cc4fb5163",
+      "before_sha256": null,
+      "bytes": 333,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/LifecycleStub.kt",
+      "source_sha256": "22fef361361d92f2e87a6ad14a2d93193bb194431dfa64c03d9ad63ccbef5765",
+      "before_sha256": null,
+      "bytes": 292,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/RepositoryStub.kt",
+      "source_sha256": "c0eefb38ac2cf10b1f87f51243ab1d501b736c79bd1a552461cb510ff2a5a5b7",
+      "before_sha256": null,
+      "bytes": 6154,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/StorageStub.kt",
+      "source_sha256": "f9fa4334740409a6f4c62674267a2026ce833667d0543c9f0e9adc3ccf231f8e",
+      "before_sha256": null,
+      "bytes": 510,
+      "action": "create"
+    },
+    {
+      "path": "native/burimunsi/viewmodel-tests/ViewModelChecks.kt",
+      "source_sha256": "a58acfa66e8908a0f649ab778dd63f4ce9487b9bb5ac4f9780007fe5556db433",
+      "before_sha256": null,
+      "bytes": 10838,
+      "action": "create"
+    },
+    {
+      "path": "scripts/generate_ui_copy.py",
+      "source_sha256": "98edafe6eb914a8d52d8edfd3b997b86520f07ef49b49d47bb7b114f05440e82",
+      "before_sha256": null,
+      "bytes": 2283,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/acknowledgement.js",
+      "source_sha256": "58b74cd6ef6bc3d65dfaf42f41b65465abf936698d1e029e74fef3b16205c4a3",
+      "before_sha256": null,
+      "bytes": 1547,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/auth-service.js",
+      "source_sha256": "bf93625407d8e65fe8bbca4f66d9a32cc705049ca866af4a98501d9bedca4a94",
+      "before_sha256": null,
+      "bytes": 8651,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/automatic-job-router.js",
+      "source_sha256": "c2a914e85fabc4e63d0942e7b1f0c429af0c4cec3996c4dc05406e47b9dd19c5",
+      "before_sha256": null,
+      "bytes": 810,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/automatic-work.js",
+      "source_sha256": "1bb8ece483f84593467a26ab8669640634bf870712b156971be0e4347713d1d4",
+      "before_sha256": null,
+      "bytes": 1666,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/collect-canonical-entrypoint.mjs",
+      "source_sha256": "0bf3e6ec8ea6f6d76d7322648a4bb74ade35b405586a37ea0b871d9e893462cc",
+      "before_sha256": null,
+      "bytes": 3003,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/command-authority.js",
+      "source_sha256": "9de852d8cabed7ce61273282dbff0aac0d37aa71ee32ea6a63cf8cfe68f31fad",
+      "before_sha256": null,
+      "bytes": 641,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/compose-postgres.js",
+      "source_sha256": "9a4d2c74a886364cdbb5cded388514831f77f9d1daf2243af975ada71fc7abcf",
+      "before_sha256": null,
+      "bytes": 12542,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/compose.js",
+      "source_sha256": "ef8102ee0d538b808b4ea81cc1eed8d1bf3664f138009e31485a39bbc7587829",
+      "before_sha256": null,
+      "bytes": 3005,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/contribution-service.js",
+      "source_sha256": "13e0eb9359f59b781aabcbb22b90e8548a34018499e2b043fedad7eadb6e6ace",
+      "before_sha256": null,
+      "bytes": 9154,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/csv.js",
+      "source_sha256": "dc9d662cc69a475f2f0d80fe0b69baca7fd0ff05446b73065ef5897bf4b6839b",
+      "before_sha256": null,
+      "bytes": 820,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/cursor.js",
+      "source_sha256": "fc52614d1aafa77b629edee3f183eeba1113348f26645ec7b0e68fc2896802c0",
+      "before_sha256": null,
+      "bytes": 1792,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/errors.js",
+      "source_sha256": "cec2789ce1cf9662a43c185e611be7912174eb7bdc71a0aa527a999f43b87d68",
+      "before_sha256": null,
+      "bytes": 504,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/gateway-registry.js",
+      "source_sha256": "e2996eb81a10ec40c870ed8b191865655db205c5d2f94caa1e1d9d4c7f5e01a8",
+      "before_sha256": null,
+      "bytes": 3700,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/http.js",
+      "source_sha256": "882a77c58776920a978569ce01074f490035c0e655c444b24db8bb27e2ec5065",
+      "before_sha256": null,
+      "bytes": 7524,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/index.js",
+      "source_sha256": "efdeb7703dc4e240602df988515022660f55566967807fd6a733910b58eadd6f",
+      "before_sha256": null,
+      "bytes": 1101,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/managed-request-gate.js",
+      "source_sha256": "a10bec4b5bca057cbdc06429b366b28bebb13f696f5e7234b2e24746dcac40e5",
+      "before_sha256": null,
+      "bytes": 2871,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/member-service.js",
+      "source_sha256": "1b2136e741803759532d7234de2daed697bd87044e3aea5cd14f48e6d31443ca",
+      "before_sha256": null,
+      "bytes": 3908,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/operation-recovery.js",
+      "source_sha256": "53bf1eea4941247ebbfe18d7194eddd770e60d079d70aaa503e8397bed9ac8f4",
+      "before_sha256": null,
+      "bytes": 2845,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/operations-health.js",
+      "source_sha256": "e5a18cec8329bb4ba43ba923b4c0fab5d089353d421e705d911e2dc066612bd3",
+      "before_sha256": null,
+      "bytes": 2774,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/package.json",
+      "source_sha256": "6e76a1cb69c929a26da231fc8cd6e465419f97c66ac6d5c1e6cb84ececc97dfe",
+      "before_sha256": null,
+      "bytes": 116,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/payment-history.js",
+      "source_sha256": "052224729bcbb441f4a14cd228d2f6a1a854f31c8f36a2a9d9d86763fade17e7",
+      "before_sha256": null,
+      "bytes": 2329,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/pin.js",
+      "source_sha256": "8771a68f8f27643be60c79855562ce69099e4a8ff1f16336505228747b15b9aa",
+      "before_sha256": null,
+      "bytes": 2640,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/policy.js",
+      "source_sha256": "9c443d70b7446d4ace5f0a01dc4fdb6a0524c6fbd5df3f392c34926b9656b237",
+      "before_sha256": null,
+      "bytes": 4480,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-auth-store.js",
+      "source_sha256": "8c60fbbce8e8ec8b02606159abffa3df1126b518c6704192ba95b07c3afbd427",
+      "before_sha256": null,
+      "bytes": 14275,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-authority.js",
+      "source_sha256": "bbc6589a27f4a6704c0d6578a26b9c33c93fa5ced017b5145d9c0723637d70f3",
+      "before_sha256": null,
+      "bytes": 2050,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-canonical-adoption.js",
+      "source_sha256": "e241777d7b81c722132264d5ce07d138c22d604e992e5c99e4ca01bfb2a18d7e",
+      "before_sha256": null,
+      "bytes": 6663,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-canonical-store.js",
+      "source_sha256": "5a84d5b4f5fa11d0feb33ca21d53351a9fa92491c9763247d20a269fb790dbde",
+      "before_sha256": null,
+      "bytes": 15883,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-command-outcome.js",
+      "source_sha256": "6ac9e9234f848fc2b52d9e3b0961a1b2ce765f46a94c894ca8587193b56e0cdc",
+      "before_sha256": null,
+      "bytes": 4266,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-identity-directory.js",
+      "source_sha256": "bc87e3482d4b4ffed2030ec1b1925e029df35071a4ca3b3424690173abeadfef",
+      "before_sha256": null,
+      "bytes": 4590,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-managed-sessions.js",
+      "source_sha256": "af329e5461c67bddfdeeb597412c2d3719e62b9f9a537a1a606f15dd819b1a32",
+      "before_sha256": null,
+      "bytes": 4829,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-posting-allocation.js",
+      "source_sha256": "73b5b549ea4fb5d2f4705b30c831f788c8fa4ec82385f03c680711a102d40aa4",
+      "before_sha256": null,
+      "bytes": 12802,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-posting-authority.js",
+      "source_sha256": "a6b6a6dff9f7ea279d5dacb8cd1a23d674b9e92bb1aa312bfc6178beba4da366",
+      "before_sha256": null,
+      "bytes": 7026,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-posting-custody.js",
+      "source_sha256": "45f540bc62d952dc63b2c94ece032dc4c47f1f66ea72b4fd095a703f8f80af10",
+      "before_sha256": null,
+      "bytes": 16050,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-posting-preparation.js",
+      "source_sha256": "94068fc80b82db6b1fb332c305ec986d7ff4c32470751a114e2a6a15be9bae4f",
+      "before_sha256": null,
+      "bytes": 12586,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-processing-admission.js",
+      "source_sha256": "d3e93bb7b2783a2c587ed9c9bf9a2107a9ed3263d8157b56b6a668261e87116d",
+      "before_sha256": null,
+      "bytes": 3100,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-receipt-job-store.js",
+      "source_sha256": "0e79fb9d03a4ce4b70288814d8bcbe79ab14b93760506d5f6ec6dec2f8dcd2ae",
+      "before_sha256": null,
+      "bytes": 13943,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-records-store.js",
+      "source_sha256": "b002768e54f039fe46cfb31e354475b280b03f47d26f0f52b60d0d3d7bbc372b",
+      "before_sha256": null,
+      "bytes": 16330,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-rematch-job-store.js",
+      "source_sha256": "e4a69b07723359ba0f5ee93113fd80d235c03d13e5ba0549a9690ef2ba72bf5f",
+      "before_sha256": null,
+      "bytes": 16102,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-retained-sources.js",
+      "source_sha256": "cf1f5ff24a18dee9fde374222ad8316e818b52996cd6d469d66d4887c57c7e88",
+      "before_sha256": null,
+      "bytes": 7488,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-scheduler.js",
+      "source_sha256": "965d574775d3e5816f5a85991f8d2c4f33c8b0a346f93323b180430c8d430168",
+      "before_sha256": null,
+      "bytes": 10071,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-shared-posting.js",
+      "source_sha256": "e665b8fafc1537d75545f668faa5ff6794647bac6d4e4161cf6423d509c0c50c",
+      "before_sha256": null,
+      "bytes": 13116,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-values.js",
+      "source_sha256": "e8f1e351c29a689c560a0ba3246741cc000d9ee72e3c8d2e1cb5b771134eb78f",
+      "before_sha256": null,
+      "bytes": 550,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/postgres-worker-authority.js",
+      "source_sha256": "bf4e97df22f4b12bd5fd07784aa7261c89af1b540aa7848588394454e6480742",
+      "before_sha256": null,
+      "bytes": 4848,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/posting-preparation.js",
+      "source_sha256": "4f4383eb1c778724b1e03fd0c93cb851f50c2d05de90de0903fbd90de584ef3e",
+      "before_sha256": null,
+      "bytes": 4856,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/receipt.js",
+      "source_sha256": "51ab45af58f17656188e86572e138ab72176a0904221154f26e70958ce4bdb29",
+      "before_sha256": null,
+      "bytes": 3480,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/records-service.js",
+      "source_sha256": "6f02f6de2f332e230b39aded7a97e071a7bfb70deec1e79a03c2c83d1685186c",
+      "before_sha256": null,
+      "bytes": 10361,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/rematch-worker.js",
+      "source_sha256": "797a53da474734f91264cec5fa7c2552def63fda8cd329eab3457e3b02b39751",
+      "before_sha256": null,
+      "bytes": 3924,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/values.js",
+      "source_sha256": "97b99abf19dae4b91dfb8f1155060ebdd66f77d0e3a4b04d75bfd0cb9d8c5937",
+      "before_sha256": null,
+      "bytes": 3114,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/burimunsi/worker.js",
+      "source_sha256": "9496cbb265efb3b3148345ab7a453e536dc62499c97a68d0f449a1ea30297295",
+      "before_sha256": null,
+      "bytes": 4826,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/domain/contribution-posting.mjs",
+      "source_sha256": "2b99658d8319f46365d2c8d68aad1d5281dcc9b82b497ae4f887b2561b9cf53e",
+      "before_sha256": null,
+      "bytes": 7414,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/a04-primary-snapshot.test.mjs",
+      "source_sha256": "2775ace936c5fb17f76267850e8182d4778596864285f1392ebbfb2639882311",
+      "before_sha256": null,
+      "bytes": 1743,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/auth-service.test.mjs",
+      "source_sha256": "a408a6025e9fe37900bc54f2fa70e0eb5a5cf25397395e3195ead59d92e0b920",
+      "before_sha256": null,
+      "bytes": 9580,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/authority-continuation.test.mjs",
+      "source_sha256": "c9ef2e77e9e70ad9506b4be8c65636ab2f639ef91ccb82bd94e81d61b902787c",
+      "before_sha256": null,
+      "bytes": 1060,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/automatic-work.test.mjs",
+      "source_sha256": "3c5040549ab1002275176ee1b472bb600d5a27bdd0c66da4d191b883bd7da4ee",
+      "before_sha256": null,
+      "bytes": 2083,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/canonical-composition.test.mjs",
+      "source_sha256": "3aba03c007a48dbb7ff63128c1d12fe7d95fae25e0563b70377c6beeec03e8f1",
+      "before_sha256": null,
+      "bytes": 3775,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/canonical-managed-sessions.test.mjs",
+      "source_sha256": "467f0113c57b489a8368cbff5611a84c2a97680cb4b40d9ac059a6bb75599719",
+      "before_sha256": null,
+      "bytes": 8040,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/canonical-scheduler.test.mjs",
+      "source_sha256": "d95af8bb439f5850f272e3217e48f2ab4c9efe4ed1725a5956cb3ced273cda70",
+      "before_sha256": null,
+      "bytes": 8863,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/canonical-service.test.mjs",
+      "source_sha256": "fb09c924240e03d34672d0a05771a038ff801948a22aa949f7337d2a8212603b",
+      "before_sha256": null,
+      "bytes": 7458,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/canonical-source-adoption.test.mjs",
+      "source_sha256": "7e1a80fc9eaff4c38204eff36f13fbd2944d12cdeccb6bd62240909c52007e94",
+      "before_sha256": null,
+      "bytes": 10214,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/canonical-worker-identity.test.mjs",
+      "source_sha256": "21eab38d63ed3873435cc63a5dd5152dd35af24ac26ac877e8b7ed23be8bfffb",
+      "before_sha256": null,
+      "bytes": 10335,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/command-authority.test.mjs",
+      "source_sha256": "713ce8ec2039059d87ecfe774557201171b98fce089a9204700ff1249d15f5f1",
+      "before_sha256": null,
+      "bytes": 3247,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/command-outcome.test.mjs",
+      "source_sha256": "7ed097ed88487cc8772ed930d0cc53661f1165a13a081b9e653e554c5d8d110f",
+      "before_sha256": null,
+      "bytes": 6180,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/compose-postgres.test.mjs",
+      "source_sha256": "6403aba524587de11ab665c36a373b4af994f5388bc67f1898444bb15e5e627b",
+      "before_sha256": null,
+      "bytes": 15748,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/composition-adapters.test.mjs",
+      "source_sha256": "4f9bb1d83a19bcc768e8d34c4980357d64398fd0462b4c1c3d6bb896e20a4983",
+      "before_sha256": null,
+      "bytes": 3607,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/fixtures.mjs",
+      "source_sha256": "87a04a8e63f6bbe66b8c7a31772f16a24405d3fa1c1a8f886dd750d863c8d18a",
+      "before_sha256": null,
+      "bytes": 1507,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/hardening-regressions.test.mjs",
+      "source_sha256": "206faaf810d6fd5c3c56e055dacf8c8b9678d265d504d1e9d7ccfcaac2ea10eb",
+      "before_sha256": null,
+      "bytes": 4371,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/jsonb-persistence.test.mjs",
+      "source_sha256": "cdbc3ef3e95cf1a6fd87f777eaafcc8a651e8f687db613f43d2f49ebb2ca32d0",
+      "before_sha256": null,
+      "bytes": 3102,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/member-rematch.test.mjs",
+      "source_sha256": "76ba674349ac29d36b6db46fba90b584ac42be5b205619f9d4df240aafc23565",
+      "before_sha256": null,
+      "bytes": 4569,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/native-principal-fixture.mjs",
+      "source_sha256": "c43bdd6d643c249b78ed0eb21d4ab6a088c66f768834e2a85edfac1ffe07c504",
+      "before_sha256": null,
+      "bytes": 4747,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/native-principal-session.test.mjs",
+      "source_sha256": "8c5ef0d649fec800d418cbcdc58cb419acc8ff7db1dceedc202ebc866b599164",
+      "before_sha256": null,
+      "bytes": 5904,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/operation-recovery.test.mjs",
+      "source_sha256": "3def648b6e53bdc573dbc1bf2699d8200c10973d10c64abdece7f286a61a37e5",
+      "before_sha256": null,
+      "bytes": 10076,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/operations-health.test.mjs",
+      "source_sha256": "b0905123e8cc2abb7e400edccc9b8dd31490826ef3e1447df06f1db828540c7b",
+      "before_sha256": null,
+      "bytes": 1908,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/payment-history.test.mjs",
+      "source_sha256": "2d6e39281c3c748ce003deca36381ba80c8b7f543b1032466771c1b8574105dd",
+      "before_sha256": null,
+      "bytes": 9647,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/pin.test.mjs",
+      "source_sha256": "c46a3497275cda0c5cfba0e8d06e10bf17d4c1ddba3fc8d327971a6184b67b08",
+      "before_sha256": null,
+      "bytes": 1487,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/policy-transport.test.mjs",
+      "source_sha256": "6b7afd8d39a1d6daef9180de78ecae06c6e4f2c9e919ec04608ab10829bc920f",
+      "before_sha256": null,
+      "bytes": 6307,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/postgres-authority.test.mjs",
+      "source_sha256": "1c9431ac9af161af79f633e66d9c7190146064554c80b528ff2dd1b716403090",
+      "before_sha256": null,
+      "bytes": 3032,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/postgres-canonical-store.test.mjs",
+      "source_sha256": "5516322428de2250fe7cae0bd35121f477cc6de2e38a16645e13403e8d4a5203",
+      "before_sha256": null,
+      "bytes": 13819,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/postgres-posting-custody.test.mjs",
+      "source_sha256": "58a60c8b989f7a03e49a59b5ef32504c66fd615d79ca879c58358558b37d72fa",
+      "before_sha256": null,
+      "bytes": 9605,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/postgres-shared-posting.test.mjs",
+      "source_sha256": "cf1c156363a6e1242f2c911f6c611c9e61682a8236b94e92e1c15ad94edb8314",
+      "before_sha256": null,
+      "bytes": 9762,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/postgres-values.test.mjs",
+      "source_sha256": "337db4e14397211fe897bddb5edbbb0d15a7b3c06120985c9a712530270039d2",
+      "before_sha256": null,
+      "bytes": 1786,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-allocation-fixture.mjs",
+      "source_sha256": "829e615c37de31c844d268ea0a11c67a795f8e587e2d84efa8feb4f56c11aa27",
+      "before_sha256": null,
+      "bytes": 8320,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-allocation.test.mjs",
+      "source_sha256": "db54684865c4c6368aa4f0c0a27275589653c66dbfade5cefe511d70f3831de1",
+      "before_sha256": null,
+      "bytes": 17546,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-authority-fixture.mjs",
+      "source_sha256": "395c42a3afae9996ac5c07b1dece518d2684c67c66b508c94718049f982bc320",
+      "before_sha256": null,
+      "bytes": 2973,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-authority-flow.test.mjs",
+      "source_sha256": "74d9f0bb76f9c033614fa6bf0d6aada31f7599eee40b05081922f3d842731706",
+      "before_sha256": null,
+      "bytes": 4592,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-authority.test.mjs",
+      "source_sha256": "591afa9fde8abb40812af202d8379c1a2a2014c3fe4c9bf874bd66b267e2cac2",
+      "before_sha256": null,
+      "bytes": 8678,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-custody-fixture.mjs",
+      "source_sha256": "9248c0197dd0f031e623cae221c812df96be1e90e9f05c921157ad1bb9d056d5",
+      "before_sha256": null,
+      "bytes": 7090,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-custody-flow.test.mjs",
+      "source_sha256": "9555b8529399f6395b28493e1ef71bf81873ebe42d781b24c2e65ff64d5d039d",
+      "before_sha256": null,
+      "bytes": 2572,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-custody-sqlite-fixture.mjs",
+      "source_sha256": "4ab3c4678ea92efbfdddb53bbce7d8b6f5fd9d1a1b8fdbdbfbd1eab9854abd78",
+      "before_sha256": null,
+      "bytes": 6996,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-executor-fixture.mjs",
+      "source_sha256": "52f5055cdaa93f206afeaf8dc60f39e3726eea2e6446c1d11b87b2732b4fe9b8",
+      "before_sha256": null,
+      "bytes": 7808,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-preparation-service-fixture.mjs",
+      "source_sha256": "e60fc04969467ad8b5b1e9600f6dca81a3a49df790799bbea26882e5c7bffb50",
+      "before_sha256": null,
+      "bytes": 4353,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/posting-preparation-service.test.mjs",
+      "source_sha256": "3669cec7de03c38c3c94925b219b128866fecaae581c9f99f0a285a66087f3c8",
+      "before_sha256": null,
+      "bytes": 12230,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/prepared-contribution-fixture.mjs",
+      "source_sha256": "7785a00d6c3b8468859824b8189ce25507f0b5b464772772a63b02868f941009",
+      "before_sha256": null,
+      "bytes": 2042,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/prepared-contribution-flow.test.mjs",
+      "source_sha256": "e49f2e6e25db127647670ad63d6ec4380d212c3be0860890d38a9c20601f1491",
+      "before_sha256": null,
+      "bytes": 10527,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/prepared-entrypoints.test.mjs",
+      "source_sha256": "82da272217096d5d3a5ad49279d314a28da2067efeddd4f3b478a5ad5e8991bd",
+      "before_sha256": null,
+      "bytes": 8424,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/receipt-job-store.test.mjs",
+      "source_sha256": "207c6907252ac097ab38ed0a24ba1d30f014dc890aaaaf546b2c60c8cc64ef3f",
+      "before_sha256": null,
+      "bytes": 10017,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/records-http.test.mjs",
+      "source_sha256": "0fa1bc29eab4639de1fbf277e45867649706d55d8a16c08b6379fbcac2e99a44",
+      "before_sha256": null,
+      "bytes": 10135,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/rematch-fixtures.mjs",
+      "source_sha256": "c555afc59002e226ad7dda4465b75d171308641c67fe64ef1a90e57605308199",
+      "before_sha256": null,
+      "bytes": 3321,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/rematch-flow.test.mjs",
+      "source_sha256": "4796ef0706d18795c5672324854be9f6abb42ac8eebce438df21039983fe8866",
+      "before_sha256": null,
+      "bytes": 8848,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/rematch-job-store.test.mjs",
+      "source_sha256": "a5db5daf8121532310cfbb87f5493cec3ae91734e0893a13a003108019c803ef",
+      "before_sha256": null,
+      "bytes": 11866,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/shared-posting-equivalence.test.mjs",
+      "source_sha256": "b1de90448fcb9c2752509b8d5d3b60ed65c7f82ff6f2e7da9d9322b39496f0bc",
+      "before_sha256": null,
+      "bytes": 3844,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/shared-posting-fixture.mjs",
+      "source_sha256": "9b1d3f0a8b24df91642525c609d20fbe0a1654710465fb237f077327e56963ef",
+      "before_sha256": null,
+      "bytes": 4400,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/shared-posting-flow.test.mjs",
+      "source_sha256": "c41430e3d1c83ea59140616efd92b7b0c6189717d6eeeaa211fdcec6b189f7c5",
+      "before_sha256": null,
+      "bytes": 7551,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/shared-posting-sqlite.test.mjs",
+      "source_sha256": "132a4b853da2598d1c159c9e009c5fa8aa4e77a6c6840f68af81212a40f840bf",
+      "before_sha256": null,
+      "bytes": 8088,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/sqlite/posting-fixture.sql",
+      "source_sha256": "5ff33f19232959cba7482fcb8a0d3e0ef161244dd8115e5d1955e955c3ae45b9",
+      "before_sha256": null,
+      "bytes": 2324,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/values-receipt.test.mjs",
+      "source_sha256": "0aa54cfba2b2c7367f9b428d04c002aeb941c0aff96779cf530b8d3b69b990a9",
+      "before_sha256": null,
+      "bytes": 5017,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/work-ownership-regression.test.mjs",
+      "source_sha256": "5a02194b434f7df29f5a1c33da196a1a0b529731adde8b9dbdb2aab4b6080649",
+      "before_sha256": null,
+      "bytes": 3107,
+      "action": "create"
+    },
+    {
+      "path": "supabase/functions/_shared/tests/burimunsi/worker.test.mjs",
+      "source_sha256": "ee1736e2d9b8a1a107745695a2f844c51b58ac8bdf22a0a8757efc09b45e3320",
+      "before_sha256": null,
+      "bytes": 4794,
+      "action": "create"
+    },
+    {
+      "path": "tests/uiux_contract_test.py",
+      "source_sha256": "1bd308f494f2b5eab2247083ee91392160867824776faa772b6b08780f51d948",
+      "before_sha256": null,
+      "bytes": 7605,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/README.md",
+      "source_sha256": "4782a7dcdaae07e4d0ecf5252450836e6b85fe94965b3369feed8493307f3f58",
+      "before_sha256": null,
+      "bytes": 797,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/CollectSmsReceiver.kt",
+      "source_sha256": "204aa350e35a28c8e38307776a75f0a5134ecd4bb9c9827c2506e33c8ee57c08",
+      "before_sha256": null,
+      "bytes": 8160,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MemberSmsJobs.kt",
+      "source_sha256": "c064c5fa48d83c76770820a80e1eb812b85eba0ca246e53dbf691fd693f26795",
+      "before_sha256": null,
+      "bytes": 14178,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayHttp.kt",
+      "source_sha256": "f8aebd8d78abba100d2868eec49d559696086a52f29b9b74b30a8d2f3ad023ca",
+      "before_sha256": null,
+      "bytes": 2593,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayJobs.kt",
+      "source_sha256": "e4207872a8060db0a06a7ad8158df21b0b78511ece7d346b7a23744103707117",
+      "before_sha256": null,
+      "bytes": 9732,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayLocalRecovery.kt",
+      "source_sha256": "73d9cbafd473015125763b04292f70252e3ea35ac4e53da0d8e09eff7d871b40",
+      "before_sha256": null,
+      "bytes": 4397,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayPolicy.kt",
+      "source_sha256": "d9fbfd5c50e0cc926a214328de946cf08ace5894b94c640ed285cae1934d7a98",
+      "before_sha256": null,
+      "bytes": 4957,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayRecovery.kt",
+      "source_sha256": "bd1daad01525ff175de291959c5e9dfa4f62ed39689b4d26d67f397a9d9fae11",
+      "before_sha256": null,
+      "bytes": 7313,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayStore.kt",
+      "source_sha256": "49328152bea2bdb2c3252fc108aea8c75f1deabf0c5721a4b37d9223fe38d767",
+      "before_sha256": null,
+      "bytes": 7051,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoGatewayWakeupGate.kt",
+      "source_sha256": "3cfd62121a29eab7fe72c67af68135e27637b696864e3e8824a7c49784d4eea6",
+      "before_sha256": null,
+      "bytes": 583,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/MomoMultipartPolicy.kt",
+      "source_sha256": "e95272ffefe99ff6ba526658f0b72b7069d2aae26cee87abcb5de3cac65c629a",
+      "before_sha256": null,
+      "bytes": 15242,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/ReceiptAckPolicy.kt",
+      "source_sha256": "424850a1eac148a360f99d651b7c6bf661d8bf889e74533ecd4dd2074b11d045",
+      "before_sha256": null,
+      "bytes": 1280,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/ReceiptCipher.kt",
+      "source_sha256": "091aed61fef7890436fee094011fa15e4c9dd36be78e388938a0e3f15c30a165",
+      "before_sha256": null,
+      "bytes": 1229,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsCaptureJournal.kt",
+      "source_sha256": "e5d65a807f9a6a3e4c2060acd15fb5927b8ed838d6c50dd3a8eb50b88e545eea",
+      "before_sha256": null,
+      "bytes": 1607,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueEventBus.kt",
+      "source_sha256": "ea68c61d3a68a408845880398a50b0cd48842023dee4867e4c381f99b561db1a",
+      "before_sha256": null,
+      "bytes": 1080,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueOwnerPolicy.kt",
+      "source_sha256": "c558cb1418ced6bb4dafebab4d5006991c3dac47bb5bb6f8a1db85d7d3f8cd3b",
+      "before_sha256": null,
+      "bytes": 599,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueStore.kt",
+      "source_sha256": "04937a760d18c9a47bdc74f89e9394bf1d645505a74f0658a20c5b1f071f82e2",
+      "before_sha256": null,
+      "bytes": 16916,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/android/app/src/main/kotlin/app/cool/mobile/receiver_sms/SmsQueueWorker.kt",
+      "source_sha256": "e79837bed3764849bd1b57a0bd2d088d8475a9db1081c3f8f7545c34bb8e8456",
+      "before_sha256": null,
+      "bytes": 769,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/supabase/functions/_shared/domain/encryption.js",
+      "source_sha256": "ee5935065cd86b486b268a5da7026bcfaf123068e866f0ff56347f8582326e1c",
+      "before_sha256": null,
+      "bytes": 4126,
+      "action": "create"
+    },
+    {
+      "path": "upstream/collect/supabase/functions/_shared/domain/payments.js",
+      "source_sha256": "01fd7e6fc474145b25fc52ef100fa671bb0d282e7984a3b4bcc901a5d2b59cce",
+      "before_sha256": null,
+      "bytes": 26976,
+      "action": "create"
+    }
+  ]
+}

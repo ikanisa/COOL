@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "python": {"minimum": "3.11", "third_party_packages": []},
+  "openssl": {"minimum": "3.0", "capability": "Ed25519 pkeyutl rawin verify", "required_for": ["provenance tests", "application build gate", "application promotion gate"]},
+  "platform": "POSIX; protected runtime and OpenSSL installation required",
+  "dependency_resolution": "Not a resolved runtime or product SBOM"
+}

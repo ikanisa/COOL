@@ -1,0 +1,563 @@
+import '../test/fixtures/contribution_layout_repository_fixture.dart';
+
+import 'dart:async';
+
+import 'package:collect_app/app/app.dart';
+import 'package:collect_app/app/router.dart';
+import 'package:collect_app/app/theme/collect_theme_controller.dart';
+import 'package:collect_app/core/cloudflare/cloudflare_module.dart';
+import 'package:collect_app/shared/repositories/collect_repository.dart';
+import 'package:collect_app/shared/models/collect_models.dart';
+import 'package:collect_app/shared/widgets/collect_components.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import '../test/fixtures/mobile_matrix_capture.dart';
+
+void main() {
+  final binding = MobileMatrixCapture.initialize();
+  GoRouter? activeRouter;
+  tearDown(() {
+    activeRouter?.dispose();
+    activeRouter = null;
+  });
+
+  Future<GoRouter> pumpRoute(WidgetTester tester, _RouteSpec spec) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+    activeRouter?.dispose();
+
+    final route = spec.route;
+    final repository = ContributionLayoutRepository(
+      seeded: spec.signedIn,
+      fixtureNow: DateTime.utc(2026, 9, 2, 10),
+      profileOverride: spec.diaspora ? _diasporaProfile : null,
+    );
+    final router = createAppRouter(
+      initialLocation: route,
+      routeRedirect: (state) => collectAuthenticationRedirect(
+        uri: state.uri,
+        hasProfile: repository.state.currentProfile != null,
+        isLoading: repository.state.isLoading,
+      ),
+    );
+    activeRouter = router;
+    await tester.pumpWidget(
+      ProviderScope(
+        key: ValueKey('collect-route-harness-${spec.name}'),
+        overrides: [
+          ...MobileMatrixCapture.overrides,
+          collectBackendClientProvider.overrideWithValue(null),
+          appRouterProvider.overrideWithValue(router),
+          collectRepositoryProvider.overrideWith((ref) => repository),
+          collectThemeModeProvider.overrideWith(
+            (ref) => CollectThemeModeController(
+              initialMode: _uatThemeMode,
+              loadPersistedMode: false,
+            ),
+          ),
+        ],
+        child: MobileMatrixCapture.wrap(const CollectApp()),
+      ),
+    );
+    for (var i = 0; i < 14; i += 1) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    return router;
+  }
+
+  testWidgets(
+    'all mobile routes resolve and render without UI exceptions',
+    (tester) async {
+      await binding.prepare(tester);
+      tester.platformDispatcher.textScaleFactorTestValue = _uatTextScale;
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(
+            highContrast: _uatHighContrast,
+            disableAnimations: _uatReducedMotion,
+            accessibleNavigation: _uatReducedMotion,
+          );
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      var screenshotsEnabled = true;
+      try {
+        await binding.convertFlutterSurfaceToImage().timeout(
+          const Duration(seconds: 12),
+        );
+        await tester.pump();
+      } on TimeoutException {
+        screenshotsEnabled = false;
+        // Printed progress distinguishes a screenshot-only device limitation
+        // from route rendering failures in the retained UAT log.
+        // ignore: avoid_print
+        print('collect_route_uat:screenshots-disabled:surface-timeout');
+      } on MissingPluginException {
+        screenshotsEnabled = false;
+      } on PlatformException {
+        screenshotsEnabled = false;
+      }
+      // Emitted after the driver is connected so the harness can reject
+      // screenshots that were compiled for a different declared variant.
+      // ignore: avoid_print
+      print(
+        'collect_route_uat:variant:$_uatVariantName:'
+        'theme=$_uatThemeModeName:'
+        'textScale=$_uatTextScale:'
+        'highContrast=$_uatHighContrast:'
+        'reducedMotion=$_uatReducedMotion',
+      );
+
+      for (final spec in _routeSpecs) {
+        // Printed progress is retained in the UAT log for route-level triage.
+        // ignore: avoid_print
+        print('collect_route_uat:start:${spec.name}:${spec.route}');
+        final router = await pumpRoute(tester, spec);
+        await MobileMatrixCapture.flush(tester);
+        if (spec.extraPumpBeforeAssert > Duration.zero) {
+          await tester.pump(spec.extraPumpBeforeAssert);
+        }
+        final expectedText = spec.expectedText;
+        if (expectedText != null) {
+          // A timer-driven redirect can update GoRouter at the end of a pump,
+          // leaving its outgoing page visible until later transition frames.
+          // Wait only for the declared marker and keep the wait bounded so a
+          // genuinely wrong route still fails instead of hanging evidence.
+          for (
+            var attempt = 0;
+            attempt < 50 &&
+                find.textContaining(expectedText).evaluate().isEmpty;
+            attempt += 1
+          ) {
+            await tester.pump(const Duration(milliseconds: 100));
+          }
+          if (find.textContaining(expectedText).evaluate().isEmpty &&
+              find.byType(Scrollable).evaluate().isNotEmpty) {
+            // Enlarged content is built lazily below the first viewport.
+            // Reach the declared control through the user's page scroll.
+            await tester.scrollUntilVisible(
+              find.textContaining(expectedText),
+              160,
+              scrollable: find.byType(Scrollable).first,
+              maxScrolls: 30,
+            );
+          }
+        }
+        // A marker can exist in an outgoing or offstage page while a redirect
+        // or primary-branch transition is still painting. Drain a bounded set
+        // of frames before visual evidence so captures never preserve a blank
+        // transition, clipped branch, or outgoing splash fragment.
+        for (var frame = 0; frame < 12; frame += 1) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+        expect(tester.takeException(), isNull, reason: spec.route);
+        expect(find.byType(CollectApp), findsOneWidget, reason: spec.route);
+        expect(
+          router.routeInformationProvider.value.uri.path,
+          spec.expectedResolvedPath,
+          reason: '${spec.route} resolved path',
+        );
+        if (expectedText != null) {
+          expect(
+            find.textContaining(expectedText),
+            findsWidgets,
+            reason: '${spec.route} visible route marker',
+          );
+        }
+        expect(
+          find.text('Screen not found'),
+          spec.removedRoute ? findsOneWidget : findsNothing,
+          reason: spec.route,
+        );
+        if (spec.removedRoute) {
+          expect(spec.route, '/settings/bank-transfer');
+          expect(find.text('This screen is unavailable.'), findsOneWidget);
+          for (final label in ['Home', 'Groups']) {
+            final recovery = find.widgetWithText(CollectButton, label);
+            if (recovery.evaluate().isEmpty) {
+              await tester.scrollUntilVisible(
+                find.text(label),
+                160,
+                scrollable: find.byType(Scrollable).first,
+                maxScrolls: 30,
+              );
+            }
+            expect(recovery, findsOneWidget);
+            await tester.ensureVisible(recovery);
+            await tester.pump(const Duration(milliseconds: 100));
+            expect(recovery.hitTestable(), findsOneWidget);
+            expect(tester.takeException(), isNull, reason: spec.name);
+            if (screenshotsEnabled) {
+              await binding.takeScreenshot(
+                'detail_${spec.name}_recovery_${label.toLowerCase()}',
+              );
+            }
+          }
+        }
+        for (final text in spec.forbiddenText) {
+          expect(find.textContaining(text), findsNothing, reason: spec.name);
+        }
+        if (!spec.removedRoute) {
+          expect(
+            find.text('This screen is unavailable.'),
+            findsNothing,
+            reason: spec.route,
+          );
+        }
+        if (screenshotsEnabled) {
+          // Native keyboard surfaces are outside Flutter's screenshot layer.
+          // Close the keyboard and wait for viewport restoration so the app
+          // capture cannot look clipped with an invisible keyboard below it.
+          FocusManager.instance.primaryFocus?.unfocus();
+          await SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
+          for (var frame = 0; frame < 6; frame += 1) {
+            await tester.pump(const Duration(milliseconds: 100));
+          }
+          try {
+            await binding.takeScreenshot('mobile_route_${spec.name}');
+          } on MissingPluginException {
+            screenshotsEnabled = false;
+          } on PlatformException {
+            screenshotsEnabled = false;
+          }
+        }
+        // ignore: avoid_print
+        print('collect_route_uat:pass:${spec.name}:${spec.route}');
+      }
+      await binding.finish(tester);
+    },
+    timeout: const Timeout(Duration(minutes: 14)),
+  );
+}
+
+const _uatVariantName = String.fromEnvironment(
+  'COLLECT_UAT_VARIANT_NAME',
+  defaultValue: 'default-dark',
+);
+const _uatThemeModeName = String.fromEnvironment(
+  'COLLECT_UAT_THEME_MODE',
+  defaultValue: 'dark',
+);
+const _uatTextScaleName = String.fromEnvironment(
+  'COLLECT_UAT_TEXT_SCALE',
+  defaultValue: '1.0',
+);
+const _uatHighContrast = bool.fromEnvironment(
+  'COLLECT_UAT_HIGH_CONTRAST',
+  defaultValue: false,
+);
+const _uatReducedMotion = bool.fromEnvironment(
+  'COLLECT_UAT_REDUCED_MOTION',
+  defaultValue: false,
+);
+
+ThemeMode get _uatThemeMode => switch (_uatThemeModeName) {
+  'light' => ThemeMode.light,
+  'dark' => ThemeMode.dark,
+  'system' => ThemeMode.system,
+  _ => throw StateError('Unsupported UAT theme mode: $_uatThemeModeName'),
+};
+
+double get _uatTextScale => double.parse(_uatTextScaleName);
+
+const _routeSpecs = <_RouteSpec>[
+  _RouteSpec(
+    'root-redirect',
+    '/',
+    'entry',
+    expectedPath: '/auth',
+    expectedText: "Let's get started!",
+    signedIn: false,
+    extraPumpBeforeAssert: Duration(milliseconds: 1000),
+  ),
+  _RouteSpec(
+    'root-signed-in',
+    '/',
+    'entry',
+    expectedPath: '/home',
+    expectedText: 'RWF 35,000',
+  ),
+  _RouteSpec(
+    'auth',
+    '/auth',
+    'workflow',
+    expectedText: "Let's get started!",
+    signedIn: false,
+  ),
+  _RouteSpec(
+    'profile-edit',
+    '/settings/profile',
+    'workflow',
+    expectedText: 'Profile',
+  ),
+  _RouteSpec('home', '/home', 'primary', expectedText: 'RWF 35,000'),
+  _RouteSpec(
+    'offline',
+    '/offline',
+    'utility',
+    expectedText: 'Refresh your data',
+  ),
+  _RouteSpec('sync', '/sync', 'utility', expectedText: 'Refresh your data'),
+  _RouteSpec('groups', '/groups', 'primary', expectedText: 'Groups'),
+  _RouteSpec(
+    'contribute-entry',
+    '/contribute',
+    'primary',
+    expectedText: 'Choose a group',
+  ),
+  _RouteSpec('activity', '/activity', 'primary', expectedText: 'Activity'),
+  _RouteSpec(
+    'group-create',
+    '/groups/create',
+    'workflow',
+    expectedText: 'Create group',
+  ),
+  _RouteSpec('group-scan', '/groups/scan', 'workflow'),
+  _RouteSpec(
+    'group-join-alias',
+    '/groups/join',
+    'compatibility',
+    expectedPath: '/groups/scan',
+  ),
+  _RouteSpec(
+    'group-detail',
+    '/groups/qa-private-group',
+    'workflow',
+    expectedText: 'QA private group',
+  ),
+  _RouteSpec(
+    'share',
+    '/groups/qa-private-group/share',
+    'workflow',
+    expectedText: 'Share group',
+  ),
+  _RouteSpec(
+    'invite',
+    '/groups/qa-private-group/invite',
+    'compatibility',
+    expectedPath: '/groups/qa-private-group/share',
+    expectedText: 'Share group',
+  ),
+  _RouteSpec(
+    'shared-group-link',
+    '/c/qa-private-group',
+    'entry',
+    expectedText: 'Review this group invitation',
+  ),
+  _RouteSpec(
+    'app-share-entry',
+    '/app',
+    'compatibility',
+    expectedPath: '/home',
+    expectedText: 'RWF 35,000',
+  ),
+  _RouteSpec(
+    'app-invite-link',
+    '/invite/038491',
+    'compatibility',
+    expectedPath: '/home',
+    expectedText: 'RWF 35,000',
+  ),
+  _RouteSpec(
+    'share-invalid',
+    '/share/invalid',
+    'utility',
+    expectedPath: '/groups',
+    expectedText: 'Groups',
+  ),
+  _RouteSpec(
+    'share-expired',
+    '/share/expired',
+    'utility',
+    expectedPath: '/groups',
+    expectedText: 'Groups',
+  ),
+  _RouteSpec(
+    'share-expired-request',
+    '/share/expired/request',
+    'utility',
+    expectedPath: '/groups',
+    expectedText: 'Groups',
+  ),
+  _RouteSpec(
+    'contribution',
+    '/groups/qa-private-group/contribute',
+    'workflow',
+    expectedText: 'Continue to MoMo',
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'public-buri-momo',
+    '/groups/col-public-savings-fixture/contribute',
+    'workflow',
+    expectedText: 'Continue to MoMo',
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'diaspora-public-buri-momo',
+    '/groups/col-public-savings-fixture/contribute',
+    'workflow',
+    expectedText: 'Contribution unavailable',
+    diaspora: true,
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'diaspora-contribution',
+    '/groups/qa-private-group/contribute',
+    'workflow',
+    expectedText: 'Contribution unavailable',
+    diaspora: true,
+    forbiddenText: ['Bank transfer', 'IBAN', 'EUR', 'Continue to MoMo'],
+  ),
+  _RouteSpec(
+    'ledger',
+    '/groups/qa-private-group/ledger',
+    'workflow',
+    expectedText: 'Ledger',
+  ),
+  _RouteSpec(
+    'manage',
+    '/groups/qa-private-group/manage',
+    'workflow',
+    expectedText: 'Group settings',
+  ),
+  _RouteSpec(
+    'group-profile',
+    '/groups/qa-private-group/profile',
+    'workflow',
+    expectedText: 'Group profile',
+  ),
+  _RouteSpec(
+    'members',
+    '/groups/qa-private-group/members',
+    'workflow',
+    expectedText: 'Members',
+  ),
+  _RouteSpec(
+    'settings',
+    '/settings',
+    'primary',
+    expectedText: 'Account details',
+  ),
+  _RouteSpec(
+    'removed-bank-transfer-route',
+    '/settings/bank-transfer',
+    'workflow',
+    expectedText: 'This screen is unavailable.',
+    removedRoute: true,
+    forbiddenText: ['Bank transfer details', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'diaspora-removed-bank-transfer-route',
+    '/settings/bank-transfer',
+    'workflow',
+    diaspora: true,
+    expectedText: 'This screen is unavailable.',
+    removedRoute: true,
+    forbiddenText: ['Bank transfer details', 'IBAN', 'EUR'],
+  ),
+  _RouteSpec(
+    'settings-permissions',
+    '/settings/permissions',
+    'utility',
+    expectedText: 'App permissions',
+  ),
+  _RouteSpec(
+    'settings-notifications',
+    '/settings/notifications',
+    'utility',
+    expectedText: 'Notifications',
+  ),
+  _RouteSpec(
+    'settings-appearance',
+    '/settings/appearance',
+    'utility',
+    expectedText: 'Appearance',
+  ),
+  _RouteSpec(
+    'settings-security',
+    '/settings/security',
+    'utility',
+    expectedText: 'Security',
+  ),
+  _RouteSpec(
+    'account',
+    '/settings/account',
+    'utility',
+    expectedText: 'Account',
+  ),
+  _RouteSpec(
+    'account-delete',
+    '/settings/account/delete',
+    'utility',
+    expectedText: 'Delete request',
+  ),
+  _RouteSpec(
+    'privacy-alias',
+    '/settings/privacy',
+    'utility',
+    expectedPath: '/settings/legal/privacy',
+    expectedText: 'Privacy Policy',
+  ),
+  _RouteSpec('help', '/settings/help', 'utility', expectedText: 'Help'),
+  _RouteSpec(
+    'legal-privacy',
+    '/settings/legal/privacy',
+    'utility',
+    expectedText: 'Privacy Policy',
+  ),
+  _RouteSpec(
+    'legal-licenses',
+    '/settings/legal/licenses',
+    'utility',
+    expectedText: 'Licenses',
+  ),
+  _RouteSpec(
+    'legal-terms',
+    '/settings/legal/terms',
+    'utility',
+    expectedText: 'Terms & Conditions',
+  ),
+];
+
+class _RouteSpec {
+  const _RouteSpec(
+    this.name,
+    this.route,
+    this.routeClass, {
+    this.expectedPath,
+    this.expectedText,
+    this.extraPumpBeforeAssert = Duration.zero,
+    this.signedIn = true,
+    this.diaspora = false,
+    this.forbiddenText = const [],
+    this.removedRoute = false,
+  });
+
+  final String name;
+  final String route;
+  final String routeClass;
+  final String? expectedPath;
+  final String? expectedText;
+  final Duration extraPumpBeforeAssert;
+  final bool signedIn;
+  final bool diaspora;
+  final List<String> forbiddenText;
+  final bool removedRoute;
+
+  bool get isProductScreen => routeClass != 'compatibility';
+
+  String get expectedResolvedPath => expectedPath ?? route;
+}
+
+const _diasporaProfile = CollectProfile(
+  id: 'local-user',
+  publicId: '038491',
+  whatsappPhone: '+250788123456',
+  countryCode: 'DE',
+  currencyCode: 'EUR',
+);
