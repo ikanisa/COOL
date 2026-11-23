@@ -36,7 +36,7 @@ dependencies:
   flutter_local_notifications: ^22.0.0
   firebase_core: ^4.15.2
   firebase_messaging: ^16.5.0
-  shared_preferences: ^2.5.5
+  shared_preferences: ^2.5.6
   country_picker: ^2.0.28
   font_awesome_flutter: ^11.0.0
   # Cupertino controls reachable on Apple platforms require the bundled font.
