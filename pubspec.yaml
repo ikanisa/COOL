@@ -40,7 +40,7 @@ dependencies:
   country_picker: ^2.0.28
   font_awesome_flutter: ^11.0.0
   # Cupertino controls reachable on Apple platforms require the bundled font.
-  cupertino_icons: ^1.0.9
+  cupertino_icons: ^2.0.0
   excel: ^4.0.6
   # Roster ZIP bounds and lazy XML validation before spreadsheet decoding.
   archive: 3.6.1
